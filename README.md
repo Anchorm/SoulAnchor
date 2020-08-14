@@ -1,5 +1,5 @@
 # SoulAnchor - X11 Bible Reading Tool
-*this hope we have as an anchor of the soul, a hope both sure and steadfast...*
+*this hope we have as an anchor of the soul, a hope both sure and steadfast and one which enters within the veil - Hebrews 6:19*
 
 Work in Progress...
 
@@ -12,5 +12,5 @@ The vision i have for SoulAnchor:
 * Bible reader first, light study tool second
 * Avoid distractions, keep it focused
 * Open / relative easy to modify, add/remove translations
-* Multiple ways to contemplate the Word, text, audio, image perhaps
+* Multiple ways to contemplate the Word, text, audio, image
 
