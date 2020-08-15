@@ -1,0 +1,11 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Terminal=false
+Exec=soulanchor
+Path=/usr/bin
+Name=SoulAnchor
+Comment=X11 Bible tool
+Icon=soulanchor
+Categories=Spirituality;Education
+Name[en_US.UTF-8]=SoulAnchor

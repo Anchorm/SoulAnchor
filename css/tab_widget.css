@@ -1,0 +1,124 @@
+#splitter_central {
+background-color: rgb(0, 0, 0);
+}
+
+QTabWidget::pane {
+border-right:1px solid grey;
+}
+
+QTabWidget::tab-bar {
+width:3000px;
+}
+
+QTabBar::tab {
+background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+stop: 0 #E1E1E1, stop: 0.4 #DDDDDD,
+stop: 0.5 #D8D8D8, stop: 1.0 #D3D3D3);
+padding: 4px;
+border-top: 1px solid #C4C4C3;
+border-bottom: 0px solid #C4C4C3;
+border-left: 1px solid #C4C4C3;
+border-right:1px solid #C4C4C3;
+}
+
+QTabBar::tab:selected, QTabBar::tab:hover {
+background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+stop: 0 #fafafa, stop: 0.4 #f4f4f4,
+stop: 0.5 #e7e7e7, stop: 1.0 #fafafa);
+}
+
+#lbl_translation_1 {
+color: rgb(85, 87, 83);
+}
+
+#cb_select_translation {
+background: transparent;
+margin:0px;
+padding-left:6px;
+border-top: 2px solid #C4C4C3;
+border-bottom: 1px solid #C4C4C3;
+border-left: 1px solid #C4C4C3;
+border-right:1px solid #C4C4C3;
+color: rgb(57,62,66);
+selection-color: grey;
+font-weight: Normal;
+}
+
+#lineEdit_select {
+background-color: rgb(249, 249, 249);
+padding-left: 3px;
+margin-left:1px; margin-top:0px;margin-right:1px; margin-bottom:0px;
+border-top: 0px solid #C4C4C3;
+border-bottom: 1px solid #C4C4C3;
+border-left: 0px solid #C4C4C3;
+border-right:0px solid #C4C4C3;
+}
+
+#lw_books {
+color: rgb(85, 92, 150);
+background-color: white;
+selection-color: #F9FAFD;
+selection-background-color: rgba(49, 53, 93,200);
+show-decoration-selected: 1; 
+font-weight: Bold;
+padding-left:3px;
+padding-top:0px;
+padding-right:0px;
+padding-bottom:0px;
+margin-right:1px;
+}
+
+#search_lbl_tl {
+margin: 7px;
+}
+
+#search_cb_anyExact {
+padding-left: 3px;
+}
+
+#search_cb_where, #search_le_what {
+padding-left:3px;
+}
+
+#search_chkb_whole, #search_chkb_case {
+padding-left: 6px;
+}
+
+#search_btn_find:hover, #search_btn_clear:hover {
+background-color: rgb(255, 255, 255);
+}
+
+#search_btn_find {
+border:0 solid black;
+}
+
+#search_tb {
+color: #555C96;
+background-color: white;
+selection-color: #555C96;
+selection-background-color: #C9CACF;
+padding:0;
+margin:0;
+border-top: 1 solid grey;
+font-weight: Normal;
+}
+
+#frame_today_cal {
+background-color: white;
+border:1 ridge grey;
+margin-top: 0px;
+padding: 3px;
+}
+
+#btn_next_session, #btn_prev_session {
+border:0 solid darkgrey;
+}
+
+#btn_roster:hover, #btn_daily_letter:hover, #btn_daily_psalm:hover, #btn_daily_proverb:hover {
+background-color: white;
+}
+
+#btn_next_session:hover, #btn_prev_session:hover {
+background-color: #C9CACF;
+}
+

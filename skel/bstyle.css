@@ -1,0 +1,188 @@
+body {
+	background-color: #DBDCE3;
+	margin: 0;
+	font-size: 100%;
+	background-image: url("stairway.jpg");
+	background-size:cover;
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+}
+
+div#nav {
+	margin: 0px;
+	padding: 0px;
+    width: 190px;
+    height: 100%;
+    background-color: #f1f1f1;
+    position: fixed;
+    top:0px;
+    z-index: 1;
+  	border-top: 0px solid grey;
+  	border-left: 2px solid grey;
+  	border-bottom: 0px solid grey;
+  	border-right: 2px solid grey;
+	}
+ 
+button {
+    opacity: 0.9;
+    border: 0px;
+    margin:0px;
+    padding:2px;
+    width: 190px;
+    height: 22px;
+    color: white;
+    background-color: #555C96;
+    position:fixed;
+    top:0px;
+    z-index: 1;
+}
+
+button:hover {
+    cursor:pointer;
+    opacity: 1;
+    }
+ 
+ul#books_list {
+    padding-left: 4px;
+	margin-top: 0px;
+  	margin-left: 0px;
+  	margin-bottom: 0px;
+  	margin-right: 0px;
+    list-style-type:none;
+    font-size: 90%;
+    font-weight: 700;
+    position:fixed;
+    top:22px;
+    bottom:100px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    height:auto;
+    width: 186px;
+    border-top: 0px solid grey;
+  	border-left: 0px solid grey;
+  	border-bottom: 0px solid grey;
+  	border-right: 0px solid grey;
+  	z-index: 1;
+    }
+    
+li#active_book {
+	background-color: #C9CACF;
+}
+
+ul#chapters_list {
+    margin: 0;
+    padding: 0px;
+    list-style-type:none;
+    font-size: 80%;
+    font-weight: 700;
+    position:fixed;
+    bottom:0px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    height:auto;
+    max-height:200px;
+    width: 190px;
+    border-top: 1px solid grey;
+    z-index: 1;
+    }
+    
+div#content {
+    z-index: -1;
+    margin-left:195px;
+    margin-right:0px;
+	}
+	
+table {
+    border-collapse: collapse;
+    width:100%;
+    max-width: 1200px;
+    margin:auto;
+    outline: #C9CACF solid 2px;
+    }
+    
+a#chap {
+    float: left;
+    display: block;
+    color: #555C96;
+    text-decoration: none;
+    padding:3px;
+    }
+a#chap:hover {
+    color: red;
+    }
+  
+a#bk {
+	display: block;
+    color: #555C96;
+    background-color: transparent;
+    text-decoration: none;
+    padding:1px;
+    }
+    
+a#bk:hover {
+    color: red;
+    }
+    
+a#about {
+	display: block;
+    color: #E8E7E7;
+    background-color: transparent;
+    text-decoration: none;
+    padding:1px;
+    font-size: 80%;
+    font-weight: 700;
+    }
+    
+a#about:hover {
+    color: red;
+    }    
+    
+p#booktitle {
+    letter-spacing: 3px;
+    font-weight: 700;
+    font-family: verdana;
+    font-size: 200%;
+    text-align: center;
+    margin: auto;
+    width:70%;
+    color: white;
+    background-color: transparent;
+    text-shadow: 2px 2px 4px #000000;
+	padding: 3px;
+	letter-spacing: 7px;
+    }
+
+th {
+    font-weight: 500;
+    font-family: courier;
+    font-size: 100%;
+    color: #F1F1F3;
+    background-color: #354484;
+    text-shadow: 1px 1px grey;
+    opacity:0.8;
+    text-align: left;
+    padding-top: 10px;
+    padding-left: 10px;
+    }
+    
+table tr:nth-child(even) {
+    background-color: #eee;
+    }
+
+    table tr:nth-child(odd) {
+    background-color: #fff;
+    }
+
+td#vnr {
+    font-family: courier;
+    font-size: 80%;
+    color: #fff;
+    text-shadow: 1px 1px black;
+    width: 20px;
+    }
+
+td#txt {
+    padding: 3px;	
+    font-family: verdana;
+    font-size: 100%;
+    }

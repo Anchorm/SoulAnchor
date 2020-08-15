@@ -1,7 +1,16 @@
-SoulAnchor uses the GPLv3. See the COPYING file. This program is distributed in the hope that it will be useful, but without any warranty; without even the implied warranty of merchantability or fitness for a particular purpose.
+SoulAnchor uses the GPLv3. See the COPYING file. 
 
-The resources used by this application, like dictionaries and translations and citations, are available under their own terms be it public domain or creative commons or other free to use licenses or fair use.
+This program is distributed in the hope that it will be useful, 
+but without any warranty; without even the implied warranty of 
+merchantability or fitness for a particular purpose.
 
-The NET Bible, without footnotes, is quoted by permission. Quotations designated (NET) are from the NET Bible® copyright ©1996, 2019 by Biblical Studies Press, L.L.C. http://netbible.com All rights reserved.
+The resources used by this application, like dictionaries and 
+translations and citations, are available under their own terms be it 
+public domain or creative commons or other free to use licenses or fair use.
 
-The Qt Toolkit is Copyright (C) 2018 The Qt Company Ltd. and other contributors. And used under the conditions of the LGPLv3 which should come with your Qt installation.
+The NET Bible, without footnotes, is quoted by permission. Quotations 
+designated (NET) are from the NET Bible® copyright ©1996, 2019 by 
+Biblical Studies Press, L.L.C. http://netbible.com All rights reserved.
+
+The Qt Toolkit is Copyright (C) 2018 The Qt Company Ltd. and other contributors. 
+And used under the conditions of the LGPLv3 which should come with your Qt installation.
