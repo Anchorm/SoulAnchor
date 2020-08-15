@@ -33,9 +33,9 @@ Anchorman - in the year of our Lord 2020
 
 &nbsp;
 
-![Contents](https://www.dropbox.com/sh/jhuutnchr7pxru3/AAAU-Vki1kYdc_uKDPxqyAEua/SoulAnchor-screenshot-1.png "Contents")
-![Search](https://www.dropbox.com/sh/jhuutnchr7pxru3/AADgsPEchOyjxPsTPfaKJ2ipa/SoulAnchor-screenshot-2.png "Search")
-![Strongs](https://www.dropbox.com/sh/jhuutnchr7pxru3/AACpFv4aEzwkYt2y7byfD4VGa/SoulAnchor-screenshot-3.png "Strongs")
-![Today](https://www.dropbox.com/sh/jhuutnchr7pxru3/AAB-jDJvLUN_IAPFlx5LwqWpa/SoulAnchor-screenshot-4.png "Today")
-![Parallel](https://www.dropbox.com/sh/jhuutnchr7pxru3/AADwpOxHMfJRZOrX6yD3_FFQa/SoulAnchor-screenshot-5.png "Parallel")
+![Contents](https://www.dropbox.com/sh/jhuutnchr7pxru3/AAAU-Vki1kYdc_uKDPxqyAEua/SoulAnchor-screenshot-1.png)
+![Search](https://www.dropbox.com/sh/jhuutnchr7pxru3/AADgsPEchOyjxPsTPfaKJ2ipa/SoulAnchor-screenshot-2.png)
+![Strongs](https://www.dropbox.com/sh/jhuutnchr7pxru3/AACpFv4aEzwkYt2y7byfD4VGa/SoulAnchor-screenshot-3.png)
+![Today](https://www.dropbox.com/sh/jhuutnchr7pxru3/AAB-jDJvLUN_IAPFlx5LwqWpa/SoulAnchor-screenshot-4.png)
+![Parallel](https://www.dropbox.com/sh/jhuutnchr7pxru3/AADwpOxHMfJRZOrX6yD3_FFQa/SoulAnchor-screenshot-5.png)
 
