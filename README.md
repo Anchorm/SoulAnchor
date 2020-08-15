@@ -33,7 +33,7 @@ Anchorman - in the year of our Lord 2020
 
 &nbsp;
 
-![Contents](https://www.dropbox.com/sh/jhuutnchr7pxru3/AAAU-Vki1kYdc_uKDPxqyAEua/SoulAnchor-screenshot-1.png)
+![Contents](https://uc7f3fa1a6d0fd33a18c6739f8c2.previews.dropboxusercontent.com/p/thumb/AA5-jmoTPa290maFsSX9xgfgAy35UMT3d9yNIyrMhbzZnJpxCvFIJz6jp_kHULVwwxLpti2gfspYLx_4hH43bnfHCOIMP5QU5x7wNm572Y48jCu4BZZLbCjLQbgt4DJ3Fuz4x8Gla0VkoQ93XALVXFOwiFlYpjQGWVka-QjlDoUXH749RZ6YY6XOD9bI7HZS-ZDsM2Sz5YcZF1S9qyrJ4p_q7jrPXvN5iQGA3JJfCj5KRCc5L3HmmSRYRSrtg3RR-CQdjEJ122Vyf1Ay3OLFP0E0nZTHBN0HDpASCQcXaWnaAmbP7NGEtrlNOikytwl8HX8R_of2l55pnVsCjcZ14V6IER8lzTOmAgw6nNkP9pnohw/p.png?fv_content=true&size_mode=5)
 ![Search](https://www.dropbox.com/sh/jhuutnchr7pxru3/AADgsPEchOyjxPsTPfaKJ2ipa/SoulAnchor-screenshot-2.png)
 ![Strongs](https://www.dropbox.com/sh/jhuutnchr7pxru3/AACpFv4aEzwkYt2y7byfD4VGa/SoulAnchor-screenshot-3.png)
 ![Today](https://www.dropbox.com/sh/jhuutnchr7pxru3/AAB-jDJvLUN_IAPFlx5LwqWpa/SoulAnchor-screenshot-4.png)
