@@ -262,9 +262,9 @@ void MainWindow::showIntro() {
 
         "This project is still a work in progress. There might be problems/bugs. "
         "Note that some options will not work "
-        "until you add your own resources (e.g. audio bible)."
+        "until you add your own resources (e.g. audio bible). "
         "See the MOD file for details. \n\n"
-);
+    );
 
     QWidget *appWidget = nullptr;
     const QWidgetList topWidgets = QApplication::topLevelWidgets();
@@ -1980,7 +1980,7 @@ void MainWindow::versesWithStrongNumber(const QString &strongs, const QString &w
                 .arg(strongs);
     } else {
         intro = QString("<center><h3>\"%1\"<br>was found in %2 verses</h3></center>")
-                .arg(strongs, counter);
+                .arg(strongs, QString::number(counter));
     }
 
     ui->search_tb->moveCursor(QTextCursor().Start);
