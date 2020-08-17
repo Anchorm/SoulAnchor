@@ -1,4 +1,4 @@
-### It is important...
+﻿### It is important...
 
 &nbsp;
 
@@ -37,11 +37,11 @@ What does real harm is this, <i>if we put the modern word "Jew" everywhere in th
 Often it can be seen in people's statements that they make no distinction between ancient Israelites and later Judeans and modern Jews.
 They keep talking about "Gods chosen people, the Jewish people", by which they mean both the modern Jews and even every descendant of Jacob. For them Jew has become a synonym for Israel and the assumption is that those who are called Israel in our time are very similar to those that were called Israel in the past. 
 
-An illustration of this way of thinking can be seen in Charles Buck theological dictionary under his definition of the word Jew. He writes: "Jews, a name derived from the patriarch Judah, and given to the descendants of Abraham by his eldest son Isaac." Such an opening immediately jumps from Abraham-Isaac to Judah (and even the modern Jews by using this word in this context) while ignoring the whole nation of Israel. By doing so he puts the reader in a wrong frame of mind. It now looks as if not all of the descendants of Jacob/Israel are Gods chosen covenant people. Instead the conclusion must be: it's mostly or only about the Jews. Since only they are usually identified as descendants of Jacob. "We shall here present the reader with as comprehesive a view of this singular people as we can. 1. Jews history of the - The Almighty promised Abraham that he would render his seed extremely numerous ..."
+An illustration of this way of thinking can be seen in Charles Buck theological dictionary under his definition of the word Jew. He writes: "Jews, a name derived from the patriarch Judah, and given to the descendants of Abraham by his eldest son Isaac." Such an opening immediately jumps from Abraham-Isaac to Judah (and even the modern Jews by using this word in this context) while ignoring the whole nation of Israel. By doing so he puts the reader in a wrong frame of mind. It now looks as if not all of the descendants of Jacob/Israel are Gods chosen covenant people. Instead the conclusion must be: it's mostly or only about the Jews. Since only they are usually identified as descendants of Jacob. "We shall here present the reader with as comprehensive a view of this singular people as we can. 1. Jews history of the - The Almighty promised Abraham that he would render his seed extremely numerous ..."
 
 Charles Buck goes on to write many things about 'the history of the Jews'. His comments on the Israelites are very meager, a few sentences in which he again reduces Israel to the Jews and redirects the reader to the history of the Jews...
 
-The Bible story of Gods election of a people to form a special relationship with that nation is not about the history of 'the Jews' or Judeans. But it should read the history of Israel, the descendants of Abraham-Isaac-Jacob. The promise was for all the descendants of Israel. Not for one tribe only, and not for converts to Judaism/Talmudism that are not necessarily a descendant of Israel and have nothing to do with this lineage. E.g. those who converted in Babylon because they feared the Judeans <a href="bible:Esther 8:17">Esther 8:17</a>. We could say something good about converting to the true religion of the God of Israel if that is indeed the case and done out of free will. But converting to Judaism has come to mean that one agrees with and comes under the influence of the doctrines of men which are not only useless but also offending to God <a href="bible:Mar 7:1-13">Mar 7:1-13</a>. The oral traditions that were added to the original law make that law powerless as we can learn from Jesus words. The result of this deviation from the original commandmnents has made the later religion similar in value to all other religions that deny Jesus Christ as God and Saviour. They are contrary to the exclusive nature of the revelation of Jesus Christ since there is no other way to the Father but through the Son.
+The Bible story of Gods election of a people to form a special relationship with that nation is not about the history of 'the Jews' or Judeans. But it should read the history of Israel, the descendants of Abraham-Isaac-Jacob. The promise was for all the descendants of Israel. Not for one tribe only, and not for converts to Judaism/Talmudism that are not necessarily a descendant of Israel and have nothing to do with this lineage. E.g. those who converted in Babylon because they feared the Judeans <a href="bible:Esther 8:17">Esther 8:17</a>. We could say something good about converting to the true religion of the God of Israel if that is indeed the case and done out of free will. But converting to Judaism has come to mean that one agrees with and comes under the influence of the doctrines of men which are not only useless but also offending to God <a href="bible:Mar 7:1-13">Mar 7:1-13</a>. The oral traditions that were added to the original law make that law powerless as we can learn from Jesus words. The result of this deviation from the original commandments has made the later religion similar in value to all other religions that deny Jesus Christ as God and Savior. They are contrary to the exclusive nature of the revelation of Jesus Christ since there is no other way to the Father but through the Son.
 <a href="bible:Joh 14:6-15">Joh 14:6-15</a>
 <a href="bible:Joh 5:22-27">Joh 5:22-27</a>
 
@@ -49,7 +49,7 @@ The Bible story of Gods election of a people to form a special relationship with
 
 ### for whose benefit? 
 
-Charles Buck is certainly not the only one with this kind of faulty reasoning. It is a pattern that can be discovered in many theological works and heard often from the pulpit. Not in the least because of the efforts of those who are involved in Zionism and Judaizing in general. Since it obviously benefits them if Christians believe that they are the same as the ancient Israelites and that Christians will be blessed if they bless the Jews which we must see as His people Israel. On the other hand they don't like to hear criticism of their religion/system. It is a double-edged sword, don't look at their deeds (e.g. political and religious) but just keep blessing them with political and financial support. Let us not forget that God's love for historical Israel never meant that they got a license to sin and still receive Gods blessings. On the contrary, God punished the Israelites when they persisted in breaking His law. They were to be blessed or cursed depending on their actions. <a href="bible:Deut 28">Deut 28</a> <a href="bible:Lev 26">Lev 26</a> The further away they got from keeping the law, the more cursed they became. Until Jesus provided a way out by means of the new covenant. Those who obeyed the commandments of Jesus became Christians. It is only through His name that salvation is possible. Their is no salvation in any other way e.g. in claiming an Israel identity or following their religious doctrines that are far removed from the will of God.
+Charles Buck is certainly not the only one with this kind of faulty reasoning. It is a pattern that can be discovered in many theological works and heard often from the pulpit. Not in the least because of the efforts of those who are involved in Zionism. Since it obviously benefits them if Christians believe that they are the same as the ancient Israelites and that Christians will be blessed if they bless the Jews which we must see as His people Israel. On the other hand they don't like to hear criticism of their religion/system. It is a double-edged sword, don't look at their deeds (e.g. political and religious) but just keep blessing them with political and financial support. Let us not forget that God's love for historical Israel never meant that they got a license to sin and still receive Gods blessings. On the contrary, God punished the Israelites when they persisted in breaking His law. They were to be blessed or cursed depending on their actions. <a href="bible:Deut 28">Deut 28</a> <a href="bible:Lev 26">Lev 26</a> The further away they got from keeping the law, the more cursed they became. Until Jesus provided a way out by means of the new covenant. Those who obeyed the commandments of Jesus became Christians. It is only through His name that salvation is possible. Their is no salvation in any other way e.g. in claiming an Israel identity or following their religious doctrines that are far removed from the will of God.
 
 &nbsp;
 
@@ -61,7 +61,7 @@ We can understand through Paul in Romans (E.g. <a href="bible:Rom 11">Rom 11</a>
 Other animals are used for other nations, often not in a neutral or positive manner. E.g. wild animals, wild beasts that harm His sheep.
 <a href="bible:Eze 34">Eze 34</a>
 
-Another example: a dog can decribe a canaanite. 
+Another example: a dog can describe a Canaanite. 
 <a href="bible:Mat. 15:24-26">Mat. 15</a>
 >"24 But He answered and said, "I was sent only to <u>THE LOST SHEEP OF THE HOUSE OF ISRAEL</u>. 25 But she came and began to bow down before Him, saying, "Lord, help me! 26 And He answered and said, "It is not good to take the children's bread and throw it to the dogs."
 
@@ -89,7 +89,7 @@ Note: the distinction between the kingdoms cannot be seen as a clean division of
 
 <a href="bible:eph 2:12-22">eph 2:12-22</a>
 
-Israel is still very important as we can read in verse 12. Those who were alienated from the commmonwealth of Israel are now part of Israel once more under the new covenant with the house of Israel and the house of Judah <a href="bible:Heb 8:8">Heb 8:8</a>.
+Israel is still very important as we can read in verse 12. Those who were alienated from the commonwealth of Israel are now part of Israel once more under the new covenant with the house of Israel and the house of Judah <a href="bible:Heb 8:8">Heb 8:8</a>.
 
 The disciples knew about Gods grace for them we can learn from their writings. Even though their culture had often become one of looking down upon 'the heathens' as they had become unworthy in their eyes. You could not even sit down to eat with them. <a href="bible:Gal 2:12">Gal 2:12</a>.
 The 'true Israelite' Judeans still had the appearance of Israel, but as we can understand from Jesus words, those religious leaders had not the Spirit of God. Quite the opposite, they had become hypocrites and power hungry. Those who followed them: the blind following the blind. <a href="bible:Mat 15:14">Mat 15:14</a>
@@ -116,7 +116,7 @@ What do those who don't worship the Father in spirit and truth do? The opposite,
 <a href="bible:Joh 7">Joh 7</a>
 >"35 The Judeans then said to one another, "Where does this man intend to go that we will not find Him? He is not intending to go to the Dispersion among the Greeks, and teach the Greeks, is He?"
 
-But indeed this is what history proves to us. Those Israelites in the greek dispersion would be among the main recipients of the good news message of redemption for all of Israel in the new covenant.
+But indeed this is what history proves to us. Those Israelites in the Greek dispersion would be among the main recipients of the good news message of redemption for all of Israel in the new covenant.
 <a href="bible: Heb 8">Heb 8</a>
 >8 For finding fault with them, He says, "Behold, days are coming, says the Lord, When I will effect a new covenant <u>With the house of Israel and with the house of Judah</u>; 9 Not like the covenant which I made with their fathers On the day when I took them by the hand To lead them out of the land of Egypt; For they did not continue in My covenant, And I did not care for them, says the Lord. 10 For this is the covenant that I will make with the house of Israel After those days, says the Lord: I will put My laws into their minds, And I will write them on their hearts. And I will be their God, And they shall be My people."
 
@@ -127,8 +127,8 @@ Yes there are promises also for the non Israelite alien/stranger. Those can be s
 ### what happened to the house of Judah
 
 Since the house of Judah kept sinning, like the other tribes of Israel in the other kingdom, they were also taken captive and sent to Babylon.
-After the Babylonian captivity we can see more of the this rebellion. Their religion went further downhill. Some repented and became known as Christians. Others and continued to sin untill God destroyed their place in Judea.
-Some are called Jews in our time. Others who are called jews can be traced back to a certain people, the Khazars. Can such Khazars claim that they are the descendants of Judah and claim the promises of Israel? <a href="bible:Rom 9">Rom 9</a>
+After the Babylonian captivity we can see more of the this rebellion. Their religion went further downhill. Some repented and became known as Christians. Others continued to sin until God destroyed their place in Judea.
+Some are called Jews in our time. Others who are called Jews can be traced back to a certain people, the Khazars. Can such Khazars claim that they are the descendants of Judah and claim the promises of Israel? <a href="bible:Rom 9">Rom 9</a>
 
 The Khazars converted to Judaism. Just like certain Edomites (e.g. the Herodians). Can we say that Ezau/Edom is a Judahite? Of course not, but the opposite can be clearly read in the Scriptures, Edom was an enemy of Jacob. Chosen by God to be so from the womb where the twins were already struggling with each other. A fact that remains important if we want to understand the history of Israel and her future. These stories are given for our understanding and are everything but trivial or outdated. God tells us what was and is to come and thousands of years are as mere days for Him.
 
@@ -145,7 +145,7 @@ God created the races and allowed other subraces to come into existence (e.g. Mo
 <a href="bible:deut 4:1-10">deut 4:1-10</a>
 <a href="bible:1 ki 10:1-9">1 ki 10:1-9</a>
 
-Repentence is more important than having Abraham as a forefather. 
+Repentance is more important than having Abraham as a forefather. 
 <a href="bible:Mat 3">Mat 3</a> 
 <a href="bible:Luk 3">Luk 3</a>
 

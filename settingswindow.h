@@ -37,7 +37,7 @@ private:
 
 public:
     void on_applyFont_btn_clicked();
-    void cancelReset();
+    void cancel();
 
 signals:
     void fontChanged(); // a signal on btn click - connect to mainwindow slot applyfont

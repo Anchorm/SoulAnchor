@@ -878,7 +878,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../settingswindow.ui" line="201"/>
         <source>Scriptures font and size:</source>
-        <translation>Schriften lettertype en grootte:</translation>
+        <translation>Schriften lettertype:</translation>
     </message>
     <message>
         <location filename="../settingswindow.ui" line="310"/>

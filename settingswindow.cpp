@@ -7,7 +7,7 @@ SettingsWindow::SettingsWindow(QWidget *parent) :
     ui->setupUi(this);
 
     connect(ui->ok_btn, &QPushButton::clicked, this, &SettingsWindow::writeSettings);
-    connect(ui->can_btn, &QPushButton::clicked, this, &SettingsWindow::cancelReset);
+    connect(ui->can_btn, &QPushButton::clicked, this, &SettingsWindow::cancel);
     connect(ui->applyFont_btn, &QPushButton::clicked, this ,
             &SettingsWindow::on_applyFont_btn_clicked );
 
@@ -45,8 +45,8 @@ void SettingsWindow::addToCb(const QString &abbr) {
     ui->tl_cb->addItem(abbr, abbr);
 }
 
-void SettingsWindow::cancelReset() {
-    // set/reset to default values
+void SettingsWindow::cancel() {
+    // set to conf file values, after cancel btn click or on startup
     QSettings settings(settingsFile.fileName(), QSettings::IniFormat);
     guiLanguage = settings.value("guiLanguage", "english").toString();
     bknLanguage = settings.value("bknLanguage", "english").toString();

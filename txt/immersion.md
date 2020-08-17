@@ -1,4 +1,4 @@
-### It is important...
+﻿### It is important...
 
 The word used in the Scriptures is immersion (greek: baptizo - Strongs: <a href="strongs:G907">G907</a>) and not sprinkling (greek: rhantizo - <a href="strongs:G4472">G4472</a>).
  
@@ -7,7 +7,7 @@ The importance of this ordinance cannot be understated. Peter when talking about
 
 Let's consider another important instruction at the time of Israel in Egypt (<a href="bible:Exo 12:22">Exo 12:22</a>). What would have happened if those Israelites had found all kinds of reasons not to obey Gods commandment? Would they have lived? 
 
-Or how about Naaman who was instructed to perform a certain ritual in order to be cleansed/healed (<a href="bible:2 Ki 5:10">2 Kings 5:10</a>). He disagreed with the instructions at first. Why...what was hinderings him to obey a simple commandment?
+Or how about Naaman who was instructed to perform a certain ritual in order to be cleansed/healed (<a href="bible:2 Ki 5:10">2 Kings 5:10</a>). He disagreed with the instructions at first. Why...what was hindering him to obey a simple commandment?
 
 Are these not examples given for us so we can better understand that our God requires us to obey His Word? To follow His instructions and not make up our own traditions? E.g. <a href="bible:Mark 7:1-13">Mark 7:1-13</a>. The traditions of men cannot save us no matter how many ritual washings they do. 
 

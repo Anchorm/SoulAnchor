@@ -246,7 +246,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
 
     ui->tb_scriptures->moveCursor(QTextCursor::Start);
 
-    settingsW->cancelReset();
+    settingsW->cancel();
 }
 
 MainWindow::~MainWindow() {
