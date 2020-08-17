@@ -33,6 +33,6 @@ Anchorman - in the year of our Lord 2020
 
 &nbsp;
 
-![Screenshots:](https://www.dropbox.com/sh/jhuutnchr7pxru3/AAA7rtTic8LdeUFTKEtsW2hPa?dl=0)
+[Screenshots:](https://www.dropbox.com/sh/jhuutnchr7pxru3/AAA7rtTic8LdeUFTKEtsW2hPa?dl=0)
 
 
