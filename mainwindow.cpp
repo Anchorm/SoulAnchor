@@ -907,6 +907,7 @@ void MainWindow::on_cb_roster_read_clicked()
     } else {
         rosterRead = false;
         settings.setValue("Rosters/rosterRead", "false");
+        loadRoster();
     }
 }
 
@@ -1039,7 +1040,11 @@ void MainWindow::printSession(const QString &rosterName) {
     ui->lw_chapters->clear();
     bk < 40 ? ui->lw_books->setCurrentRow(bk - 1) : ui->lw_books->setCurrentRow(bk);
 
-    processPrintQueue();
+    if (rosterRead) {
+        printQ.clear();
+    } else {
+        processPrintQueue();
+    }
 }
 
 void MainWindow::on_action_delete_roster_triggered(){
@@ -1065,9 +1070,9 @@ void MainWindow::on_action_delete_roster_triggered(){
             settings.setValue("Rosters/activeRoster", "");
             settings.setValue("Rosters/rosterRead", "false");
             rosterRead = false;
+            if (ui->frame_roster_btns->isVisible()) ui->frame_roster_btns->hide();
         }
         addRostersToMenu();
-        setActiveRoster();
 
         QString msg = QString("<br><center>%1 has been removed</center><br>").arg(rosterName);
         ui->tb_scriptures->setHtml(msg);
@@ -1127,6 +1132,8 @@ void MainWindow::addRostersToMenu() {
         rosterAction->setCheckable(true);
     }
     ui->menu_roster_select->addActions(rosterGroup->actions());
+
+    setActiveRoster();
 }
 
 void MainWindow::rosterActionTriggered(QString rosterName){
@@ -1144,25 +1151,18 @@ void MainWindow::setActiveRoster() {
         return;
     }
 
-    bool foundActive = false;
     QList rgActions = rosterGroup->actions();
     for (QAction *ac : rgActions ) {
         if( ac->text() == activeRoster) {
             ac->setChecked(true);
-            foundActive = true;
             break;
         }
-    }
-    // lets reset/clear the rostername in soulanchor.conf if it cant be found in menu
-    // since menu holds data based on database tables and soulanchor.conf is more likely to be erroneous
-    if (!foundActive){
-        settings.setValue("Roster/activeRoster", "");
     }
 }
 
 void MainWindow::loadRoster() {
     // select the active roster
-    if(!ui->bible_frame->isVisible()){
+    if (!ui->bible_frame->isVisible()) {
         ui->background_frame->setStyleSheet(bfStyle);
         ui->bible_frame->show();
     }
@@ -1181,15 +1181,16 @@ void MainWindow::loadRoster() {
             "<center>goto menu <i>Today\'s Reading</i> and create / select a plan</center>");
         ui->frame_roster_btns->hide();
         return;
+    } else {
+        rosterRead ? ui->cb_roster_read->setChecked(true) : ui->cb_roster_read->setChecked(false);
+        ui->frame_roster_btns->show();
+        ui->tabwidget->setCurrentIndex(2);
+        ui->tb_scriptures->clear();
+        ui->btn_book_title->setText("");
+        ui->lw_chapters->clear();
+
+        printSession(rosterName);
     }
-
-    rosterRead ? ui->cb_roster_read->setChecked(true) : ui->cb_roster_read->setChecked(false);
-    ui->frame_roster_btns->show();
-    ui->tabwidget->setCurrentIndex(2);
-    ui->tb_scriptures->clear();
-    ui->btn_book_title->setText("");
-
-    if(!rosterRead) printSession(rosterName);
 }
 
 void MainWindow::readingPlan(){
@@ -1272,7 +1273,8 @@ void MainWindow::spokenWord() {
         playMusic(absPath, basename);
     } else {
         ui->tb_scriptures->setHtml(
-            "<br><center><span style='font-family:sans'>could not find an mp3 file for this chapter"
+            "<br><center><span style='font-family:sans'>could not "
+            "find an mp3 file for this chapter"
             ", see the MOD file for more information</span></center>");
     }
 }
@@ -1740,25 +1742,34 @@ void MainWindow::todaysProverb(){
 void MainWindow::todaysPsalm(){
     ui->frame_roster_btns->hide();
     int today = ui->calendar->selectedDate().day();
-//    QList<int> psalms_per_day = {
-//        1,6,11,16,21,26,31,36,41,46,51,56,61,66,71,76,81,86,91,96,101,106,111,116,
-//        121,126,131,136,141,146 };
 
     int bk = 19;
     ui->lw_books->setCurrentRow(bk - 1);
-    int firstCh = today;
-    int lastCh = today + 4; // four psalms are possible per day
+    int lastCh = (today * 5) + 1;
+    int firstCh;
+
+    if ( today == 1 ) {
+        firstCh = 1;
+    } else {
+        firstCh = lastCh - 4;
+    }
+
     int ch;
     QVector<int> psalms;
 
-    if(today == 31){
+    if ( today == 31 ) {
         ch  = 119;
     } else {
-        for (int i = firstCh; i <= lastCh; ++i ) {
-            psalms.append(i);
+
+        for ( int i = firstCh; i <= lastCh; ++i ) {
+
+            if ( i != 119 and i != 151 ) {
+                psalms.append(i);
+            }
         }
+
         std::shuffle(psalms.begin(), psalms.end(),
-                     std::default_random_engine(std::random_device()()));
+                     std::default_random_engine(std::random_device()() ));
         ch = psalms.first();
     }
 
@@ -1814,7 +1825,8 @@ void MainWindow::evening(){
 void MainWindow::todaysLetter(){
     ui->frame_roster_btns->hide();
     QList<int> letters = {45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65};
-    std::shuffle(letters.begin(), letters.end(), std::default_random_engine(std::random_device()()));
+    std::shuffle(letters.begin(), letters.end(),
+                 std::default_random_engine(std::random_device()() ));
     int bk = letters[0];
 
     int lastCh = dbH.getFinalChapter(bk);
@@ -1822,7 +1834,8 @@ void MainWindow::todaysLetter(){
     for (int ch = 1; ch < (lastCh + 1); ++ch) {
         chapters.append(ch);
     }
-    std::shuffle(chapters.begin(), chapters.end(), std::default_random_engine(std::random_device()()));
+    std::shuffle(chapters.begin(), chapters.end(),
+                 std::default_random_engine(std::random_device()() ));
     int ch = chapters[0];
 
     bk < 40 ? ui->lw_books->setCurrentRow(bk - 1) : ui->lw_books->setCurrentRow(bk);

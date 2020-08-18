@@ -87,7 +87,7 @@ void Roster::on_pb_make_clicked()
             chaptersTotal += finalChap;
         }
 
-        for(int i = 1; i <= finalChap; i++ ) {
+        for (int i = 1; i <= finalChap; i++ ) {
             bkCh.append( {bkNr, i} );
         }
     }
@@ -95,7 +95,7 @@ void Roster::on_pb_make_clicked()
     //calculate sessions
     double sessions = chaptersTotal / iTempo;
     double remainder = chaptersTotal % iTempo;
-    if(remainder > 0) {
+    if (remainder > 0) {
         sessions += 1;
     }
 
@@ -145,9 +145,6 @@ void Roster::on_pb_make_clicked()
             ui->te_preview->insertPlainText("\n\nFailed to commit changes "
                                             "to the roster.db database.");
        } else {
-           settings.setValue("Rosters/activeRoster", rosterName);
-           settings.sync();
-
            emit rosterCreated();
            ui->te_preview->insertPlainText("\n\nReady. The reading plan can "
                                            "now be selected in the menu.");
