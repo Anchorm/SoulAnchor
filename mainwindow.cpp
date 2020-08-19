@@ -1223,7 +1223,7 @@ void MainWindow::openExportBibleW() {
 }
 
 void MainWindow::applyFont(){
-    // apply changes from settings window, btn apply
+    // apply changes from settings window
     QSettings settings(settingsFile.fileName(), QSettings::IniFormat);
     scripFont = settings.value("font").toString();
     int ps = settings.value("fontsize").toInt();
@@ -2451,7 +2451,10 @@ void MainWindow::prevChapter(){
 }
 
 void MainWindow::createOtNtMenus() {
-    QString sqlQ = "SELECT book_nr, testament, name_dutch FROM number_name";
+    QSettings settings(settingsFile.fileName(), QSettings::IniFormat);
+    QString lang = settings.value("bknLanguage", "english").toString();
+
+    QString sqlQ = "SELECT book_nr, testament, name_" + lang + " FROM number_name";
     QSqlQuery query(sqlQ, dbH.bibleDb );
 
     while (query.next()) {
@@ -2809,12 +2812,12 @@ void MainWindow::findInPage(const QString &nextOrPrev){
 }
 
 void MainWindow::showFindFrame() {
-    if (ui->tb_scriptures->hasFocus()) {
-        ui->cb_find_loc->setCurrentText(tr("Bible"));
+    if (ui->strongs_tb->hasFocus()) {
+        ui->cb_find_loc->setCurrentText("Strongs");
     } else if (ui->info_tb->hasFocus()) {
         ui->cb_find_loc->setCurrentText("Info");
     } else {
-        ui->cb_find_loc->setCurrentText("Strongs");
+        ui->cb_find_loc->setCurrentText(tr("Bible"));
     }
 
     ui->frame_find->show();

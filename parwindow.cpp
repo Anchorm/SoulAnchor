@@ -209,7 +209,10 @@ void ParWindow::popupChapters(int bkNr) {
 }
 
 void ParWindow::createOtNtMenus() {  
-    QString sqlQ = "SELECT book_nr, testament, name_dutch FROM number_name";
+    QSettings settings(settingsFile.fileName(), QSettings::IniFormat);
+    QString lang = settings.value("bknLanguage", "english").toString();
+
+    QString sqlQ = "SELECT book_nr, testament, name_" + lang + " FROM number_name";
     QSqlQuery query(sqlQ, dbH.bibleDb);
 
     while (query.next()) {
