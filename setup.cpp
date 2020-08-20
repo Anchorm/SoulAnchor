@@ -4,29 +4,22 @@ void setDataDir()
 {
     bool dirExists = false;
     bool biblesExist, dictsExist, devExist = false;
+    // soulanchor.pro defines
+    dataDir.setPath(QString(APP_DATADIR_PREFIX) + "/share/soulanchor");
 
-    QStringList dirList = QStandardPaths::locateAll(QStandardPaths::GenericDataLocation,
-                                              QString(), QStandardPaths::LocateDirectory);
-    for (const QString &dir : dirList) {
-        dataDir.setPath(dir + "soulanchor");
+    if (dataDir.exists()) {
+        biblesExist = QFile(dataDir.path() + "/db/bibles.db").exists();
+        dictsExist = QFile(dataDir.path() + "/db/dictionaries.db").exists();
+        devExist = QFile(dataDir.path() + "/db/devotions.db").exists();
 
-        if (dataDir.exists()) {
-            biblesExist = QFile(dataDir.path() + "/db/bibles.db").exists();
-            dictsExist = QFile(dataDir.path() + "/db/dictionaries.db").exists();
-            devExist = QFile(dataDir.path() + "/db/devotions.db").exists();
-
-            if (biblesExist && dictsExist && devExist) {
-                dirExists = true;
-                break;
-            }
+        if (biblesExist && dictsExist && devExist) {
+            dirExists = true;
         }
     }
 
     if (!dirExists) {
-        ::sout << "App data directory not found! These paths were checked:" << Qt::endl;
-        for (QString &entry : dirList) {
-            ::sout << entry << Qt::endl;
-        }
+        ::sout << "App data directory not found in:" << Qt::endl;
+        ::sout << APP_DATADIR_PREFIX << Qt::endl;
         exit(1);
     } else {
         ::sout << "App data dir: " << dataDir.path() << Qt::endl;

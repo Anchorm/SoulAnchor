@@ -39,19 +39,24 @@ INSTALLS += \
         images \
         icon \
         desktop
-        
+
 TEMPLATE = app
 TRANSLATIONS = languages/soulanchor_en.ts  languages/soulanchor_nl.ts
 
-DEFINES += D_GLIBCXX_ASSERTIONS D_FORTIFY_SOURCE=2
+# super easy syntax
+DEFINES += \
+        APP_DATADIR_PREFIX='\\"$$PREFIX\\"' \
+        D_GLIBCXX_ASSERTIONS \
+        D_FORTIFY_SOURCE=2
+
 
 QMAKE_CXXFLAGS += -fstack-clash-protection
 QMAKE_LFLAGS += -Wl,-z,relro,-z,now
 
 CONFIG += release c++17
-        
+
 RESOURCES += soulanchor.qrc
-        
+
 SOURCES += \
         aboutwindow.cpp \
         databasehandler.cpp \
@@ -83,4 +88,3 @@ FORMS += \
         makehtmlbible.ui \
         roster.ui \
         settingswindow.ui
-
