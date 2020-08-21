@@ -446,7 +446,6 @@ void ParWindow::printScriptures(){
     QString cStr = QString::number(c1);
     int v1 = job["v1"];
     int v2 = job["v2"];
-//    qDebug() << "bk:" << bk << "c1:" << c1 << "v1:" << v1 << "v2:" << v2;
 
     if(bk == 0) {
         return;

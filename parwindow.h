@@ -27,13 +27,13 @@ class ParWindow : public QWidget
 {
     Q_OBJECT
 
-    const QIcon anchorIcon = QIcon(":/img/anchor.png");
-    const QIcon bookIcon = QIcon(":/img/book.png");
-    const QIcon nextIcon = QIcon(":/img/bullet_arrow_right.png");
-    const QIcon prevIcon = QIcon(":/img/bullet_arrow_left.png");
-    const QIcon selectIcon = QIcon(":/img/edit-select-all");
-    const QIcon copyIcon = QIcon(":/img/edit-copy");
-    const QIcon closeIcon = QIcon(":/img/window-close.png");
+    const QIcon anchorIcon = QIcon(":/data/img/anchor.png");
+    const QIcon bookIcon = QIcon(":/data/img/book.png");
+    const QIcon nextIcon = QIcon(":/data/img/bullet_arrow_right.png");
+    const QIcon prevIcon = QIcon(":/data/img/bullet_arrow_left.png");
+    const QIcon selectIcon = QIcon(":/data/img/edit-select-all");
+    const QIcon copyIcon = QIcon(":/data/img/edit-copy");
+    const QIcon closeIcon = QIcon(":/data/img/window-close.png");
 
     QLineEdit *leInput = new QLineEdit(this);
     QPushButton *btn_ok = new QPushButton(this);

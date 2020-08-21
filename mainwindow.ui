@@ -33,7 +33,7 @@
   </property>
   <property name="windowIcon">
    <iconset resource="../build-soulanchor-Desktop-Debug/soulanchor.qrc">
-    <normaloff>:/img/anchor.png</normaloff>:/img/anchor.png</iconset>
+    <normaloff>:/data/img/anchor.png</normaloff>:/data/img/anchor.png</iconset>
   </property>
   <property name="styleSheet">
    <string notr="true"/>
@@ -616,7 +616,7 @@
              </property>
              <property name="icon">
               <iconset resource="../build-soulanchor-Desktop-Debug/soulanchor.qrc">
-               <normaloff>:/img/edit-find.png</normaloff>:/img/edit-find.png</iconset>
+               <normaloff>:/data/img/edit-find.png</normaloff>:/data/img/edit-find.png</iconset>
              </property>
              <property name="iconSize">
               <size>
@@ -1330,7 +1330,7 @@ p, li { white-space: pre-wrap; }
                  </property>
                  <property name="icon">
                   <iconset resource="../build-soulanchor-Desktop-Debug/soulanchor.qrc">
-                   <normaloff>:/img/bullet_arrow_right.png</normaloff>:/img/bullet_arrow_right.png</iconset>
+                   <normaloff>:/data/img/bullet_arrow_right.png</normaloff>:/data/img/bullet_arrow_right.png</iconset>
                  </property>
                 </widget>
                </item>
@@ -1367,7 +1367,7 @@ p, li { white-space: pre-wrap; }
                  </property>
                  <property name="icon">
                   <iconset resource="../build-soulanchor-Desktop-Debug/soulanchor.qrc">
-                   <normaloff>:/img/bullet_arrow_left.png</normaloff>:/img/bullet_arrow_left.png</iconset>
+                   <normaloff>:/data/img/bullet_arrow_left.png</normaloff>:/data/img/bullet_arrow_left.png</iconset>
                  </property>
                 </widget>
                </item>
@@ -2081,7 +2081,7 @@ border: 0 solid black;
                      </property>
                      <property name="icon">
                       <iconset resource="../build-soulanchor-Desktop-Debug/soulanchor.qrc">
-                       <normaloff>:/img/window-close.png</normaloff>:/img/window-close.png</iconset>
+                       <normaloff>:/data/img/window-close.png</normaloff>:/data/img/window-close.png</iconset>
                      </property>
                     </widget>
                    </item>
@@ -2183,7 +2183,7 @@ border: 0 solid black;
                      </property>
                      <property name="icon">
                       <iconset resource="../build-soulanchor-Desktop-Debug/soulanchor.qrc">
-                       <normaloff>:/img/go-down.png</normaloff>:/img/go-down.png</iconset>
+                       <normaloff>:/data/img/go-down.png</normaloff>:/data/img/go-down.png</iconset>
                      </property>
                      <property name="shortcut">
                       <string notr="true"/>
@@ -2218,7 +2218,7 @@ border: 0 solid black;
                      </property>
                      <property name="icon">
                       <iconset resource="../build-soulanchor-Desktop-Debug/soulanchor.qrc">
-                       <normaloff>:/img/go-up.png</normaloff>:/img/go-up.png</iconset>
+                       <normaloff>:/data/img/go-up.png</normaloff>:/data/img/go-up.png</iconset>
                      </property>
                      <property name="shortcut">
                       <string notr="true"/>
@@ -3022,13 +3022,6 @@ p, li { white-space: pre-wrap; }
     <addaction name="action_delete_bookmark"/>
     <addaction name="separator"/>
    </widget>
-   <widget class="QMenu" name="menuExtra">
-    <property name="title">
-     <string>Extra</string>
-    </property>
-    <addaction name="action_create_html_bible"/>
-    <addaction name="action_export_Bible"/>
-   </widget>
    <addaction name="menu_view"/>
    <addaction name="menu_todays_reading"/>
    <addaction name="menu_meditation"/>
@@ -3036,7 +3029,6 @@ p, li { white-space: pre-wrap; }
    <addaction name="menu_history"/>
    <addaction name="menu_bookmarks"/>
    <addaction name="menu_help"/>
-   <addaction name="menuExtra"/>
   </widget>
   <action name="action_about">
    <property name="enabled">
@@ -3044,7 +3036,7 @@ p, li { white-space: pre-wrap; }
    </property>
    <property name="icon">
     <iconset resource="../build-soulanchor-Desktop-Debug/soulanchor.qrc">
-     <normaloff>:/img/anchor2.png</normaloff>:/img/anchor2.png</iconset>
+     <normaloff>:/data/img/anchor2.png</normaloff>:/data/img/anchor2.png</iconset>
    </property>
    <property name="text">
     <string>About</string>
@@ -3053,7 +3045,7 @@ p, li { white-space: pre-wrap; }
   <action name="action_daily_proverb">
    <property name="icon">
     <iconset resource="../build-soulanchor-Desktop-Debug/soulanchor.qrc">
-     <normaloff>:/img/book_open.png</normaloff>:/img/book_open.png</iconset>
+     <normaloff>:/data/img/book_open.png</normaloff>:/data/img/book_open.png</iconset>
    </property>
    <property name="text">
     <string>Proverb</string>
@@ -3065,7 +3057,7 @@ p, li { white-space: pre-wrap; }
    </property>
    <property name="icon">
     <iconset resource="../build-soulanchor-Desktop-Debug/soulanchor.qrc">
-     <normaloff>:/img/book_open.png</normaloff>:/img/book_open.png</iconset>
+     <normaloff>:/data/img/book_open.png</normaloff>:/data/img/book_open.png</iconset>
    </property>
    <property name="text">
     <string>Psalm</string>
@@ -3074,7 +3066,7 @@ p, li { white-space: pre-wrap; }
   <action name="action_quit">
    <property name="icon">
     <iconset resource="../build-soulanchor-Desktop-Debug/soulanchor.qrc">
-     <normaloff>:/img/door_out.png</normaloff>:/img/door_out.png</iconset>
+     <normaloff>:/data/img/door_out.png</normaloff>:/data/img/door_out.png</iconset>
    </property>
    <property name="text">
     <string>Quit</string>
@@ -3091,7 +3083,7 @@ p, li { white-space: pre-wrap; }
    </property>
    <property name="icon">
     <iconset resource="../build-soulanchor-Desktop-Debug/soulanchor.qrc">
-     <normaloff>:/img/wrench.png</normaloff>:/img/wrench.png</iconset>
+     <normaloff>:/data/img/wrench.png</normaloff>:/data/img/wrench.png</iconset>
    </property>
    <property name="text">
     <string>Settings</string>
@@ -3108,7 +3100,7 @@ p, li { white-space: pre-wrap; }
   <action name="action_show_roster">
    <property name="icon">
     <iconset resource="../build-soulanchor-Desktop-Debug/soulanchor.qrc">
-     <normaloff>:/img/grid.png</normaloff>:/img/grid.png</iconset>
+     <normaloff>:/data/img/grid.png</normaloff>:/data/img/grid.png</iconset>
    </property>
    <property name="text">
     <string>Reading Plan</string>
@@ -3125,7 +3117,7 @@ p, li { white-space: pre-wrap; }
    </property>
    <property name="icon">
     <iconset resource="../build-soulanchor-Desktop-Debug/soulanchor.qrc">
-     <normaloff>:/img/control_stop_blue.png</normaloff>:/img/control_stop_blue.png</iconset>
+     <normaloff>:/data/img/control_stop_blue.png</normaloff>:/data/img/control_stop_blue.png</iconset>
    </property>
    <property name="text">
     <string> Play random</string>
@@ -3134,7 +3126,7 @@ p, li { white-space: pre-wrap; }
   <action name="action_letter">
    <property name="icon">
     <iconset resource="../build-soulanchor-Desktop-Debug/soulanchor.qrc">
-     <normaloff>:/img/book_open.png</normaloff>:/img/book_open.png</iconset>
+     <normaloff>:/data/img/book_open.png</normaloff>:/data/img/book_open.png</iconset>
    </property>
    <property name="text">
     <string>Letter</string>
@@ -3176,7 +3168,7 @@ p, li { white-space: pre-wrap; }
    </property>
    <property name="icon">
     <iconset resource="../build-soulanchor-Desktop-Debug/soulanchor.qrc">
-     <normaloff>:/img/control_stop_blue.png</normaloff>:/img/control_stop_blue.png</iconset>
+     <normaloff>:/data/img/control_stop_blue.png</normaloff>:/data/img/control_stop_blue.png</iconset>
    </property>
    <property name="text">
     <string> Stop playing</string>
@@ -3190,7 +3182,7 @@ p, li { white-space: pre-wrap; }
   <action name="action_lord_prayer">
    <property name="icon">
     <iconset resource="../build-soulanchor-Desktop-Debug/soulanchor.qrc">
-     <normaloff>:/img/book_open.png</normaloff>:/img/book_open.png</iconset>
+     <normaloff>:/data/img/book_open.png</normaloff>:/data/img/book_open.png</iconset>
    </property>
    <property name="text">
     <string>The Lord's Prayer</string>
@@ -3199,7 +3191,7 @@ p, li { white-space: pre-wrap; }
   <action name="action_add_bookmark">
    <property name="icon">
     <iconset resource="../build-soulanchor-Desktop-Debug/soulanchor.qrc">
-     <normaloff>:/img/book_add.png</normaloff>:/img/book_add.png</iconset>
+     <normaloff>:/data/img/book_add.png</normaloff>:/data/img/book_add.png</iconset>
    </property>
    <property name="text">
     <string>Add Bookmark</string>
@@ -3208,7 +3200,7 @@ p, li { white-space: pre-wrap; }
   <action name="action_delete_bookmark">
    <property name="icon">
     <iconset resource="../build-soulanchor-Desktop-Debug/soulanchor.qrc">
-     <normaloff>:/img/book_remove.png</normaloff>:/img/book_remove.png</iconset>
+     <normaloff>:/data/img/book_remove.png</normaloff>:/data/img/book_remove.png</iconset>
    </property>
    <property name="text">
     <string>Delete</string>
@@ -3217,7 +3209,7 @@ p, li { white-space: pre-wrap; }
   <action name="action_about_filters">
    <property name="icon">
     <iconset resource="../build-soulanchor-Desktop-Debug/soulanchor.qrc">
-     <normaloff>:/img/help.png</normaloff>:/img/help.png</iconset>
+     <normaloff>:/data/img/help.png</normaloff>:/data/img/help.png</iconset>
    </property>
    <property name="text">
     <string>About Filters</string>
@@ -3226,7 +3218,7 @@ p, li { white-space: pre-wrap; }
   <action name="action_salvation">
    <property name="icon">
     <iconset resource="../build-soulanchor-Desktop-Debug/soulanchor.qrc">
-     <normaloff>:/img/information.png</normaloff>:/img/information.png</iconset>
+     <normaloff>:/data/img/information.png</normaloff>:/data/img/information.png</iconset>
    </property>
    <property name="text">
     <string>Salvation</string>
@@ -3250,7 +3242,7 @@ p, li { white-space: pre-wrap; }
   <action name="action_open_parallel">
    <property name="icon">
     <iconset resource="../build-soulanchor-Desktop-Debug/soulanchor.qrc">
-     <normaloff>:/img/book_open.png</normaloff>:/img/book_open.png</iconset>
+     <normaloff>:/data/img/book_open.png</normaloff>:/data/img/book_open.png</iconset>
    </property>
    <property name="text">
     <string>Open Parallel Window</string>
@@ -3274,7 +3266,7 @@ p, li { white-space: pre-wrap; }
   <action name="action_breaking_bread">
    <property name="icon">
     <iconset resource="../build-soulanchor-Desktop-Debug/soulanchor.qrc">
-     <normaloff>:/img/book_open.png</normaloff>:/img/book_open.png</iconset>
+     <normaloff>:/data/img/book_open.png</normaloff>:/data/img/book_open.png</iconset>
    </property>
    <property name="text">
     <string>Breaking Bread</string>
@@ -3283,7 +3275,7 @@ p, li { white-space: pre-wrap; }
   <action name="action_immersion">
    <property name="icon">
     <iconset resource="../build-soulanchor-Desktop-Debug/soulanchor.qrc">
-     <normaloff>:/img/book_open.png</normaloff>:/img/book_open.png</iconset>
+     <normaloff>:/data/img/book_open.png</normaloff>:/data/img/book_open.png</iconset>
    </property>
    <property name="text">
     <string>Immersion</string>
@@ -3297,7 +3289,7 @@ p, li { white-space: pre-wrap; }
   <action name="action_worries">
    <property name="icon">
     <iconset resource="../build-soulanchor-Desktop-Debug/soulanchor.qrc">
-     <normaloff>:/img/book_open.png</normaloff>:/img/book_open.png</iconset>
+     <normaloff>:/data/img/book_open.png</normaloff>:/data/img/book_open.png</iconset>
    </property>
    <property name="text">
     <string>Worries</string>
@@ -3311,7 +3303,7 @@ p, li { white-space: pre-wrap; }
   <action name="action_emergency">
    <property name="icon">
     <iconset resource="../build-soulanchor-Desktop-Debug/soulanchor.qrc">
-     <normaloff>:/img/exclamation.png</normaloff>:/img/exclamation.png</iconset>
+     <normaloff>:/data/img/exclamation.png</normaloff>:/data/img/exclamation.png</iconset>
    </property>
    <property name="text">
     <string>Emergency</string>

@@ -8,8 +8,6 @@
 #include "aboutwindow.h"
 #include "settingswindow.h"
 #include "roster.h"
-#include "makehtmlbible.h"
-#include "exportbible.h"
 #include "globals.h"
 
 #include <QMainWindow>
@@ -93,22 +91,22 @@ class MainWindow : public QMainWindow
     QStringList strongsHistory; // for context menu history
     QStringList dictwordHistory; // same
 
-    const QIcon bookIcon = QIcon(":/img/book.png");
-    const QIcon bookAddIcon = QIcon(":/img/book_add.png");
-    const QIcon bookRemoveIcon = QIcon(":/img/book_remove.png");
-    const QIcon bookmarkIcon = QIcon(":/img/bookmark.png");
-    const QIcon bookOpenIcon = QIcon(":/img/book_open.png");
-    const QIcon nextIcon = QIcon(":/img/bullet_arrow_right.png");
-    const QIcon prevIcon = QIcon(":/img/bullet_arrow_left.png");
-    const QIcon selectIcon = QIcon(":/img/edit-select-all");
-    const QIcon copyIcon = QIcon(":/img/edit-copy");
-    const QIcon findIcon = QIcon(":/img/edit-find");
-    const QIcon closeIcon = QIcon(":/img/window-close.png");
-    const QIcon musIcon = QIcon(":/img/music.png");
-    const QIcon docIcon = QIcon(":/img/document_notes.png");
-    const QIcon playIcon = QIcon(":/img/control_play_blue.png");
-    const QIcon stopIcon = QIcon(":/img/control_stop_blue.png");
-    const QIcon strongIcon = QIcon(":/img/biceps.png");
+    const QIcon bookIcon = QIcon(":/data/img/book.png");
+    const QIcon bookAddIcon = QIcon(":/data/img/book_add.png");
+    const QIcon bookRemoveIcon = QIcon(":/data/img/book_remove.png");
+    const QIcon bookmarkIcon = QIcon(":/data/img/bookmark.png");
+    const QIcon bookOpenIcon = QIcon(":/data/img/book_open.png");
+    const QIcon nextIcon = QIcon(":/data/img/bullet_arrow_right.png");
+    const QIcon prevIcon = QIcon(":/data/img/bullet_arrow_left.png");
+    const QIcon selectIcon = QIcon(":/data/img/edit-select-all");
+    const QIcon copyIcon = QIcon(":/data/img/edit-copy");
+    const QIcon findIcon = QIcon(":/data/img/edit-find");
+    const QIcon closeIcon = QIcon(":/data/img/window-close.png");
+    const QIcon musIcon = QIcon(":/data/img/music.png");
+    const QIcon docIcon = QIcon(":/data/img/document_notes.png");
+    const QIcon playIcon = QIcon(":/data/img/control_play_blue.png");
+    const QIcon stopIcon = QIcon(":/data/img/control_stop_blue.png");
+    const QIcon strongIcon = QIcon(":/data/img/biceps.png");
 
     QQueue< QHash<QString, int> > printQ; // print queue - bk c1 c2 v1 v2
     QQueue< QHash<QString, int> > printHistory; // keep a history of print jobs
@@ -123,8 +121,6 @@ class MainWindow : public QMainWindow
     AboutWindow *aboutW = new AboutWindow(this);
     SettingsWindow *settingsW = new SettingsWindow(this);
     Roster *rosterW = new Roster(this);
-    MakeHtmlBible *makeHtmlW = new MakeHtmlBible(this);
-    ExportBible *exportBibleW = new ExportBible(this);
 
     // todo: place in db?
     // a random scripture
@@ -313,8 +309,6 @@ private slots:
     static bool compareFunctionS(QAction *a, QAction *b);
 
     void openParW();
-    void openHtmlW();
-    void openExportBibleW();
     void applyFont();
 
     void addRostersToMenu();

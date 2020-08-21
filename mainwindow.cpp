@@ -98,17 +98,12 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
     connect(ui->action_overview, &QAction::triggered, this, &MainWindow::showOverview);
     connect(ui->action_shortcuts, &QAction::triggered, this, &MainWindow::showShortcuts);
     connect(ui->action_emergency, &QAction::triggered, this, [this] () {
-        showEncPic(":/img/emergency.jpg"); } );
-
-    connect(ui->action_create_html_bible, &QAction::triggered, this, &MainWindow::openHtmlW);
-    connect(ui->action_export_Bible, &QAction::triggered, this, &MainWindow::openExportBibleW);
+        showEncPic(":/data/img/emergency.jpg"); } );
 
     new QShortcut(QKeySequence(Qt::Key_Plus), this, SLOT(nextChapter()));
     new QShortcut(QKeySequence(Qt::Key_Right), this, SLOT(nextChapter()));
     new QShortcut(QKeySequence(Qt::Key_Minus), this, SLOT(prevChapter()));
     new QShortcut(QKeySequence(Qt::Key_Left), this, SLOT(prevChapter()));
-
-//    new QShortcut(QKeySequence(Qt::Key_Print), this, SLOT(printQtextD()));
 
     // find in page - current textdocument
     connect(ui->cb_find_loc, &QComboBox::currentTextChanged,
@@ -260,7 +255,7 @@ void MainWindow::showIntro() {
     QString intro = (
         "Hi, welcome to SoulAnchor.\t\n\n"
 
-        "This project is still a work in progress. There might be problems/bugs. "
+        "This project is still a work in progress. There might be bugs... "
         "Note that some options will not work "
         "until you add your own resources (e.g. audio bible). "
         "See the MOD file for details. \n\n"
@@ -1214,14 +1209,6 @@ void MainWindow::openParW() {
     !parW->isVisible() ? parW->show() : parW->raise();
 }
 
-void MainWindow::openHtmlW() {
-    !makeHtmlW->isVisible() ? makeHtmlW->show() : makeHtmlW->raise();
-}
-
-void MainWindow::openExportBibleW() {
-    !exportBibleW->isVisible() ? exportBibleW->show() : exportBibleW->raise();
-}
-
 void MainWindow::applyFont(){
     // apply changes from settings window
     QSettings settings(settingsFile.fileName(), QSettings::IniFormat);
@@ -1598,7 +1585,7 @@ void MainWindow::showShortcuts() {
 void MainWindow::showOverview(){
     ui->bible_frame->hide(); ui->info_frame->hide();
     ui->background_frame->setStyleSheet("#background_frame {"
-        "border-image: url(:/img/overview.jpg) 0 0 0 0 stretch stretch}");
+        "border-image: url(:/data/img/overview.jpg) 0 0 0 0 stretch stretch}");
 }
 
 void MainWindow::showEncPic(const QString &fileName){
@@ -2034,7 +2021,6 @@ void MainWindow::searchScriptures() {
 
     QString anyExact = ui->search_cb_anyExact->currentText();
     QString tl = "t_" + ui->cb_select_translation->currentData().toString();
-    // qDebug() << what << "in" << where << "how" << anyExact << "in" << tl;
 
     QString globOrLike; // sql glob or like
     QString astOrPer; // asterisk or percentage
@@ -2880,8 +2866,6 @@ void MainWindow::updateCbTranslations() {
         desc = query.value(1).toString();
         ui->cb_select_translation->addItem(desc, abbr);
         settingsW->addToCb(abbr);
-        makeHtmlW->addToCb(abbr, desc);
-        exportBibleW->addToCb(abbr, desc);
     }
 }
 
@@ -3343,8 +3327,8 @@ void MainWindow::toggleInfo(){
 }
 
 void MainWindow::setStyleSheets(){
-    QFile bfFile(":/css/background_frame.css");
-    QFile twFile(":/css/tab_widget.css");
+    QFile bfFile(":/data/css/background_frame.css");
+    QFile twFile(":/data/css/tab_widget.css");
     bfFile.open(QIODevice::ReadOnly | QIODevice::Text);
     twFile.open(QIODevice::ReadOnly | QIODevice::Text);
 

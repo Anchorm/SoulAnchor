@@ -13,7 +13,7 @@
 }
 
 #background_frame {
-    border-image: url(:/img/stairway.jpg) 0 0 0 0 stretch stretch;
+    border-image: url(:/data/img/stairway.jpg) 0 0 0 0 stretch stretch;
 } 
 #splitter_bibleframe::handle {
     background-color:rgb(0, 0, 0);
@@ -28,7 +28,7 @@
 
 #info_tb {
 	color: rgb(46, 52, 54);
-	background-image: url(:/img/notebook.jpg);
+	background-image: url(:/data/img/notebook.jpg);
     padding-left:5px;padding-top: 0px;padding-right: 0px;padding-bottom: 0px;
 }
 

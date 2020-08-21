@@ -33,7 +33,7 @@
   </property>
   <property name="windowIcon">
    <iconset resource="../build-soulanchor-Desktop-Debug/soulanchor.qrc">
-    <normaloff>:/img/anchor.png</normaloff>:/img/anchor.png</iconset>
+    <normaloff>:/data/img/anchor.png</normaloff>:/data/img/anchor.png</iconset>
   </property>
   <property name="styleSheet">
    <string notr="true">#frame {

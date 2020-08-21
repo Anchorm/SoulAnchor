@@ -75,19 +75,18 @@ void setUserCfgDirAndSettings() {
 
     if (!configFile.exists()) {
 
-        if (QFile::copy(":/skel/soulanchor.conf", ::userCfgDir.path() + "/soulanchor.conf")) {
+        if (QFile::copy(":/data/skel/soulanchor.conf", ::userCfgDir.path() + "/soulanchor.conf")) {
             configFile.setPermissions(QFileDevice::ReadOwner | QFileDevice::WriteOwner
                                       | QFileDevice::ReadGroup | QFileDevice::ReadOther);
             ::sout << " soulanchor.conf created in " << ::userCfgDir.path() << Qt::endl;
         } else {
-            ::sout << " could not create soulanchor.conf in" << ::userCfgDir.path() << Qt::endl;
+            ::sout << " could not create soulanchor.conf in " << ::userCfgDir.path() << Qt::endl;
             exit(1);
         }
     }
 
     ::settingsFile.setFileName(configFile.fileName()) ;
-    // QSettings settings(settingsFile.fileName(), QSettings::IniFormat);
-    // create an setting object whenever you need it
+    // create a setting object whenever you need it
 
 // Qt documentation:   Sometimes you do want to access settings stored in a specific file or registry path. On all platforms, if you want to read an INI file directly, you can use the QSettings constructor that takes a file name as first argument and pass QSettings::IniFormat as second argument. For example:
 }
@@ -103,7 +102,7 @@ void installTranslator()
     if (lang == "dutch") lang = "nl";
     if (lang == "english") lang = "en";
 
-    if (::translator.load(":/languages/soulanchor_" + lang + ".qm") ) {
+    if (::translator.load(":/data/lang/soulanchor_" + lang + ".qm") ) {
         qApp->installTranslator(&::translator);
     }
 }

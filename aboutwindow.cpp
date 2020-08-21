@@ -6,7 +6,7 @@ AboutWindow::AboutWindow(QWidget *parent) : QWidget(parent, Qt::Window)
     setWindowIcon(anchorIcon);
     setFixedSize(500, 500);
 
-    lblAnchor->setStyleSheet("border-image: url(:/img/anchor_about.png)");
+    lblAnchor->setStyleSheet("border-image: url(:/data/img/anchor_about.png)");
     lblAnchor->setFixedHeight(230);
     lblInfo->setText(
                 "<h1>SoulAnchor</h1>"

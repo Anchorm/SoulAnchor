@@ -15,7 +15,7 @@ class AboutWindow : public QWidget
 {
     Q_OBJECT
 
-    const QIcon anchorIcon = QIcon(":img/anchor.png");
+    const QIcon anchorIcon = QIcon(":/data/img/anchor.png");
     QTabWidget *tabw = new QTabWidget(this);
     QLabel *lblAnchor = new QLabel(this);
     QLabel *lblInfo = new QLabel(this);
