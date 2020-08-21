@@ -4,12 +4,12 @@
 
 &nbsp;
 
-SoulAnchor is a basic and free X11 Bible reading tool with some extra's.
+SoulAnchor is a basic X11 Bible reading tool. With it you can read and search and compare the Scriptures.
+There's also an option to display Strong's numbers and definitions. And there are dictionaries available.
 
 The vision i have for SoulAnchor:
 * Basic but handy tool for daily use
 * Bible reader first, light study tool second
-* Avoid distractions, keep it focused
 * Open / easy to modify, add/remove translations
 * Multiple ways to contemplate the Word, text, audio, image
 
@@ -27,7 +27,7 @@ Note3: you might want to check soulanchor.pro to see if the install directories 
 
 &nbsp;
 
-![soulanchor](img/soulanchor.png?raw=true)
+![soulanchor](data/img/soulanchor.png?raw=true)
 
 [more screenshots](https://www.dropbox.com/sh/jhuutnchr7pxru3/AAA7rtTic8LdeUFTKEtsW2hPa?dl=0)
 
