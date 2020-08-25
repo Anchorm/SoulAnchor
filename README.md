@@ -20,10 +20,9 @@ The vision i have for SoulAnchor:
 For Arch Linux you can use the PKGBUILD from the AUR.
 Dependencies: qt5-base, qt5-multimedia.
 
-Manually: After running `qmake` and `make`, use `sudo make install`. If you keep the build directory you can later use `sudo make uninstall`.  
+Manually: After running `qmake` and `make`, use `sudo make install`. If you keep the build directory you can later use `sudo make uninstall DEL_DIR='rmdir -p'`.  
 Note: the default install prefix is `/usr`. This can be changed with `qmake PREFIX=/dir`  
-Note2: i noticed that `make uninstall` leaves some empty directories behind. Have to look into that...  
-Note3: you might want to check soulanchor.pro to see if the install directories match your distro's default locations (the .path lines)  
+Note2: you might want to check soulanchor.pro to see if the install directories match your distro's default locations (the .path lines)  
 
 &nbsp;
 
