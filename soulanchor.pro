@@ -49,9 +49,6 @@ TRANSLATIONS = \
 # super easy syntax
 DEFINES += APP_DATADIR_PREFIX='\\"$$PREFIX\\"'
 
-# QMAKE_CXXFLAGS += -fstack-clash-protection
-# QMAKE_LFLAGS += -Wl,-z,relro,-z,now
-
 CONFIG += release c++17
 
 RESOURCES += soulanchor.qrc
