@@ -1310,8 +1310,7 @@ void MainWindow::showText(const QString &filepath, const QString &filename) {
     if (!textFile.open(QIODevice::ReadOnly | QIODevice::Text))
         return;
 
-    while (!textFile.atEnd())
-    {
+    while (!textFile.atEnd()) {
             line = textFile.readLine();
             markdownS.append(line);
     }
@@ -1368,9 +1367,9 @@ void MainWindow::makeTextMenuItems() {
     QAction *immAction = new QAction(docIcon, tr("about Immersion"), this);
     QAction *judAction = new QAction(docIcon, tr("about Judeans"), this);
     connect(immAction, &QAction::triggered, this, [this]() {
-                showText(":txt/immersion.md", "immersion"); });
+                showText(":/data/txt/immersion.md", "immersion"); });
     connect(judAction, &QAction::triggered, this, [this]() {
-                showText(":txt/judeans.md", "Judeans"); });
+                showText(":/data/txt/judeans.md", "Judeans"); });
 
     ui->menu_filters->addSeparator();
     ui->menu_filters->addAction(immAction);
@@ -3068,15 +3067,13 @@ void MainWindow::filterImmersion() {
     QTextCursor cursor(doc);
     QString match;
 
-    while ( !cursor.isNull() && !cursor.atEnd() )
-    {
+    while ( !cursor.isNull() && !cursor.atEnd() ) {
         cursor = doc->find(regE, cursor, imFlag);
 
-        if(!cursor.isNull())
-        {
+        if(!cursor.isNull()) {
             match = cursor.selectedText().toLower();
-            if(immersionDict.contains(match))
-            {
+
+            if(immersionDict.contains(match)) {
                 replacement = immersionDict[match];
                 charF.setToolTip("Immersion filter (" + match + ")");
                 cursor.mergeCharFormat(charF);
@@ -3121,15 +3118,13 @@ void MainWindow::filterJudeans(){
     QTextCursor cursor(doc);
     QString match;
 
-    while ( !cursor.isNull() && !cursor.atEnd() )
-    {
+    while ( !cursor.isNull() && !cursor.atEnd() ) {
         cursor = doc->find(regE, cursor, jFlag);
 
-        if(!cursor.isNull())
-        {
+        if(!cursor.isNull()) {
             match = cursor.selectedText().toLower();
-            if(judeansDict.contains(match))
-            {
+
+            if(judeansDict.contains(match)) {
                 replacement = judeansDict[match];
                 charF.setToolTip(match + " (Judeans filter)");
                 cursor.mergeCharFormat(charF);
