@@ -845,7 +845,7 @@ p, li { white-space: pre-wrap; }
          <property name="bottomMargin">
           <number>3</number>
          </property>
-         <item alignment="Qt::AlignHCenter">
+         <item alignment="Qt::AlignHCenter|Qt::AlignTop">
           <widget class="QFrame" name="frame_today_cal">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
@@ -880,7 +880,7 @@ p, li { white-space: pre-wrap; }
            <property name="lineWidth">
             <number>1</number>
            </property>
-           <layout class="QVBoxLayout" name="verticalLayout_3">
+           <layout class="QVBoxLayout" name="verticalLayout_3" stretch="0,0,0,0,0,0,0">
             <property name="spacing">
              <number>4</number>
             </property>
@@ -899,7 +899,7 @@ p, li { white-space: pre-wrap; }
             <property name="bottomMargin">
              <number>1</number>
             </property>
-            <item>
+            <item alignment="Qt::AlignTop">
              <widget class="QPushButton" name="btn_select_today">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
@@ -947,7 +947,7 @@ p, li { white-space: pre-wrap; }
               </property>
              </widget>
             </item>
-            <item>
+            <item alignment="Qt::AlignTop">
              <widget class="QCalendarWidget" name="calendar">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
@@ -964,7 +964,7 @@ p, li { white-space: pre-wrap; }
               <property name="maximumSize">
                <size>
                 <width>300</width>
-                <height>300</height>
+                <height>200</height>
                </size>
               </property>
               <property name="font">
@@ -1786,7 +1786,7 @@ padding:2px;
                 <item>
                  <widget class="QListWidget" name="lw_chapters">
                   <property name="sizePolicy">
-                   <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
+                   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                     <horstretch>0</horstretch>
                     <verstretch>0</verstretch>
                    </sizepolicy>
@@ -1800,7 +1800,7 @@ padding:2px;
                   <property name="maximumSize">
                    <size>
                     <width>16777215</width>
-                    <height>16777215</height>
+                    <height>200</height>
                    </size>
                   </property>
                   <property name="font">
@@ -3361,7 +3361,6 @@ p, li { white-space: pre-wrap; }
   <tabstop>btn_next_session</tabstop>
   <tabstop>pb_enc_txt</tabstop>
   <tabstop>pb_enc_img</tabstop>
-  <tabstop>lw_chapters</tabstop>
   <tabstop>tb_scriptures</tabstop>
   <tabstop>btn_daily_proverb</tabstop>
   <tabstop>btn_daily_psalm</tabstop>

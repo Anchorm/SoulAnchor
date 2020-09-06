@@ -43,8 +43,9 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
     ui->splitter_background->setStretchFactor(0,2);
     ui->splitter_background->setStretchFactor(1,2);
 
-    ui->splitter_bibleframe->setStretchFactor(0,1);
-    ui->splitter_bibleframe->setStretchFactor(1,10);
+    // chapters, scriptures
+    ui->splitter_bibleframe->setStretchFactor(0,0);
+    ui->splitter_bibleframe->setStretchFactor(1,1);
 
     // give info frame more space than strongs frame
     ui->splitter_med->setStretchFactor(0,3);
@@ -1498,19 +1499,18 @@ void MainWindow::breakingBread(){
 void MainWindow::immersion(){
     printQ.enqueue( { {"bk", 40}, {"c1", 3} });
     printQ.enqueue( { {"bk", 41}, {"c1", 1}, {"v1", 1}, {"v2", 8} });
-    printQ.enqueue( { {"bk", 42}, {"c1", 3}, {"v1", 7} });
-    printQ.enqueue( { {"bk", 43}, {"c1", 3}, {"v1", 22}, {"v2", 23} });
-    printQ.enqueue( { {"bk", 44}, {"c1", 1}, {"v1", 5} });
+    printQ.enqueue( { {"bk", 42}, {"c1", 3}, {"v1", 7}, {"v2", 18} });
+    printQ.enqueue( { {"bk", 43}, {"c1", 3}, {"v1", 22}, {"v2", 36} });
+    printQ.enqueue( { {"bk", 44}, {"c1", 1}, {"v1", 4}, {"v2", 5} });
     printQ.enqueue( { {"bk", 44}, {"c1", 2}, {"v1", 36}, {"v2", 42} });
     printQ.enqueue( { {"bk", 44}, {"c1", 8}, {"v1", 12} });
-    printQ.enqueue( { {"bk", 44}, {"c1", 8}, {"v1", 36} });
-    printQ.enqueue( { {"bk", 44}, {"c1", 9}, {"v1", 18} });
-    printQ.enqueue( { {"bk", 44}, {"c1", 10}, {"v1", 47}, {"v2", 48} });
+    printQ.enqueue( { {"bk", 44}, {"c1", 8}, {"v1", 35}, {"v2", 38} });
+    printQ.enqueue( { {"bk", 44}, {"c1", 9}, {"v1", 17}, {"v2", 18} });
+    printQ.enqueue( { {"bk", 44}, {"c1", 10}, {"v1", 34}, {"v2", 48} });
     printQ.enqueue( { {"bk", 44}, {"c1", 16 }, {"v1", 14}, {"v2", 15} });
     printQ.enqueue( { {"bk", 44}, {"c1", 16 }, {"v1", 30}, {"v2", 34} });
     printQ.enqueue( { {"bk", 44}, {"c1", 18 }, {"v1", 7}, {"v2", 8} });
     printQ.enqueue( { {"bk", 44}, {"c1", 19 }, {"v1", 1}, {"v2", 6} });
-    printQ.enqueue( { {"bk", 44}, {"c1", 2 }, {"v1", 16} });
     printQ.enqueue( { {"bk", 45}, {"c1", 6 } });
     printQ.enqueue( { {"bk", 48}, {"c1", 3 }, {"v1", 27} });
 
@@ -1522,6 +1522,9 @@ void MainWindow::immersion(){
 
 void MainWindow::salvation(){
     printQ.enqueue({ {"bk", 21}, {"c1", 12}, {"v1", 13}, {"v2", 14} });
+    printQ.enqueue({ {"bk", 40}, {"c1", 22}, {"v1", 36}, {"v2", 40} });
+    printQ.enqueue({ {"bk", 41}, {"c1", 12}, {"v1", 28}, {"v2", 34} });
+
     printQ.enqueue({ {"bk", 43}, {"c1", 14}, {"v1", 15}, {"v2", 21} });
     printQ.enqueue({ {"bk", 44}, {"c1", 2}, {"v1", 36}, {"v2", 42} });
     printQ.enqueue({ {"bk", 44}, {"c1", 4}, {"v1", 8}, {"v2", 12} });
