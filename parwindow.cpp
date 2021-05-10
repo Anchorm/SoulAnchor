@@ -144,7 +144,7 @@ void ParWindow::nextChapter(){
     if (lastBookNumber == 0 || lastChapNumber == 0) {
         return;
     } else {
-        int finChap = dbH.getFinalChapter(lastBookNumber);
+        int finChap = dbH.getChapterCount(lastBookNumber);
         int chapter = lastChapNumber + 1;
 
         if (chapter <= finChap ) {
@@ -187,7 +187,7 @@ void ParWindow::popupChapters(int bkNr) {
     }
 
     QString bookName = ::g_bookNames[bkNr];
-    int finalChapter = dbH.getFinalChapter(bkNr);
+    int finalChapter = dbH.getChapterCount(bkNr);
     QMenu chapMenu(bookName);
     QAction *title = chapMenu.addAction(bookName);
     title->setEnabled(false);
@@ -384,7 +384,7 @@ void ParWindow::printRequest() {
         QHash<QString, int> job;
         if (bkNr > 0) {
             job["bk"] = bkNr;
-            int fCh = dbH.getFinalChapter(bkNr);
+            int fCh = dbH.getChapterCount(bkNr);
 
             if (chNr1 <= 0) {
                 chNr1 = 1;

@@ -95,6 +95,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
     connect(ui->action_immersion, &QAction::triggered, this, &MainWindow::immersion);
     connect(ui->action_salvation, &QAction::triggered, this, &MainWindow::salvation);
     connect(ui->action_worries, &QAction::triggered, this, &MainWindow::worries);
+    connect(ui->action_topical_index, &QAction::triggered, this, &MainWindow::showTopics);
 
     connect(ui->action_overview, &QAction::triggered, this, &MainWindow::showOverview);
     connect(ui->action_shortcuts, &QAction::triggered, this, &MainWindow::showShortcuts);
@@ -1779,7 +1780,7 @@ void MainWindow::morning(){
     int today = ui->calendar->selectedDate().dayOfYear();
     QString morning;
     QString sql = QString("select day, devotion from mbm where day = '%1'").arg(today);
-    QSqlQuery query(sql, dbH.devotionsDb);
+    QSqlQuery query(sql, dbH.extraDb);
 
     while (query.next()) {
         morning.append(query.value(1).toString());
@@ -1798,7 +1799,7 @@ void MainWindow::evening(){
     int today = ui->calendar->selectedDate().dayOfYear();
     QString evening;
     QString sql = QString("select day, devotion from ebe where day = '%1'").arg(today);
-    QSqlQuery query(sql, dbH.devotionsDb);
+    QSqlQuery query(sql, dbH.extraDb);
 
     while (query.next()) {
         evening.append(query.value(1).toString());
@@ -1818,7 +1819,7 @@ void MainWindow::todaysLetter(){
                  std::default_random_engine(std::random_device()() ));
     int bk = letters[0];
 
-    int lastCh = dbH.getFinalChapter(bk);
+    int lastCh = dbH.getChapterCount(bk);
     QList<int> chapters;
     for (int ch = 1; ch < (lastCh + 1); ++ch) {
         chapters.append(ch);
@@ -1900,6 +1901,10 @@ void MainWindow::on_info_tb_anchorClicked(const QUrl &url)
         getDictWord(sUrl);
     } else if (url.scheme() == "dict") {
         ui->info_tb->scrollToAnchor(sUrl);
+    } else if (url.scheme() == "topic") {
+        getTopic(sUrl);
+    } else if (url.scheme() == "topical-index") {
+        showTopics();
     }
 }
 
@@ -2261,7 +2266,7 @@ void MainWindow::printRequestSingle(const QString &request) {
 
         // get chapter number(s)
         if (bkNr > 0) {
-            int fCh = dbH.getFinalChapter(bkNr);
+            int fCh = dbH.getChapterCount(bkNr);
             if (chNr1 <= 0) chNr1 = 1;
             if (chNr1 > fCh) chNr1 = fCh;
 
@@ -2305,7 +2310,7 @@ void MainWindow::printRequest(const QString &request) {
     QRegularExpression re(pattern);
     QRegularExpressionMatchIterator gmatch = re.globalMatch(request);
     QRegularExpressionMatch match;
-    QString testBook;
+    QString testBook; //, testBook2;
     int bkNr = 0, chNr1 = 0 , chNr2 = 0, vsNr1 = 0, vsNr2 = 0;
 
     while (gmatch.hasNext()) {
@@ -2320,7 +2325,7 @@ void MainWindow::printRequest(const QString &request) {
             }
             if (!match.captured("bk").isEmpty()) {
                 QString book = match.captured("bk");
-                testBook.append(book.toUpper());
+                testBook.append(book);
             }
             if (!match.captured("ch1").isEmpty()) {
                 QString chapter1 = match.captured("ch1");
@@ -2340,23 +2345,29 @@ void MainWindow::printRequest(const QString &request) {
             }
         }
 
-        // get the book number, first try abbr in db, then lookup in booknames
+        // get the book number from db, first try abbr, then lookup booknames
         QSqlQuery query("SELECT abbr_en, book_nr, abbr_nl FROM abbr", dbH.bibleDb);
 
         while (query.next()) {
-            if (testBook == query.value(0).toString().toUpper()) {
+            if (testBook.toUpper() == query.value(0).toString().toUpper()) {
                 bkNr = query.value(1).toInt();
                 break;
-            } else if (testBook == query.value(2).toString().toUpper()) {
+            } else if (testBook.toUpper() == query.value(2).toString().toUpper()) {
                 bkNr = query.value(1).toInt();
                 break;
             }
         }
 
         if (bkNr == 0) {
-            for(const QString &bookname : qAsConst(::g_bookNames)) {
-                if (bookname.contains(testBook, Qt::CaseInsensitive)) {
-                    bkNr = ::g_bookNames.indexOf(bookname);
+            QSqlQuery query2("SELECT book_nr, name_english, name_dutch "
+                            "from number_name", dbH.bibleDb);
+            QString bookNameEn, bookNameNl;
+            while (query2.next()) {
+                bookNameEn = query2.value(1).toString();
+                bookNameNl = query2.value(2).toString();
+                if (testBook.toLower() == bookNameEn.toLower()
+                        or testBook.toLower() == bookNameNl.toLower()) {
+                    bkNr = query2.value(0).toInt();
                     break;
                 }
             }
@@ -2364,7 +2375,7 @@ void MainWindow::printRequest(const QString &request) {
 
         // get chapter and verse number(s) or return
         if (bkNr > 0) {
-            int fCh = dbH.getFinalChapter(bkNr);
+            int fCh = dbH.getChapterCount(bkNr);
             if (chNr1 <= 0)
                 chNr1 = 1;
             if (chNr1 > fCh)
@@ -2386,9 +2397,6 @@ void MainWindow::printRequest(const QString &request) {
             return;
         }
     } //  endof while (gmatch.hasNext())
-
-    if(bkNr == 0)
-        return;
 
     bkNr < 40 ? ui->lw_books->setCurrentRow(bkNr - 1) : ui->lw_books->setCurrentRow(bkNr);
 
@@ -2553,6 +2561,7 @@ void MainWindow::ccMenuBibleFrame(){
 
     QAction *parAction = ccMenu.addAction(bookOpenIcon, tr("Open Parallel Window"));
     QAction *strongAction = ccMenu.addAction(strongIcon, tr("Strongify"));
+    QAction *crossrefAction = ccMenu.addAction(tr("show cross references"));
     ccMenu.addSeparator();
 
     ccMenu.addMenu(otMenu);
@@ -2618,6 +2627,202 @@ void MainWindow::ccMenuBibleFrame(){
         ui->tb_scriptures->clear();
     } else if (action == strongAction) {
         strongify();
+    } else if (action == crossrefAction) {
+        makeCrossRefs();
+    }
+}
+
+void MainWindow::showTopics() {
+    // topical bible references, show all topic names
+    ui->info_tb->clear();
+    ui->info_lbl_title->setText("topical references");
+    ui->info_frame->show();
+
+    if (topicalIndex.isEmpty()) {
+        QString topicsSql = QString("SELECT DISTINCT Topic FROM topical;");
+        QSqlQuery topicsQuery = QSqlQuery(topicsSql, dbH.extraDb);
+        QString top;
+
+        while (topicsQuery.next()) {
+            top = topicsQuery.value(0).toString();
+            topicalIndex.append(QString("<a style='text-decoration:none;color:black' "
+                                    "href='topic:%1'>%1</a><br>").arg(top));
+        }
+    }
+
+    ui->info_tb->setHtml(topicalIndex);
+}
+
+void MainWindow::getTopic(const QString &topic) {
+    // topical bible references, show one topic with references
+    ui->info_tb->clear();
+    ui->info_lbl_title->setText(topic);
+    ui->info_frame->show();
+
+    QString topicSql = QString("SELECT Verse FROM topical WHERE Topic = '%1' "
+                                "ORDER BY Votes DESC").arg(topic);
+    QSqlQuery topicQuery = QSqlQuery(topicSql, dbH.extraDb);
+    QString results;
+    QString clr = "black";
+    results.append("<center><h3><a style='font-family:serif;"
+        "text-decoration:none;color:black;font-weight:normal;' "
+        "href='topical-index:'>Index</a></h3></center><br>");
+    bool firstClr = true;
+    QString res;
+
+    while (topicQuery.next()) {
+        res = topicQuery.value(0).toString();
+
+        //  change the bible reference format to a format soulanchor uses
+        res.replace(QRegularExpression(
+                        "(^\\d{0,1}"
+                        "[A-Z]{1}[a-z]+)"
+                        ".{1}"
+                        "(\\d+)"
+                        ".{1}"
+                        "(\\d+)")
+                    , "\\1 \\2:\\3");
+
+        // a chapter range, keep chapter nr
+        res.replace(QRegularExpression(
+                        "-(\\d{0,1}"
+                        "[A-Z]{1}[a-z]+)"
+                        ".{1}"
+                        "(\\d+)"
+                        ".{1}"
+                        "(\\d+)$")
+                    , "-\\3");
+
+        if (firstClr) {
+            clr = "black";
+            firstClr = false;
+        } else {
+            clr = "grey";
+            firstClr = true;
+        }
+
+        results.append(QString("<a style='text-decoration:none;color:%2' "
+                                "href='bible:%1'>  %1</a><br><br>").arg(res, clr));
+    }
+
+    ui->info_tb->setHtml(results);
+}
+
+void MainWindow::makeCrossRefs() {
+    // on bible pane context menu: cross references: create references/links in the info pane
+    QHash<QString, int> job;
+    if (!printHistory.isEmpty()){
+        job = printHistory.last();
+    } else {
+        return;
+    }
+
+    int bk = job["bk"];
+    int ch = job["c1"];
+    const QString bkStr = QString::number(bk);
+    const QString cStr = QString::number(ch);
+
+    // convert to abbreviation that the database uses
+    QString bkAbbr = crossrefDict[bkStr];
+
+    if (bkAbbr.isEmpty()) {
+        ui->info_tb->clear();
+        ui->info_lbl_title->clear();
+        return;
+    } else {
+        ui->info_frame->show();
+        ui->info_tb->clear();
+        ui->info_lbl_title->setText("cross-references");
+    }
+
+    // get total number of verses
+    int numberOfVerses = 0;
+
+    QString getN = QString("SELECT count(v) FROM t_%1 WHERE b = %2 and c = %3 ")
+            .arg(tlAbbr, bkStr, cStr);
+    QSqlQuery getNumberQ(getN, dbH.bibleDb);
+
+    while (getNumberQ.next()) {
+        numberOfVerses = getNumberQ.value(0).toInt();
+    }
+
+    QStringList results;
+    QString verse;
+    QString verseQ;
+    QString headerVerse1;
+    QString headerVerse2;
+    QSqlQuery verseQuery;
+
+    // iterate over every verse to get the votes per verse
+    for (int v = 1; v <= numberOfVerses  ; ++v) {
+        verse = QString().number(v);
+        // db format = bookname.chapterNr.verseNr
+        verseQ = QString("SELECT FromVerse, ToVerse, Votes FROM crossrefs "
+                    "WHERE FromVerse = '%1.%2.%3' ORDER BY Votes DESC").arg(bkAbbr, cStr, verse);
+        verseQuery = QSqlQuery(verseQ, dbH.extraDb);
+
+        while (verseQuery.next()) {
+            headerVerse1 = verseQuery.value(0).toString();
+            if (headerVerse1 != headerVerse2) {
+                results.append("header" + headerVerse1);
+                headerVerse2 = headerVerse1;
+            }
+            results.append(verseQuery.value(1).toString());
+        }
+    }
+
+    // process the list, print a verse header and then the refs
+    QString res, header;
+    bool firstClr = true;
+
+    while (!results.isEmpty()) {
+        res = results.takeFirst();
+        if (res.startsWith("header")) {
+            res.remove(0,6);
+            res.replace(QRegularExpression(
+                            "(^\\d{0,1}"
+                            "[A-Z]{1}[a-z]+)"
+                            ".{1}"
+                            "(\\d+)"
+                            ".{1}"
+                            "(\\d+)")
+                        , "\\1 \\2:\\3");
+            ui->info_tb->insertHtml(
+                        QString("<br><h4><a style='color:darkblue;text-decoration:none' "
+                            "href='bible:%1'>%1</a> </h4>").arg(res));
+            header = res;
+            firstClr = true;
+        } else {
+            // change the bible reference format to a format soulanchor uses
+            res.replace(QRegularExpression(
+                            "(^\\d{0,1}"
+                            "[A-Z]{1}[a-z]+)"
+                            ".{1}"
+                            "(\\d+)"
+                            ".{1}"
+                            "(\\d+)")
+                        , "\\1 \\2:\\3");
+
+            // a chapter range, keep chapter nr
+            res.replace(QRegularExpression(
+                            "-(\\d{0,1}"
+                            "[A-Z]{1}[a-z]+)"
+                            ".{1}"
+                            "(\\d+)"
+                            ".{1}"
+                            "(\\d+)$")
+                        , "-\\3");
+
+            if (firstClr) {
+                ui->info_tb->insertHtml(QString("<a style='text-decoration:none;color:black' "
+                                    "href='bible:%2 %1'>%1</a> ").arg(res, header));
+                firstClr = false;
+            } else {
+                ui->info_tb->insertHtml(QString("<a style='text-decoration:none;color:grey' "
+                                    "href='bible:%2 %1'>%1</a> ").arg(res, header));
+                firstClr = true;
+            }
+        }
     }
 }
 
@@ -2692,7 +2897,7 @@ void MainWindow::popupChapters(int bkNr) {
     }
 
     QString bookName = ::g_bookNames[bkNr];
-    int finalChapter = dbH.getFinalChapter(bkNr);
+    int finalChapter = dbH.getChapterCount(bkNr);
     QMenu chapMenu(bookName);
     QAction *title = chapMenu.addAction(bookName);
     title->setEnabled(false);
@@ -3227,7 +3432,7 @@ void MainWindow::updateChapterWidget(){
     }
     ui->lw_chapters->clear();
     int bookNumber = ui->lw_books->currentItem()->data(0x0100).toInt();
-    int finalChapter = dbH.getFinalChapter(bookNumber);
+    int finalChapter = dbH.getChapterCount(bookNumber);
 
     for (int i = 1; i <= finalChapter; ++i) {
         QListWidgetItem *newChapterItem = new QListWidgetItem;

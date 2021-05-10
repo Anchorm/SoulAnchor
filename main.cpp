@@ -7,7 +7,7 @@
  * and one which enters within the veil
  * Hebrews 6:19
  *
- * Anchorman - in the year of our Lord 2020
+ * Anchorman - in the year of our Lord 2021
  * ***********************************************/
 
 #include <QApplication>
@@ -18,7 +18,7 @@
 
 int main(int argc, char *argv[]) {
     QApplication app(argc, argv);
-    QApplication::setApplicationVersion("0.9.2");
+    QApplication::setApplicationVersion("0.9.3");
 
     QCommandLineParser parser;
     parser.setApplicationDescription("SoulAnchor - X11 Bible tool");

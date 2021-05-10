@@ -11,6 +11,19 @@ DatabaseHandler::DatabaseHandler()
 bool DatabaseHandler::openDataBases() {
     // db's in app data dir must exist or we exit
     // db's in user data dir will be autocreated if possible
+
+    extraDb = QSqlDatabase::addDatabase("QSQLITE", "extra");
+    extraDb.setConnectOptions("QSQLITE_OPEN_READONLY");
+    extraDb.setDatabaseName(::dataDir.path() + "/db/extra.db");
+    extraDb.open();
+
+    if (!extraDb.isOpen()) {
+        sout << "could not open database: extra.db in "
+             << ::dataDir.path() << Qt::endl;
+        sout << "must exit" << Qt::endl;
+        return false;
+    }
+
     bibleDb = QSqlDatabase::addDatabase("QSQLITE", "bibles");
     bibleDb.setConnectOptions("QSQLITE_OPEN_READONLY");
     bibleDb.setDatabaseName(::dataDir.path() + "/db/bibles.db");
@@ -31,18 +44,6 @@ bool DatabaseHandler::openDataBases() {
     if (!dictDb.isOpen()) {
         sout << "could not open database: dictionaries.db in "
              << ::dataDir.path() <<  Qt::endl;
-        sout << "must exit" << Qt::endl;
-        return false;
-    }
-
-    devotionsDb = QSqlDatabase::addDatabase("QSQLITE", "devotions");
-    devotionsDb.setConnectOptions("QSQLITE_OPEN_READONLY");
-    devotionsDb.setDatabaseName(::dataDir.path() + "/db/devotions.db");
-    devotionsDb.open();
-
-    if (not devotionsDb.open()) {
-        sout << "could not open database: devotions.db in "
-             << ::dataDir.path() << Qt::endl;
         sout << "must exit" << Qt::endl;
         return false;
     }
@@ -83,29 +84,29 @@ bool DatabaseHandler::openDataBases() {
     return true;
 }
 
-int DatabaseHandler::getFinalChapter(int bookNumber, QString tlAbbr )
+int DatabaseHandler::getChapterCount(int bookNumber, QString tlAbbr )
 {
     QSettings settings(settingsFile.fileName(), QSettings::IniFormat);
     if(tlAbbr == "default"){
         tlAbbr = settings.value("translation").toString();
     }
 
-    QString sql = QString("SELECT c FROM t_%1 WHERE b = %2 ORDER BY c "
-                          "DESC LIMIT 1").arg(tlAbbr).arg(bookNumber);
+    QString sql = QString("SELECT COUNT(DISTINCT c) FROM t_%1 "
+                    "WHERE b = %2 ").arg(tlAbbr).arg(bookNumber);
     QSqlQuery query(sql, bibleDb);
 
     int finalChapter = 0;
+
     while (query.next()) {
         finalChapter = query.value(0).toInt();
     }
     return finalChapter;
 }
 
-
 DatabaseHandler::~DatabaseHandler() {
         bibleDb.close();
         dictDb.close();
-        devotionsDb.close();
+        extraDb.close();
         rosterDb.close();
         bookmarksDb.close();
 }

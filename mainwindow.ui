@@ -1800,7 +1800,7 @@ padding:2px;
                   <property name="maximumSize">
                    <size>
                     <width>16777215</width>
-                    <height>200</height>
+                    <height>16777215</height>
                    </size>
                   </property>
                   <property name="font">
@@ -1898,7 +1898,7 @@ padding:2px;
                   <property name="sizePolicy">
                    <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                     <horstretch>0</horstretch>
-                    <verstretch>1</verstretch>
+                    <verstretch>0</verstretch>
                    </sizepolicy>
                   </property>
                   <property name="minimumSize">
@@ -2956,6 +2956,7 @@ p, li { white-space: pre-wrap; }
     <addaction name="action_toggle_menu"/>
     <addaction name="separator"/>
     <addaction name="action_open_parallel"/>
+    <addaction name="action_topical_index"/>
     <addaction name="separator"/>
     <addaction name="action_settings"/>
     <addaction name="separator"/>
@@ -2992,12 +2993,10 @@ p, li { white-space: pre-wrap; }
     <addaction name="action_immersion"/>
     <addaction name="action_worries"/>
     <addaction name="separator"/>
+    <addaction name="menu_text_word"/>
     <addaction name="menu_music_word"/>
     <addaction name="action_stop_media"/>
     <addaction name="action_play_random"/>
-    <addaction name="separator"/>
-    <addaction name="menu_text_word"/>
-    <addaction name="separator"/>
    </widget>
    <widget class="QMenu" name="menu_filters">
     <property name="title">
@@ -3338,6 +3337,11 @@ p, li { white-space: pre-wrap; }
     <string>Import...</string>
    </property>
   </action>
+  <action name="action_topical_index">
+   <property name="text">
+    <string>Topical Index</string>
+   </property>
+  </action>
  </widget>
  <tabstops>
   <tabstop>search_le_what</tabstop>
@@ -3361,7 +3365,6 @@ p, li { white-space: pre-wrap; }
   <tabstop>btn_next_session</tabstop>
   <tabstop>pb_enc_txt</tabstop>
   <tabstop>pb_enc_img</tabstop>
-  <tabstop>tb_scriptures</tabstop>
   <tabstop>btn_daily_proverb</tabstop>
   <tabstop>btn_daily_psalm</tabstop>
   <tabstop>btn_daily_letter</tabstop>

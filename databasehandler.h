@@ -9,20 +9,14 @@
 // TODO: getters/setters OR don't bother since all we need are globals
 
 class DatabaseHandler {
-private:
-//    QSqlDatabase bibleDb;
-//    QSqlDatabase rosterDb;
-//    QSqlDatabase bookmarksDb;
-//    QSqlDatabase dictDb;
-//    QSqlDatabase devotionsDb;
 public:
     QSqlDatabase bibleDb;
     QSqlDatabase rosterDb;
     QSqlDatabase bookmarksDb;
     QSqlDatabase dictDb;
-    QSqlDatabase devotionsDb;
+    QSqlDatabase extraDb;
     bool openDataBases();
-    int getFinalChapter(int bookNumber, QString tlAbbr = "default");
+    int getChapterCount(int bookNumber, QString tlAbbr = "default");
     DatabaseHandler();
     ~DatabaseHandler();
 };

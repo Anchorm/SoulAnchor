@@ -10,7 +10,7 @@ void setDataDir()
     if (dataDir.exists()) {
         biblesExist = QFile(dataDir.path() + "/db/bibles.db").exists();
         dictsExist = QFile(dataDir.path() + "/db/dictionaries.db").exists();
-        devExist = QFile(dataDir.path() + "/db/devotions.db").exists();
+        devExist = QFile(dataDir.path() + "/db/extra.db").exists();
 
         if (biblesExist && dictsExist && devExist) {
             dirExists = true;

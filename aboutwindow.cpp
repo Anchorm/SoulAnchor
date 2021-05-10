@@ -36,6 +36,8 @@ AboutWindow::AboutWindow(QWidget *parent) : QWidget(parent, Qt::Window)
             "thank you all</td></tr>"
             "<tr><td>Qt 5.15</td> <td>The Qt Toolkit is Copyright (C) 2018 The Qt Company Ltd. "
             "and other contributors. And used under the conditions of the LGPLv3.</td></tr>"
+            "<tr><td>cross references & topical references</td>"
+                "<td>https://www.openbible.info/</td></tr>"
             "<tr><td>fatcow icons</td><td>https://www.fatcow.com/free-icons</td></tr>"
             "<tr><td>famfamfam icons</td><td>http://www.famfamfam.com/</td></tr>"
             "<tr><td>Images</td> <td>as found on the net and/or modified or created</td></tr>"
