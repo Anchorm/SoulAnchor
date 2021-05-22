@@ -44,6 +44,9 @@
      <family>Bitstream Vera Sans</family>
     </font>
    </property>
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
    <layout class="QHBoxLayout" name="horizontalLayout">
     <property name="spacing">
      <number>0</number>
@@ -71,11 +74,17 @@
       <property name="styleSheet">
        <string notr="true"/>
       </property>
+      <property name="frameShape">
+       <enum>QFrame::NoFrame</enum>
+      </property>
+      <property name="lineWidth">
+       <number>0</number>
+      </property>
       <property name="orientation">
        <enum>Qt::Horizontal</enum>
       </property>
       <property name="handleWidth">
-       <number>0</number>
+       <number>1</number>
       </property>
       <property name="childrenCollapsible">
        <bool>false</bool>
@@ -141,7 +150,7 @@
         <enum>QTabWidget::Rounded</enum>
        </property>
        <property name="currentIndex">
-        <number>0</number>
+        <number>2</number>
        </property>
        <property name="elideMode">
         <enum>Qt::ElideRight</enum>
@@ -188,16 +197,16 @@
         </attribute>
         <layout class="QVBoxLayout" name="verticalLayout_4">
          <property name="spacing">
-          <number>0</number>
+          <number>3</number>
          </property>
          <property name="leftMargin">
-          <number>0</number>
+          <number>3</number>
          </property>
          <property name="topMargin">
-          <number>0</number>
+          <number>3</number>
          </property>
          <property name="rightMargin">
-          <number>0</number>
+          <number>3</number>
          </property>
          <property name="bottomMargin">
           <number>0</number>
@@ -213,7 +222,7 @@
            <property name="minimumSize">
             <size>
              <width>80</width>
-             <height>30</height>
+             <height>26</height>
             </size>
            </property>
            <property name="maximumSize">
@@ -229,12 +238,6 @@
              <stylestrategy>PreferDefault</stylestrategy>
              <kerning>true</kerning>
             </font>
-           </property>
-           <property name="focusPolicy">
-            <enum>Qt::NoFocus</enum>
-           </property>
-           <property name="styleSheet">
-            <string notr="true"/>
            </property>
            <property name="maxVisibleItems">
             <number>20</number>
@@ -255,7 +258,7 @@
            <property name="minimumSize">
             <size>
              <width>50</width>
-             <height>28</height>
+             <height>30</height>
             </size>
            </property>
            <property name="maximumSize">
@@ -276,7 +279,7 @@
             <enum>Qt::StrongFocus</enum>
            </property>
            <property name="toolTip">
-            <string/>
+            <string>e.g. ps 1-5 act 2:38</string>
            </property>
            <property name="toolTipDuration">
             <number>-1</number>
@@ -285,7 +288,7 @@
             <string notr="true"/>
            </property>
            <property name="placeholderText">
-            <string>e.g. ps 1-5 act 2:38</string>
+            <string/>
            </property>
            <property name="clearButtonEnabled">
             <bool>true</bool>
@@ -345,7 +348,7 @@
             <enum>QFrame::Raised</enum>
            </property>
            <property name="lineWidth">
-            <number>1</number>
+            <number>0</number>
            </property>
            <property name="midLineWidth">
             <number>0</number>
@@ -426,62 +429,17 @@
           <number>2</number>
          </property>
          <property name="leftMargin">
-          <number>1</number>
+          <number>0</number>
          </property>
          <property name="topMargin">
-          <number>2</number>
+          <number>3</number>
          </property>
          <property name="rightMargin">
-          <number>1</number>
+          <number>0</number>
          </property>
          <property name="bottomMargin">
-          <number>2</number>
+          <number>0</number>
          </property>
-         <item>
-          <widget class="QLabel" name="search_lbl_tl">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="minimumSize">
-            <size>
-             <width>0</width>
-             <height>30</height>
-            </size>
-           </property>
-           <property name="font">
-            <font>
-             <family>Bitstream Vera Serif</family>
-             <pointsize>10</pointsize>
-             <stylestrategy>PreferDefault</stylestrategy>
-             <kerning>true</kerning>
-            </font>
-           </property>
-           <property name="toolTip">
-            <string notr="true"/>
-           </property>
-           <property name="styleSheet">
-            <string notr="true"/>
-           </property>
-           <property name="text">
-            <string notr="true">translation name</string>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignCenter</set>
-           </property>
-           <property name="wordWrap">
-            <bool>true</bool>
-           </property>
-           <property name="margin">
-            <number>0</number>
-           </property>
-           <property name="indent">
-            <number>0</number>
-           </property>
-          </widget>
-         </item>
          <item>
           <layout class="QGridLayout" name="gridLayout_1">
            <property name="sizeConstraint">
@@ -496,7 +454,7 @@
            <property name="verticalSpacing">
             <number>4</number>
            </property>
-           <item row="4" column="0" colspan="2">
+           <item row="9" column="0" colspan="2">
             <widget class="QCheckBox" name="search_chkb_case">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
@@ -529,7 +487,40 @@
              </property>
             </widget>
            </item>
-           <item row="0" column="0" colspan="3">
+           <item row="7" column="0" colspan="3">
+            <widget class="QComboBox" name="search_cb_anyExact">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>110</width>
+               <height>26</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>16777215</width>
+               <height>26</height>
+              </size>
+             </property>
+             <property name="font">
+              <font>
+               <family>Bitstream Vera Sans</family>
+               <pointsize>10</pointsize>
+               <stylestrategy>PreferDefault</stylestrategy>
+               <kerning>true</kerning>
+              </font>
+             </property>
+             <property name="frame">
+              <bool>false</bool>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="0" colspan="3">
             <widget class="QLineEdit" name="search_le_what">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
@@ -557,6 +548,9 @@
                <kerning>true</kerning>
               </font>
              </property>
+             <property name="toolTip">
+              <string>search word(s) or Strong's nr</string>
+             </property>
              <property name="styleSheet">
               <string notr="true"/>
              </property>
@@ -566,15 +560,87 @@
              <property name="maxLength">
               <number>50</number>
              </property>
+             <property name="frame">
+              <bool>true</bool>
+             </property>
              <property name="placeholderText">
-              <string>search word(s) or Strong's nr</string>
+              <string/>
              </property>
              <property name="clearButtonEnabled">
               <bool>true</bool>
              </property>
             </widget>
            </item>
-           <item row="3" column="2" rowspan="2">
+           <item row="8" column="0" colspan="2">
+            <widget class="QCheckBox" name="search_chkb_whole">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>0</width>
+               <height>30</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>16777215</width>
+               <height>30</height>
+              </size>
+             </property>
+             <property name="font">
+              <font>
+               <family>Bitstream Vera Sans</family>
+               <pointsize>11</pointsize>
+               <stylestrategy>PreferDefault</stylestrategy>
+               <kerning>true</kerning>
+              </font>
+             </property>
+             <property name="text">
+              <string>whole words</string>
+             </property>
+             <property name="checked">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item row="6" column="0" colspan="3">
+            <widget class="QComboBox" name="search_cb_where">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>80</width>
+               <height>26</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>16777215</width>
+               <height>26</height>
+              </size>
+             </property>
+             <property name="font">
+              <font>
+               <family>Bitstream Vera Sans</family>
+               <pointsize>10</pointsize>
+               <stylestrategy>PreferDefault</stylestrategy>
+               <kerning>true</kerning>
+              </font>
+             </property>
+             <property name="frame">
+              <bool>false</bool>
+             </property>
+            </widget>
+           </item>
+           <item row="8" column="2" rowspan="2">
             <widget class="QToolButton" name="search_btn_find">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
@@ -628,17 +694,17 @@
               <enum>Qt::ToolButtonIconOnly</enum>
              </property>
              <property name="autoRaise">
-              <bool>false</bool>
+              <bool>true</bool>
              </property>
              <property name="arrowType">
               <enum>Qt::NoArrow</enum>
              </property>
             </widget>
            </item>
-           <item row="3" column="0" colspan="2">
-            <widget class="QCheckBox" name="search_chkb_whole">
+           <item row="0" column="0" colspan="3">
+            <widget class="QLabel" name="search_lbl_tl">
              <property name="sizePolicy">
-              <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                <horstretch>0</horstretch>
                <verstretch>0</verstretch>
               </sizepolicy>
@@ -649,88 +715,34 @@
                <height>30</height>
               </size>
              </property>
-             <property name="maximumSize">
-              <size>
-               <width>16777215</width>
-               <height>30</height>
-              </size>
-             </property>
              <property name="font">
               <font>
-               <family>Bitstream Vera Sans</family>
-               <pointsize>11</pointsize>
-               <stylestrategy>PreferDefault</stylestrategy>
-               <kerning>true</kerning>
-              </font>
-             </property>
-             <property name="text">
-              <string>whole words</string>
-             </property>
-             <property name="checked">
-              <bool>true</bool>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="0" colspan="3">
-            <widget class="QComboBox" name="search_cb_where">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="minimumSize">
-              <size>
-               <width>80</width>
-               <height>26</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>16777215</width>
-               <height>26</height>
-              </size>
-             </property>
-             <property name="font">
-              <font>
-               <family>Bitstream Vera Sans</family>
+               <family>Bitstream Vera Serif</family>
                <pointsize>10</pointsize>
                <stylestrategy>PreferDefault</stylestrategy>
                <kerning>true</kerning>
               </font>
+             </property>
+             <property name="toolTip">
+              <string notr="true"/>
              </property>
              <property name="styleSheet">
               <string notr="true"/>
              </property>
-            </widget>
-           </item>
-           <item row="2" column="0" colspan="3">
-            <widget class="QComboBox" name="search_cb_anyExact">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
+             <property name="text">
+              <string notr="true">translation name</string>
              </property>
-             <property name="minimumSize">
-              <size>
-               <width>110</width>
-               <height>26</height>
-              </size>
+             <property name="alignment">
+              <set>Qt::AlignCenter</set>
              </property>
-             <property name="maximumSize">
-              <size>
-               <width>16777215</width>
-               <height>26</height>
-              </size>
+             <property name="wordWrap">
+              <bool>true</bool>
              </property>
-             <property name="font">
-              <font>
-               <family>Bitstream Vera Sans</family>
-               <pointsize>10</pointsize>
-               <stylestrategy>PreferDefault</stylestrategy>
-               <kerning>true</kerning>
-              </font>
+             <property name="margin">
+              <number>0</number>
+             </property>
+             <property name="indent">
+              <number>0</number>
              </property>
             </widget>
            </item>
@@ -837,13 +849,13 @@ p, li { white-space: pre-wrap; }
           <number>0</number>
          </property>
          <property name="topMargin">
-          <number>0</number>
+          <number>3</number>
          </property>
          <property name="rightMargin">
           <number>0</number>
          </property>
          <property name="bottomMargin">
-          <number>3</number>
+          <number>5</number>
          </property>
          <item alignment="Qt::AlignHCenter|Qt::AlignTop">
           <widget class="QFrame" name="frame_today_cal">
@@ -856,7 +868,7 @@ p, li { white-space: pre-wrap; }
            <property name="minimumSize">
             <size>
              <width>30</width>
-             <height>200</height>
+             <height>30</height>
             </size>
            </property>
            <property name="maximumSize">
@@ -868,9 +880,6 @@ p, li { white-space: pre-wrap; }
            <property name="autoFillBackground">
             <bool>false</bool>
            </property>
-           <property name="styleSheet">
-            <string notr="true"/>
-           </property>
            <property name="frameShape">
             <enum>QFrame::NoFrame</enum>
            </property>
@@ -878,11 +887,11 @@ p, li { white-space: pre-wrap; }
             <enum>QFrame::Plain</enum>
            </property>
            <property name="lineWidth">
-            <number>1</number>
+            <number>0</number>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_3" stretch="0,0,0,0,0,0,0">
             <property name="spacing">
-             <number>4</number>
+             <number>3</number>
             </property>
             <property name="sizeConstraint">
              <enum>QLayout::SetDefaultConstraint</enum>
@@ -957,14 +966,14 @@ p, li { white-space: pre-wrap; }
               </property>
               <property name="minimumSize">
                <size>
-                <width>0</width>
-                <height>20</height>
+                <width>20</width>
+                <height>200</height>
                </size>
               </property>
               <property name="maximumSize">
                <size>
                 <width>300</width>
-                <height>200</height>
+                <height>270</height>
                </size>
               </property>
               <property name="font">
@@ -999,7 +1008,7 @@ p, li { white-space: pre-wrap; }
               <property name="minimumSize">
                <size>
                 <width>0</width>
-                <height>12</height>
+                <height>26</height>
                </size>
               </property>
               <property name="maximumSize">
@@ -1033,6 +1042,9 @@ p, li { white-space: pre-wrap; }
               <property name="autoFillBackground">
                <bool>false</bool>
               </property>
+              <property name="styleSheet">
+               <string notr="true"/>
+              </property>
               <property name="text">
                <string>Proverb</string>
               </property>
@@ -1052,7 +1064,7 @@ p, li { white-space: pre-wrap; }
               <property name="minimumSize">
                <size>
                 <width>0</width>
-                <height>12</height>
+                <height>26</height>
                </size>
               </property>
               <property name="maximumSize">
@@ -1096,7 +1108,7 @@ p, li { white-space: pre-wrap; }
               <property name="minimumSize">
                <size>
                 <width>0</width>
-                <height>12</height>
+                <height>26</height>
                </size>
               </property>
               <property name="maximumSize">
@@ -1124,6 +1136,9 @@ p, li { white-space: pre-wrap; }
               <property name="text">
                <string>Letter</string>
               </property>
+              <property name="default">
+               <bool>false</bool>
+              </property>
               <property name="flat">
                <bool>false</bool>
               </property>
@@ -1140,7 +1155,7 @@ p, li { white-space: pre-wrap; }
               <property name="minimumSize">
                <size>
                 <width>0</width>
-                <height>12</height>
+                <height>26</height>
                </size>
               </property>
               <property name="maximumSize">
@@ -1265,7 +1280,7 @@ p, li { white-space: pre-wrap; }
                  <property name="minimumSize">
                   <size>
                    <width>0</width>
-                   <height>10</height>
+                   <height>20</height>
                   </size>
                  </property>
                  <property name="maximumSize">
@@ -1332,6 +1347,9 @@ p, li { white-space: pre-wrap; }
                   <iconset resource="../build-soulanchor-Desktop-Debug/soulanchor.qrc">
                    <normaloff>:/data/img/bullet_arrow_right.png</normaloff>:/data/img/bullet_arrow_right.png</iconset>
                  </property>
+                 <property name="autoRaise">
+                  <bool>true</bool>
+                 </property>
                 </widget>
                </item>
                <item row="0" column="0">
@@ -1368,6 +1386,9 @@ p, li { white-space: pre-wrap; }
                  <property name="icon">
                   <iconset resource="../build-soulanchor-Desktop-Debug/soulanchor.qrc">
                    <normaloff>:/data/img/bullet_arrow_left.png</normaloff>:/data/img/bullet_arrow_left.png</iconset>
+                 </property>
+                 <property name="autoRaise">
+                  <bool>true</bool>
                  </property>
                 </widget>
                </item>
@@ -1432,7 +1453,7 @@ p, li { white-space: pre-wrap; }
            <property name="minimumSize">
             <size>
              <width>0</width>
-             <height>0</height>
+             <height>200</height>
             </size>
            </property>
            <property name="maximumSize">
@@ -1456,10 +1477,7 @@ p, li { white-space: pre-wrap; }
             <enum>Qt::CustomContextMenu</enum>
            </property>
            <property name="styleSheet">
-            <string notr="true">#pb_enc_txt {
-border: 1 ridge grey;
-padding:2px;
-}</string>
+            <string notr="true"/>
            </property>
           </widget>
          </item>
@@ -1564,20 +1582,6 @@ padding:2px;
        <property name="contextMenuPolicy">
         <enum>Qt::CustomContextMenu</enum>
        </property>
-       <property name="styleSheet">
-        <string notr="true">#te_scriptures{
-	
-	background-color: rgb(252, 233, 79);
-}
-#lw_chapters{
-	
-	background-color: rgb(138, 226, 52);
-}
-#btn_book_title{
-	border:0;
-	background-color: rgb(114, 159, 207);
-}</string>
-       </property>
        <property name="frameShape">
         <enum>QFrame::NoFrame</enum>
        </property>
@@ -1587,12 +1591,9 @@ padding:2px;
        <property name="lineWidth">
         <number>0</number>
        </property>
-       <layout class="QVBoxLayout" name="verticalLayout_11">
+       <layout class="QVBoxLayout" name="verticalLayout_10">
         <property name="spacing">
          <number>0</number>
-        </property>
-        <property name="sizeConstraint">
-         <enum>QLayout::SetDefaultConstraint</enum>
         </property>
         <property name="leftMargin">
          <number>0</number>
@@ -1636,7 +1637,7 @@ padding:2px;
            <enum>Qt::Horizontal</enum>
           </property>
           <property name="handleWidth">
-           <number>0</number>
+           <number>1</number>
           </property>
           <property name="childrenCollapsible">
            <bool>false</bool>
@@ -1678,9 +1679,6 @@ padding:2px;
            <property name="autoFillBackground">
             <bool>false</bool>
            </property>
-           <property name="styleSheet">
-            <string notr="true"/>
-           </property>
            <property name="frameShape">
             <enum>QFrame::NoFrame</enum>
            </property>
@@ -1693,12 +1691,9 @@ padding:2px;
            <property name="midLineWidth">
             <number>0</number>
            </property>
-           <layout class="QHBoxLayout" name="horizontalLayout_2">
+           <layout class="QVBoxLayout" name="verticalLayout_9">
             <property name="spacing">
              <number>0</number>
-            </property>
-            <property name="sizeConstraint">
-             <enum>QLayout::SetDefaultConstraint</enum>
             </property>
             <property name="leftMargin">
              <number>0</number>
@@ -1714,18 +1709,6 @@ padding:2px;
             </property>
             <item>
              <widget class="QSplitter" name="splitter_bibleframe">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="maximumSize">
-               <size>
-                <width>16777215</width>
-                <height>16777215</height>
-               </size>
-              </property>
               <property name="orientation">
                <enum>Qt::Vertical</enum>
               </property>
@@ -1735,15 +1718,39 @@ padding:2px;
               <property name="childrenCollapsible">
                <bool>false</bool>
               </property>
-              <widget class="QWidget" name="layoutWidget">
-               <layout class="QVBoxLayout" name="verticalLayout_9">
+              <widget class="QFrame" name="booktitle_frame">
+               <property name="maximumSize">
+                <size>
+                 <width>16777215</width>
+                 <height>110</height>
+                </size>
+               </property>
+               <property name="frameShape">
+                <enum>QFrame::NoFrame</enum>
+               </property>
+               <property name="frameShadow">
+                <enum>QFrame::Raised</enum>
+               </property>
+               <property name="lineWidth">
+                <number>0</number>
+               </property>
+               <layout class="QVBoxLayout" name="verticalLayout_8">
                 <property name="spacing">
                  <number>0</number>
                 </property>
-                <property name="sizeConstraint">
-                 <enum>QLayout::SetDefaultConstraint</enum>
+                <property name="leftMargin">
+                 <number>0</number>
                 </property>
-                <item alignment="Qt::AlignHCenter">
+                <property name="topMargin">
+                 <number>0</number>
+                </property>
+                <property name="rightMargin">
+                 <number>0</number>
+                </property>
+                <property name="bottomMargin">
+                 <number>0</number>
+                </property>
+                <item>
                  <widget class="QPushButton" name="btn_book_title">
                   <property name="sizePolicy">
                    <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
@@ -1772,11 +1779,14 @@ padding:2px;
                   <property name="contextMenuPolicy">
                    <enum>Qt::PreventContextMenu</enum>
                   </property>
-                  <property name="styleSheet">
-                   <string notr="true"/>
+                  <property name="autoFillBackground">
+                   <bool>false</bool>
                   </property>
                   <property name="text">
                    <string notr="true"/>
+                  </property>
+                  <property name="default">
+                   <bool>false</bool>
                   </property>
                   <property name="flat">
                    <bool>true</bool>
@@ -1800,7 +1810,7 @@ padding:2px;
                   <property name="maximumSize">
                    <size>
                     <width>16777215</width>
-                    <height>16777215</height>
+                    <height>60</height>
                    </size>
                   </property>
                   <property name="font">
@@ -1818,8 +1828,8 @@ padding:2px;
                   <property name="contextMenuPolicy">
                    <enum>Qt::PreventContextMenu</enum>
                   </property>
-                  <property name="styleSheet">
-                   <string notr="true"/>
+                  <property name="autoFillBackground">
+                   <bool>true</bool>
                   </property>
                   <property name="frameShape">
                    <enum>QFrame::NoFrame</enum>
@@ -1882,455 +1892,85 @@ padding:2px;
                 </item>
                </layout>
               </widget>
-              <widget class="QWidget" name="layoutWidget1">
-               <layout class="QVBoxLayout" name="verticalLayout_8">
-                <property name="spacing">
-                 <number>0</number>
-                </property>
-                <property name="sizeConstraint">
-                 <enum>QLayout::SetDefaultConstraint</enum>
-                </property>
-                <item>
-                 <widget class="QTextBrowser" name="tb_scriptures">
-                  <property name="enabled">
-                   <bool>true</bool>
-                  </property>
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                  <property name="minimumSize">
-                   <size>
-                    <width>50</width>
-                    <height>0</height>
-                   </size>
-                  </property>
-                  <property name="maximumSize">
-                   <size>
-                    <width>16777215</width>
-                    <height>16777215</height>
-                   </size>
-                  </property>
-                  <property name="sizeIncrement">
-                   <size>
-                    <width>0</width>
-                    <height>0</height>
-                   </size>
-                  </property>
-                  <property name="font">
-                   <font>
-                    <family>Bitstream Vera Sans</family>
-                   </font>
-                  </property>
-                  <property name="contextMenuPolicy">
-                   <enum>Qt::NoContextMenu</enum>
-                  </property>
-                  <property name="acceptDrops">
-                   <bool>false</bool>
-                  </property>
-                  <property name="toolTip">
-                   <string notr="true"/>
-                  </property>
-                  <property name="styleSheet">
-                   <string notr="true"/>
-                  </property>
-                  <property name="inputMethodHints">
-                   <set>Qt::ImhNone</set>
-                  </property>
-                  <property name="frameShape">
-                   <enum>QFrame::NoFrame</enum>
-                  </property>
-                  <property name="frameShadow">
-                   <enum>QFrame::Plain</enum>
-                  </property>
-                  <property name="lineWidth">
-                   <number>0</number>
-                  </property>
-                  <property name="verticalScrollBarPolicy">
-                   <enum>Qt::ScrollBarAsNeeded</enum>
-                  </property>
-                  <property name="horizontalScrollBarPolicy">
-                   <enum>Qt::ScrollBarAlwaysOff</enum>
-                  </property>
-                  <property name="sizeAdjustPolicy">
-                   <enum>QAbstractScrollArea::AdjustIgnored</enum>
-                  </property>
-                  <property name="readOnly">
-                   <bool>true</bool>
-                  </property>
-                  <property name="html">
-                   <string notr="true">&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+              <widget class="QTextBrowser" name="tb_scriptures">
+               <property name="enabled">
+                <bool>true</bool>
+               </property>
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                 <horstretch>0</horstretch>
+                 <verstretch>3</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>50</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>16777215</width>
+                 <height>16777215</height>
+                </size>
+               </property>
+               <property name="sizeIncrement">
+                <size>
+                 <width>0</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="font">
+                <font>
+                 <family>Bitstream Vera Sans</family>
+                </font>
+               </property>
+               <property name="contextMenuPolicy">
+                <enum>Qt::NoContextMenu</enum>
+               </property>
+               <property name="acceptDrops">
+                <bool>false</bool>
+               </property>
+               <property name="toolTip">
+                <string notr="true"/>
+               </property>
+               <property name="styleSheet">
+                <string notr="true"/>
+               </property>
+               <property name="inputMethodHints">
+                <set>Qt::ImhNone</set>
+               </property>
+               <property name="frameShape">
+                <enum>QFrame::NoFrame</enum>
+               </property>
+               <property name="frameShadow">
+                <enum>QFrame::Plain</enum>
+               </property>
+               <property name="lineWidth">
+                <number>0</number>
+               </property>
+               <property name="verticalScrollBarPolicy">
+                <enum>Qt::ScrollBarAsNeeded</enum>
+               </property>
+               <property name="horizontalScrollBarPolicy">
+                <enum>Qt::ScrollBarAlwaysOff</enum>
+               </property>
+               <property name="sizeAdjustPolicy">
+                <enum>QAbstractScrollArea::AdjustIgnored</enum>
+               </property>
+               <property name="readOnly">
+                <bool>true</bool>
+               </property>
+               <property name="html">
+                <string notr="true">&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Bitstream Vera Sans'; font-size:11pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                  </property>
-                  <property name="openLinks">
-                   <bool>false</bool>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QFrame" name="frame_find">
-                  <property name="enabled">
-                   <bool>true</bool>
-                  </property>
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                  <property name="minimumSize">
-                   <size>
-                    <width>0</width>
-                    <height>30</height>
-                   </size>
-                  </property>
-                  <property name="maximumSize">
-                   <size>
-                    <width>16777215</width>
-                    <height>30</height>
-                   </size>
-                  </property>
-                  <property name="autoFillBackground">
-                   <bool>false</bool>
-                  </property>
-                  <property name="styleSheet">
-                   <string notr="true">#frame_find {
-background-color: rgb(238, 238, 236);
-border-left: 0 solid grey;
-border-top: 1 solid grey;
-border-bottom:0 solid grey;
-border-right: 0 solid grey;
-}
-QLabel {
-color: grey
-}
-QCheckBox {
-color: rgb(46, 52, 54);
-}
-#lineEdit_find {
-padding-left:3px;
-margin-right:1px;
-border-top:0;
-border-bottom:0;
-border-left:1 ridge grey;
-border-right:1 ridge grey;
-}
-
-QToolButton {
-border: 0  solid grey;
-}
-#btn_find_close {
-border: 0 solid black;
-}</string>
-                  </property>
-                  <property name="frameShape">
-                   <enum>QFrame::NoFrame</enum>
-                  </property>
-                  <property name="frameShadow">
-                   <enum>QFrame::Plain</enum>
-                  </property>
-                  <property name="lineWidth">
-                   <number>0</number>
-                  </property>
-                  <layout class="QHBoxLayout" name="horizontalLayout_4">
-                   <property name="spacing">
-                    <number>5</number>
-                   </property>
-                   <property name="sizeConstraint">
-                    <enum>QLayout::SetDefaultConstraint</enum>
-                   </property>
-                   <property name="leftMargin">
-                    <number>0</number>
-                   </property>
-                   <property name="topMargin">
-                    <number>0</number>
-                   </property>
-                   <property name="rightMargin">
-                    <number>0</number>
-                   </property>
-                   <property name="bottomMargin">
-                    <number>0</number>
-                   </property>
-                   <item>
-                    <widget class="QToolButton" name="btn_find_close">
-                     <property name="sizePolicy">
-                      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                       <horstretch>0</horstretch>
-                       <verstretch>0</verstretch>
-                      </sizepolicy>
-                     </property>
-                     <property name="minimumSize">
-                      <size>
-                       <width>20</width>
-                       <height>20</height>
-                      </size>
-                     </property>
-                     <property name="maximumSize">
-                      <size>
-                       <width>30</width>
-                       <height>20</height>
-                      </size>
-                     </property>
-                     <property name="text">
-                      <string notr="true"/>
-                     </property>
-                     <property name="icon">
-                      <iconset resource="../build-soulanchor-Desktop-Debug/soulanchor.qrc">
-                       <normaloff>:/data/img/window-close.png</normaloff>:/data/img/window-close.png</iconset>
-                     </property>
-                    </widget>
-                   </item>
-                   <item>
-                    <widget class="QComboBox" name="cb_find_loc">
-                     <property name="minimumSize">
-                      <size>
-                       <width>50</width>
-                       <height>0</height>
-                      </size>
-                     </property>
-                     <property name="maximumSize">
-                      <size>
-                       <width>100</width>
-                       <height>25</height>
-                      </size>
-                     </property>
-                     <item>
-                      <property name="text">
-                       <string>Bible</string>
-                      </property>
-                     </item>
-                     <item>
-                      <property name="text">
-                       <string notr="true">Info</string>
-                      </property>
-                     </item>
-                     <item>
-                      <property name="text">
-                       <string notr="true">Strongs</string>
-                      </property>
-                     </item>
-                    </widget>
-                   </item>
-                   <item>
-                    <widget class="QLineEdit" name="lineEdit_find">
-                     <property name="sizePolicy">
-                      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                       <horstretch>0</horstretch>
-                       <verstretch>0</verstretch>
-                      </sizepolicy>
-                     </property>
-                     <property name="minimumSize">
-                      <size>
-                       <width>70</width>
-                       <height>20</height>
-                      </size>
-                     </property>
-                     <property name="maximumSize">
-                      <size>
-                       <width>200</width>
-                       <height>22</height>
-                      </size>
-                     </property>
-                     <property name="font">
-                      <font>
-                       <family>Bitstream Vera Sans</family>
-                      </font>
-                     </property>
-                     <property name="focusPolicy">
-                      <enum>Qt::StrongFocus</enum>
-                     </property>
-                     <property name="toolTip">
-                      <string>enter/return to highlight all results</string>
-                     </property>
-                     <property name="placeholderText">
-                      <string>search for...</string>
-                     </property>
-                     <property name="clearButtonEnabled">
-                      <bool>true</bool>
-                     </property>
-                    </widget>
-                   </item>
-                   <item>
-                    <widget class="QToolButton" name="btn_find_next">
-                     <property name="sizePolicy">
-                      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                       <horstretch>0</horstretch>
-                       <verstretch>0</verstretch>
-                      </sizepolicy>
-                     </property>
-                     <property name="minimumSize">
-                      <size>
-                       <width>24</width>
-                       <height>24</height>
-                      </size>
-                     </property>
-                     <property name="maximumSize">
-                      <size>
-                       <width>24</width>
-                       <height>24</height>
-                      </size>
-                     </property>
-                     <property name="toolTip">
-                      <string>find next - F3</string>
-                     </property>
-                     <property name="text">
-                      <string notr="true"/>
-                     </property>
-                     <property name="icon">
-                      <iconset resource="../build-soulanchor-Desktop-Debug/soulanchor.qrc">
-                       <normaloff>:/data/img/go-down.png</normaloff>:/data/img/go-down.png</iconset>
-                     </property>
-                     <property name="shortcut">
-                      <string notr="true"/>
-                     </property>
-                    </widget>
-                   </item>
-                   <item>
-                    <widget class="QToolButton" name="btn_find_prev">
-                     <property name="sizePolicy">
-                      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                       <horstretch>0</horstretch>
-                       <verstretch>0</verstretch>
-                      </sizepolicy>
-                     </property>
-                     <property name="minimumSize">
-                      <size>
-                       <width>24</width>
-                       <height>24</height>
-                      </size>
-                     </property>
-                     <property name="maximumSize">
-                      <size>
-                       <width>24</width>
-                       <height>24</height>
-                      </size>
-                     </property>
-                     <property name="toolTip">
-                      <string>find previous - F2</string>
-                     </property>
-                     <property name="text">
-                      <string notr="true"/>
-                     </property>
-                     <property name="icon">
-                      <iconset resource="../build-soulanchor-Desktop-Debug/soulanchor.qrc">
-                       <normaloff>:/data/img/go-up.png</normaloff>:/data/img/go-up.png</iconset>
-                     </property>
-                     <property name="shortcut">
-                      <string notr="true"/>
-                     </property>
-                     <property name="autoRaise">
-                      <bool>false</bool>
-                     </property>
-                     <property name="arrowType">
-                      <enum>Qt::NoArrow</enum>
-                     </property>
-                    </widget>
-                   </item>
-                   <item>
-                    <widget class="QCheckBox" name="chkBox_find_case">
-                     <property name="sizePolicy">
-                      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                       <horstretch>0</horstretch>
-                       <verstretch>0</verstretch>
-                      </sizepolicy>
-                     </property>
-                     <property name="minimumSize">
-                      <size>
-                       <width>30</width>
-                       <height>27</height>
-                      </size>
-                     </property>
-                     <property name="maximumSize">
-                      <size>
-                       <width>140</width>
-                       <height>27</height>
-                      </size>
-                     </property>
-                     <property name="font">
-                      <font>
-                       <family>Bitstream Vera Sans</family>
-                       <pointsize>10</pointsize>
-                      </font>
-                     </property>
-                     <property name="text">
-                      <string>case sensitive</string>
-                     </property>
-                    </widget>
-                   </item>
-                   <item>
-                    <widget class="QCheckBox" name="chkBox_find_whole">
-                     <property name="sizePolicy">
-                      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                       <horstretch>0</horstretch>
-                       <verstretch>0</verstretch>
-                      </sizepolicy>
-                     </property>
-                     <property name="minimumSize">
-                      <size>
-                       <width>30</width>
-                       <height>27</height>
-                      </size>
-                     </property>
-                     <property name="maximumSize">
-                      <size>
-                       <width>140</width>
-                       <height>27</height>
-                      </size>
-                     </property>
-                     <property name="font">
-                      <font>
-                       <family>Bitstream Vera Sans</family>
-                       <pointsize>10</pointsize>
-                      </font>
-                     </property>
-                     <property name="text">
-                      <string>whole words</string>
-                     </property>
-                    </widget>
-                   </item>
-                   <item>
-                    <widget class="QLabel" name="label_find_sum">
-                     <property name="sizePolicy">
-                      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                       <horstretch>0</horstretch>
-                       <verstretch>0</verstretch>
-                      </sizepolicy>
-                     </property>
-                     <property name="minimumSize">
-                      <size>
-                       <width>30</width>
-                       <height>27</height>
-                      </size>
-                     </property>
-                     <property name="maximumSize">
-                      <size>
-                       <width>16777215</width>
-                       <height>27</height>
-                      </size>
-                     </property>
-                     <property name="font">
-                      <font>
-                       <family>Bitstream Vera Sans</family>
-                       <pointsize>10</pointsize>
-                      </font>
-                     </property>
-                     <property name="frameShape">
-                      <enum>QFrame::NoFrame</enum>
-                     </property>
-                     <property name="text">
-                      <string notr="true">TextLabel</string>
-                     </property>
-                    </widget>
-                   </item>
-                  </layout>
-                 </widget>
-                </item>
-               </layout>
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Bitstream Vera Sans','Bitstream Vera Sans','Bitstream Vera Sans'; font-size:11pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'Bitstream Vera Sans';&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               </property>
+               <property name="openLinks">
+                <bool>false</bool>
+               </property>
               </widget>
              </widget>
             </item>
@@ -2381,24 +2021,21 @@ border: 0 solid black;
              <number>0</number>
             </property>
             <property name="leftMargin">
-             <number>1</number>
+             <number>0</number>
             </property>
             <property name="topMargin">
-             <number>1</number>
+             <number>0</number>
             </property>
             <property name="rightMargin">
-             <number>1</number>
+             <number>0</number>
             </property>
             <property name="bottomMargin">
-             <number>1</number>
+             <number>0</number>
             </property>
             <item>
-             <widget class="QSplitter" name="splitter_med">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
+             <widget class="QSplitter" name="splitter_info">
+              <property name="lineWidth">
+               <number>0</number>
               </property>
               <property name="orientation">
                <enum>Qt::Vertical</enum>
@@ -2406,65 +2043,92 @@ border: 0 solid black;
               <property name="handleWidth">
                <number>1</number>
               </property>
-              <widget class="QWidget" name="layoutWidget2">
+              <widget class="QWidget" name="layoutWidget">
                <layout class="QVBoxLayout" name="verticalLayout_2">
                 <property name="spacing">
                  <number>0</number>
                 </property>
-                <property name="leftMargin">
-                 <number>0</number>
-                </property>
-                <property name="topMargin">
-                 <number>0</number>
-                </property>
-                <property name="rightMargin">
-                 <number>0</number>
-                </property>
-                <property name="bottomMargin">
-                 <number>0</number>
-                </property>
                 <item>
-                 <widget class="QLabel" name="info_lbl_title">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                  <property name="minimumSize">
-                   <size>
-                    <width>100</width>
-                    <height>24</height>
-                   </size>
-                  </property>
-                  <property name="maximumSize">
-                   <size>
-                    <width>16777215</width>
-                    <height>24</height>
-                   </size>
-                  </property>
-                  <property name="contextMenuPolicy">
-                   <enum>Qt::NoContextMenu</enum>
-                  </property>
-                  <property name="styleSheet">
-                   <string notr="true"/>
-                  </property>
-                  <property name="frameShape">
-                   <enum>QFrame::Panel</enum>
-                  </property>
-                  <property name="frameShadow">
-                   <enum>QFrame::Plain</enum>
-                  </property>
-                  <property name="lineWidth">
+                 <layout class="QHBoxLayout" name="horizontalLayout_2">
+                  <property name="spacing">
                    <number>0</number>
                   </property>
-                  <property name="text">
-                   <string notr="true">info</string>
-                  </property>
-                  <property name="alignment">
-                   <set>Qt::AlignCenter</set>
-                  </property>
-                 </widget>
+                  <item>
+                   <widget class="QLabel" name="info_lbl_title">
+                    <property name="sizePolicy">
+                     <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                      <horstretch>0</horstretch>
+                      <verstretch>0</verstretch>
+                     </sizepolicy>
+                    </property>
+                    <property name="minimumSize">
+                     <size>
+                      <width>100</width>
+                      <height>24</height>
+                     </size>
+                    </property>
+                    <property name="maximumSize">
+                     <size>
+                      <width>16777215</width>
+                      <height>24</height>
+                     </size>
+                    </property>
+                    <property name="contextMenuPolicy">
+                     <enum>Qt::NoContextMenu</enum>
+                    </property>
+                    <property name="styleSheet">
+                     <string notr="true"/>
+                    </property>
+                    <property name="frameShape">
+                     <enum>QFrame::Panel</enum>
+                    </property>
+                    <property name="frameShadow">
+                     <enum>QFrame::Plain</enum>
+                    </property>
+                    <property name="lineWidth">
+                     <number>0</number>
+                    </property>
+                    <property name="text">
+                     <string notr="true">info</string>
+                    </property>
+                    <property name="alignment">
+                     <set>Qt::AlignCenter</set>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QToolButton" name="btn_info_close">
+                    <property name="minimumSize">
+                     <size>
+                      <width>24</width>
+                      <height>24</height>
+                     </size>
+                    </property>
+                    <property name="maximumSize">
+                     <size>
+                      <width>24</width>
+                      <height>24</height>
+                     </size>
+                    </property>
+                    <property name="styleSheet">
+                     <string notr="true"/>
+                    </property>
+                    <property name="text">
+                     <string>...</string>
+                    </property>
+                    <property name="icon">
+                     <iconset resource="../build-soulanchor-Desktop-Debug/soulanchor.qrc">
+                      <normaloff>:/data/img/window-close.png</normaloff>:/data/img/window-close.png</iconset>
+                    </property>
+                    <property name="autoRaise">
+                     <bool>true</bool>
+                    </property>
+                    <property name="arrowType">
+                     <enum>Qt::NoArrow</enum>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
                 </item>
                 <item>
                  <widget class="QTextBrowser" name="info_tb">
@@ -2511,8 +2175,8 @@ border: 0 solid black;
                    <string notr="true">&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Bitstream Vera Sans'; font-size:11pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Bitstream Vera Sans','Bitstream Vera Sans'; font-size:11pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'Bitstream Vera Sans';&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                   </property>
                   <property name="openLinks">
                    <bool>false</bool>
@@ -2528,7 +2192,7 @@ p, li { white-space: pre-wrap; }
                    <number>1</number>
                   </property>
                   <property name="topMargin">
-                   <number>1</number>
+                   <number>2</number>
                   </property>
                   <property name="rightMargin">
                    <number>1</number>
@@ -2569,7 +2233,7 @@ p, li { white-space: pre-wrap; }
                      <bool>false</bool>
                     </property>
                     <property name="default">
-                     <bool>true</bool>
+                     <bool>false</bool>
                     </property>
                     <property name="flat">
                      <bool>false</bool>
@@ -2599,14 +2263,14 @@ p, li { white-space: pre-wrap; }
                     <property name="contextMenuPolicy">
                      <enum>Qt::NoContextMenu</enum>
                     </property>
+                    <property name="toolTip">
+                     <string>bible dictionary word</string>
+                    </property>
                     <property name="text">
                      <string/>
                     </property>
                     <property name="alignment">
                      <set>Qt::AlignCenter</set>
-                    </property>
-                    <property name="placeholderText">
-                     <string>bible dictionary word</string>
                     </property>
                     <property name="clearButtonEnabled">
                      <bool>true</bool>
@@ -2643,7 +2307,10 @@ p, li { white-space: pre-wrap; }
                      <string>Go</string>
                     </property>
                     <property name="default">
-                     <bool>true</bool>
+                     <bool>false</bool>
+                    </property>
+                    <property name="flat">
+                     <bool>false</bool>
                     </property>
                    </widget>
                   </item>
@@ -2690,6 +2357,7 @@ p, li { white-space: pre-wrap; }
                   </property>
                   <property name="font">
                    <font>
+                    <family>Bitstream Vera Sans</family>
                     <pointsize>11</pointsize>
                    </font>
                   </property>
@@ -2735,6 +2403,7 @@ p, li { white-space: pre-wrap; }
                   </property>
                   <property name="font">
                    <font>
+                    <family>Bitstream Vera Sans</family>
                     <pointsize>11</pointsize>
                    </font>
                   </property>
@@ -2753,6 +2422,13 @@ p, li { white-space: pre-wrap; }
                   <property name="lineWidth">
                    <number>0</number>
                   </property>
+                  <property name="html">
+                   <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Bitstream Vera Sans','Bitstream Vera Sans','Bitstream Vera Sans'; font-size:11pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'Bitstream Vera Sans';&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                  </property>
                   <property name="openLinks">
                    <bool>false</bool>
                   </property>
@@ -2767,7 +2443,7 @@ p, li { white-space: pre-wrap; }
                    <number>1</number>
                   </property>
                   <property name="topMargin">
-                   <number>1</number>
+                   <number>2</number>
                   </property>
                   <property name="rightMargin">
                    <number>1</number>
@@ -2798,14 +2474,17 @@ p, li { white-space: pre-wrap; }
                     <property name="contextMenuPolicy">
                      <enum>Qt::NoContextMenu</enum>
                     </property>
+                    <property name="toolTip">
+                     <string>e.g. G907 or βαπτίζω</string>
+                    </property>
                     <property name="frame">
-                     <bool>false</bool>
+                     <bool>true</bool>
                     </property>
                     <property name="alignment">
                      <set>Qt::AlignCenter</set>
                     </property>
                     <property name="placeholderText">
-                     <string>e.g. G907 or βαπτίζω</string>
+                     <string/>
                     </property>
                     <property name="clearButtonEnabled">
                      <bool>true</bool>
@@ -2839,7 +2518,7 @@ p, li { white-space: pre-wrap; }
                      <string>Go</string>
                     </property>
                     <property name="default">
-                     <bool>true</bool>
+                     <bool>false</bool>
                     </property>
                     <property name="flat">
                      <bool>false</bool>
@@ -2854,6 +2533,346 @@ p, li { white-space: pre-wrap; }
             </item>
            </layout>
           </widget>
+         </widget>
+        </item>
+        <item>
+         <widget class="QFrame" name="frame_find">
+          <property name="enabled">
+           <bool>true</bool>
+          </property>
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>30</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>30</height>
+           </size>
+          </property>
+          <property name="autoFillBackground">
+           <bool>false</bool>
+          </property>
+          <property name="styleSheet">
+           <string notr="true"/>
+          </property>
+          <property name="frameShape">
+           <enum>QFrame::NoFrame</enum>
+          </property>
+          <property name="frameShadow">
+           <enum>QFrame::Plain</enum>
+          </property>
+          <property name="lineWidth">
+           <number>0</number>
+          </property>
+          <layout class="QHBoxLayout" name="horizontalLayout_4">
+           <property name="leftMargin">
+            <number>1</number>
+           </property>
+           <property name="topMargin">
+            <number>1</number>
+           </property>
+           <property name="rightMargin">
+            <number>1</number>
+           </property>
+           <property name="bottomMargin">
+            <number>1</number>
+           </property>
+           <item>
+            <widget class="QToolButton" name="btn_find_close">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>20</width>
+               <height>20</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>30</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <property name="text">
+              <string notr="true"/>
+             </property>
+             <property name="icon">
+              <iconset resource="../build-soulanchor-Desktop-Debug/soulanchor.qrc">
+               <normaloff>:/data/img/window-close.png</normaloff>:/data/img/window-close.png</iconset>
+             </property>
+             <property name="autoRaise">
+              <bool>false</bool>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QComboBox" name="cb_find_loc">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>50</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>100</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <item>
+              <property name="text">
+               <string>Bible</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string notr="true">Info</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string notr="true">Strongs</string>
+              </property>
+             </item>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLineEdit" name="lineEdit_find">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>70</width>
+               <height>20</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>300</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <property name="font">
+              <font>
+               <family>Bitstream Vera Sans</family>
+              </font>
+             </property>
+             <property name="focusPolicy">
+              <enum>Qt::StrongFocus</enum>
+             </property>
+             <property name="toolTip">
+              <string>enter/return to highlight all results</string>
+             </property>
+             <property name="placeholderText">
+              <string>search for...</string>
+             </property>
+             <property name="clearButtonEnabled">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QToolButton" name="btn_find_next">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>24</width>
+               <height>24</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>24</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <property name="toolTip">
+              <string>find next - F3</string>
+             </property>
+             <property name="text">
+              <string notr="true"/>
+             </property>
+             <property name="icon">
+              <iconset resource="../build-soulanchor-Desktop-Debug/soulanchor.qrc">
+               <normaloff>:/data/img/go-down.png</normaloff>:/data/img/go-down.png</iconset>
+             </property>
+             <property name="shortcut">
+              <string notr="true"/>
+             </property>
+             <property name="autoRaise">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QToolButton" name="btn_find_prev">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>24</width>
+               <height>24</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>24</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <property name="toolTip">
+              <string>find previous - F2</string>
+             </property>
+             <property name="text">
+              <string notr="true"/>
+             </property>
+             <property name="icon">
+              <iconset resource="../build-soulanchor-Desktop-Debug/soulanchor.qrc">
+               <normaloff>:/data/img/go-up.png</normaloff>:/data/img/go-up.png</iconset>
+             </property>
+             <property name="shortcut">
+              <string notr="true"/>
+             </property>
+             <property name="autoRaise">
+              <bool>true</bool>
+             </property>
+             <property name="arrowType">
+              <enum>Qt::NoArrow</enum>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QCheckBox" name="chkBox_find_case">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>30</width>
+               <height>27</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>140</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <property name="font">
+              <font>
+               <family>Bitstream Vera Sans</family>
+               <pointsize>10</pointsize>
+              </font>
+             </property>
+             <property name="text">
+              <string>case sensitive</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QCheckBox" name="chkBox_find_whole">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>30</width>
+               <height>27</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>140</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <property name="font">
+              <font>
+               <family>Bitstream Vera Sans</family>
+               <pointsize>10</pointsize>
+              </font>
+             </property>
+             <property name="text">
+              <string>whole words</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="label_find_sum">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>30</width>
+               <height>27</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>16777215</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <property name="font">
+              <font>
+               <family>Bitstream Vera Sans</family>
+               <pointsize>10</pointsize>
+              </font>
+             </property>
+             <property name="styleSheet">
+              <string notr="true"/>
+             </property>
+             <property name="frameShape">
+              <enum>QFrame::NoFrame</enum>
+             </property>
+             <property name="text">
+              <string notr="true">TextLabel</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
          </widget>
         </item>
        </layout>
@@ -2894,14 +2913,11 @@ p, li { white-space: pre-wrap; }
      <family>DejaVu Sans</family>
     </font>
    </property>
-   <property name="styleSheet">
-    <string notr="true"/>
-   </property>
    <property name="defaultUp">
     <bool>false</bool>
    </property>
    <property name="nativeMenuBar">
-    <bool>true</bool>
+    <bool>false</bool>
    </property>
    <widget class="QMenu" name="menu_todays_reading">
     <property name="title">
@@ -2956,6 +2972,7 @@ p, li { white-space: pre-wrap; }
     <addaction name="action_toggle_menu"/>
     <addaction name="separator"/>
     <addaction name="action_open_parallel"/>
+    <addaction name="action_cross_references"/>
     <addaction name="action_topical_index"/>
     <addaction name="separator"/>
     <addaction name="action_settings"/>
@@ -3223,11 +3240,6 @@ p, li { white-space: pre-wrap; }
     <string>Salvation</string>
    </property>
   </action>
-  <action name="action_proclamations">
-   <property name="text">
-    <string>Proclamations</string>
-   </property>
-  </action>
   <action name="action_make_roster">
    <property name="text">
     <string>Create...</string>
@@ -3257,11 +3269,6 @@ p, li { white-space: pre-wrap; }
     <string>Bible Structure</string>
    </property>
   </action>
-  <action name="action_create_html_bible">
-   <property name="text">
-    <string>Create Html Bible...</string>
-   </property>
-  </action>
   <action name="action_breaking_bread">
    <property name="icon">
     <iconset resource="../build-soulanchor-Desktop-Debug/soulanchor.qrc">
@@ -3278,11 +3285,6 @@ p, li { white-space: pre-wrap; }
    </property>
    <property name="text">
     <string>Immersion</string>
-   </property>
-  </action>
-  <action name="action_export_Bible">
-   <property name="text">
-    <string>Export Bible to...</string>
    </property>
   </action>
   <action name="action_worries">
@@ -3329,24 +3331,19 @@ p, li { white-space: pre-wrap; }
     <string>Tab</string>
    </property>
   </action>
-  <action name="actionImport">
-   <property name="enabled">
-    <bool>false</bool>
-   </property>
-   <property name="text">
-    <string>Import...</string>
-   </property>
-  </action>
   <action name="action_topical_index">
    <property name="text">
     <string>Topical Index</string>
    </property>
   </action>
+  <action name="action_cross_references">
+   <property name="text">
+    <string>Cross References</string>
+   </property>
+  </action>
  </widget>
  <tabstops>
   <tabstop>search_le_what</tabstop>
-  <tabstop>search_cb_where</tabstop>
-  <tabstop>search_cb_anyExact</tabstop>
   <tabstop>search_chkb_whole</tabstop>
   <tabstop>search_chkb_case</tabstop>
   <tabstop>search_tb</tabstop>
@@ -3369,18 +3366,27 @@ p, li { white-space: pre-wrap; }
   <tabstop>btn_daily_psalm</tabstop>
   <tabstop>btn_daily_letter</tabstop>
   <tabstop>btn_roster</tabstop>
-  <tabstop>btn_find_close</tabstop>
-  <tabstop>cb_find_loc</tabstop>
-  <tabstop>lineEdit_find</tabstop>
-  <tabstop>btn_find_next</tabstop>
-  <tabstop>btn_find_prev</tabstop>
-  <tabstop>chkBox_find_case</tabstop>
-  <tabstop>chkBox_find_whole</tabstop>
  </tabstops>
  <resources>
   <include location="../build-soulanchor-Desktop-Debug/soulanchor.qrc"/>
  </resources>
  <connections>
+  <connection>
+   <sender>btn_info_close</sender>
+   <signal>clicked()</signal>
+   <receiver>info_frame</receiver>
+   <slot>hide()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>2238</x>
+     <y>35</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1931</x>
+     <y>528</y>
+    </hint>
+   </hints>
+  </connection>
   <connection>
    <sender>btn_find_close</sender>
    <signal>clicked()</signal>
@@ -3388,12 +3394,12 @@ p, li { white-space: pre-wrap; }
    <slot>hide()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>289</x>
-     <y>1018</y>
+     <x>290</x>
+     <y>1019</y>
     </hint>
     <hint type="destinationlabel">
-     <x>1109</x>
-     <y>1018</y>
+     <x>1263</x>
+     <y>1019</y>
     </hint>
    </hints>
   </connection>

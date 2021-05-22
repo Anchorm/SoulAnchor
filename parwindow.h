@@ -34,6 +34,7 @@ class ParWindow : public QWidget
     const QIcon selectIcon = QIcon(":/data/img/edit-select-all");
     const QIcon copyIcon = QIcon(":/data/img/edit-copy");
     const QIcon closeIcon = QIcon(":/data/img/window-close.png");
+    const QIcon scrollIcon = QIcon(":/data/img/script_yellow.png");
 
     QLineEdit *leInput = new QLineEdit(this);
     QPushButton *btn_ok = new QPushButton(this);
@@ -62,15 +63,7 @@ class ParWindow : public QWidget
     QMenu *otMenu = new QMenu("OT", this);
     QMenu *ntMenu = new QMenu("NT", this);
 
-    QString docStyle = "QTextEdit {background-color: #FFFFEE}";
-    QString textStyle1 = "color:#393E42";
-    QString textStyle2 = "color:#393E42";
-    QString nrStyle = "color:#9E0E0D; font-size:10px";
-    QString headerStyle = "color:brown; font-size:12px";
-    QString tlStyle = "color:grey; font-weight:bold";
-    QString missingStyle = "color:grey;";
-    QString bg1 = "background-color: #FFFFEE";
-    QString bg2 = "background-color: #F4F4F4";
+    QHash<QString, QString> scheme;
 
 private slots:
     void nextChapter();
@@ -86,6 +79,7 @@ private slots:
     void centerWindow();
 
 public slots:
+    void setStyle(const QHash<QString, QString> &clrScheme);
     void setTlandJob(const QString &tlAbbr, const QHash<QString, int> &job);
 
 public:

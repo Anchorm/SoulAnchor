@@ -3,6 +3,7 @@
 AboutWindow::AboutWindow(QWidget *parent) : QWidget(parent, Qt::Window)
 {
     setWindowTitle("About Window - SoulAnchor");
+    this->setObjectName("AboutWindow");
     setWindowIcon(anchorIcon);
     setFixedSize(500, 500);
 
@@ -13,14 +14,13 @@ AboutWindow::AboutWindow(QWidget *parent) : QWidget(parent, Qt::Window)
                 "X11 Bible tool - version " + QGuiApplication::applicationVersion() + "<br>"
     );
     lblInfo->setAlignment(Qt::AlignHCenter | Qt::AlignTop);
-    lblInfo->setStyleSheet("color:#404c57;padding:5px");
+    lblInfo->setStyleSheet("padding:5px");
 
-    QString aut = "<a style='color:grey' "
-                "href='mailto:soulanchor@protonmail.com'>"
-                "Anchorman</a> in the year of our Lord 2020";
+    QString aut = "<a style='text-decoration:none;' href='mailto:soulanchor@protonmail.com'>"
+                "Anchorman</a> in the year of our Lord 2021";
 
     lblAut->setText(aut);
-    lblAut->setStyleSheet("color:grey; font-size:8pt; margin-right:5px; margin-bottom:10px;");
+    lblAut->setStyleSheet("font-size:8pt; margin-right:5px; margin-bottom:10px;");
     lblAut->setAlignment(Qt::AlignRight | Qt::AlignBottom);
     lblAut->setOpenExternalLinks(true);
     lblAut->setFixedHeight(30);
@@ -44,12 +44,12 @@ AboutWindow::AboutWindow(QWidget *parent) : QWidget(parent, Qt::Window)
             "<tr></tr>"
             "</table>";
 
-    teCredit->setStyleSheet("color:#404c57;border:0");
+    teCredit->setStyleSheet("border:0");
     teCredit->setReadOnly(true);
     teCredit->setText(cred);
 
     lblLic->setText("SoulAnchor uses the GPLv3. See the COPYING file. \n\nThis program is distributed in the hope that it will be useful, but without any warranty; without even the implied warranty of merchantability or fitness for a particular purpose.");
-    lblLic->setStyleSheet("padding:10px;color:#404c57;border:0");
+    lblLic->setStyleSheet("padding:10px;border:0");
     lblLic->setAlignment(Qt::AlignHCenter | Qt::AlignTop);
     lblLic->setWordWrap(true);
 

@@ -6,6 +6,7 @@ Roster::Roster(QWidget *parent) :    QWidget(parent, Qt::Window),
     ui->setupUi(this);
     populateCb();
     ui->te_preview->document()->setDocumentMargin(20);
+    this->setObjectName("RosterWindow");
 }
 
 Roster::~Roster()

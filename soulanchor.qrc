@@ -2,8 +2,6 @@
     <qresource prefix="/">
         <file>data/lang/soulanchor_en.qm</file>
         <file>data/lang/soulanchor_nl.qm</file>
-        <file>data/css/background_frame.css</file>
-        <file>data/css/tab_widget.css</file>
         <file>data/img/anchor.png</file>
         <file>data/img/anchor2.png</file>
         <file>data/img/anchor_about.png</file>
@@ -29,14 +27,15 @@
         <file>data/img/music.png</file>
         <file>data/img/notebook.jpg</file>
         <file>data/img/overview.jpg</file>
-        <file>data/img/stairway.jpg</file>
         <file>data/img/window-close.png</file>
         <file>data/img/wrench.png</file>
         <file>data/img/emergency.jpg</file>
         <file>data/img/biceps.png</file>
-        <file>data/txt/immersion.md</file>
         <file>data/txt/judeans.md</file>
         <file>data/skel/soulanchor.conf</file>
         <file>data/img/door_out.png</file>
+        <file>data/css/soulanchor.css</file>
+        <file>data/img/script_yellow.png</file>
+        <file>data/txt/immersion.md</file>
     </qresource>
 </RCC>

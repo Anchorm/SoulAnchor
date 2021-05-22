@@ -27,7 +27,3 @@ Note2: you might want to check soulanchor.pro to see if the install directories 
 &nbsp;
 
 ![soulanchor](data/img/soulanchor.png?raw=true)
-
-[more screenshots](https://www.dropbox.com/sh/jhuutnchr7pxru3/AAA7rtTic8LdeUFTKEtsW2hPa?dl=0)
-
-

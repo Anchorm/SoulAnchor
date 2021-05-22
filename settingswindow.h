@@ -31,16 +31,21 @@ private:
     QString fontS;
     QString margin;
     QString display;
+
+    QString activeScheme;
+
     Ui::SettingsWindow *ui;
     void getBooknameLanguages();
     void writeSettings();
+    void getSchemes();
 
 public:
     void on_applyFont_btn_clicked();
     void cancel();
 
 signals:
-    void fontChanged(); // a signal on btn click - connect to mainwindow slot applyfont
+    void fontChanged(); // a signal on btn click - connect to mainwindow slot applyFont
+    void schemeChanged(const QString &aScheme); // connect to applyScheme
 };
 
 #endif // SETTINGSWINDOW_H

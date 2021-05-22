@@ -5,6 +5,7 @@ How to make modifications:
 2. audio bible
 3. music
 4. notes
+5. color schemes
 
  1.a translations
 
@@ -99,3 +100,10 @@ Links can be created like this:
   - <a href="bible:heb 6:19">Heb. 6:19</a>
   - <a href="bible:ps 1-2">Psalm 1-2</a>
 * Strong links: <a href="strongs:G1">G1</a>
+
+ 5. color schemes
+
+Can be defined in soulanchor.conf in ~/.config/soulanchor in html color format under:
+[Schemes]
+name=number color, text color, title color, background 1 color, background 2 color, highlight color
+Eg: amber=#775F18, #3E2A11, #b29a00, #fff7bf, #ffee80, #5BF4DA

@@ -14,11 +14,28 @@ SettingsWindow::SettingsWindow(QWidget *parent) :
     getBooknameLanguages(); // dynamic from database
     // gui language is dependent on the available .qm translation files that are compiled in
     // and the cb text is filled from the ui form
+
+    getSchemes(); // from soulanchor.conf
 }
 
 SettingsWindow::~SettingsWindow()
 {
     delete ui;
+}
+
+void SettingsWindow::getSchemes() {
+    // get the color schemes and fill the combobox
+    QSettings settings(settingsFile.fileName(), QSettings::IniFormat);
+    settings.beginGroup("Schemes");
+    QStringList schemes = settings.allKeys();
+    settings.endGroup();
+
+    if (schemes.isEmpty()) {
+        return;
+    } else {
+        ui->scheme_cb->addItems(schemes);
+    }
+
 }
 
 void SettingsWindow::getBooknameLanguages() {
@@ -58,6 +75,8 @@ void SettingsWindow::cancel() {
     margin = settings.value("margin", "14").toString();
     display = settings.value("display", "table").toString();
 
+    activeScheme = settings.value("activeScheme", "classic").toString();
+
     ui->gui_lang_cb->setCurrentText(guiLanguage);
     ui->bkn_lang_cb->setCurrentText(bknLanguage);
     ui->start_cb->setCurrentText(startup);
@@ -69,6 +88,8 @@ void SettingsWindow::cancel() {
 
     ui->margin_le->setText(margin);
     ui->display_cb->setCurrentText(display);
+
+    ui->scheme_cb->setCurrentText(activeScheme);
 
     hide();
 }
@@ -85,6 +106,8 @@ void SettingsWindow::writeSettings() {
     margin = ui->margin_le->text();
     display = ui->display_cb->currentText();
 
+    activeScheme = ui->scheme_cb->currentText();
+
     settings.setValue("guiLanguage", guiLanguage);
     settings.setValue("bknLanguage", bknLanguage);
     settings.setValue("startup", startup);
@@ -94,6 +117,8 @@ void SettingsWindow::writeSettings() {
     settings.setValue("fontsize", fontS);
     settings.setValue("margin", margin);
     settings.setValue("display", display);
+
+    settings.setValue("activeScheme", activeScheme);
 
     settings.sync();
 
@@ -107,9 +132,14 @@ void SettingsWindow::on_applyFont_btn_clicked()
     fontS = ui->pointSize_sb->text();
     margin = ui->margin_le->text();
 
+    activeScheme = ui->scheme_cb->currentText();
+
     settings.setValue("font", font);
     settings.setValue("fontsize", fontS);
     settings.setValue("margin", margin);
 
+//    settings.setValue("activeScheme", activeScheme);
+
     emit fontChanged();
+    emit schemeChanged(activeScheme);
 }

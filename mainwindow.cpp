@@ -7,6 +7,12 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
 
     QSettings settings(settingsFile.fileName(), QSettings::IniFormat);
 
+    activeScheme = settings.value("activeScheme", "classic").toString();
+    applyScheme(activeScheme);
+
+    otMenu->setObjectName("justamenu");
+    ntMenu->setObjectName("justamenu");
+
     // restore window state
     int width70 = (screen()->geometry().width() / 100) * 70;
     int height70 = (screen()->geometry().height() / 100) * 70;
@@ -48,12 +54,11 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
     ui->splitter_bibleframe->setStretchFactor(1,1);
 
     // give info frame more space than strongs frame
-    ui->splitter_med->setStretchFactor(0,3);
-    ui->splitter_med->setStretchFactor(1,2);
+    ui->splitter_info->setStretchFactor(0,3);
+    ui->splitter_info->setStretchFactor(1,2);
 
     defaultFormat.setBackground(Qt::transparent);
     defaultFormat.setFontWeight(QFont::Normal);
-    matchFormat.setBackground(QColor(141, 192, 232));
 
     ui->tb_scriptures->document()->setDocumentMargin(scripMargin);
 
@@ -96,8 +101,10 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
     connect(ui->action_salvation, &QAction::triggered, this, &MainWindow::salvation);
     connect(ui->action_worries, &QAction::triggered, this, &MainWindow::worries);
     connect(ui->action_topical_index, &QAction::triggered, this, &MainWindow::showTopics);
+    connect(ui->action_cross_references, &QAction::triggered, this, &MainWindow::makeCrossRefs);
 
-    connect(ui->action_overview, &QAction::triggered, this, &MainWindow::showOverview);
+    connect(ui->action_overview, &QAction::triggered, this, [this] () {
+        showEncPic(":/data/img/overview.jpg"); } );
     connect(ui->action_shortcuts, &QAction::triggered, this, &MainWindow::showShortcuts);
     connect(ui->action_emergency, &QAction::triggered, this, [this] () {
         showEncPic(":/data/img/emergency.jpg"); } );
@@ -170,7 +177,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
     connect(ui->action_show_roster, &QAction::triggered, this, &MainWindow::loadRoster);
     ui->frame_roster_btns->hide();
 
-    setStyleSheets();
     updateBooksWidget();
     updateCbTranslations();
 
@@ -178,7 +184,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
     int tlIndex = ui->cb_select_translation->findData(tlAbbr);
     ui->cb_select_translation->setCurrentIndex(tlIndex);
     QString full = ui->cb_select_translation->currentText();
-    ui->search_lbl_tl->setText(QString("Search in:\n %1").arg(full));
+    ui->search_lbl_tl->setText(full);
     connect(ui->cb_select_translation, &QComboBox::currentTextChanged,
             this, &MainWindow::setTranslation);
 
@@ -200,11 +206,15 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
 
     // signals
     QObject::connect(settingsW, &SettingsWindow::fontChanged,
-                     this, &MainWindow::applyFont );
-    QObject::connect(this, &MainWindow::parOpened,
-                     parW, &ParWindow::setTlandJob );
+                     this, &MainWindow::applyFont);
     QObject::connect(rosterW, &Roster::rosterCreated,
-                     this, &MainWindow::addRostersToMenu );
+                     this, &MainWindow::addRostersToMenu);
+    QObject::connect(settingsW, &SettingsWindow::schemeChanged,
+                     this, &MainWindow::applyScheme);
+    QObject::connect(this, &MainWindow::parOpened,
+                     parW, &ParWindow::setTlandJob);
+    QObject::connect(this, &MainWindow::setParwStyle,
+                     parW, &ParWindow::setStyle);
 
     addRostersToMenu();
     setActiveRoster();
@@ -235,6 +245,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
 
     strongTl = "t_akjv_s";
 
+//    ui->pb_enc_img->click();
+
     if (startup == "Psalm") todaysPsalm();
     else if (startup == "Proverb") todaysProverb();
     else if (startup == "Letter") todaysLetter();
@@ -257,7 +269,7 @@ void MainWindow::showIntro() {
     QString intro = (
         "Hi, welcome to SoulAnchor.\t\n\n"
 
-        "This project is still a work in progress. There might be bugs... "
+        "This project is still a work in progress."
         "Note that some options will not work "
         "until you add your own resources (e.g. audio bible). "
         "See the MOD file for details. \n\n"
@@ -288,11 +300,12 @@ void MainWindow::showIntro() {
 void MainWindow::strongify()
 {
     // make it strong
-    QString nrStyle = "font-weight:normal;color:grey;padding:1px";
-    QString txtStyle = "font-weight:normal;padding:1px;color:#454545;";
-    QString christStyle = "font-weight:normal;color:indianred;";
-    QString strongStyle = "font-weight:bold;color:mediumblue;"
-                          "text-decoration:none;"; //color:#deb1b1 #B1B1DE #1E314C #9E0E0D
+    QString nrStyle = "font-weight:normal;padding:1px;color:" + scheme["nrClr"];
+    QString txtStyle = "font-weight:normal;padding:1px;color:" + scheme["txtClr"];
+    QString christStyle = "font-weight:normal;color:" + scheme["titleClr"];
+    QString strongStyle = "text-decoration:none;font-weight:bold;"
+                            "color:" + scheme["txtClr"];
+
 
     QHash<QString, int> job;
     if (!printHistory.isEmpty()){
@@ -317,8 +330,8 @@ void MainWindow::strongify()
     QString header = QString(tr("showing %1 %2 with Strong's numbers using the AKJV"))
             .arg(bookName, cStr);
 
-    QString strongified = "<table>"
-            "<th style='color:grey'>" + header + "</th><br>";
+    QString strongified = QString("<table>"
+            "<th style='color:%1'>" + header + "</th><br>").arg(scheme["titleClr"]);
 
     while (query.next()) {
         v = query.value(2).toString();
@@ -438,6 +451,11 @@ void MainWindow::getTWOT(QString twot) {
     }
 
     ui->strongs_lbl->setText("TWOT: " + twotNr);
+
+    QString newLink = QString("<a style='text-decoration:none;color:%1' href")
+                        .arg(scheme["nrClr"]);
+    result.replace("<a href", newLink);
+
     ui->strongs_tb->setHtml(result);
 }
 
@@ -500,23 +518,25 @@ void MainWindow::getStrongs(QString strongs){
     result += "<br>SECE:<br><br>";
     result += desc;
 
-    result.replace("<p/>", "<br>");
-    result.replace("<p />", "<br>");
-    result.replace("<font color='1'>", "<font color='gold'>");
-    result.replace("<font color='2'>", "<font color='gold'>");
-    result.replace("<font color='3'>", "<font color='gold'>");
-    result.replace("<font color='4'>", "<font color='gold'>");
-    result.replace("<font color='5'>", "<font color='gold'>");
-
     result += "<br><br>BDB-T:<br><br>";
     QSqlQuery query_bdbt(sql_bdbt, dbH.dictDb);
     while (query_bdbt.next()) {
         result += query_bdbt.value(1).toString();
     }
 
+    QString newClr = QString("<font color='%1'>").arg(scheme["titleClr"]);
+    QString newLink = QString("<a style='text-decoration:none;color:%1' href")
+                        .arg(scheme["nrClr"]);
+    result.replace("<p/>", "<br>");
+    result.replace("<p />", "<br>");
+    result.replace("<font color='1'>", newClr);
+    result.replace("<font color='2'>", newClr);
+    result.replace("<font color='3'>", newClr);
+    result.replace("<font color='4'>", newClr);
+    result.replace("<font color='5'>", newClr);
+    result.replace("<a href", newLink);
+
     ui->info_frame->show();
-    ui->strongs_tb->document()->setDefaultStyleSheet("a {color:white;font-weight:bold;}"
-                                                     "hr {color:white;}");
     ui->strongs_lbl->setText(numberResult);
     ui->strongs_tb->setHtml(result);
 }
@@ -530,17 +550,17 @@ void MainWindow::on_dict_pb_index_clicked()
 {
     // show all topics columns from all 'non-strong' dictionaries
     ui->info_lbl_title->setText("dictionaries index");
-    QString dictsLinks = "Showing results for: ";
+    QString dictsLinks = tr("Showing results for: ");
 
     // only the first time it's empty
     if (!dictIndex.isEmpty()) {
-        ui->info_tb->setHtml("<b>working...</b>");
+        ui->info_tb->setHtml(tr("<b>working...</b>"));
         ui->info_tb->repaint();
         ui->info_tb->setHtml(dictIndex);
         return;
     }
 
-    ui->info_tb->setHtml("<b>this will take a moment...</b>");
+    ui->info_tb->setHtml(tr("<b>this will take a moment...</b>"));
     ui->info_tb->repaint();
 
     QStringList dictTables;
@@ -551,14 +571,17 @@ void MainWindow::on_dict_pb_index_clicked()
         dictTables.append(query_get_tables.value(0).toString());
     }
 
-    QString aStyle = "text-decoration:none;font-weight:normal;color:cornflowerblue";
+    QString aStyle = "text-decoration:none;font-weight:normal;color:" + scheme["txtClr"];
     QString topicHref;
     QString topicTitle;
     QString sql_get_topics;
     QSqlQuery query_get_topics(dbH.dictDb);
 
     for (const QString &table : dictTables) {
-        dictsLinks += "<a href='dict:" + table + "'>" + table + "</a> ";
+        dictsLinks += QString("<a style='text-decoration:none;color:%1' "
+                        "href='dict:%2'>%2</a> ")
+                        .arg(scheme["nrClr"], table);
+
         dictIndex.append("<br><h3 id='" + table + "'>" + table + ":</h3><br>");
         sql_get_topics = QString("SELECT topic FROM '%1'").arg(table.toLower());
         query_get_topics.exec(sql_get_topics);
@@ -607,10 +630,10 @@ void MainWindow::getDictWord(QString word) {
         }
 
         if (not desc.isEmpty()) {
-            activeDicts += "<a href='dict:" + table + "'>" + table + "</a> ";
-            result.append("  <h2 id='" + table
-                          + "' style='color:royalblue;font-family:serif;'>"
-                          + table + ":</h2><br>");
+            activeDicts += QString("<a style='text-decoration:none;color:%2' "
+                "href='dict:%1'>%1</a> ").arg(table, scheme["nrClr"]);
+            result.append(QString("  <h2 id='%1' style='color:%2;"
+                "font-family:serif;'>%1:</h2><br>").arg(table, scheme["titleClr"]));
             result += desc + "<br><br>";
         }
     }
@@ -630,18 +653,24 @@ void MainWindow::getDictWord(QString word) {
             }
 
             if (not desc.isEmpty()) {
-                activeDicts += "<a href='dict:" + table + "'>" + table + "</a> ";
-                result.append("  <h2 id='" + table
-                              + "' style='color:royalblue;font-family:serif;'>"
-                              + table + ":</h2><br>");
+                activeDicts += QString("<a style='text-decoration:none;color:%2' "
+                    "href='dict:%1'>%1</a> ").arg(table, scheme["nrClr"]);
+                result.append(QString("  <h2 id='%1' style='color:%2;"
+                    "font-family:serif;'>%1:</h2><br>").arg(table, scheme["titleClr"]));
                 result += desc + "<br><br>";
             }
+
         }
     }
 
     if (!result.isEmpty()) {
         result.replace("<p/>", "<br><br>");
         result.replace("<p />", "<br><br>");
+
+        QString anchor = QString("<a style='text-decoration:none;color:%1'")
+                            .arg(scheme["nrClr"]);
+        result.replace("<a", anchor);
+
         result.replace("href='S:", "href='dictword:");
         result.prepend(activeDicts + "<br>");
 
@@ -674,7 +703,7 @@ void MainWindow::getDictSug(QString word) {
     QString result;
     QString links;
     QString topic;
-    QString aStyle = "text-decoration:none;font-weight:normal;color:mediumblue";
+    QString aStyle = "text-decoration:none;font-weight:normal;color:" + scheme["nrClr"];
     ui->info_lbl_title->setText("index for: " + word);
 
     QStringList dictTables;
@@ -694,7 +723,7 @@ void MainWindow::getDictSug(QString word) {
         dict_query.exec(sql_dict);
         while (dict_query.next()) {
             topic = dict_query.value(0).toString();
-            links += QString("<a style=\"%1'\" href=\"dictword:%2\">%2</a><br>")
+            links += QString("<a style='%1' href='dictword:%2'>%2</a><br>")
                     .arg(aStyle, topic);
         }
 
@@ -1160,13 +1189,14 @@ void MainWindow::setActiveRoster() {
 void MainWindow::loadRoster() {
     // select the active roster
     if (!ui->bible_frame->isVisible()) {
-        ui->background_frame->setStyleSheet(bfStyle);
         ui->bible_frame->show();
     }
 
-    if (ui->menu_roster_select->actions().isEmpty()) {
-        ui->tb_scriptures->setHtml("<br><center>no reading plan available</center><br>"
+    QString noPlan = tr("<br><center>no reading plan available</center><br>"
             "<center>goto menu <i>Today\'s Reading</i> and create a plan</center>");
+
+    if (ui->menu_roster_select->actions().isEmpty()) {
+        ui->tb_scriptures->setHtml(noPlan);
         ui->frame_roster_btns->hide();
         return;
     }
@@ -1174,12 +1204,12 @@ void MainWindow::loadRoster() {
     QSettings settings(settingsFile.fileName(), QSettings::IniFormat);
     QString rosterName = settings.value("Rosters/activeRoster").toString();
     if ( rosterName.isEmpty() ) {
-        ui->tb_scriptures->setHtml("<br><center>no reading plan active</center><br>"
-            "<center>goto menu <i>Today\'s Reading</i> and create / select a plan</center>");
+        ui->tb_scriptures->setHtml(noPlan);
         ui->frame_roster_btns->hide();
         return;
     } else {
-        rosterRead ? ui->cb_roster_read->setChecked(true) : ui->cb_roster_read->setChecked(false);
+        rosterRead ? ui->cb_roster_read->setChecked(true) :
+                     ui->cb_roster_read->setChecked(false);
         ui->frame_roster_btns->show();
         ui->tabwidget->setCurrentIndex(2);
         ui->tb_scriptures->clear();
@@ -1207,8 +1237,40 @@ void MainWindow::openParW() {
     } else {
         job = { {"bk", 1}, {"c1", 1} };
     }
+    emit setParwStyle(scheme);
     emit parOpened(tlAbbr, job);
     !parW->isVisible() ? parW->show() : parW->raise();
+}
+
+void MainWindow::applyScheme(const QString &aScheme) {
+    // set active scheme and color values
+    QSettings settings(settingsFile.fileName(), QSettings::IniFormat);
+
+    QString currentScheme = "Schemes/" + aScheme;
+    QStringList schemeValues = settings.value(currentScheme, "").toStringList();
+    scheme["nrClr"] = schemeValues.value(0, "#");
+    scheme["txtClr"] = schemeValues.value(1, "#");
+    scheme["titleClr"] = schemeValues.value(2, "#");
+    scheme["bgClr"] = schemeValues.value(3, "#");
+    scheme["bg2Clr"] = schemeValues.value(4, "#");
+    scheme["clashClr"] = schemeValues.value(5, "#");
+
+    emit setParwStyle(scheme);
+    matchFormat.setBackground(QColor(scheme["bg2Clr"]));
+
+    QTextCharFormat calFormat;
+    if (scheme["nrClr"] != "#" || scheme["bgClr"] != "#") {
+        calFormat.setForeground(QBrush( QColor(scheme["nrClr"] )));
+        calFormat.setBackground(QBrush( QColor(scheme["bgClr"] )));
+    } else {
+        calFormat.setForeground(QBrush( QColor("black") ));
+        calFormat.setBackground(QBrush( QColor("white") ));
+    }
+    ui->calendar->setHeaderTextFormat(calFormat);
+
+    setBookTitle();
+    ui->tb_scriptures->clear();ui->strongs_tb->clear();ui->info_tb->clear();
+    setStyleSheets();
 }
 
 void MainWindow::applyFont(){
@@ -1449,13 +1511,10 @@ void MainWindow::playMusic(QString filepath, QString filename){
         printQ.enqueue(job);
         processPrintQueue();
     } else if(hymnMatch.hasMatch()) {
-
-        if(!ui->bible_frame->isVisible() ){
-            ui->background_frame->setStyleSheet(bfStyle);
-        }
         ui->info_tb->clear(); ui->info_frame->show();
 
-        QFile hymnFile(QString(::userDataDir.path()+ "/music/hymns/%1.txt").arg(filename) );
+        QFile hymnFile(QString(::userDataDir.path()+ "/music/hymns/%1.txt")
+                       .arg(filename) );
         if (!hymnFile.open(QIODevice::ReadOnly | QIODevice::Text))
             return;
 
@@ -1466,7 +1525,8 @@ void MainWindow::playMusic(QString filepath, QString filename){
             hymnText += hymnFile.readLine() + "<br>";
         }
 
-        ui->info_tb->setHtml(QString("<br><div style='%1'><br>%2<br></div>").arg(hymnStyle, hymnText) );
+        ui->info_tb->setHtml(QString("<br><div style='%1'><br>%2<br></div>")
+                             .arg(hymnStyle, hymnText) );
 
     } else if(scripMatch.hasMatch() and !filepath.contains("audio-bible") ){
         printRequestSingle(filename);
@@ -1554,7 +1614,6 @@ void MainWindow::worries() {
 }
 
 void MainWindow::showShortcuts() {
-    ui->background_frame->setStyleSheet(bfStyle);
     ui->info_tb->clear(); ui->info_lbl_title->clear(); ui->info_frame->show();
 
     QString info;
@@ -1583,12 +1642,6 @@ void MainWindow::showShortcuts() {
                 );
     ui->info_tb->setHtml(info);
     ui->info_lbl_title->setText(tr("shortcuts"));
-}
-
-void MainWindow::showOverview(){
-    ui->bible_frame->hide(); ui->info_frame->hide();
-    ui->background_frame->setStyleSheet("#background_frame {"
-        "border-image: url(:/data/img/overview.jpg) 0 0 0 0 stretch stretch}");
 }
 
 void MainWindow::showEncPic(const QString &fileName){
@@ -1639,6 +1692,7 @@ void MainWindow::setEncPic(){
 
         QVBoxLayout *encPicLay = new QVBoxLayout();
         encPicLay->setContentsMargins(1,1,1,1);
+        encPicLay->setMargin(3);
         encPicLay->setSizeConstraint(QLayout::SetMinAndMaxSize);
 
         encPicLay->addWidget(encPicLbl);
@@ -1687,7 +1741,9 @@ void MainWindow::changeEncTxt(){
 }
 
 void MainWindow::setEncTxt(){
-    QString css = "background-color:white;color:grey;font-family:sans;font-size:12pt;padding:3px;margin:1px;";
+    QString css = QString("color:%1;background-color:%2;"
+                "font-family:sans;font-size:12pt;padding:3px;margin:1px;")
+            .arg(scheme["txtClr"],scheme["bgClr"]);
     encTxtLbl->setWordWrap(true);
     encTxtLbl->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Maximum);
     encTxtLbl->setFixedWidth(220);
@@ -1696,7 +1752,7 @@ void MainWindow::setEncTxt(){
     QVBoxLayout *encTxtLay = new QVBoxLayout();
     encTxtLay->setContentsMargins(1,1,1,1);
     encTxtLay->setSizeConstraint(QLayout::SetMinAndMaxSize);
-    encTxtLay->addWidget(encTxtLbl);
+    encTxtLay->addWidget(encTxtLbl);  
     ui->pb_enc_txt->setLayout(encTxtLay);
 }
 
@@ -1776,7 +1832,6 @@ void MainWindow::todaysPsalm(){
 }
 
 void MainWindow::morning(){
-    ui->background_frame->setStyleSheet(bfStyle);
     int today = ui->calendar->selectedDate().dayOfYear();
     QString morning;
     QString sql = QString("select day, devotion from mbm where day = '%1'").arg(today);
@@ -1795,7 +1850,6 @@ void MainWindow::morning(){
 }
 
 void MainWindow::evening(){
-    ui->background_frame->setStyleSheet(bfStyle);
     int today = ui->calendar->selectedDate().dayOfYear();
     QString evening;
     QString sql = QString("select day, devotion from ebe where day = '%1'").arg(today);
@@ -2148,8 +2202,10 @@ void MainWindow::searchScriptures() {
         QString v1 = query.value(2).toString();
         QString txt = query.value(3).toString();
         QString link = QString("%1/%2/%3").arg(bk, c1, txt) ;
-        QString match = QString("<h3><a style=\"color: #555C96\" href=\"%5\">"\
-                "%1 %2:%3 </a></h3>%4<br><br>").arg(bookname, c1, v1, txt, link);
+        QString match = QString(
+                    "<h3><a style='color:%6;text-decoration:underline;' "
+                    "href='%5'>  %1 %2:%3 </a></h3>%4<br><br>")
+                    .arg(bookname, c1, v1, txt, link, scheme["nrClr"]);
         ui->search_tb->insertHtml(match);
     }
 
@@ -2456,7 +2512,7 @@ void MainWindow::createOtNtMenus() {
     while (query.next()) {
         int bkNr = query.value(0).toInt();
         QString bkName = query.value(2).toString();
-        QAction *bookAction = new QAction(bookIcon, bkName, this);
+        QAction *bookAction = new QAction(scrollIcon, bkName, this);
         connect(bookAction, &QAction::triggered, this, [bkNr, this]() {
             popupChapters(bkNr); });
 
@@ -2470,7 +2526,8 @@ void MainWindow::createOtNtMenus() {
 
 void MainWindow::ccMenuBackground(){
     //custom context menu for background frame
-    QMenu ccMenu;
+    QMenu ccMenu(this);
+    ccMenu.setObjectName("justamenu");
     QAction *parAction = ccMenu.addAction(bookOpenIcon, tr("Open Parallel Window"));
     QAction *showBibleAction = ccMenu.addAction(bookOpenIcon, tr("Show Bible Frame"));
     QAction *showInfoAction = ccMenu.addAction(docIcon, tr("Show Info Frame"));
@@ -2480,18 +2537,17 @@ void MainWindow::ccMenuBackground(){
         openParW();
     }
     else if (action == showBibleAction) {
-        ui->background_frame->setStyleSheet(bfStyle);
         ui->bible_frame->show();
     }
     else if (action == showInfoAction) {
-        ui->background_frame->setStyleSheet(bfStyle);
         ui->info_frame->show();
     }
 }
 
 void MainWindow::ccMenuInfo(){
     //custom context menu for info_frame
-    QMenu ccMenu;
+    QMenu ccMenu(this);
+    ccMenu.setObjectName("justamenu");
     QMenu *histMenu = ccMenu.addMenu(tr("history"));
 
     for (const QString &histItem : qAsConst(dictwordHistory)) {
@@ -2522,7 +2578,8 @@ void MainWindow::ccMenuInfo(){
 
 void MainWindow::ccMenuStrongs(){
     //custom context menu for info_frame
-    QMenu ccMenu;
+    QMenu ccMenu(this);
+    ccMenu.setObjectName("justamenu");
     QMenu *histMenu = ccMenu.addMenu(tr("history"));
 
     for (QString histItem : qAsConst(strongsHistory)) {
@@ -2557,7 +2614,8 @@ void MainWindow::ccMenuStrongs(){
 }
 
 void MainWindow::ccMenuBibleFrame(){
-    QMenu ccMenu;
+    QMenu ccMenu(this);
+    ccMenu.setObjectName("justamenu");
 
     QAction *parAction = ccMenu.addAction(bookOpenIcon, tr("Open Parallel Window"));
     QAction *strongAction = ccMenu.addAction(strongIcon, tr("Strongify"));
@@ -2645,8 +2703,9 @@ void MainWindow::showTopics() {
 
         while (topicsQuery.next()) {
             top = topicsQuery.value(0).toString();
-            topicalIndex.append(QString("<a style='text-decoration:none;color:black' "
-                                    "href='topic:%1'>%1</a><br>").arg(top));
+            topicalIndex.append(QString("<a style='padding-left:10px;text-decoration:none;color:%2' "
+                                    "href='topic:%1'>%1</a><br>")
+                                    .arg(top, scheme["txtClr"]));
         }
     }
 
@@ -2664,9 +2723,12 @@ void MainWindow::getTopic(const QString &topic) {
     QSqlQuery topicQuery = QSqlQuery(topicSql, dbH.extraDb);
     QString results;
     QString clr = "black";
-    results.append("<center><h3><a style='font-family:serif;"
-        "text-decoration:none;color:black;font-weight:normal;' "
-        "href='topical-index:'>Index</a></h3></center><br>");
+    results.append(QString(
+                    "<center><br><a style='font-family:serif;"
+                    "text-decoration:underline;font-weight:normal;color:%1' "
+                    "href='topical-index:'>index</a></center><br>")
+                    .arg(scheme["titleClr"]));
+
     bool firstClr = true;
     QString res;
 
@@ -2694,22 +2756,22 @@ void MainWindow::getTopic(const QString &topic) {
                     , "-\\3");
 
         if (firstClr) {
-            clr = "black";
+            clr = scheme["nrClr"];
             firstClr = false;
         } else {
-            clr = "grey";
+            clr = scheme["txtClr"];
             firstClr = true;
         }
 
-        results.append(QString("<a style='text-decoration:none;color:%2' "
-                                "href='bible:%1'>  %1</a><br><br>").arg(res, clr));
+        results.append(QString("<center><a style='text-decoration:none;color:%2' "
+                                "href='bible:%1'>  %1</a></center><br>").arg(res, clr));
     }
 
     ui->info_tb->setHtml(results);
 }
 
 void MainWindow::makeCrossRefs() {
-    // on bible pane context menu: cross references: create references/links in the info pane
+    // create cross references and show on the info pane
     QHash<QString, int> job;
     if (!printHistory.isEmpty()){
         job = printHistory.last();
@@ -2772,7 +2834,7 @@ void MainWindow::makeCrossRefs() {
     }
 
     // process the list, print a verse header and then the refs
-    QString res, header;
+    QString res, header, clrs;
     bool firstClr = true;
 
     while (!results.isEmpty()) {
@@ -2788,8 +2850,8 @@ void MainWindow::makeCrossRefs() {
                             "(\\d+)")
                         , "\\1 \\2:\\3");
             ui->info_tb->insertHtml(
-                        QString("<br><h4><a style='color:darkblue;text-decoration:none' "
-                            "href='bible:%1'>%1</a> </h4>").arg(res));
+                        QString("<br><h4><a style='color:%1;text-decoration:none' "
+                            "href='bible:%2'>%2</a> </h4>").arg(scheme["titleClr"], res));
             header = res;
             firstClr = true;
         } else {
@@ -2814,14 +2876,14 @@ void MainWindow::makeCrossRefs() {
                         , "-\\3");
 
             if (firstClr) {
-                ui->info_tb->insertHtml(QString("<a style='text-decoration:none;color:black' "
-                                    "href='bible:%2 %1'>%1</a> ").arg(res, header));
+                clrs = scheme["nrClr"];
                 firstClr = false;
             } else {
-                ui->info_tb->insertHtml(QString("<a style='text-decoration:none;color:grey' "
-                                    "href='bible:%2 %1'>%1</a> ").arg(res, header));
+                clrs = scheme["txtClr"];
                 firstClr = true;
             }
+            ui->info_tb->insertHtml(QString("<a style='text-decoration:none;color:%3' "
+                                "href='bible:%1 %2'>%2</a> ").arg(header, res, clrs));
         }
     }
 }
@@ -2898,9 +2960,12 @@ void MainWindow::popupChapters(int bkNr) {
 
     QString bookName = ::g_bookNames[bkNr];
     int finalChapter = dbH.getChapterCount(bkNr);
-    QMenu chapMenu(bookName);
+    QMenu chapMenu(bookName, this);
+    chapMenu.setObjectName("justamenu");
+
     QAction *title = chapMenu.addAction(bookName);
     title->setEnabled(false);
+    chapMenu.addSeparator();
 
     for (int i = 1; i <= finalChapter  ; ++i){
         chapMenu.addAction(QString("%1").arg(i));
@@ -3038,7 +3103,7 @@ void MainWindow::setTranslation() {
     ui->tb_scriptures->clear();
     tlAbbr = ui->cb_select_translation->currentData().toString();
     QString full = ui->cb_select_translation->currentText();
-    ui->search_lbl_tl->setText(QString("Search in:\n %1").arg(full));
+    ui->search_lbl_tl->setText(full);
 }
 
 void MainWindow::populateSearchCbs() {
@@ -3136,7 +3201,6 @@ void MainWindow::processPrintQueue(){
 //call this method for every job in the print queue with processPrintQueue
 void MainWindow::printScriptures() {
     if(!ui->bible_frame->isVisible()){
-        ui->background_frame->setStyleSheet(bfStyle);
         ui->bible_frame->show();
     }
 
@@ -3182,7 +3246,7 @@ void MainWindow::printScriptures() {
     QSqlQuery query(sql, dbH.bibleDb);
     bool addHeader = false;
 
-    QString sChapterTable = "<table cellpadding='1'>";
+    QString sChapterTable = "<table cellspacing='0' cellpadding='3'>";
     QString sChapterBasic;
     QString headerTable, headerBasic, verseTable, verseBasic, sCh, sNr, txt;
 
@@ -3207,12 +3271,13 @@ void MainWindow::printScriptures() {
 
         if (addHeader) {
             addHeader = false;
-            headerTable = QString("<tr><td></td><td style='color:#9E0E0D'>"
-                                  "<small>%1 %2</small></td></tr>").arg(bookName, sCh);
+            headerTable = QString("<tr><td></td><td style='color:%3;font-weight:700;'>"
+                                  "<small>%1 %2</small></td></tr>")
+                                    .arg(bookName, sCh, scheme.value("nrClr"));
             sChapterTable.append(headerTable);
 
             headerBasic = QString("<br><p style='text-align:center;color:#9E0E0D;"
-                                  "font-family:serif;font-weight:normal;'>"
+                                  "font-family:serif;font-weight:700;'>"
                                   "%1 %2</p><br>"
                                   ).arg(bookName, sCh);
             sChapterBasic.append(headerBasic);
@@ -3220,8 +3285,10 @@ void MainWindow::printScriptures() {
 
         // verse
         verseTable = QString(
-            "<tr><td style='width:10px;color:#9E0E0D'><small>%1</small></span></td>"
-            "<td style='color:#393E42;'> %2</td></tr>").arg(sNr, txt);
+            "<tr>"
+            "<td style='color:%3;font-weight:200;'><small>%1</small></td>"
+            "<td style='color:%4;font-weight:400;'> %2</td>"
+            "</tr>").arg(sNr, txt, scheme.value("nrClr"), scheme.value("txtClr"));
 
         verseBasic = QString("<span style='color:#393E42'>%1 </span>").arg(txt);
 
@@ -3361,7 +3428,6 @@ void MainWindow::setFilters() {
 }
 
 void MainWindow::aboutFilters(){
-    ui->background_frame->setStyleSheet(bfStyle);
     QString msg = QString(tr(
                 "The filters replace two important words that have become confused, "
                 "with clear biblical alternatives.\n\n"
@@ -3394,7 +3460,9 @@ void MainWindow::chapterSelected(){
 
 void MainWindow::bookSelected(){
     if (ui->lw_books->currentRow() == 39) {
-        printRequest("heb 8");
+        ui->btn_book_title->setText("");
+        ui->tb_scriptures->clear();
+        ui->lw_chapters->clear();
     } else {
         setBookTitle();
         updateChapterWidget();
@@ -3412,13 +3480,22 @@ void MainWindow::bookSelected(){
 
 void MainWindow::setBookTitle(QString title) {
     if (title.isEmpty()) {
-        title = ui->lw_books->currentItem()->text();
+        if (ui->lw_books->count() > 0 ) {
+            title = ui->lw_books->currentItem()->text();
+        } else {
+            title = "";
+        }
     }
-    QString style = "color:rgba(57,62,66,230);font-size:30px;font-family:serif;"
-                    "font-style:normal;font-weight:normal;margin:3px;padding:0px;";
+
+    QString style = QString(
+        "font-size:30px;font-family:serif;font-style:normal;"
+        "font-weight:bold;margin:3px;padding:0px;"
+        "color:%1;background-color:%2;")
+        .arg(scheme["titleClr"],scheme["bg2Clr"]);
+
     QGraphicsDropShadowEffect shadow;
     shadow.setBlurRadius(3);
-    shadow.setColor(QColor(255, 255, 238));
+    shadow.setColor(QColor(0, 0, 0));
     shadow.setOffset(2,2);
     ui->btn_book_title->setGraphicsEffect(&shadow);
     ui->btn_book_title->setStyleSheet(style);
@@ -3427,10 +3504,11 @@ void MainWindow::setBookTitle(QString title) {
 
 void MainWindow::updateChapterWidget(){
     if(!ui->bible_frame->isVisible()) {
-        ui->background_frame->setStyleSheet(bfStyle);
         ui->bible_frame->show();
     }
     ui->lw_chapters->clear();
+//    ui->lw_chapters->setStyleSheet("color:" + scheme.value("txtClr"));
+
     int bookNumber = ui->lw_books->currentItem()->data(0x0100).toInt();
     int finalChapter = dbH.getChapterCount(bookNumber);
 
@@ -3493,25 +3571,14 @@ void MainWindow::getBooksAbbr(){
 void MainWindow::toggleFullscreen(){
     if (isFullScreen()){
         showNormal();
-        ui->tabwidget->show();
         ui->menu_bar->setMaximumHeight(23);
-        ui->splitter_background->setMaximumSize(16777215, 16777215);
     } else {
         showFullScreen();
-
-        // note that on med frame show() the maximum size will be used again
-        int halfW = screen()->geometry().width() / 2;
-        int height90 = (screen()->geometry().height() / 100) * 90;
-        ui->splitter_background->setMaximumSize(halfW, height90);
-        ui->background_frame->layout()->setAlignment(Qt::AlignCenter);
-
-        ui->tabwidget->hide();
         ui->menu_bar->setMaximumHeight(1);
     }
 }
 
 void MainWindow::toggleBible(){
-    ui->background_frame->setStyleSheet(bfStyle);
     ui->bible_frame->isVisible() ? ui->bible_frame->hide() : ui->bible_frame->show();
 }
 
@@ -3525,24 +3592,23 @@ void MainWindow::toggleMenu(){
 }
 
 void MainWindow::toggleInfo(){
-    ui->background_frame->setStyleSheet(bfStyle);
     ui->info_frame->isVisible() ? ui->info_frame->hide() : ui->info_frame->show();
 }
 
 void MainWindow::setStyleSheets(){
-    QFile bfFile(":/data/css/background_frame.css");
-    QFile twFile(":/data/css/tab_widget.css");
-    bfFile.open(QIODevice::ReadOnly | QIODevice::Text);
-    twFile.open(QIODevice::ReadOnly | QIODevice::Text);
+    QFile saFile(":/data/css/soulanchor.css");
+    saFile.open(QIODevice::ReadOnly | QIODevice::Text);
+    saStyle = saFile.readAll();
+    saFile.close();
 
-    bfStyle = bfFile.readAll();
-    ui->background_frame->setStyleSheet(bfStyle);
+    saStyle.replace("txtClr", scheme["txtClr"]);
+    saStyle.replace("bgClr", scheme["bgClr"]);
+    saStyle.replace("bg2Clr", scheme["bg2Clr"]);
+    saStyle.replace("nrClr", scheme["nrClr"]);
+    saStyle.replace("titleClr", scheme["titleClr"]);
+    saStyle.replace("clashClr", scheme["clashClr"]);
 
-    twStyle = twFile.readAll();
-    ui->tabwidget->setStyleSheet(twStyle);
-
-    bfFile.close();
-    twFile.close();
+    qApp->setStyleSheet(saStyle);
 }
 
 void MainWindow::on_btn_select_today_clicked()

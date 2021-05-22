@@ -67,8 +67,7 @@ class MainWindow : public QMainWindow
     QString scripDisplay; // table format or book format
     QString strongTl; // translation used for Strongs
 
-    QString bfStyle; // background frame css
-    QString twStyle; // tab widget css
+    QString saStyle; // css
 
     // for showing a hymn text
     const QString hymnStyle = "text-align:center;font-family:serif;"
@@ -107,6 +106,7 @@ class MainWindow : public QMainWindow
     const QIcon playIcon = QIcon(":/data/img/control_play_blue.png");
     const QIcon stopIcon = QIcon(":/data/img/control_stop_blue.png");
     const QIcon strongIcon = QIcon(":/data/img/biceps.png");
+    const QIcon scrollIcon = QIcon(":/data/img/script_yellow.png");
 
     QQueue< QHash<QString, int> > printQ; // print queue - bk c1 c2 v1 v2
     QQueue< QHash<QString, int> > printHistory; // keep a history of print jobs
@@ -193,24 +193,39 @@ class MainWindow : public QMainWindow
         {"jewish", "Judean"},
         {"jewess", "Judean"}
     };
+
     // for cross references
     const QHash<QString, QString> crossrefDict =
     {
         {"1", "Gen"},{"2", "Exod"},{"3", "Lev"},{"4", "Num"},{"5", "Deut"},
-        {"6", "Josh"},{"7", "Judg"},{"8", "Ruth"},{"9", "1Sam"},{"10", "2Sam"},{"11", "1Kgs"},
-        {"12", "2Kgs"},{"13", "1Chr"},{"14", "2Chr"},{"15", "Ezra"},{"16", "Neh"},{"17", "Esth"},
-        {"18", "Job"},{"19", "Ps"},{"20", "Prov"},{"21", "Eccl"},{"22", "Song"},
-        {"23", "Isa"},{"24", "Jer"},{"25", "Lam"},{"26", "Ezek"},{"27", "Dan"},
-        {"28", "Hos"},{"29", "Joel"},{"30", "Amos"},{"31", "Obad"},{"32", "Jonah"},{"33", "Mic"},
-        {"34", "Nah"},{"35", "Hab"},{"36", "Zeph"},{"37", "Hag"},{"38", "Zech"},{"39", "Mal"},
-        {"40", "Matt"},{"41", "Mark"},{"42", "Luke"},{"43", "John"},{"44", "Acts"},
-        {"45", "Rom"},{"46", "1Cor"},{"47", "2Cor"},{"48", "Gal"},{"49", "Eph"},{"50", "Phil"},
-        {"51", "Col"},{"52", "1Thess"},{"53", "2Thess"},{"54", "1Tim"},{"55", "2Tim"},{"56", "Titus"},
-        {"57", "Phlm"},{"58", "Heb"},{"59", "Jas"},{"60", "1Pet"},{"61", "2Pet"},{"62", "1John"},
-        {"63", "2John"},{"64", "3John"},{"65", "Jude"},{"66", "Rev"},
+        {"6", "Josh"},{"7", "Judg"},{"8", "Ruth"},{"9", "1Sam"},{"10", "2Sam"},
+        {"11", "1Kgs"},{"12", "2Kgs"},{"13", "1Chr"},{"14", "2Chr"},{"15", "Ezra"},
+        {"16", "Neh"},{"17", "Esth"},{"18", "Job"},{"19", "Ps"},{"20", "Prov"},
+        {"21", "Eccl"},{"22", "Song"},{"23", "Isa"},{"24", "Jer"},{"25", "Lam"},
+        {"26", "Ezek"},{"27", "Dan"},{"28", "Hos"},{"29", "Joel"},{"30", "Amos"},
+        {"31", "Obad"},{"32", "Jonah"},{"33", "Mic"},{"34", "Nah"},{"35", "Hab"},
+        {"36", "Zeph"},{"37", "Hag"},{"38", "Zech"},{"39", "Mal"},{"40", "Matt"},
+        {"41", "Mark"},{"42", "Luke"},{"43", "John"},{"44", "Acts"},{"45", "Rom"},
+        {"46", "1Cor"},{"47", "2Cor"},{"48", "Gal"},{"49", "Eph"},{"50", "Phil"},
+        {"51", "Col"},{"52", "1Thess"},{"53", "2Thess"},{"54", "1Tim"},{"55", "2Tim"},
+        {"56", "Titus"},{"57", "Phlm"},{"58", "Heb"},{"59", "Jas"},{"60", "1Pet"},
+        {"61", "2Pet"},{"62", "1John"},{"63", "2John"},{"64", "3John"},{"65", "Jude"},
+        {"66", "Rev"},
     };
-    // topical Bible
+
+    // topical Bible links
     QString topicalIndex;
+
+    // active color theme
+    QString activeScheme;
+    QHash<QString, QString> scheme = {
+        {"nrClr", "#"},
+        {"txtClr", "#"},
+        {"titleClr", "#"},
+        {"bgClr", "#"},
+        {"bg2Clr", "#"},
+        {"clashClr", "#"}
+        };
 
     //QtDocs: The following line declares a member variable which is a pointer to the MainWindow UI class. A member variable is associated with a specific class, and accessible for all its methods.
     Ui::MainWindow *ui;
@@ -298,8 +313,6 @@ private slots:
     void setEncPic();
     void changeEncPic();
     void showEncPic(const QString &fileName);
-
-    void showOverview();
     void showShortcuts();
 
     void theLordsPrayer();
@@ -328,6 +341,7 @@ private slots:
 
     void openParW();
     void applyFont();
+    void applyScheme(const QString &aScheme);
 
     void addRostersToMenu();
     void rosterActionTriggered(QString rosterName);
@@ -365,6 +379,7 @@ private slots:
 
 signals:
     void parOpened(QString tlAbbr, QHash<QString, int> job);
+    void setParwStyle(QHash<QString, QString> clrScheme);
 };
 
 #endif // MAINWINDOW_H

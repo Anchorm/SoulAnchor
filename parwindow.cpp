@@ -3,6 +3,7 @@
 ParWindow::ParWindow(QWidget *parent) : QWidget(parent, Qt::Window)
 {
     setWindowTitle("Parallel Window - SoulAnchor");
+    this->setObjectName("ParallelWindow");
     setWindowIcon(anchorIcon);
     setMinimumSize(500, 500);
     setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
@@ -26,8 +27,10 @@ ParWindow::ParWindow(QWidget *parent) : QWidget(parent, Qt::Window)
 
     hbox_1->setSpacing(5);
     hbox_1->setAlignment(Qt::AlignLeft);
+    hbox_1->setContentsMargins(6,0,0,0);
     hbox_2->setSpacing(5);
     hbox_2->setAlignment(Qt::AlignLeft);
+    hbox_2->setContentsMargins(6,0,0,0);
 
     cb_select->addItem("none");
 
@@ -77,7 +80,6 @@ ParWindow::ParWindow(QWidget *parent) : QWidget(parent, Qt::Window)
         hbox_2->addWidget(chkB);
     }
 
-    te->setStyleSheet(docStyle);
     te->setReadOnly(true);
     te->setContextMenuPolicy(Qt::CustomContextMenu);
     connect(te, &QTextEdit::customContextMenuRequested, this, &ParWindow::ccMenuParW);
@@ -104,6 +106,12 @@ ParWindow::ParWindow(QWidget *parent) : QWidget(parent, Qt::Window)
     setLayout(vbox);
 
     createOtNtMenus();
+}
+
+void ParWindow::setStyle(const QHash<QString, QString> &clrScheme) {
+    scheme = clrScheme;
+    QString css = "background-color:" + clrScheme["bgClr"];
+    te->setStyleSheet(css);
 }
 
 void ParWindow::setTlandJob(const QString &tlAbbr, const QHash<QString, int> &job) {
@@ -188,7 +196,7 @@ void ParWindow::popupChapters(int bkNr) {
 
     QString bookName = ::g_bookNames[bkNr];
     int finalChapter = dbH.getChapterCount(bkNr);
-    QMenu chapMenu(bookName);
+    QMenu chapMenu(bookName, this);
     QAction *title = chapMenu.addAction(bookName);
     title->setEnabled(false);
 
@@ -218,7 +226,7 @@ void ParWindow::createOtNtMenus() {
     while (query.next()) {
         int bkNr = query.value(0).toInt();
         QString bkName = query.value(2).toString();
-        QAction *bookAction = new QAction(bookIcon, bkName, this);
+        QAction *bookAction = new QAction(scrollIcon, bkName, this);
         connect(bookAction, &QAction::triggered, this, [bkNr, this]() {
             this->popupChapters(bkNr); });
 
@@ -231,7 +239,8 @@ void ParWindow::createOtNtMenus() {
 }
 
 void ParWindow::ccMenuParW(){
-    QMenu ccMenu;
+    QMenu ccMenu(this);
+    ccMenu.setObjectName("justamenu");
     ccMenu.addMenu(otMenu);
     ccMenu.addMenu(ntMenu);
 
@@ -555,29 +564,30 @@ void ParWindow::printScriptures(){
     4. create one big html formatted string and append the tl's
     header first, QMap 0
     ------------------------------------------------------*/
-    QString bigString = "<table width='100%' cellspacing='1' cellpadding='5'>";
+    QString bigString = "<table width='100%' cellspacing='0' cellpadding='5'>";
 
     bigString.append("<tr>");
     for (auto subC: rootC) {
         QString tlName = subC[0];
         QString header = QString("<td> "
-                                 "<center><span style='%1'>%2</span></center><br>"
-                                 "<span style='%3'>%4 %5</span>"
-                                 "</td>").arg(tlStyle, tlName, headerStyle, bookName, cStr);
+                        "<center><span style='font-weight:bold;color:%1'>%2</span></center><br>"
+                        "<span style='font-weight:bold;color:%3'><small>%4 %5</small></span>"
+                        "</td>")
+                .arg(scheme["titleClr"], tlName, scheme["titleClr"], bookName, cStr);
         bigString.append(header);
     }
     bigString.append("</tr>");
 
-
-    QString bg = bg1;
-    QString txtStyle = textStyle1;
+    QString bg = scheme["bgClr"];
+    QString bg1 = scheme["bgClr"];
+    QString bg2 = scheme["bg2Clr"];
     QString nr;
     QString txt;
 
     QList prefCKeys = prefC.keys();
 
     for (auto &key : qAsConst(prefCKeys)) {
-        bigString.append( QString("<tr style='%1'>").arg(bg) );
+        bigString.append( QString("<tr style='background-color:%1'>").arg(bg) );
 
         for (const auto &subC: rootC) {
             nr = QString::number(key);
@@ -589,14 +599,15 @@ void ParWindow::printScriptures(){
                 }
 
                 bigString.append("<td>");
-                bigString.append(QString("<span style='%1'>%2</span> ").arg(nrStyle, nr) );
-                bigString.append(QString("<span style='%1'>%2</span>").arg(txtStyle, txt) );
+                bigString.append(QString("<span style='color:%1'><small>%2</small></span> ")
+                                 .arg(scheme["nrClr"], nr) );
+                bigString.append(QString("<span style='color:%1'>%2</span>")
+                                 .arg(scheme["txtClr"], txt) );
                 bigString.append("</td>");
         }
 
         bigString.append("</tr>");
         bg == bg1 ? bg = bg2 : bg = bg1 ;
-        txtStyle == textStyle1 ? txtStyle = textStyle2 : txtStyle = textStyle1;
     }
 
     bigString.append("</table>");
