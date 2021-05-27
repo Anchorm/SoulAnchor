@@ -129,6 +129,14 @@ p, li { white-space: pre-wrap; }
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>cb_what</tabstop>
+  <tabstop>cb_amount</tabstop>
+  <tabstop>pb_preview</tabstop>
+  <tabstop>pb_make</tabstop>
+  <tabstop>pb_close</tabstop>
+  <tabstop>te_preview</tabstop>
+ </tabstops>
  <resources>
   <include location="../build-soulanchor-Desktop-Debug/soulanchor.qrc"/>
  </resources>

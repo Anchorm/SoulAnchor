@@ -6,12 +6,12 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>450</width>
-    <height>450</height>
+    <width>502</width>
+    <height>500</height>
    </rect>
   </property>
   <property name="sizePolicy">
-   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
     <horstretch>0</horstretch>
     <verstretch>0</verstretch>
    </sizepolicy>
@@ -19,13 +19,13 @@
   <property name="minimumSize">
    <size>
     <width>450</width>
-    <height>420</height>
+    <height>450</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
-    <width>450</width>
-    <height>470</height>
+    <width>502</width>
+    <height>500</height>
    </size>
   </property>
   <property name="windowTitle">
@@ -39,18 +39,6 @@
    <string notr="true"/>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
-   <property name="leftMargin">
-    <number>6</number>
-   </property>
-   <property name="topMargin">
-    <number>6</number>
-   </property>
-   <property name="rightMargin">
-    <number>6</number>
-   </property>
-   <property name="bottomMargin">
-    <number>3</number>
-   </property>
    <item>
     <widget class="QFrame" name="frame">
      <property name="sizePolicy">
@@ -72,127 +60,132 @@
       <number>0</number>
      </property>
      <layout class="QGridLayout" name="gridLayout">
-      <property name="leftMargin">
+      <property name="verticalSpacing">
        <number>6</number>
       </property>
-      <property name="topMargin">
-       <number>6</number>
-      </property>
-      <property name="rightMargin">
-       <number>6</number>
-      </property>
-      <property name="bottomMargin">
-       <number>12</number>
-      </property>
-      <property name="spacing">
-       <number>6</number>
-      </property>
-      <item row="11" column="2">
-       <widget class="QPushButton" name="applyFont_btn">
+      <item row="6" column="0">
+       <widget class="QLabel" name="margin_lbl">
         <property name="sizePolicy">
-         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
         </property>
         <property name="minimumSize">
          <size>
-          <width>150</width>
-          <height>26</height>
+          <width>0</width>
+          <height>28</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>200</width>
-          <height>26</height>
+          <width>300</width>
+          <height>30</height>
          </size>
         </property>
         <property name="text">
-         <string>apply</string>
+         <string>Scriptures margin:</string>
         </property>
        </widget>
       </item>
-      <item row="5" column="1" colspan="2" alignment="Qt::AlignRight">
-       <widget class="QLineEdit" name="margin_le">
+      <item row="10" column="0" rowspan="2">
+       <widget class="QLabel" name="font_lbl">
         <property name="sizePolicy">
-         <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>30</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>Font used by:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="0">
+       <widget class="QLabel" name="tl_lbl">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
         </property>
         <property name="minimumSize">
          <size>
-          <width>150</width>
-          <height>26</height>
+          <width>0</width>
+          <height>28</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>150</width>
-          <height>16777215</height>
+          <width>300</width>
+          <height>30</height>
          </size>
         </property>
-        <property name="maxLength">
-         <number>32767</number>
+        <property name="text">
+         <string>Translation:</string>
         </property>
        </widget>
       </item>
-      <item row="6" column="1" colspan="2" alignment="Qt::AlignRight">
-       <widget class="QComboBox" name="display_cb">
+      <item row="10" column="1">
+       <widget class="QCheckBox" name="font_script_chkb">
+        <property name="text">
+         <string>Scriptures</string>
+        </property>
+       </widget>
+      </item>
+      <item row="8" column="1">
+       <widget class="QComboBox" name="scheme_cb">
         <property name="sizePolicy">
-         <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
         </property>
         <property name="minimumSize">
          <size>
-          <width>150</width>
-          <height>26</height>
+          <width>0</width>
+          <height>28</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>150</width>
-          <height>16777215</height>
+          <width>500</width>
+          <height>30</height>
          </size>
         </property>
-        <property name="toolTip">
-         <string notr="true"/>
-        </property>
-        <property name="currentText">
-         <string notr="true">table</string>
-        </property>
-        <item>
-         <property name="text">
-          <string notr="true">table</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string notr="true">book</string>
-         </property>
-        </item>
        </widget>
       </item>
-      <item row="4" column="0">
+      <item row="11" column="1">
+       <widget class="QCheckBox" name="font_bkch_chkb">
+        <property name="text">
+         <string>books and chapters</string>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="0">
        <widget class="QLabel" name="tab_lbl">
         <property name="sizePolicy">
-         <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
         </property>
         <property name="minimumSize">
          <size>
-          <width>200</width>
-          <height>26</height>
+          <width>0</width>
+          <height>28</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>200</width>
-          <height>16777215</height>
+          <width>300</width>
+          <height>30</height>
          </size>
         </property>
         <property name="text">
@@ -206,74 +199,62 @@
         </property>
        </widget>
       </item>
-      <item row="5" column="0">
-       <widget class="QLabel" name="margin_lbl">
+      <item row="4" column="0">
+       <widget class="QLabel" name="start_lbl">
         <property name="sizePolicy">
-         <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
         </property>
         <property name="minimumSize">
          <size>
-          <width>200</width>
-          <height>26</height>
+          <width>0</width>
+          <height>28</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>200</width>
-          <height>16777215</height>
+          <width>300</width>
+          <height>30</height>
          </size>
         </property>
         <property name="text">
-         <string>Scriptures margin:</string>
+         <string>Startup with:</string>
         </property>
        </widget>
       </item>
-      <item row="11" column="1">
-       <widget class="QSpinBox" name="pointSize_sb">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="minimumSize">
-         <size>
-          <width>50</width>
-          <height>26</height>
-         </size>
-        </property>
+      <item row="9" column="0" colspan="2">
+       <widget class="QLabel" name="spacer">
         <property name="maximumSize">
          <size>
-          <width>70</width>
-          <height>26</height>
+          <width>16777215</width>
+          <height>10</height>
          </size>
         </property>
-        <property name="toolTip">
-         <string notr="true"/>
+        <property name="text">
+         <string/>
         </property>
        </widget>
       </item>
-      <item row="3" column="1" colspan="2" alignment="Qt::AlignRight">
+      <item row="4" column="1">
        <widget class="QComboBox" name="start_cb">
         <property name="sizePolicy">
-         <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
         </property>
         <property name="minimumSize">
          <size>
-          <width>150</width>
-          <height>26</height>
+          <width>0</width>
+          <height>28</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>150</width>
-          <height>16777215</height>
+          <width>500</width>
+          <height>30</height>
          </size>
         </property>
         <property name="toolTip">
@@ -309,244 +290,136 @@
         </item>
        </widget>
       </item>
-      <item row="11" column="0">
-       <widget class="QFontComboBox" name="font_cb">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="minimumSize">
-         <size>
-          <width>200</width>
-          <height>26</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>300</width>
-          <height>26</height>
-         </size>
-        </property>
-        <property name="toolTip">
-         <string notr="true"/>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="0">
-       <widget class="QLabel" name="start_lbl">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="minimumSize">
-         <size>
-          <width>200</width>
-          <height>26</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>200</width>
-          <height>16777215</height>
-         </size>
-        </property>
-        <property name="text">
-         <string>Startup with:</string>
-        </property>
-       </widget>
-      </item>
-      <item row="10" column="0">
-       <widget class="QLabel" name="label_2">
+      <item row="12" column="1">
+       <widget class="QComboBox" name="font_size_cb">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
         </property>
-        <property name="text">
-         <string>Scriptures font and size:</string>
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>28</height>
+         </size>
         </property>
-        <property name="margin">
-         <number>3</number>
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>30</height>
+         </size>
         </property>
        </widget>
       </item>
-      <item row="0" column="0">
-       <widget class="QLabel" name="gui_lang_lbl">
+      <item row="7" column="1">
+       <widget class="QComboBox" name="display_cb">
         <property name="sizePolicy">
-         <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
         </property>
         <property name="minimumSize">
          <size>
-          <width>200</width>
-          <height>26</height>
+          <width>0</width>
+          <height>28</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>200</width>
-          <height>16777215</height>
-         </size>
-        </property>
-        <property name="text">
-         <string>GUI language:</string>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="1" colspan="2" alignment="Qt::AlignRight">
-       <widget class="QComboBox" name="tl_cb">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="minimumSize">
-         <size>
-          <width>150</width>
-          <height>26</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>150</width>
-          <height>16777215</height>
+          <width>500</width>
+          <height>30</height>
          </size>
         </property>
         <property name="toolTip">
          <string notr="true"/>
         </property>
         <property name="currentText">
-         <string notr="true"/>
+         <string notr="true">table</string>
         </property>
+        <item>
+         <property name="text">
+          <string notr="true">table</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string notr="true">book</string>
+         </property>
+        </item>
        </widget>
       </item>
-      <item row="0" column="1" colspan="2" alignment="Qt::AlignRight">
+      <item row="0" column="1">
        <widget class="QComboBox" name="gui_lang_cb">
         <property name="sizePolicy">
-         <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
         </property>
         <property name="minimumSize">
          <size>
-          <width>150</width>
-          <height>26</height>
+          <width>0</width>
+          <height>28</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>150</width>
-          <height>16777215</height>
+          <width>500</width>
+          <height>30</height>
          </size>
         </property>
         <property name="toolTip">
          <string notr="true"/>
         </property>
         <property name="currentText">
-         <string notr="true">english</string>
-        </property>
-        <item>
-         <property name="text">
-          <string>english</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>dutch</string>
-         </property>
-        </item>
-       </widget>
-      </item>
-      <item row="1" column="2">
-       <widget class="QComboBox" name="bkn_lang_cb">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="minimumSize">
-         <size>
-          <width>150</width>
-          <height>26</height>
-         </size>
-        </property>
-        <property name="currentText">
          <string notr="true"/>
         </property>
        </widget>
       </item>
-      <item row="2" column="0">
-       <widget class="QLabel" name="tl_lbl">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
+      <item row="1" column="0" colspan="2">
+       <widget class="QLabel" name="gui_restart_lbl">
         <property name="minimumSize">
          <size>
-          <width>200</width>
-          <height>26</height>
+          <width>0</width>
+          <height>30</height>
          </size>
         </property>
-        <property name="maximumSize">
-         <size>
-          <width>200</width>
-          <height>16777215</height>
-         </size>
+        <property name="font">
+         <font>
+          <pointsize>10</pointsize>
+         </font>
         </property>
         <property name="text">
-         <string>Translation:</string>
+         <string>(GUI language will be changed after a restart)</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+        </property>
+        <property name="margin">
+         <number>0</number>
         </property>
        </widget>
       </item>
-      <item row="1" column="0">
-       <widget class="QLabel" name="bkn_lang_lbl">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="minimumSize">
-         <size>
-          <width>200</width>
-          <height>26</height>
-         </size>
-        </property>
-        <property name="text">
-         <string>Bookname language:</string>
-        </property>
-       </widget>
-      </item>
-      <item row="6" column="0">
+      <item row="7" column="0">
        <widget class="QLabel" name="display_lbl">
         <property name="sizePolicy">
-         <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
         </property>
         <property name="minimumSize">
          <size>
-          <width>200</width>
-          <height>26</height>
+          <width>0</width>
+          <height>28</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>200</width>
-          <height>16777215</height>
+          <width>300</width>
+          <height>30</height>
          </size>
         </property>
         <property name="text">
@@ -554,24 +427,74 @@
         </property>
        </widget>
       </item>
-      <item row="4" column="1" colspan="2" alignment="Qt::AlignRight">
-       <widget class="QComboBox" name="tab_cb">
+      <item row="2" column="0">
+       <widget class="QLabel" name="bkn_lang_lbl">
         <property name="sizePolicy">
-         <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
         </property>
         <property name="minimumSize">
          <size>
-          <width>150</width>
-          <height>26</height>
+          <width>0</width>
+          <height>28</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>150</width>
-          <height>16777215</height>
+          <width>300</width>
+          <height>30</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>Bookname language:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="8" column="0">
+       <widget class="QLabel" name="scheme_lbl">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>28</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>300</width>
+          <height>30</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>Color scheme:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="1">
+       <widget class="QComboBox" name="tab_cb">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>28</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>500</width>
+          <height>30</height>
          </size>
         </property>
         <property name="toolTip">
@@ -597,99 +520,141 @@
         </item>
        </widget>
       </item>
-      <item row="8" column="0" colspan="3">
-       <widget class="QLabel" name="spacer">
-        <property name="text">
+      <item row="12" column="0">
+       <widget class="QFontComboBox" name="font_cb">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>28</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>300</width>
+          <height>30</height>
+         </size>
+        </property>
+        <property name="toolTip">
+         <string notr="true"/>
+        </property>
+        <property name="fontFilters">
+         <set>QFontComboBox::AllFonts</set>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1">
+       <widget class="QComboBox" name="bkn_lang_cb">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>28</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>500</width>
+          <height>30</height>
+         </size>
+        </property>
+        <property name="currentText">
+         <string notr="true"/>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="1">
+       <widget class="QLineEdit" name="margin_le">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>28</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>500</width>
+          <height>30</height>
+         </size>
+        </property>
+        <property name="maxLength">
+         <number>32767</number>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0">
+       <widget class="QLabel" name="gui_lang_lbl">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>28</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>300</width>
+          <height>30</height>
+         </size>
+        </property>
+        <property name="toolTip">
          <string/>
         </property>
-       </widget>
-      </item>
-      <item row="7" column="0">
-       <widget class="QLabel" name="scheme_lbl">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="minimumSize">
-         <size>
-          <width>200</width>
-          <height>26</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>200</width>
-          <height>16777215</height>
-         </size>
-        </property>
         <property name="text">
-         <string>Color scheme</string>
+         <string>GUI language:</string>
         </property>
        </widget>
       </item>
-      <item row="7" column="2">
-       <widget class="QComboBox" name="scheme_cb">
+      <item row="3" column="1">
+       <widget class="QComboBox" name="tl_cb">
         <property name="sizePolicy">
-         <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
         </property>
         <property name="minimumSize">
          <size>
-          <width>150</width>
-          <height>26</height>
+          <width>0</width>
+          <height>28</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>150</width>
-          <height>16777215</height>
+          <width>500</width>
+          <height>30</height>
          </size>
+        </property>
+        <property name="toolTip">
+         <string notr="true"/>
+        </property>
+        <property name="currentText">
+         <string notr="true"/>
         </property>
        </widget>
       </item>
      </layout>
-    </widget>
-   </item>
-   <item>
-    <widget class="QLabel" name="label">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="minimumSize">
-      <size>
-       <width>0</width>
-       <height>0</height>
-      </size>
-     </property>
-     <property name="maximumSize">
-      <size>
-       <width>16777215</width>
-       <height>26</height>
-      </size>
-     </property>
-     <property name="font">
-      <font>
-       <family>Sans</family>
-       <pointsize>10</pointsize>
-       <italic>true</italic>
-      </font>
-     </property>
-     <property name="text">
-      <string>(restart to apply all settings)</string>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignCenter</set>
-     </property>
-     <property name="margin">
-      <number>3</number>
-     </property>
     </widget>
    </item>
    <item>
@@ -722,7 +687,7 @@
      <item>
       <widget class="QPushButton" name="can_btn">
        <property name="sizePolicy">
-        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
@@ -735,8 +700,8 @@
        </property>
        <property name="maximumSize">
         <size>
-         <width>120</width>
-         <height>26</height>
+         <width>200</width>
+         <height>30</height>
         </size>
        </property>
        <property name="text">
@@ -745,23 +710,48 @@
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="ok_btn">
+      <widget class="QPushButton" name="apply_btn">
        <property name="sizePolicy">
-        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
        <property name="minimumSize">
         <size>
-         <width>60</width>
-         <height>0</height>
+         <width>80</width>
+         <height>26</height>
         </size>
        </property>
        <property name="maximumSize">
         <size>
-         <width>90</width>
+         <width>200</width>
+         <height>30</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>Apply</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="ok_btn">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>80</width>
          <height>26</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>200</width>
+         <height>30</height>
         </size>
        </property>
        <property name="toolTip">
@@ -776,6 +766,16 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>gui_lang_cb</tabstop>
+  <tabstop>bkn_lang_cb</tabstop>
+  <tabstop>tl_cb</tabstop>
+  <tabstop>start_cb</tabstop>
+  <tabstop>tab_cb</tabstop>
+  <tabstop>margin_le</tabstop>
+  <tabstop>display_cb</tabstop>
+  <tabstop>font_cb</tabstop>
+ </tabstops>
  <resources>
   <include location="../build-soulanchor-Desktop-Debug/soulanchor.qrc"/>
  </resources>

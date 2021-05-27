@@ -15,7 +15,6 @@
 #include <QQueue>
 #include <QList>
 #include <QVector>
-#include <QShortcut>
 #include <QLabel>
 #include <QMediaPlayer>
 #include <QTranslator>
@@ -114,6 +113,9 @@ class MainWindow : public QMainWindow
     QMenu *otMenu = new QMenu("OT", this);
     QMenu *ntMenu = new QMenu("NT", this);
 
+//    QShortcut *toggleMenuShortcut = new QShortcut(QKeySequence(Qt::Key_F12),
+//                                                   this, SLOT(toggleMenu()));
+
       /*****************
      * W I N D O W S  *
     *****************/
@@ -150,7 +152,7 @@ class MainWindow : public QMainWindow
     QMediaPlayer *mplayer = new QMediaPlayer(this);
     QVector< QVector<QString> > musicList;
 
-    QFont scripFont; // bible frame
+    QFont *scripFont = new QFont();
     QActionGroup *rosterGroup = new QActionGroup(this);
 
     bool iFilter; // immersion filter
@@ -236,7 +238,7 @@ public:
     //QtDocs:The following line declares a constructor that has a default argument called parent.
     //The value 0 indicates that the widget has no parent (it is a top-level widget).
     explicit MainWindow(QWidget *parent = nullptr);
-    ~MainWindow();
+    ~MainWindow() override;
 
 private slots:
     void getDictWord(QString word);
@@ -254,7 +256,7 @@ private slots:
 
     void bookSelected();
     void chapterSelected();
-    void updateBooksWidget();
+    void updateBooksWidget(const QString &lang);
     void updateChapterWidget();
     void updateCbTranslations();
     void setTranslation();
@@ -340,7 +342,7 @@ private slots:
     static bool compareFunctionS(QAction *a, QAction *b);
 
     void openParW();
-    void applyFont();
+    void applyFont(const QString &font, const QString &fontS, const QString &margin);
     void applyScheme(const QString &aScheme);
 
     void addRostersToMenu();
@@ -365,7 +367,7 @@ private slots:
     void setFilters();
     void aboutFilters();
 
-    void closeEvent(QCloseEvent*);
+    void closeEvent(QCloseEvent*) override;
     static void exit();
 
     void on_cb_roster_read_clicked();

@@ -240,7 +240,6 @@ void ParWindow::createOtNtMenus() {
 
 void ParWindow::ccMenuParW(){
     QMenu ccMenu(this);
-    ccMenu.setObjectName("justamenu");
     ccMenu.addMenu(otMenu);
     ccMenu.addMenu(ntMenu);
 

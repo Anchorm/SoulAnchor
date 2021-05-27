@@ -95,14 +95,8 @@ void installTranslator()
 {
     QSettings settings(settingsFile.fileName(), QSettings::IniFormat);
     QString lang = settings.value("guiLanguage", "english").toString();
-    if ( not(lang == "dutch" || lang == "english") ){
-        lang = "english";
-    }
 
-    if (lang == "dutch") lang = "nl";
-    if (lang == "english") lang = "en";
-
-    if (::translator.load(":/data/lang/soulanchor_" + lang + ".qm") ) {
+    if (::translator.load("soulanchor_" + lang, ":/data/lang") ) {
         qApp->installTranslator(&::translator);
     }
 }

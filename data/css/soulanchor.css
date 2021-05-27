@@ -4,14 +4,22 @@
     color: txtClr;
     background-color: bg2Clr;
 }
+#ParallelWindow *{
+    selection-background-color:clashClr;
+}
 
 #RosterWindow {
     color: txtClr;
     background-color: bg2Clr;
 }
-#RosterWindow QLabel, #RosterWindow QTextEdit {
+#RosterWindow QTextEdit {
     color: txtClr;
     background-color: bgClr;
+    selection-background-color:clashClr;
+}
+#RosterWindow QLabel {
+    color: txtClr;
+    background-color: bg2Clr;
 }
 
 #SettingsWindow {
@@ -26,23 +34,34 @@
 #AboutWindow *{
     color: txtClr;
     background-color: bg2Clr;
+    selection-color: nrClr;
     selection-background-color:clashClr;
 }
-
+#lblAnchor {
+    background-color: bgClr;
+}
+#pbAut {
+    color: txtClr;
+    border:0px solid black;
+    background-color: bg2Clr;
+    font-size:8pt;
+    text-align:right;
+}
+#pbAut:hover {
+    color: nrClr;
+}
 #AboutWindow QScrollBar::handle {
     background-color:bgClr
 }
 
 /********************* GLOBALS *********************/
 
-QMessageBox, QInputDialog {
+QDialog {
     color: txtClr;
     background-color: bg2Clr;
-    selection-background-color:clashClr;
 }
-QMessageBox, QInputDialog *{
+QDialog *{
     color: txtClr;
-    background-color: bgClr;
     selection-background-color:clashClr;
 }
 
@@ -103,7 +122,7 @@ QSplitter::handle {
     background-color: #090906;
 }
 
-/* MENUS */
+/********************* MENUS *********************/
 
 QMenu {
     color: txtClr;
@@ -111,8 +130,6 @@ QMenu {
     border:1px solid titleClr;
     padding: 3px;
     border-radius: 4px;
-
-
 }
 QMenu::item:selected {
     background-color: bg2Clr;
@@ -125,11 +142,11 @@ QMenuBar {
     spacing: 5px;
 }
 QMenuBar::item:selected {
-    color: nrClr;
+    color: txtClr;
     background-color: bg2Clr;
     border-bottom:1px solid #090906;
 }
-QMenuBar QMenu{
+QMenuBar QMenu {
     color: txtClr;
     border-top-left-radius: 0px;
     border-top-right-radius: 0px;
@@ -137,8 +154,14 @@ QMenuBar QMenu{
     border-bottom-right-radius: 4px;
 
 }
+#menu_view, #menu_todays_reading, #menu_meditation, #menu_filters,#menu_history,#menu_bookmarks,#menu_help {
+    border-top:1px solid transparent;
+    border-bottom: 1px solid titleClr;
+    border-left: 1px solid titleClr;
+    border-right:1px solid titleClr;
+}
 
-/* SCROLLBARS */
+/********************* SCROLLBARS *********************/
 
 QScrollBar:vertical {
     background-color: transparent;
@@ -255,20 +278,17 @@ QTabBar::tab:hover {
     margin:0;
     border:1px top darkgray;
     font-weight: Normal;
-    selection-color:titleClr;
     selection-background-color:clashClr;
 }
 
 #frame_today_cal QAbstractItemView {
     color: nrClr;
     background-color: bg2Clr;
-    selection-color:titleClr;
     selection-background-color:clashClr;
 }
 #frame_today_cal QWidget {
     color: nrClr;
     background-color: bg2Clr;
-    selection-color:titleClr;
     selection-background-color:clashClr;
 }
 
@@ -287,6 +307,7 @@ QTabBar::tab:hover {
     padding:2px;
 }
 #pb_enc_img {
+    background-color: transparent;
     border: 1 solid titleClr;
     padding:2px;
 }
@@ -335,7 +356,6 @@ QTabBar::tab:hover {
     background-color: bgClr;
     padding:0px;
     margin:0px;
-    selection-color:titleClr;
     selection-background-color:clashClr;
 }
 #tb_scriptures QScrollBar::handle {
@@ -366,7 +386,6 @@ QTabBar::tab:hover {
 #info_tb, #strongs_tb {
     color: txtClr;
     background-color: bg2Clr;
-    selection-color:titleClr;
     selection-background-color:clashClr;
 }
 

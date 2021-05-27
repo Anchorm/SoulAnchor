@@ -43,8 +43,8 @@ INSTALLS += \
 TEMPLATE = app
 
 TRANSLATIONS = \
-        data/lang/soulanchor_en.ts \
-        data/lang/soulanchor_nl.ts
+        data/lang/soulanchor_english.ts \
+        data/lang/soulanchor_nederlands.ts
 
 # super easy syntax
 DEFINES += APP_DATADIR_PREFIX='\\"$$PREFIX\\"'

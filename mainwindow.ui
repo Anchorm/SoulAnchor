@@ -23,11 +23,6 @@
     <height>300</height>
    </size>
   </property>
-  <property name="font">
-   <font>
-    <family>Bitstream Vera Sans</family>
-   </font>
-  </property>
   <property name="windowTitle">
    <string notr="true">SoulAnchor</string>
   </property>
@@ -39,11 +34,6 @@
    <string notr="true"/>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <property name="font">
-    <font>
-     <family>Bitstream Vera Sans</family>
-    </font>
-   </property>
    <property name="styleSheet">
     <string notr="true"/>
    </property>
@@ -122,14 +112,6 @@
          <width>0</width>
          <height>0</height>
         </size>
-       </property>
-       <property name="font">
-        <font>
-         <family>Bitstream Vera Serif</family>
-         <pointsize>11</pointsize>
-         <stylestrategy>PreferDefault</stylestrategy>
-         <kerning>true</kerning>
-        </font>
        </property>
        <property name="focusPolicy">
         <enum>Qt::NoFocus</enum>
@@ -231,14 +213,6 @@
              <height>30</height>
             </size>
            </property>
-           <property name="font">
-            <font>
-             <family>Bitstream Vera Sans</family>
-             <pointsize>10</pointsize>
-             <stylestrategy>PreferDefault</stylestrategy>
-             <kerning>true</kerning>
-            </font>
-           </property>
            <property name="maxVisibleItems">
             <number>20</number>
            </property>
@@ -266,14 +240,6 @@
              <width>16777215</width>
              <height>28</height>
             </size>
-           </property>
-           <property name="font">
-            <font>
-             <family>Bitstream Vera Sans</family>
-             <pointsize>10</pointsize>
-             <stylestrategy>PreferDefault</stylestrategy>
-             <kerning>true</kerning>
-            </font>
            </property>
            <property name="focusPolicy">
             <enum>Qt::StrongFocus</enum>
@@ -314,17 +280,6 @@
              <width>16777215</width>
              <height>16777215</height>
             </size>
-           </property>
-           <property name="font">
-            <font>
-             <family>Bitstream Vera Serif</family>
-             <pointsize>11</pointsize>
-             <weight>75</weight>
-             <italic>false</italic>
-             <bold>true</bold>
-             <stylestrategy>PreferDefault</stylestrategy>
-             <kerning>true</kerning>
-            </font>
            </property>
            <property name="focusPolicy">
             <enum>Qt::StrongFocus</enum>
@@ -474,14 +429,6 @@
                <height>30</height>
               </size>
              </property>
-             <property name="font">
-              <font>
-               <family>Bitstream Vera Sans</family>
-               <pointsize>11</pointsize>
-               <stylestrategy>PreferDefault</stylestrategy>
-               <kerning>true</kerning>
-              </font>
-             </property>
              <property name="text">
               <string>case sensitive</string>
              </property>
@@ -507,14 +454,6 @@
                <height>26</height>
               </size>
              </property>
-             <property name="font">
-              <font>
-               <family>Bitstream Vera Sans</family>
-               <pointsize>10</pointsize>
-               <stylestrategy>PreferDefault</stylestrategy>
-               <kerning>true</kerning>
-              </font>
-             </property>
              <property name="frame">
               <bool>false</bool>
              </property>
@@ -539,14 +478,6 @@
                <width>16777215</width>
                <height>30</height>
               </size>
-             </property>
-             <property name="font">
-              <font>
-               <family>Bitstream Vera Sans</family>
-               <pointsize>11</pointsize>
-               <stylestrategy>PreferDefault</stylestrategy>
-               <kerning>true</kerning>
-              </font>
              </property>
              <property name="toolTip">
               <string>search word(s) or Strong's nr</string>
@@ -591,14 +522,6 @@
                <height>30</height>
               </size>
              </property>
-             <property name="font">
-              <font>
-               <family>Bitstream Vera Sans</family>
-               <pointsize>11</pointsize>
-               <stylestrategy>PreferDefault</stylestrategy>
-               <kerning>true</kerning>
-              </font>
-             </property>
              <property name="text">
               <string>whole words</string>
              </property>
@@ -627,14 +550,6 @@
                <height>26</height>
               </size>
              </property>
-             <property name="font">
-              <font>
-               <family>Bitstream Vera Sans</family>
-               <pointsize>10</pointsize>
-               <stylestrategy>PreferDefault</stylestrategy>
-               <kerning>true</kerning>
-              </font>
-             </property>
              <property name="frame">
               <bool>false</bool>
              </property>
@@ -659,14 +574,6 @@
                <width>60</width>
                <height>16777215</height>
               </size>
-             </property>
-             <property name="font">
-              <font>
-               <family>Bitstream Vera Serif</family>
-               <pointsize>12</pointsize>
-               <stylestrategy>PreferDefault</stylestrategy>
-               <kerning>true</kerning>
-              </font>
              </property>
              <property name="toolTip">
               <string>search</string>
@@ -715,14 +622,6 @@
                <height>30</height>
               </size>
              </property>
-             <property name="font">
-              <font>
-               <family>Bitstream Vera Serif</family>
-               <pointsize>10</pointsize>
-               <stylestrategy>PreferDefault</stylestrategy>
-               <kerning>true</kerning>
-              </font>
-             </property>
              <property name="toolTip">
               <string notr="true"/>
              </property>
@@ -768,17 +667,6 @@
              <height>16777215</height>
             </size>
            </property>
-           <property name="font">
-            <font>
-             <family>Bitstream Vera Serif</family>
-             <pointsize>11</pointsize>
-             <weight>50</weight>
-             <italic>false</italic>
-             <bold>false</bold>
-             <stylestrategy>PreferDefault</stylestrategy>
-             <kerning>true</kerning>
-            </font>
-           </property>
            <property name="acceptDrops">
             <bool>false</bool>
            </property>
@@ -810,7 +698,7 @@
             <string notr="true">&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Bitstream Vera Serif','Bitstream Vera Serif','Bitstream Vera Sans','Bitstream Vera Sans'; font-size:11pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Cantarell'; font-size:12pt; font-weight:400; font-style:normal;&quot;&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'Sans'; font-size:10pt;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
            </property>
            <property name="openLinks">
@@ -826,14 +714,6 @@ p, li { white-space: pre-wrap; }
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
-        </property>
-        <property name="font">
-         <font>
-          <family>Bitstream Vera Sans</family>
-          <pointsize>11</pointsize>
-          <stylestrategy>PreferDefault</stylestrategy>
-          <kerning>true</kerning>
-         </font>
         </property>
         <property name="styleSheet">
          <string notr="true"/>
@@ -928,14 +808,6 @@ p, li { white-space: pre-wrap; }
                 <height>24</height>
                </size>
               </property>
-              <property name="font">
-               <font>
-                <family>Bitstream Vera Sans</family>
-                <pointsize>10</pointsize>
-                <stylestrategy>PreferDefault</stylestrategy>
-                <kerning>true</kerning>
-               </font>
-              </property>
               <property name="toolTip">
                <string>Set calender to today</string>
               </property>
@@ -978,12 +850,7 @@ p, li { white-space: pre-wrap; }
               </property>
               <property name="font">
                <font>
-                <family>DejaVu Sans</family>
                 <pointsize>9</pointsize>
-                <weight>50</weight>
-                <bold>false</bold>
-                <stylestrategy>PreferDefault</stylestrategy>
-                <kerning>true</kerning>
                </font>
               </property>
               <property name="styleSheet">
@@ -1016,19 +883,6 @@ p, li { white-space: pre-wrap; }
                 <width>16777215</width>
                 <height>28</height>
                </size>
-              </property>
-              <property name="font">
-               <font>
-                <family>Bitstream Vera Sans</family>
-                <pointsize>11</pointsize>
-                <weight>50</weight>
-                <italic>false</italic>
-                <bold>false</bold>
-                <underline>false</underline>
-                <strikeout>false</strikeout>
-                <stylestrategy>PreferDefault</stylestrategy>
-                <kerning>true</kerning>
-               </font>
               </property>
               <property name="toolTip">
                <string/>
@@ -1073,16 +927,6 @@ p, li { white-space: pre-wrap; }
                 <height>28</height>
                </size>
               </property>
-              <property name="font">
-               <font>
-                <family>Bitstream Vera Sans</family>
-                <pointsize>11</pointsize>
-                <weight>50</weight>
-                <bold>false</bold>
-                <stylestrategy>PreferDefault</stylestrategy>
-                <kerning>true</kerning>
-               </font>
-              </property>
               <property name="toolTip">
                <string/>
               </property>
@@ -1116,16 +960,6 @@ p, li { white-space: pre-wrap; }
                 <width>16777215</width>
                 <height>28</height>
                </size>
-              </property>
-              <property name="font">
-               <font>
-                <family>Bitstream Vera Sans</family>
-                <pointsize>11</pointsize>
-                <weight>50</weight>
-                <bold>false</bold>
-                <stylestrategy>PreferDefault</stylestrategy>
-                <kerning>true</kerning>
-               </font>
               </property>
               <property name="toolTip">
                <string/>
@@ -1163,16 +997,6 @@ p, li { white-space: pre-wrap; }
                 <width>16777215</width>
                 <height>28</height>
                </size>
-              </property>
-              <property name="font">
-               <font>
-                <family>Bitstream Vera Sans</family>
-                <pointsize>11</pointsize>
-                <weight>50</weight>
-                <bold>false</bold>
-                <stylestrategy>PreferDefault</stylestrategy>
-                <kerning>true</kerning>
-               </font>
               </property>
               <property name="cursor">
                <cursorShape>ArrowCursor</cursorShape>
@@ -1252,7 +1076,6 @@ p, li { white-space: pre-wrap; }
                  </property>
                  <property name="font">
                   <font>
-                   <family>Bitstream Vera Sans</family>
                    <pointsize>10</pointsize>
                    <stylestrategy>PreferDefault</stylestrategy>
                    <kerning>true</kerning>
@@ -1291,7 +1114,6 @@ p, li { white-space: pre-wrap; }
                  </property>
                  <property name="font">
                   <font>
-                   <family>Bitstream Vera Serif</family>
                    <pointsize>11</pointsize>
                    <italic>false</italic>
                    <stylestrategy>PreferDefault</stylestrategy>
@@ -1334,8 +1156,6 @@ p, li { white-space: pre-wrap; }
                  </property>
                  <property name="font">
                   <font>
-                   <family>Bitstream Vera Sans</family>
-                   <pointsize>10</pointsize>
                    <stylestrategy>PreferDefault</stylestrategy>
                    <kerning>true</kerning>
                   </font>
@@ -1374,8 +1194,6 @@ p, li { white-space: pre-wrap; }
                  </property>
                  <property name="font">
                   <font>
-                   <family>Bitstream Vera Sans</family>
-                   <pointsize>10</pointsize>
                    <stylestrategy>PreferDefault</stylestrategy>
                    <kerning>true</kerning>
                   </font>
@@ -1464,8 +1282,6 @@ p, li { white-space: pre-wrap; }
            </property>
            <property name="font">
             <font>
-             <family>Bitstream Vera Sans</family>
-             <pointsize>12</pointsize>
              <stylestrategy>PreferDefault</stylestrategy>
              <kerning>true</kerning>
             </font>
@@ -1519,8 +1335,6 @@ p, li { white-space: pre-wrap; }
            </property>
            <property name="font">
             <font>
-             <family>Bitstream Vera Sans</family>
-             <pointsize>12</pointsize>
              <stylestrategy>PreferDefault</stylestrategy>
              <kerning>true</kerning>
             </font>
@@ -1815,8 +1629,6 @@ p, li { white-space: pre-wrap; }
                   </property>
                   <property name="font">
                    <font>
-                    <family>Bitstream Vera Serif</family>
-                    <pointsize>12</pointsize>
                     <weight>50</weight>
                     <italic>false</italic>
                     <bold>false</bold>
@@ -1965,8 +1777,8 @@ p, li { white-space: pre-wrap; }
                 <string notr="true">&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Bitstream Vera Sans','Bitstream Vera Sans','Bitstream Vera Sans'; font-size:11pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'Bitstream Vera Sans';&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Bitstream Vera Sans'; font-size:12pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:11pt;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                </property>
                <property name="openLinks">
                 <bool>false</bool>
@@ -2175,8 +1987,8 @@ p, li { white-space: pre-wrap; }
                    <string notr="true">&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Bitstream Vera Sans','Bitstream Vera Sans'; font-size:11pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'Bitstream Vera Sans';&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Cantarell'; font-size:12pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'Bitstream Vera Sans'; font-size:11pt;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                   </property>
                   <property name="openLinks">
                    <bool>false</bool>
@@ -2426,8 +2238,8 @@ p, li { white-space: pre-wrap; }
                    <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Bitstream Vera Sans','Bitstream Vera Sans','Bitstream Vera Sans'; font-size:11pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'Bitstream Vera Sans';&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Bitstream Vera Sans'; font-size:11pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                   </property>
                   <property name="openLinks">
                    <bool>false</bool>
@@ -2887,7 +2699,7 @@ p, li { white-space: pre-wrap; }
      <x>0</x>
      <y>0</y>
      <width>2252</width>
-     <height>23</height>
+     <height>25</height>
     </rect>
    </property>
    <property name="sizePolicy">
@@ -2908,16 +2720,11 @@ p, li { white-space: pre-wrap; }
      <height>16777214</height>
     </size>
    </property>
-   <property name="font">
-    <font>
-     <family>DejaVu Sans</family>
-    </font>
-   </property>
    <property name="defaultUp">
     <bool>false</bool>
    </property>
    <property name="nativeMenuBar">
-    <bool>false</bool>
+    <bool>true</bool>
    </property>
    <widget class="QMenu" name="menu_todays_reading">
     <property name="title">
@@ -2945,6 +2752,12 @@ p, li { white-space: pre-wrap; }
     <addaction name="action_delete_roster"/>
    </widget>
    <widget class="QMenu" name="menu_help">
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
+    </property>
     <property name="title">
      <string>Help</string>
     </property>
@@ -2956,11 +2769,6 @@ p, li { white-space: pre-wrap; }
     <addaction name="action_about"/>
    </widget>
    <widget class="QMenu" name="menu_view">
-    <property name="font">
-     <font>
-      <family>Bitstream Vera Sans</family>
-     </font>
-    </property>
     <property name="title">
      <string>View</string>
     </property>
@@ -2969,7 +2777,6 @@ p, li { white-space: pre-wrap; }
     <addaction name="action_toggle_bible"/>
     <addaction name="action_toggle_info"/>
     <addaction name="action_fullscreen"/>
-    <addaction name="action_toggle_menu"/>
     <addaction name="separator"/>
     <addaction name="action_open_parallel"/>
     <addaction name="action_cross_references"/>
@@ -3343,29 +3150,44 @@ p, li { white-space: pre-wrap; }
   </action>
  </widget>
  <tabstops>
+  <tabstop>cb_select_translation</tabstop>
+  <tabstop>lineEdit_select</tabstop>
+  <tabstop>lw_books</tabstop>
+  <tabstop>lw_chapters</tabstop>
+  <tabstop>tb_scriptures</tabstop>
   <tabstop>search_le_what</tabstop>
+  <tabstop>search_cb_where</tabstop>
+  <tabstop>search_cb_anyExact</tabstop>
   <tabstop>search_chkb_whole</tabstop>
   <tabstop>search_chkb_case</tabstop>
-  <tabstop>search_tb</tabstop>
   <tabstop>search_btn_find</tabstop>
+  <tabstop>search_tb</tabstop>
   <tabstop>btn_select_today</tabstop>
   <tabstop>calendar</tabstop>
-  <tabstop>info_tb</tabstop>
-  <tabstop>dict_pb_index</tabstop>
-  <tabstop>dict_le</tabstop>
-  <tabstop>dict_pb_go</tabstop>
-  <tabstop>strongs_tb</tabstop>
-  <tabstop>strongs_le</tabstop>
-  <tabstop>strongs_pb</tabstop>
-  <tabstop>btn_prev_session</tabstop>
-  <tabstop>cb_roster_read</tabstop>
-  <tabstop>btn_next_session</tabstop>
-  <tabstop>pb_enc_txt</tabstop>
   <tabstop>pb_enc_img</tabstop>
   <tabstop>btn_daily_proverb</tabstop>
   <tabstop>btn_daily_psalm</tabstop>
   <tabstop>btn_daily_letter</tabstop>
   <tabstop>btn_roster</tabstop>
+  <tabstop>btn_prev_session</tabstop>
+  <tabstop>cb_roster_read</tabstop>
+  <tabstop>btn_next_session</tabstop>
+  <tabstop>pb_enc_txt</tabstop>
+  <tabstop>dict_le</tabstop>
+  <tabstop>strongs_le</tabstop>
+  <tabstop>strongs_tb</tabstop>
+  <tabstop>info_tb</tabstop>
+  <tabstop>strongs_pb</tabstop>
+  <tabstop>dict_pb_index</tabstop>
+  <tabstop>dict_pb_go</tabstop>
+  <tabstop>btn_info_close</tabstop>
+  <tabstop>btn_find_close</tabstop>
+  <tabstop>cb_find_loc</tabstop>
+  <tabstop>lineEdit_find</tabstop>
+  <tabstop>btn_find_next</tabstop>
+  <tabstop>btn_find_prev</tabstop>
+  <tabstop>chkBox_find_case</tabstop>
+  <tabstop>chkBox_find_whole</tabstop>
  </tabstops>
  <resources>
   <include location="../build-soulanchor-Desktop-Debug/soulanchor.qrc"/>

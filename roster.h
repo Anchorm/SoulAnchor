@@ -16,14 +16,14 @@ class Roster : public QWidget
 
 public:
     explicit Roster(QWidget *parent = nullptr);
-    ~Roster();
+    ~Roster() override;
 
 private slots:
     void on_pb_close_clicked();
     void on_pb_make_clicked();
     void on_pb_preview_clicked();
     void populateCb();
-    void hideEvent(QHideEvent *);
+    void hideEvent(QHideEvent *) override;
 
     void on_cb_what_currentTextChanged();
 

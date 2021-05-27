@@ -7,23 +7,23 @@ AboutWindow::AboutWindow(QWidget *parent) : QWidget(parent, Qt::Window)
     setWindowIcon(anchorIcon);
     setFixedSize(500, 500);
 
+    lblAnchor->setObjectName("lblAnchor");
     lblAnchor->setStyleSheet("border-image: url(:/data/img/anchor_about.png)");
     lblAnchor->setFixedHeight(230);
-    lblInfo->setText(
-                "<h1>SoulAnchor</h1>"
+    lblInfo->setText("<h1>SoulAnchor</h1>"
                 "X11 Bible tool - version " + QGuiApplication::applicationVersion() + "<br>"
     );
     lblInfo->setAlignment(Qt::AlignHCenter | Qt::AlignTop);
     lblInfo->setStyleSheet("padding:5px");
 
-    QString aut = "<a style='text-decoration:none;' href='mailto:soulanchor@protonmail.com'>"
-                "Anchorman</a> in the year of our Lord 2021";
+    amPb->setText("Anchorman in the year of our Lord 2021");
+    amPb->setObjectName("pbAut");
+    amPb->setCursor(Qt::PointingHandCursor);
+    amPb->setToolTip("open e-mail client");
 
-    lblAut->setText(aut);
-    lblAut->setStyleSheet("font-size:8pt; margin-right:5px; margin-bottom:10px;");
-    lblAut->setAlignment(Qt::AlignRight | Qt::AlignBottom);
-    lblAut->setOpenExternalLinks(true);
-    lblAut->setFixedHeight(30);
+    connect(amPb, &QPushButton::clicked, this, [](){
+        QDesktopServices::openUrl(
+                    QUrl("mailto:soulanchor@protonmail.com", QUrl::TolerantMode)); });
 
     QString cred = "<table cellpadding='5'>"
             "<tr><td>the Holy Scriptures</td> <td>God Almighty</td></tr>"
@@ -31,7 +31,8 @@ AboutWindow::AboutWindow(QWidget *parent) : QWidget(parent, Qt::Window)
             "https://github.com/scrollmapper/bible_databases</td></tr>"
             "<tr><td>the NET Bible</td> <td>Scripture quoted by permission. "
             "Quotations designated (NET) are from the NET Bible® copyright ©1996, "
-            "2019 by Biblical Studies Press, L.L.C. http://netbible.com All rights reserved</td></tr>"
+            "2019 by Biblical Studies Press, L.L.C. http://netbible.com All rights reserved</td>"
+            "</tr>"
             "<tr><td>dictionaries, strongs</td> <td>Public domain, various unknown contributors, "
             "thank you all</td></tr>"
             "<tr><td>Qt 5.15</td> <td>The Qt Toolkit is Copyright (C) 2018 The Qt Company Ltd. "
@@ -44,18 +45,19 @@ AboutWindow::AboutWindow(QWidget *parent) : QWidget(parent, Qt::Window)
             "<tr></tr>"
             "</table>";
 
-    teCredit->setStyleSheet("border:0");
+    teCredit->setStyleSheet("border:0; margin:0;");
     teCredit->setReadOnly(true);
     teCredit->setText(cred);
 
-    lblLic->setText("SoulAnchor uses the GPLv3. See the COPYING file. \n\nThis program is distributed in the hope that it will be useful, but without any warranty; without even the implied warranty of merchantability or fitness for a particular purpose.");
+    lblLic->setText("\nSoulAnchor uses the GPLv3. See the COPYING file. \n\nThis program is distributed in the hope that it will be useful, but without any warranty; without even the implied warranty of merchantability or fitness for a particular purpose.");
     lblLic->setStyleSheet("padding:10px;border:0");
     lblLic->setAlignment(Qt::AlignHCenter | Qt::AlignTop);
     lblLic->setWordWrap(true);
 
     aboutVbox->addWidget(lblInfo);
     aboutVbox->addWidget(lblAnchor);
-    aboutVbox->addWidget(lblAut);
+    aboutVbox->addWidget(amPb);
+
     creditVbox->addWidget(teCredit);
     licenseVbox->addWidget(lblLic);
 

@@ -15,12 +15,6 @@ class SettingsWindow : public QWidget
 {
     Q_OBJECT
 
-public:
-    void addToCb(const QString &abbr);
-    explicit SettingsWindow(QWidget *parent = nullptr);
-    ~SettingsWindow();
-
-private:
     QStringList bookNamesLanguages;
     QString guiLanguage;
     QString bknLanguage;
@@ -29,23 +23,32 @@ private:
     QString translation;
     QString font;
     QString fontS;
+    bool scrCheck;
+    bool bkchCheck;
     QString margin;
     QString display;
-
     QString activeScheme;
 
-    Ui::SettingsWindow *ui;
+    void setCbGuiLang();
     void getBooknameLanguages();
-    void writeSettings();
     void getSchemes();
+    void setCbFontSize();
+    void setCbTranslations();
+    void cancelSettings();
+    void writeSettings();
+    void applySettings();
+
+    Ui::SettingsWindow *ui;
 
 public:
-    void on_applyFont_btn_clicked();
-    void cancel();
+    explicit SettingsWindow(QWidget *parent = nullptr);
+    ~SettingsWindow() override;
 
 signals:
-    void fontChanged(); // a signal on btn click - connect to mainwindow slot applyFont
-    void schemeChanged(const QString &aScheme); // connect to applyScheme
+    // a signal on btn click - connect to mainwindow slot applyFont
+    void fontChanged(const QString &font, const QString &fontS, const QString &margin);
+    void schemeChanged(const QString &aScheme); // connect to mainwindow applyScheme
+    void booknameLangChanged(const QString &lang); // to mainwindow updateBooksWidget
 };
 
 #endif // SETTINGSWINDOW_H

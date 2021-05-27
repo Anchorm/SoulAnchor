@@ -2,7 +2,6 @@
 
 DatabaseHandler dbH;
 
-// TODO: open database connections for app data dir db's, others on demand. OR don't bother
 DatabaseHandler::DatabaseHandler()
 {
     // qDebug() << "these db drivers are available: " << QSqlDatabase::drivers();

@@ -10,9 +10,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
     activeScheme = settings.value("activeScheme", "classic").toString();
     applyScheme(activeScheme);
 
-    otMenu->setObjectName("justamenu");
-    ntMenu->setObjectName("justamenu");
-
     // restore window state
     int width70 = (screen()->geometry().width() / 100) * 70;
     int height70 = (screen()->geometry().height() / 100) * 70;
@@ -65,7 +62,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
     connect(ui->action_quit, &QAction::triggered, this, &MainWindow::exit, Qt::QueuedConnection);
     ui->action_quit->setShortcut(QKeySequence("Ctrl+q"));
 
-
     connect(ui->action_toggle_tab, &QAction::triggered, this, &MainWindow::toggleTabW);
     ui->action_toggle_tab->setShortcut(Qt::Key_F8);
 
@@ -78,9 +74,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
     connect(ui->action_fullscreen, &QAction::triggered, this, &MainWindow::toggleFullscreen);
     ui->action_fullscreen->setShortcut(Qt::Key_F11);
 
-    connect(ui->action_toggle_menu, &QAction::triggered, this, &MainWindow::toggleMenu);
-    ui->action_toggle_menu->setShortcut(Qt::Key_F12);
-
+    new QShortcut(QKeySequence(Qt::Key_F12), this, SLOT(toggleMenu()));
 
     connect(ui->action_make_roster, &QAction::triggered, this, [this] () {
         !rosterW->isVisible() ? rosterW->show() : rosterW->raise(); } );
@@ -93,7 +87,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
         !aboutW->isVisible() ? aboutW->show() : aboutW->raise(); });
 
     connect(ui->action_settings, &QAction::triggered, this, [this] () {
-        !settingsW->isVisible() ? settingsW->show()  : settingsW->raise();});
+        !settingsW->isVisible() ? settingsW->show()  : settingsW->raise(); });
 
     connect(ui->action_lord_prayer, &QAction::triggered, this, &MainWindow::theLordsPrayer);
     connect(ui->action_breaking_bread, &QAction::triggered, this, &MainWindow::breakingBread);
@@ -177,7 +171,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
     connect(ui->action_show_roster, &QAction::triggered, this, &MainWindow::loadRoster);
     ui->frame_roster_btns->hide();
 
-    updateBooksWidget();
+    updateBooksWidget("");
     updateCbTranslations();
 
     tlAbbr = settings.value("translation").toString();
@@ -202,15 +196,18 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
     connect(ui->action_play_random, &QAction::triggered, this, &MainWindow::playRandom);
 
     makeTextMenuItems();
-    applyFont();
 
     // signals
-    QObject::connect(settingsW, &SettingsWindow::fontChanged,
-                     this, &MainWindow::applyFont);
     QObject::connect(rosterW, &Roster::rosterCreated,
                      this, &MainWindow::addRostersToMenu);
+
+    QObject::connect(settingsW, &SettingsWindow::fontChanged,
+                     this, &MainWindow::applyFont);
     QObject::connect(settingsW, &SettingsWindow::schemeChanged,
                      this, &MainWindow::applyScheme);
+    QObject::connect(settingsW, &SettingsWindow::booknameLangChanged,
+                     this, &MainWindow::updateBooksWidget);
+
     QObject::connect(this, &MainWindow::parOpened,
                      parW, &ParWindow::setTlandJob);
     QObject::connect(this, &MainWindow::setParwStyle,
@@ -242,10 +239,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
         if(ui->dict_le->text().isEmpty()) ui->info_tb->clear();    });
 
     rosterRead ? ui->cb_roster_read->setChecked(true) : ui->cb_roster_read->setChecked(false);
-
     strongTl = "t_akjv_s";
-
-//    ui->pb_enc_img->click();
 
     if (startup == "Psalm") todaysPsalm();
     else if (startup == "Proverb") todaysProverb();
@@ -254,8 +248,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
     else ui->bible_frame->hide();
 
     ui->tb_scriptures->moveCursor(QTextCursor::Start);
-
-    settingsW->cancel();
+    applyFont("", "", "");
 }
 
 MainWindow::~MainWindow() {
@@ -269,7 +262,7 @@ void MainWindow::showIntro() {
     QString intro = (
         "Hi, welcome to SoulAnchor.\t\n\n"
 
-        "This project is still a work in progress."
+        "This project is still a work in progress. "
         "Note that some options will not work "
         "until you add your own resources (e.g. audio bible). "
         "See the MOD file for details. \n\n"
@@ -284,7 +277,7 @@ void MainWindow::showIntro() {
              }
          }
 
-    QMessageBox msgBox(QMessageBox::Information, "introduction", intro, QMessageBox::Ok);
+    QMessageBox msgBox(QMessageBox::Information, "welcome", intro, QMessageBox::Ok);
     if (appWidget != nullptr){
         auto myrect = msgBox.frameGeometry(); // create a rectangle
         auto appGeoCenter = appWidget->geometry().center(); // get app center
@@ -304,7 +297,7 @@ void MainWindow::strongify()
     QString txtStyle = "font-weight:normal;padding:1px;color:" + scheme["txtClr"];
     QString christStyle = "font-weight:normal;color:" + scheme["titleClr"];
     QString strongStyle = "text-decoration:none;font-weight:bold;"
-                            "color:" + scheme["txtClr"];
+                            "color:" + scheme["nrClr"];
 
 
     QHash<QString, int> job;
@@ -1269,20 +1262,45 @@ void MainWindow::applyScheme(const QString &aScheme) {
     ui->calendar->setHeaderTextFormat(calFormat);
 
     setBookTitle();
-    ui->tb_scriptures->clear();ui->strongs_tb->clear();ui->info_tb->clear();
     setStyleSheets();
 }
 
-void MainWindow::applyFont(){
+void MainWindow::applyFont(const QString &font, const QString &fontS, const QString &margin){
     // apply changes from settings window
     QSettings settings(settingsFile.fileName(), QSettings::IniFormat);
-    scripFont = settings.value("font").toString();
-    int ps = settings.value("fontsize").toInt();
-    scripFont.setPointSize(ps);
-    ui->tb_scriptures->setFont(scripFont);
-    ui->lw_chapters->setFont(scripFont);
+    int ps;
 
-    scripMargin = settings.value("margin").toInt();
+    if (font.isEmpty() or fontS.isEmpty() or margin.isEmpty()) {
+        *scripFont = settings.value("Font/font", "sans").toString();
+        ps = settings.value("Font/fontsize", "12").toInt();
+        scripFont->setPointSize(ps);
+        scripMargin = settings.value("margin", "14").toInt();
+
+    } else {
+        *scripFont = font;
+        ps = fontS.toInt();
+        scripFont->setPointSize(ps);
+        scripMargin = margin.toInt();
+    }
+
+    QCheckBox *scrChkb = this->findChild<QCheckBox *>("font_script_chkb");
+    QCheckBox *bcChkb = this->findChild<QCheckBox *>("font_bkch_chkb");
+
+    // a custom font or the default app font which is def os font
+    if (scrChkb->isChecked()) {
+        ui->tb_scriptures->document()->setDefaultFont(*scripFont);
+    } else {
+        ui->tb_scriptures->document()->setDefaultFont(QApplication::font());
+    }
+
+    if (bcChkb->isChecked()) {
+        ui->lw_books->setFont(*scripFont);
+        ui->lw_chapters->setFont(*scripFont);
+    } else {
+        ui->lw_books->setFont(QApplication::font());
+        ui->lw_chapters->setFont(QApplication::font());
+    }
+
     ui->tb_scriptures->document()->setDocumentMargin(scripMargin);
 }
 
@@ -1365,22 +1383,20 @@ bool MainWindow::compareFunctionS(QAction *a, QAction *b) {
 }
 
 void MainWindow::showText(const QString &filepath, const QString &filename) {
-    // show a contemplation text/md
+    // show a contemplation text, markdown format
     ui->info_tb->clear(); ui->info_frame->show();
     ui->info_lbl_title->setText(filename);
-    QString line, markdownS;
+    QString atext;
 
     QFile textFile(filepath);
     if (!textFile.open(QIODevice::ReadOnly | QIODevice::Text))
         return;
 
-    while (!textFile.atEnd()) {
-            line = textFile.readLine();
-            markdownS.append(line);
-    }
+    atext = textFile.readAll();
+    atext.replace("<a href", QString("<a style='text-decoration:none;color:%1' href")
+                        .arg(scheme["nrClr"]));
 
-    textFile.close();
-    ui->info_tb->setMarkdown(markdownS);
+    ui->info_tb->setMarkdown(atext);
 }
 
 void MainWindow::makeMusicMenu(){    
@@ -1636,6 +1652,7 @@ void MainWindow::showShortcuts() {
                 "<tr><td>toggle info frame</td> <td>F10</td></tr>"
                 "<tr><td>toggle fullscreen</td> <td>F11</td></tr>"
                 "<tr><td>toggle menu</td> <td>F12</td></tr>"
+                "<tr><td>(disables many shortcuts)</td></tr>"
                 "<tr></tr>"
                 "<tr><td>quit</td> <td>ctrl + q</td></tr>"
                 "</table>"
@@ -1759,8 +1776,8 @@ void MainWindow::setEncTxt(){
 void MainWindow::escapeKey(){
     if (this->isFullScreen()) {
         this->showNormal();
-    } else if (ui->menu_bar->maximumHeight() == 1) {
-        ui->menu_bar->setMaximumHeight(23);
+    } else if (ui->menu_bar->isHidden()) {
+        ui->menu_bar->show();
     } else if (ui->tabwidget->isHidden()) {
         ui->tabwidget->show();
     } else if (ui->frame_find->isVisible()) {
@@ -2027,8 +2044,9 @@ void MainWindow::versesWithStrongNumber(const QString &strongs, const QString &w
         txt.replace("</S>", " ");
 
         QString link = QString("%1/%2/%3").arg(bkS, c1, v1) ;
-        QString match = QString("<h3><a style=\"color: #555C96\" href=\"%5\">"\
-                "%1 %2:%3 </a></h3>%4<br><br>").arg(bookname, c1, v1, txt, link);
+        QString match = QString(
+                "<h3><a style='color:%6' href='%5'> %1 %2:%3 </a></h3>%4<br><br>")
+                .arg(bookname, c1, v1, txt, link, scheme["nrClr"]);
         ui->search_tb->insertHtml(match);
     }
 
@@ -2527,7 +2545,6 @@ void MainWindow::createOtNtMenus() {
 void MainWindow::ccMenuBackground(){
     //custom context menu for background frame
     QMenu ccMenu(this);
-    ccMenu.setObjectName("justamenu");
     QAction *parAction = ccMenu.addAction(bookOpenIcon, tr("Open Parallel Window"));
     QAction *showBibleAction = ccMenu.addAction(bookOpenIcon, tr("Show Bible Frame"));
     QAction *showInfoAction = ccMenu.addAction(docIcon, tr("Show Info Frame"));
@@ -2547,7 +2564,6 @@ void MainWindow::ccMenuBackground(){
 void MainWindow::ccMenuInfo(){
     //custom context menu for info_frame
     QMenu ccMenu(this);
-    ccMenu.setObjectName("justamenu");
     QMenu *histMenu = ccMenu.addMenu(tr("history"));
 
     for (const QString &histItem : qAsConst(dictwordHistory)) {
@@ -2579,7 +2595,6 @@ void MainWindow::ccMenuInfo(){
 void MainWindow::ccMenuStrongs(){
     //custom context menu for info_frame
     QMenu ccMenu(this);
-    ccMenu.setObjectName("justamenu");
     QMenu *histMenu = ccMenu.addMenu(tr("history"));
 
     for (QString histItem : qAsConst(strongsHistory)) {
@@ -2615,7 +2630,6 @@ void MainWindow::ccMenuStrongs(){
 
 void MainWindow::ccMenuBibleFrame(){
     QMenu ccMenu(this);
-    ccMenu.setObjectName("justamenu");
 
     QAction *parAction = ccMenu.addAction(bookOpenIcon, tr("Open Parallel Window"));
     QAction *strongAction = ccMenu.addAction(strongIcon, tr("Strongify"));
@@ -2961,7 +2975,6 @@ void MainWindow::popupChapters(int bkNr) {
     QString bookName = ::g_bookNames[bkNr];
     int finalChapter = dbH.getChapterCount(bkNr);
     QMenu chapMenu(bookName, this);
-    chapMenu.setObjectName("justamenu");
 
     QAction *title = chapMenu.addAction(bookName);
     title->setEnabled(false);
@@ -3137,7 +3150,6 @@ void MainWindow::updateCbTranslations() {
         abbr = query.value(0).toString();
         desc = query.value(1).toString();
         ui->cb_select_translation->addItem(desc, abbr);
-        settingsW->addToCb(abbr);
     }
 }
 
@@ -3149,7 +3161,6 @@ void MainWindow::printFromHistory(QHash<QString, int> job){
     setBookTitle();
     updateChapterWidget();
     ui->lw_chapters->setCurrentRow(c1 - 1);
-//    ui->tb_scriptures->clear();
     processPrintQueue();
 }
 
@@ -3276,10 +3287,10 @@ void MainWindow::printScriptures() {
                                     .arg(bookName, sCh, scheme.value("nrClr"));
             sChapterTable.append(headerTable);
 
-            headerBasic = QString("<br><p style='text-align:center;color:#9E0E0D;"
+            headerBasic = QString("<br><p style='text-align:center;color:%3;"
                                   "font-family:serif;font-weight:700;'>"
                                   "%1 %2</p><br>"
-                                  ).arg(bookName, sCh);
+                                  ).arg(bookName, sCh, scheme.value("nrClr"));
             sChapterBasic.append(headerBasic);
         }
 
@@ -3290,7 +3301,8 @@ void MainWindow::printScriptures() {
             "<td style='color:%4;font-weight:400;'> %2</td>"
             "</tr>").arg(sNr, txt, scheme.value("nrClr"), scheme.value("txtClr"));
 
-        verseBasic = QString("<span style='color:#393E42'>%1 </span>").arg(txt);
+        verseBasic = QString("<span style='color:%1'>%2 </span>")
+                .arg(scheme.value("txtClr"), txt);
 
         // check for end of line/verse, since we want a break if size/lenght is above 300
         if (endChar.contains(txt.right(1)) && textL > 300) {
@@ -3443,11 +3455,16 @@ void MainWindow::aboutFilters(){
 }
 
 void MainWindow::chapterSelected(){
+    if (!ui->lw_books->currentItem()) {
+        ui->tb_scriptures->setHtml("<h3>no book selected</h3>");
+        return;
+    }
+
+    QList<QListWidgetItem *> lwItems = ui->lw_chapters->selectedItems();
     QHash<QString, int> job;
     int bookNumber = ui->lw_books->currentItem()->data(0x0100).toInt();
     int chapterNumber;
 
-    QList lwItems = ui->lw_chapters->selectedItems();
     for (QListWidgetItem* item : lwItems ) {
         chapterNumber = item->data(0x0100).toInt();
         job["bk"] = bookNumber;
@@ -3480,7 +3497,7 @@ void MainWindow::bookSelected(){
 
 void MainWindow::setBookTitle(QString title) {
     if (title.isEmpty()) {
-        if (ui->lw_books->count() > 0 ) {
+        if (ui->lw_books->currentItem()) {
             title = ui->lw_books->currentItem()->text();
         } else {
             title = "";
@@ -3502,12 +3519,11 @@ void MainWindow::setBookTitle(QString title) {
     ui->btn_book_title->setText(title);
 }
 
-void MainWindow::updateChapterWidget(){
+void MainWindow::updateChapterWidget() {
     if(!ui->bible_frame->isVisible()) {
         ui->bible_frame->show();
     }
     ui->lw_chapters->clear();
-//    ui->lw_chapters->setStyleSheet("color:" + scheme.value("txtClr"));
 
     int bookNumber = ui->lw_books->currentItem()->data(0x0100).toInt();
     int finalChapter = dbH.getChapterCount(bookNumber);
@@ -3521,12 +3537,21 @@ void MainWindow::updateChapterWidget(){
     }
 }
 
-void MainWindow::updateBooksWidget(){
+void MainWindow::updateBooksWidget(const QString &lang) {
     ui->lw_books->clear();
+    ui->lw_chapters->clear();
+    ui->btn_book_title->setText("");
     ::g_bookNames.clear();
     ::g_bookNames.append("zero");
+    QString sql;
 
-    QSqlQuery query("SELECT book_nr, name_" + bknLanguage + " from number_name", dbH.bibleDb);
+    if (lang.isEmpty()) {
+        sql = "SELECT book_nr, name_" + bknLanguage + " from number_name";
+    } else {
+        sql = "SELECT book_nr, name_" + lang + " from number_name";
+    }
+
+    QSqlQuery query(sql, dbH.bibleDb);
     QString bookName;
     QString tooltip;
     int bookNr;
@@ -3571,10 +3596,8 @@ void MainWindow::getBooksAbbr(){
 void MainWindow::toggleFullscreen(){
     if (isFullScreen()){
         showNormal();
-        ui->menu_bar->setMaximumHeight(23);
     } else {
         showFullScreen();
-        ui->menu_bar->setMaximumHeight(1);
     }
 }
 
@@ -3587,8 +3610,7 @@ void MainWindow::toggleTabW(){
 }
 
 void MainWindow::toggleMenu(){
-    ui->menu_bar->maximumHeight() == 23 ? ui->menu_bar->setMaximumHeight(1)
-                                        : ui->menu_bar->setMaximumHeight(23);
+    ui->menu_bar->isHidden() ? ui->menu_bar->show() : ui->menu_bar->hide();
 }
 
 void MainWindow::toggleInfo(){

@@ -93,8 +93,6 @@ Example note in markdown format:
 
 In plaintext or in _markdown_ format. All .txt and .md files in this directory will be added to the text contemplations menu.
 
-&nbsp;
-
 Links can be created like this: 
 * Scripture links: 
   - <a href="bible:heb 6:19">Heb. 6:19</a>

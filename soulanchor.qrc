@@ -1,7 +1,5 @@
 <RCC>
     <qresource prefix="/">
-        <file>data/lang/soulanchor_en.qm</file>
-        <file>data/lang/soulanchor_nl.qm</file>
         <file>data/img/anchor.png</file>
         <file>data/img/anchor2.png</file>
         <file>data/img/anchor_about.png</file>
@@ -36,6 +34,8 @@
         <file>data/img/door_out.png</file>
         <file>data/css/soulanchor.css</file>
         <file>data/img/script_yellow.png</file>
+        <file>data/lang/soulanchor_nederlands.qm</file>
+        <file>data/lang/soulanchor_english.qm</file>
         <file>data/txt/immersion.md</file>
     </qresource>
 </RCC>

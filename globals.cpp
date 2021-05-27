@@ -1,6 +1,7 @@
 #include "globals.h"
 
 QTranslator translator;
+
 QTextStream sout(stdout);
 
 QVector<QString> g_bookNames;

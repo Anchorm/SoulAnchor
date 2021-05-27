@@ -10,6 +10,7 @@
 #include <QScreen>
 #include <QPushButton>
 #include <QFile>
+#include <QDesktopServices>
 
 class AboutWindow : public QWidget
 {
@@ -19,8 +20,9 @@ class AboutWindow : public QWidget
     QTabWidget *tabw = new QTabWidget(this);
     QLabel *lblAnchor = new QLabel(this);
     QLabel *lblInfo = new QLabel(this);
-    QLabel *lblAut = new QLabel(this);
     QLabel *lblLic = new QLabel(this);
+
+    QPushButton *amPb = new QPushButton(this);
 
     QTextEdit *teCredit = new QTextEdit(this);
 
