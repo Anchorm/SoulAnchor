@@ -6,6 +6,7 @@ How to make modifications:
 3. music
 4. notes
 5. color schemes
+6. gui language
 
  1.a translations
 
@@ -105,3 +106,13 @@ Can be defined in soulanchor.conf in ~/.config/soulanchor in html color format u
 [Schemes]
 name=number color, text color, title color, background 1 color, background 2 color, highlight color
 Eg: amber=#775F18, #3E2A11, #b29a00, #fff7bf, #ffee80, #5BF4DA
+
+ 6. gui language (untested)
+
+The soulanchor_english.ts in the data/lang source folder can be used with the Qt Linguist application in order to produce a soulanchor_yourlanguage.qm file. The .qm file should be placed in the same data/lang directory.
+
+Now a line should be added to the soulanchor.qrc file.
+E.g. <file>data/lang/soulanchor_yourlanguage.qm</file>
+
+After building, this file will become part of the app's resources. The 'yourlanguage' part of the filename will be used in the settings menu GUI language combobox.
+

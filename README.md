@@ -4,8 +4,7 @@
 
 &nbsp;
 
-SoulAnchor is a basic X11 Bible reading tool. With it you can read and search and compare the Scriptures.
-There's also an option to display Strong's numbers and definitions. And there are dictionaries available.
+SoulAnchor is a basic X11 Bible reading tool. For reading, searching and comparing the Scriptures. A parallel window is available to compare translations. There's an option to display Strong's numbers and definitions. Also included are a few Bible dictionaries. And it's possible to use cross references and topical links. 
 
 The vision i have for SoulAnchor:
 * Basic but handy tool for daily use
