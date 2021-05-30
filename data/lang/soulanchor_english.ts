@@ -83,13 +83,13 @@
     </message>
     <message>
         <location filename="../../mainwindow.ui" line="1164"/>
-        <location filename="../../mainwindow.cpp" line="2643"/>
+        <location filename="../../mainwindow.cpp" line="2649"/>
         <source>next</source>
         <translation></translation>
     </message>
     <message>
         <location filename="../../mainwindow.ui" line="1202"/>
-        <location filename="../../mainwindow.cpp" line="2644"/>
+        <location filename="../../mainwindow.cpp" line="2650"/>
         <source>previous</source>
         <translation></translation>
     </message>
@@ -180,7 +180,7 @@
     </message>
     <message>
         <location filename="../../mainwindow.ui" line="2836"/>
-        <location filename="../../mainwindow.cpp" line="3128"/>
+        <location filename="../../mainwindow.cpp" line="3138"/>
         <source>History</source>
         <translation></translation>
     </message>
@@ -297,7 +297,7 @@
     <message>
         <location filename="../../mainwindow.ui" line="2455"/>
         <location filename="../../mainwindow.ui" line="2917"/>
-        <location filename="../../mainwindow.cpp" line="3091"/>
+        <location filename="../../mainwindow.cpp" line="3101"/>
         <source>Bible</source>
         <translation></translation>
     </message>
@@ -327,20 +327,20 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../../mainwindow.ui" line="3011"/>
-        <location filename="../../mainwindow.cpp" line="1556"/>
+        <location filename="../../mainwindow.cpp" line="1564"/>
         <source>The Lord&apos;s Prayer</source>
         <translation></translation>
     </message>
     <message>
         <location filename="../../mainwindow.ui" line="3020"/>
-        <location filename="../../mainwindow.cpp" line="843"/>
+        <location filename="../../mainwindow.cpp" line="854"/>
         <source>Add Bookmark</source>
         <translation></translation>
     </message>
     <message>
         <location filename="../../mainwindow.ui" line="3029"/>
         <location filename="../../mainwindow.ui" line="3071"/>
-        <location filename="../../mainwindow.cpp" line="851"/>
+        <location filename="../../mainwindow.cpp" line="862"/>
         <source>Delete</source>
         <translation></translation>
     </message>
@@ -361,14 +361,14 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../../mainwindow.ui" line="3057"/>
-        <location filename="../../mainwindow.cpp" line="847"/>
+        <location filename="../../mainwindow.cpp" line="858"/>
         <source>Rename</source>
         <translation></translation>
     </message>
     <message>
         <location filename="../../mainwindow.ui" line="3066"/>
-        <location filename="../../mainwindow.cpp" line="2548"/>
-        <location filename="../../mainwindow.cpp" line="2634"/>
+        <location filename="../../mainwindow.cpp" line="2554"/>
+        <location filename="../../mainwindow.cpp" line="2640"/>
         <source>Open Parallel Window</source>
         <translation></translation>
     </message>
@@ -379,13 +379,13 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../../mainwindow.ui" line="3085"/>
-        <location filename="../../mainwindow.cpp" line="1570"/>
+        <location filename="../../mainwindow.cpp" line="1578"/>
         <source>Breaking Bread</source>
         <translation></translation>
     </message>
     <message>
         <location filename="../../mainwindow.ui" line="3094"/>
-        <location filename="../../mainwindow.cpp" line="1594"/>
+        <location filename="../../mainwindow.cpp" line="1602"/>
         <source>Immersion</source>
         <translation></translation>
     </message>
@@ -395,164 +395,154 @@ p, li { white-space: pre-wrap; }
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="791"/>
-        <location filename="../../mainwindow.cpp" line="796"/>
+        <location filename="../../mainwindow.cpp" line="802"/>
+        <location filename="../../mainwindow.cpp" line="807"/>
         <source>rename bookmark</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="792"/>
+        <location filename="../../mainwindow.cpp" line="803"/>
         <source>Choose bookmark to rename:</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="797"/>
+        <location filename="../../mainwindow.cpp" line="808"/>
         <source>And the new name is:</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="823"/>
+        <location filename="../../mainwindow.cpp" line="834"/>
         <source>delete bookmark</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="824"/>
+        <location filename="../../mainwindow.cpp" line="835"/>
         <source>bookmark to remove:</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="1079"/>
+        <location filename="../../mainwindow.cpp" line="1089"/>
         <source>remove roster</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="1080"/>
+        <location filename="../../mainwindow.cpp" line="1090"/>
         <source>Roster to remove:</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="1118"/>
+        <location filename="../../mainwindow.cpp" line="1128"/>
         <source>Set roster %1 to the first session?</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="1119"/>
+        <location filename="../../mainwindow.cpp" line="1129"/>
         <source>reset roster</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="1188"/>
-        <source>&lt;br&gt;&lt;center&gt;no reading plan available&lt;/center&gt;&lt;br&gt;&lt;center&gt;goto menu &lt;i&gt;Today&apos;s Reading&lt;/i&gt; and create a plan&lt;/center&gt;</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="../../mainwindow.cpp" line="1447"/>
+        <location filename="../../mainwindow.cpp" line="1455"/>
         <source>about Immersion</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="1448"/>
+        <location filename="../../mainwindow.cpp" line="1456"/>
         <source>about Judeans</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="1613"/>
+        <location filename="../../mainwindow.cpp" line="1621"/>
         <source>salvation</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="1626"/>
+        <location filename="../../mainwindow.cpp" line="1634"/>
         <source>worries</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="1661"/>
+        <location filename="../../mainwindow.cpp" line="1669"/>
         <source>shortcuts</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="2470"/>
-        <source>&lt;br&gt;&lt;center&gt;no book found&lt;/center&gt;</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="../../mainwindow.cpp" line="2549"/>
+        <location filename="../../mainwindow.cpp" line="2555"/>
         <source>Show Bible Frame</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="2550"/>
+        <location filename="../../mainwindow.cpp" line="2556"/>
         <source>Show Info Frame</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="2567"/>
-        <location filename="../../mainwindow.cpp" line="2598"/>
+        <location filename="../../mainwindow.cpp" line="2573"/>
+        <location filename="../../mainwindow.cpp" line="2604"/>
         <source>history</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="2636"/>
+        <location filename="../../mainwindow.cpp" line="2642"/>
         <source>show cross references</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="2910"/>
+        <location filename="../../mainwindow.cpp" line="2916"/>
         <source>no book selected?</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="3123"/>
+        <location filename="../../mainwindow.cpp" line="3133"/>
         <source>this book</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="3124"/>
+        <location filename="../../mainwindow.cpp" line="3134"/>
         <source>all books</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="3125"/>
+        <location filename="../../mainwindow.cpp" line="3135"/>
         <source>O.T.</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="3127"/>
+        <location filename="../../mainwindow.cpp" line="3137"/>
         <source>Law</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="3129"/>
+        <location filename="../../mainwindow.cpp" line="3139"/>
         <source>Wisdom</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="3130"/>
+        <location filename="../../mainwindow.cpp" line="3140"/>
         <source>Prophets</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="3131"/>
+        <location filename="../../mainwindow.cpp" line="3141"/>
         <source>Gospels</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="3132"/>
+        <location filename="../../mainwindow.cpp" line="3142"/>
         <source>Acts</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="3133"/>
+        <location filename="../../mainwindow.cpp" line="3143"/>
         <source>Epistles</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="3134"/>
+        <location filename="../../mainwindow.cpp" line="3144"/>
         <source>Apocalyptic</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="3443"/>
+        <location filename="../../mainwindow.cpp" line="3453"/>
         <source>The filters replace two important words that have become confused, with clear biblical alternatives.
 
 The new words will be in italic. And by hovering over them a tooltip will show the old word. 
@@ -563,91 +553,96 @@ The filters are not active in the parallel window since the performance hit was 
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="2581"/>
-        <location filename="../../mainwindow.cpp" line="2617"/>
-        <location filename="../../mainwindow.cpp" line="2667"/>
+        <location filename="../../mainwindow.cpp" line="2587"/>
+        <location filename="../../mainwindow.cpp" line="2623"/>
+        <location filename="../../mainwindow.cpp" line="2673"/>
         <source>close</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="546"/>
+        <location filename="../../mainwindow.cpp" line="557"/>
         <source>Showing results for: </source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="550"/>
+        <location filename="../../mainwindow.cpp" line="561"/>
         <source>&lt;b&gt;working...&lt;/b&gt;</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="556"/>
+        <location filename="../../mainwindow.cpp" line="567"/>
         <source>&lt;b&gt;this will take a moment...&lt;/b&gt;</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="2635"/>
-        <source>Strongify</source>
+        <location filename="../../mainwindow.cpp" line="1198"/>
+        <source>No reading plan available. Go to menu &lt;i&gt;Today&apos;s Reading&lt;/i&gt; and create a plan.</source>
         <translation></translation>
     </message>
     <message>
         <location filename="../../mainwindow.cpp" line="2641"/>
+        <source>Strongify</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../../mainwindow.cpp" line="2647"/>
         <source>chapters</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="2648"/>
+        <location filename="../../mainwindow.cpp" line="2654"/>
         <source>play this chapter</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="2665"/>
+        <location filename="../../mainwindow.cpp" line="2671"/>
         <source>toggle table/book display</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="3126"/>
+        <location filename="../../mainwindow.cpp" line="3136"/>
         <source>N.T.</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="3453"/>
+        <location filename="../../mainwindow.cpp" line="3463"/>
         <source>about filters</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="2649"/>
+        <location filename="../../mainwindow.cpp" line="2655"/>
         <source>stop playing</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="2578"/>
-        <location filename="../../mainwindow.cpp" line="2614"/>
-        <location filename="../../mainwindow.cpp" line="2652"/>
+        <location filename="../../mainwindow.cpp" line="2584"/>
+        <location filename="../../mainwindow.cpp" line="2620"/>
+        <location filename="../../mainwindow.cpp" line="2658"/>
         <source>select all</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="2579"/>
-        <location filename="../../mainwindow.cpp" line="2615"/>
-        <location filename="../../mainwindow.cpp" line="2653"/>
+        <location filename="../../mainwindow.cpp" line="2585"/>
+        <location filename="../../mainwindow.cpp" line="2621"/>
+        <location filename="../../mainwindow.cpp" line="2659"/>
         <source>copy</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="2576"/>
-        <location filename="../../mainwindow.cpp" line="2612"/>
-        <location filename="../../mainwindow.cpp" line="2654"/>
+        <location filename="../../mainwindow.cpp" line="2582"/>
+        <location filename="../../mainwindow.cpp" line="2618"/>
+        <location filename="../../mainwindow.cpp" line="2660"/>
         <source>find</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="323"/>
+        <location filename="../../mainwindow.cpp" line="334"/>
         <source>showing %1 %2 with Strong&apos;s numbers using the AKJV</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="2662"/>
-        <location filename="../../mainwindow.cpp" line="2663"/>
+        <location filename="../../mainwindow.cpp" line="2668"/>
+        <location filename="../../mainwindow.cpp" line="2669"/>
         <source>about </source>
         <translation></translation>
     </message>

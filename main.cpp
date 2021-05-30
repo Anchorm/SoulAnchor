@@ -1,14 +1,14 @@
  /******************************************************
- * SoulAnchor - X11 Bible tool
- * for daily reading of the Word and some light study
- *
- * this hope we have as an anchor of the soul
- * a hope both sure and steadfast
- * and one which enters within the veil
- * Hebrews 6:19
- *
- * Anchorman - in the year of our Lord 2021
- * ***********************************************/
+    SoulAnchor - X11 Bible tool
+    for daily reading of the Word and some light study
+
+    this hope we have as an anchor of the soul
+    a hope both sure and steadfast
+    and one which enters within the veil
+    (Hebrews 6:19)
+
+    Anchorman - in the year of our Lord 2021
+ *******************************************/
 
 #include <QApplication>
 #include "setup.h"

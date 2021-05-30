@@ -113,9 +113,6 @@ class MainWindow : public QMainWindow
     QMenu *otMenu = new QMenu("OT", this);
     QMenu *ntMenu = new QMenu("NT", this);
 
-//    QShortcut *toggleMenuShortcut = new QShortcut(QKeySequence(Qt::Key_F12),
-//                                                   this, SLOT(toggleMenu()));
-
       /*****************
      * W I N D O W S  *
     *****************/
@@ -124,8 +121,9 @@ class MainWindow : public QMainWindow
     SettingsWindow *settingsW = new SettingsWindow(this);
     Roster *rosterW = new Roster(this);
 
-    // todo: place in db?
-    // a random scripture
+    void popupMsg(const QString message);
+    void printMsg(const QString message);
+
     QVector< QVector<int> > encS = {
     {19,4,6},
     {19,119,10},{19,119,12},{19,119,27},{19,119,29},{19,119,30},{19,119,32},{19,119,33},{19,119,34},

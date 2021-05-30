@@ -8,8 +8,8 @@ DatabaseHandler::DatabaseHandler()
 }
 
 bool DatabaseHandler::openDataBases() {
-    // db's in app data dir must exist or we exit
-    // db's in user data dir will be autocreated if possible
+    // db's must exist or we exit
+    // db's in user data dir will be a created
 
     extraDb = QSqlDatabase::addDatabase("QSQLITE", "extra");
     extraDb.setConnectOptions("QSQLITE_OPEN_READONLY");
@@ -19,7 +19,6 @@ bool DatabaseHandler::openDataBases() {
     if (!extraDb.isOpen()) {
         sout << "could not open database: extra.db in "
              << ::dataDir.path() << Qt::endl;
-        sout << "must exit" << Qt::endl;
         return false;
     }
 
@@ -31,7 +30,6 @@ bool DatabaseHandler::openDataBases() {
     if (!bibleDb.isOpen()) {
         sout << "could not open database: bibles.db in "
              << ::dataDir.path() << Qt::endl;
-        sout << "must exit" << Qt::endl;
         return false;
     }
 
@@ -43,7 +41,6 @@ bool DatabaseHandler::openDataBases() {
     if (!dictDb.isOpen()) {
         sout << "could not open database: dictionaries.db in "
              << ::dataDir.path() <<  Qt::endl;
-        sout << "must exit" << Qt::endl;
         return false;
     }
 
@@ -72,12 +69,12 @@ bool DatabaseHandler::openDataBases() {
     if (!rosterDb.isOpen()) {
         sout << "could not open or create database: roster.db in "
              << ::userDataDir.path() <<  Qt::endl;
-        sout << "continue anyway without roster functionality" << Qt::endl;
+        return false;
     }
     if (!bookmarksDb.isOpen()) {
         sout << "could not open or create database: bookmarks.db in "
              << ::userDataDir.path() <<  Qt::endl;
-        sout << "continue anyway without bookmarks functionality" << Qt::endl;
+        return false;
     }
 
     return true;

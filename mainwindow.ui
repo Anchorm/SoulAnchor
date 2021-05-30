@@ -2858,7 +2858,7 @@ p, li { white-space: pre-wrap; }
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset resource="../build-soulanchor-Desktop-Debug/soulanchor.qrc">
+    <iconset>
      <normaloff>:/data/img/anchor2.png</normaloff>:/data/img/anchor2.png</iconset>
    </property>
    <property name="text">

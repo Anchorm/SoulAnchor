@@ -1,9 +1,7 @@
 <RCC>
     <qresource prefix="/">
         <file>data/img/anchor.png</file>
-        <file>data/img/anchor2.png</file>
         <file>data/img/anchor_about.png</file>
-        <file>data/img/book.png</file>
         <file>data/img/book_add.png</file>
         <file>data/img/book_open.png</file>
         <file>data/img/book_remove.png</file>
@@ -23,7 +21,6 @@
         <file>data/img/help.png</file>
         <file>data/img/information.png</file>
         <file>data/img/music.png</file>
-        <file>data/img/notebook.jpg</file>
         <file>data/img/overview.jpg</file>
         <file>data/img/window-close.png</file>
         <file>data/img/wrench.png</file>

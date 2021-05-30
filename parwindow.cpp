@@ -190,7 +190,7 @@ void ParWindow::prevChapter(){
 void ParWindow::popupChapters(int bkNr) {
     // called from the customcontextmenu
     if (bkNr == 0){
-        te->setHtml("<span style='color:brown'>  let us select a book first</span>");
+        te->setHtml("let us select a book first");
         return;
     }
 

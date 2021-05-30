@@ -258,11 +258,22 @@ MainWindow::~MainWindow() {
     delete ui;
 }
 
+void MainWindow::printMsg(const QString message) {
+    ui->tb_scriptures->setHtml(QString("<br><h3 style='text-align:center;color:%1;'>"
+                               "%2</h3>").arg(scheme["nrClr"], message));
+}
+
+void MainWindow::popupMsg(const QString message) {
+    QMessageBox msgBox(QMessageBox::Information, "info", message, QMessageBox::Ok);
+    msgBox.exec();
+}
+
 void MainWindow::showIntro() {
     QString intro = (
         "Hi, welcome to SoulAnchor.\t\n\n"
 
-        "This project is still a work in progress. "
+        "This project is still a work in progress."
+        "Please report any bugs. \n\n"
         "Note that some options will not work "
         "until you add your own resources (e.g. audio bible). "
         "See the MOD file for details. \n\n"
@@ -959,8 +970,7 @@ void MainWindow::on_btn_next_session_clicked()
 
     int nextSession = currentSession + 1;
     if (nextSession > finalSession) {
-        ui->tb_scriptures->setHtml("<br><center>You have reached the "
-                                   "end of the reading plan.</center><br>");
+        printMsg("You have reached the end of the reading plan.");
         return;
     } else {
         updateSession(rosterName, nextSession);
@@ -1093,8 +1103,8 @@ void MainWindow::on_action_delete_roster_triggered(){
         }
         addRostersToMenu();
 
-        QString msg = QString("<br><center>%1 has been removed</center><br>").arg(rosterName);
-        ui->tb_scriptures->setHtml(msg);
+        QString msg = QString("%1 has been removed").arg(rosterName);
+        printMsg(msg);
     }
 }
 
@@ -1185,11 +1195,11 @@ void MainWindow::loadRoster() {
         ui->bible_frame->show();
     }
 
-    QString noPlan = tr("<br><center>no reading plan available</center><br>"
-            "<center>goto menu <i>Today\'s Reading</i> and create a plan</center>");
+    QString noPlan = tr("No reading plan available. "
+            "Go to menu <i>Today\'s Reading</i> and create a plan.");
 
     if (ui->menu_roster_select->actions().isEmpty()) {
-        ui->tb_scriptures->setHtml(noPlan);
+        printMsg(noPlan);
         ui->frame_roster_btns->hide();
         return;
     }
@@ -1197,7 +1207,7 @@ void MainWindow::loadRoster() {
     QSettings settings(settingsFile.fileName(), QSettings::IniFormat);
     QString rosterName = settings.value("Rosters/activeRoster").toString();
     if ( rosterName.isEmpty() ) {
-        ui->tb_scriptures->setHtml(noPlan);
+        printMsg(noPlan);
         ui->frame_roster_btns->hide();
         return;
     } else {
@@ -1341,10 +1351,8 @@ void MainWindow::spokenWord() {
         QString basename = audioBibleBook.baseName();
         playMusic(absPath, basename);
     } else {
-        ui->tb_scriptures->setHtml(
-            "<br><center><span style='font-family:sans'>could not "
-            "find an mp3 file for this chapter"
-            ", see the MOD file for more information</span></center>");
+        printMsg("could not find an mp3 file for this chapter, "
+            "see the MOD file for more information");
     }
 }
 
@@ -2336,8 +2344,6 @@ void MainWindow::printRequestSingle(const QString &request) {
             }
         }
 
-        assert(bkNr > -1 && bkNr < 67 );
-
         // get chapter number(s)
         if (bkNr > 0) {
             int fCh = dbH.getChapterCount(bkNr);
@@ -2467,7 +2473,7 @@ void MainWindow::printRequest(const QString &request) {
             ui->lw_books->clearSelection();
             ui->lw_chapters->clear();
             ui->btn_book_title->setText("");
-            ui->tb_scriptures->setHtml(tr("<br><center>no book found</center>"));
+            printMsg("no book found");
             return;
         }
     } //  endof while (gmatch.hasNext())
@@ -2958,14 +2964,18 @@ void MainWindow::showAboutTl() {
 }
 
 void MainWindow::popupChapters(int bkNr) {
-    // called from the customcontextmenu on the bible frame
+    // show a chapters menu, called from the customcontextmenu
 
     if (bkNr == 0){
         if (ui->lw_books->selectedItems().count() == 0) {
-            ui->tb_scriptures->setHtml("<br><p><small>bro... <br><br> what book?</small></p>");
+            printMsg("What book?");
             return;
         } else {
             bkNr = ui->lw_books->currentItem()->data(0x0100).toInt();
+            if (bkNr == 0) {
+                printMsg("What book?");
+                return;
+            }
         }
     } else {
         bkNr < 40 ? ui->lw_books->setCurrentRow(bkNr - 1) : ui->lw_books->setCurrentRow(bkNr);
@@ -3456,7 +3466,7 @@ void MainWindow::aboutFilters(){
 
 void MainWindow::chapterSelected(){
     if (!ui->lw_books->currentItem()) {
-        ui->tb_scriptures->setHtml("<h3>no book selected</h3>");
+        printMsg("no book selected");
         return;
     }
 
@@ -3646,4 +3656,3 @@ void MainWindow::exit()
 {
     QApplication::quit();
 }
-
