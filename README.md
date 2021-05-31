@@ -4,12 +4,12 @@
 
 &nbsp;
 
-SoulAnchor is a basic X11 Bible reading tool. For reading, searching and comparing the Scriptures. A parallel window is available to compare translations. There's an option to display Strong's numbers and definitions. Also included are a few Bible dictionaries. And it's possible to use cross references and topical links. 
+SoulAnchor is a Bible reading tool for the Linux desktop build with the Qt framework. For reading, searching and comparing the Scriptures. A parallel window is available to compare translations. There's an option to display Strong's numbers and definitions. Also included are a few Bible dictionaries. And it's possible to use cross references and topical links. 
 
 The vision i have for SoulAnchor:
 * Basic but handy tool for daily use
 * Bible reader first, light study tool second
-* Open / easy to modify, add/remove translations
+* Open formats, easy to modify, add/remove translations
 * Multiple ways to contemplate the Word, text, audio, image
 
 &nbsp;
@@ -25,4 +25,8 @@ Note2: you might want to check soulanchor.pro to see if the install directories 
 
 &nbsp;
 
-![soulanchor](data/img/soulanchor.png?raw=true)
+![soulanchor 01](/../screenshots/soulanchor-01.png?raw=true "Content tab, parallel window")
+![soulanchor 02](/../screenshots/soulanchor-02.png?raw=true "Search tab")
+![soulanchor 03](/../screenshots/soulanchor-03.png?raw=true "Today, Settings")
+![soulanchor 04](/../screenshots/soulanchor-04.png?raw=true "Cross references")
+![soulanchor 05](/../screenshots/soulanchor-05.png?raw=true "Strongs")
