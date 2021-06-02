@@ -68,15 +68,8 @@ class MainWindow : public QMainWindow
 
     QString saStyle; // css
 
-    // for showing a hymn text
-    const QString hymnStyle = "text-align:center;font-family:serif;"
-                              "font-size:14pt;font-weight:normal;"
-                              "color:darkslateblue; background-color:azure;margin:0;";
-
-    // for showing a devotion text
-    const QString devStyle = "text-align:center;font-family:serif;"
-                              "font-size:14pt;font-weight:normal;margin:10px;"
-                              "color:darkslateblue; background-color:azure;";
+    // for showing a devotion or hymn text
+    const QString devStyle = "text-align:center;margin:7px;";
 
     // for 'reset' to make sure no weird format exists after anchor click
     const QTextCharFormat emptyFormat;

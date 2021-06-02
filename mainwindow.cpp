@@ -841,6 +841,7 @@ void MainWindow::deleteBookmark(){
         deleteQuery.exec();
 
         buildBookmarkMenu();
+        popupMsg(bookmarkName + " has been removed.");
     }
 }
 
@@ -1549,8 +1550,8 @@ void MainWindow::playMusic(QString filepath, QString filename){
             hymnText += hymnFile.readLine() + "<br>";
         }
 
-        ui->info_tb->setHtml(QString("<br><div style='%1'><br>%2<br></div>")
-                             .arg(hymnStyle, hymnText) );
+        ui->info_tb->setHtml(QString("<br><div style='%1'><big>%2</big></div>")
+                             .arg(devStyle, hymnText) );
 
     } else if(scripMatch.hasMatch() and !filepath.contains("audio-bible") ){
         printRequestSingle(filename);
@@ -1868,9 +1869,12 @@ void MainWindow::morning(){
 
     morning.replace("<p/>", "<br><br>");
     morning.replace("<p />", "<br><br>");
-    ui->info_tb->setHtml(QString("<div style='%1'>"
-                                 "<br>%2<br></div>").arg(devStyle, morning));
+    morning.replace("<a href", QString("<a style='color:%1' href").arg(scheme["nrClr"]));
+
     ui->info_lbl_title->setText("Morning by morning - Spurgeon");
+
+    ui->info_tb->setHtml(QString("<div style='%1'>"
+                            "<big>%2</big></div>").arg(devStyle, morning));
     ui->info_frame->show();
 }
 
@@ -1886,8 +1890,12 @@ void MainWindow::evening(){
 
     evening.replace("<p/>", "<br><br>");
     evening.replace("<p />", "<br><br>");
-    ui->info_tb->setHtml(QString("<div style='%1'><br>%2<br></div>").arg(devStyle, evening));
+    evening.replace("<a href", QString("<a style='color:%1' href").arg(scheme["nrClr"]));
+
     ui->info_lbl_title->setText("Evening by evening - Spurgeon");
+
+    ui->info_tb->setHtml(QString("<div style='%1'>"
+                            "<big>%2</big></div>").arg(devStyle, evening));
     ui->info_frame->show();
 }
 
@@ -1934,12 +1942,18 @@ void MainWindow::on_search_tb_anchorClicked(const QUrl &url)
     updateChapterWidget();
     ui->lw_chapters->setCurrentRow(chNr - 1);
 
+    scripDisplay = "table"; // needed to get a highlight
     processPrintQueue();
 
     QFlags<QTextDocument::FindFlag> flags = QTextDocument().FindWholeWords;
     QString verse = url_list[2];
     ui->tb_scriptures->moveCursor(QTextCursor().Start);
+    ui->tb_scriptures->moveCursor(QTextCursor().Down); // skip title
+    ui->tb_scriptures->moveCursor(QTextCursor().Down); // skip title
+
     ui->tb_scriptures->find(verse, flags);
+    // highlight the whole verse instead of verse nr only
+    ui->tb_scriptures->moveCursor(QTextCursor().NextBlock, QTextCursor().KeepAnchor);
 }
 
 void MainWindow::on_info_tb_anchorClicked(const QUrl &url)
@@ -2216,7 +2230,6 @@ void MainWindow::searchScriptures() {
 
     QString searchQ = QString("SELECT b,c,v,t FROM %1 WHERE %2").arg(tl, whereClause);
     QSqlQuery query(searchQ, dbH.bibleDb);
-
     int counter = 0; // count the matches per verse
     ui->search_tb->clear();
 
@@ -2227,13 +2240,15 @@ void MainWindow::searchScriptures() {
         QString c1 = query.value(1).toString();
         QString v1 = query.value(2).toString();
         QString txt = query.value(3).toString();
-        QString link = QString("%1/%2/%3").arg(bk, c1, txt) ;
+        QString link = QString("%1/%2/%3").arg(bk, c1, v1) ;
         QString match = QString(
-                    "<h3><a style='color:%6;text-decoration:underline;' "
-                    "href='%5'>  %1 %2:%3 </a></h3>%4<br><br>")
-                    .arg(bookname, c1, v1, txt, link, scheme["nrClr"]);
+                    "<h3><a style='color:%1;text-decoration:underline;' "
+                    "href='%2'>  %3 %4:%5 </a></h3>"
+                    "%6<br><br>")
+                    .arg(scheme["nrClr"], link, bookname, c1, v1, txt);
         ui->search_tb->insertHtml(match);
     }
+
 
     // lets highlight all matches and count the results
     QTextCharFormat boldF;
@@ -2353,7 +2368,8 @@ void MainWindow::printRequestSingle(const QString &request) {
                 // single chapter, perhaps with verse(s)
             if (vsNr1 > 0){
                 if (vsNr2 > 0){
-                    QHash<QString, int> job = { {"bk", bkNr}, {"c1", chNr1}, {"v1", vsNr1}, {"v2", vsNr2} };
+                    QHash<QString, int> job = { {"bk", bkNr}, {"c1", chNr1},
+                                                {"v1", vsNr1}, {"v2", vsNr2} };
                     printQ.enqueue(job);
 
                 } else {
@@ -2378,7 +2394,6 @@ void MainWindow::printRequest(const QString &request) {
     if (request.length() < 2)
         return;
 
-    // TODO: improve?
     QString pattern =
             "\\s*(?<prt>[1-3]?)"
             "\\s*(?<bk>[a-zA-Zëüï]+)"
