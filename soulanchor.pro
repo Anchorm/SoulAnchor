@@ -56,6 +56,7 @@ RESOURCES += soulanchor.qrc
 SOURCES += \
         aboutwindow.cpp \
         databasehandler.cpp \
+        flowlayout.cpp \
         globals.cpp \
         main.cpp \
         mainwindow.cpp \
@@ -67,6 +68,7 @@ SOURCES += \
 HEADERS += \
         aboutwindow.h \
         databasehandler.h \
+        flowlayout.h \
         globals.h \
         mainwindow.h \
         parwindow.h \

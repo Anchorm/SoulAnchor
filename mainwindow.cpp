@@ -1274,6 +1274,11 @@ void MainWindow::applyScheme(const QString &aScheme) {
 
     setBookTitle();
     setStyleSheets();
+
+    QString css = QString("color:%1;background-color:%2;"
+                "font-family:sans;font-size:12pt;padding:3px;margin:1px;")
+            .arg(scheme["txtClr"],scheme["bgClr"]);
+    encTxtLbl->setStyleSheet(css);
 }
 
 void MainWindow::applyFont(const QString &font, const QString &fontS, const QString &margin){

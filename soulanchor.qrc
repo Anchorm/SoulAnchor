@@ -27,12 +27,13 @@
         <file>data/img/emergency.jpg</file>
         <file>data/img/biceps.png</file>
         <file>data/txt/judeans.md</file>
-        <file>data/skel/soulanchor.conf</file>
         <file>data/img/door_out.png</file>
         <file>data/css/soulanchor.css</file>
         <file>data/img/script_yellow.png</file>
         <file>data/lang/soulanchor_nederlands.qm</file>
         <file>data/lang/soulanchor_english.qm</file>
         <file>data/txt/immersion.md</file>
+        <file>data/skel/soulanchor.conf</file>
+        <file>data/img/bullet_arrow_down.png</file>
     </qresource>
 </RCC>

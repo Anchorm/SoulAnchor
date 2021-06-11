@@ -23,6 +23,8 @@
 #include <QString>
 #include <QShortcut>
 
+#include "flowlayout.h"
+
 class ParWindow : public QWidget
 {
     Q_OBJECT
@@ -36,18 +38,15 @@ class ParWindow : public QWidget
     const QIcon closeIcon = QIcon(":/data/img/window-close.png");
     const QIcon scrollIcon = QIcon(":/data/img/script_yellow.png");
 
+    QComboBox *cb_select = new QComboBox(this);
     QLineEdit *leInput = new QLineEdit(this);
+
     QPushButton *btn_ok = new QPushButton(this);
     QPushButton *btn_prev = new QPushButton(this);
     QPushButton *btn_next = new QPushButton(this);
 
-    QHBoxLayout *hbox_2 = new QHBoxLayout;
     QHBoxLayout *hbox_1 = new QHBoxLayout;
-
-    QComboBox *cb_select = new QComboBox(this);
-    QSpacerItem *spacer = new QSpacerItem(60, 30, QSizePolicy::Fixed, QSizePolicy::Fixed);
-    QSpacerItem *spacer2 = new QSpacerItem(30, 30, QSizePolicy::Fixed, QSizePolicy::Fixed);
-    QSpacerItem *spacer3 = new QSpacerItem(99999, 30, QSizePolicy::Preferred, QSizePolicy::Fixed);
+    QHBoxLayout *hbox_2 = new QHBoxLayout;
 
     QVBoxLayout *vbox = new QVBoxLayout;
     QTextEdit *te = new QTextEdit(this);
@@ -76,7 +75,7 @@ private slots:
     void printRequest();
     void toggleFullscreen();
     void escapeKey();
-    void centerWindow();
+//    void centerWindow();
 
 public slots:
     void setStyle(const QHash<QString, QString> &clrScheme);

@@ -3,31 +3,40 @@
 ParWindow::ParWindow(QWidget *parent) : QWidget(parent, Qt::Window)
 {
     setWindowTitle("Parallel Window - SoulAnchor");
-    this->setObjectName("ParallelWindow");
+    setObjectName("ParallelWindow");
     setWindowIcon(anchorIcon);
-    setMinimumSize(500, 500);
     setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
 
     bookName = "";
 
-    int bHeight = 26;
-    cb_select->setFixedHeight(bHeight);
-    leInput->setFixedHeight(bHeight);
-    btn_ok->setFixedHeight(bHeight);
-    btn_next->setFixedHeight(bHeight);
-    btn_prev->setFixedHeight(bHeight);
+    int maxH = 28;
+    int minW = 50;
+
+    cb_select->setMaximumHeight(maxH);
+    cb_select->setMinimumWidth(minW);
+    cb_select->setMaximumSize(150, maxH);
 
     leInput->setPlaceholderText("bk ch:vs");
-    leInput->setFixedWidth(200);
+    leInput->setMinimumWidth(minW);
+    leInput->setMaximumSize(150, maxH);
     leInput->setTextMargins(2, 0, 0, 0);
 
     btn_ok->setText(tr("Go"));
-    btn_prev->setText(tr("previous"));
+    btn_ok->setMaximumSize(70, maxH);
+    btn_ok->setMinimumWidth(30);
+
     btn_next->setText(tr("next"));
+    btn_next->setMaximumSize(100, maxH);
+    btn_next->setMinimumWidth(minW);
+
+    btn_prev->setText(tr("previous"));
+    btn_prev->setMaximumSize(100, maxH);
+    btn_prev->setMinimumWidth(minW);
 
     hbox_1->setSpacing(5);
     hbox_1->setAlignment(Qt::AlignLeft);
     hbox_1->setContentsMargins(6,0,0,0);
+
     hbox_2->setSpacing(5);
     hbox_2->setAlignment(Qt::AlignLeft);
     hbox_2->setContentsMargins(6,0,0,0);
@@ -45,15 +54,11 @@ ParWindow::ParWindow(QWidget *parent) : QWidget(parent, Qt::Window)
 
     connect(cb_select, &QComboBox::currentTextChanged, this, &ParWindow::checkTls);
 
-    hbox_1->addWidget(cb_select);
-    hbox_1->addItem(spacer);
-
-    hbox_1->addWidget(leInput);
-    hbox_1->addWidget(btn_ok);
-    hbox_1->addItem(spacer2);
-    hbox_1->addWidget(btn_prev);
-    hbox_1->addWidget(btn_next);
-    hbox_1->addItem(spacer3);
+    hbox_2->addWidget(cb_select);
+    hbox_2->addWidget(leInput);
+    hbox_2->addWidget(btn_ok);
+    hbox_2->addWidget(btn_prev);
+    hbox_2->addWidget(btn_next);
 
     vbox->setContentsMargins(3, 3, 3, 3);
 
@@ -76,12 +81,14 @@ ParWindow::ParWindow(QWidget *parent) : QWidget(parent, Qt::Window)
         chkBoxes.append(chkB);
     }
 
+    FlowLayout *flowLayout = new FlowLayout;
     for (QCheckBox *chkB: qAsConst(chkBoxes)) {
-        hbox_2->addWidget(chkB);
+        flowLayout->addWidget(chkB);
     }
 
     te->setReadOnly(true);
     te->setContextMenuPolicy(Qt::CustomContextMenu);
+
     connect(te, &QTextEdit::customContextMenuRequested, this, &ParWindow::ccMenuParW);
     connect(leInput, &QLineEdit::returnPressed, this, &ParWindow::printRequest);
     connect(btn_ok, &QPushButton::clicked, this, [this] () {
@@ -100,8 +107,10 @@ ParWindow::ParWindow(QWidget *parent) : QWidget(parent, Qt::Window)
     new QShortcut(QKeySequence(Qt::Key_F11), this, SLOT(toggleFullscreen()));
     new QShortcut(QKeySequence(Qt::Key_Escape), this, SLOT(escapeKey()));
 
+    setMinimumSize(400,200);
+
+    vbox->addItem(flowLayout);
     vbox->addItem(hbox_2);
-    vbox->addItem(hbox_1);
     vbox->addWidget(te);
     setLayout(vbox);
 
@@ -137,7 +146,7 @@ void ParWindow::setTlandJob(const QString &tlAbbr, const QHash<QString, int> &jo
     te->clear();
     history.clear();
     history.enqueue(job);
-    centerWindow();
+//    centerWindow();
 }
 
 void ParWindow::toggleFullscreen(){
@@ -278,19 +287,19 @@ void ParWindow::ccMenuParW(){
 
 }
 
-void ParWindow::centerWindow(){
-    if (parentWidget())
-    {
-        QScreen* activeScreen = parentWidget()->screen();
-        if (activeScreen != nullptr)
-        {
-            auto winGeo = frameGeometry();
-            auto parentGeoCenter = parentWidget()->geometry().center();
-            winGeo.moveCenter(parentGeoCenter);
-            move(winGeo.topLeft());
-        }
-    }
-}
+//void ParWindow::centerWindow(){
+//    if (parentWidget())
+//    {
+//        QScreen* activeScreen = parentWidget()->screen();
+//        if (activeScreen != nullptr)
+//        {
+//            auto winGeo = frameGeometry();
+//            auto parentGeoCenter = parentWidget()->geometry().center();
+//            winGeo.moveCenter(parentGeoCenter);
+//            move(winGeo.topLeft());
+//        }
+//    }
+//}
 
 void ParWindow::checkTls() {
     // set QCheckBoxes checked state

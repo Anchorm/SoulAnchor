@@ -177,7 +177,7 @@
         <attribute name="title">
          <string>Contents</string>
         </attribute>
-        <layout class="QVBoxLayout" name="verticalLayout_4">
+        <layout class="QVBoxLayout" name="verticalLayout_11">
          <property name="spacing">
           <number>3</number>
          </property>
@@ -188,78 +188,85 @@
           <number>3</number>
          </property>
          <property name="rightMargin">
-          <number>3</number>
+          <number>0</number>
          </property>
          <property name="bottomMargin">
           <number>0</number>
          </property>
          <item>
-          <widget class="QComboBox" name="cb_select_translation">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
+          <layout class="QVBoxLayout" name="verticalLayout_4">
+           <property name="spacing">
+            <number>3</number>
            </property>
-           <property name="minimumSize">
-            <size>
-             <width>80</width>
-             <height>26</height>
-            </size>
+           <property name="rightMargin">
+            <number>3</number>
            </property>
-           <property name="maximumSize">
-            <size>
-             <width>16777215</width>
-             <height>30</height>
-            </size>
-           </property>
-           <property name="maxVisibleItems">
-            <number>20</number>
-           </property>
-           <property name="frame">
-            <bool>false</bool>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLineEdit" name="lineEdit_select">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="minimumSize">
-            <size>
-             <width>50</width>
-             <height>30</height>
-            </size>
-           </property>
-           <property name="maximumSize">
-            <size>
-             <width>16777215</width>
-             <height>28</height>
-            </size>
-           </property>
-           <property name="focusPolicy">
-            <enum>Qt::StrongFocus</enum>
-           </property>
-           <property name="toolTip">
-            <string>e.g. ps 1-5 act 2:38</string>
-           </property>
-           <property name="toolTipDuration">
-            <number>-1</number>
-           </property>
-           <property name="styleSheet">
-            <string notr="true"/>
-           </property>
-           <property name="placeholderText">
-            <string/>
-           </property>
-           <property name="clearButtonEnabled">
-            <bool>true</bool>
-           </property>
-          </widget>
+           <item>
+            <widget class="QComboBox" name="cb_select_translation">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>100</width>
+               <height>30</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>16777215</width>
+               <height>30</height>
+              </size>
+             </property>
+             <property name="maxVisibleItems">
+              <number>20</number>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLineEdit" name="lineEdit_select">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>100</width>
+               <height>30</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>16777215</width>
+               <height>30</height>
+              </size>
+             </property>
+             <property name="focusPolicy">
+              <enum>Qt::StrongFocus</enum>
+             </property>
+             <property name="toolTip">
+              <string>e.g. ps 1-5 act 2:38</string>
+             </property>
+             <property name="toolTipDuration">
+              <number>-1</number>
+             </property>
+             <property name="styleSheet">
+              <string notr="true"/>
+             </property>
+             <property name="placeholderText">
+              <string/>
+             </property>
+             <property name="clearButtonEnabled">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+          </layout>
          </item>
          <item>
           <widget class="QListWidget" name="lw_books">
@@ -381,7 +388,7 @@
         </attribute>
         <layout class="QVBoxLayout" name="verticalLayout">
          <property name="spacing">
-          <number>2</number>
+          <number>3</number>
          </property>
          <property name="leftMargin">
           <number>0</number>
@@ -437,7 +444,7 @@
            <item row="7" column="0" colspan="3">
             <widget class="QComboBox" name="search_cb_anyExact">
              <property name="sizePolicy">
-              <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                <horstretch>0</horstretch>
                <verstretch>0</verstretch>
               </sizepolicy>
@@ -445,17 +452,14 @@
              <property name="minimumSize">
               <size>
                <width>110</width>
-               <height>26</height>
+               <height>30</height>
               </size>
              </property>
              <property name="maximumSize">
               <size>
                <width>16777215</width>
-               <height>26</height>
+               <height>30</height>
               </size>
-             </property>
-             <property name="frame">
-              <bool>false</bool>
              </property>
             </widget>
            </item>
@@ -533,7 +537,7 @@
            <item row="6" column="0" colspan="3">
             <widget class="QComboBox" name="search_cb_where">
              <property name="sizePolicy">
-              <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                <horstretch>0</horstretch>
                <verstretch>0</verstretch>
               </sizepolicy>
@@ -541,17 +545,14 @@
              <property name="minimumSize">
               <size>
                <width>80</width>
-               <height>26</height>
+               <height>30</height>
               </size>
              </property>
              <property name="maximumSize">
               <size>
                <width>16777215</width>
-               <height>26</height>
+               <height>30</height>
               </size>
-             </property>
-             <property name="frame">
-              <bool>false</bool>
              </property>
             </widget>
            </item>
@@ -619,6 +620,12 @@
              <property name="minimumSize">
               <size>
                <width>0</width>
+               <height>30</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>16777215</width>
                <height>30</height>
               </size>
              </property>
@@ -794,7 +801,7 @@ p, li { white-space: pre-wrap; }
             <item alignment="Qt::AlignTop">
              <widget class="QPushButton" name="btn_select_today">
               <property name="sizePolicy">
-               <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+               <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                 <horstretch>0</horstretch>
                 <verstretch>0</verstretch>
                </sizepolicy>
@@ -802,13 +809,13 @@ p, li { white-space: pre-wrap; }
               <property name="minimumSize">
                <size>
                 <width>0</width>
-                <height>24</height>
+                <height>16</height>
                </size>
               </property>
               <property name="maximumSize">
                <size>
                 <width>16777215</width>
-                <height>24</height>
+                <height>30</height>
                </size>
               </property>
               <property name="toolTip">
@@ -884,7 +891,7 @@ p, li { white-space: pre-wrap; }
               <property name="maximumSize">
                <size>
                 <width>16777215</width>
-                <height>28</height>
+                <height>30</height>
                </size>
               </property>
               <property name="toolTip">
@@ -927,7 +934,7 @@ p, li { white-space: pre-wrap; }
               <property name="maximumSize">
                <size>
                 <width>16777215</width>
-                <height>28</height>
+                <height>30</height>
                </size>
               </property>
               <property name="toolTip">
@@ -961,7 +968,7 @@ p, li { white-space: pre-wrap; }
               <property name="maximumSize">
                <size>
                 <width>16777215</width>
-                <height>28</height>
+                <height>30</height>
                </size>
               </property>
               <property name="toolTip">
@@ -998,7 +1005,7 @@ p, li { white-space: pre-wrap; }
               <property name="maximumSize">
                <size>
                 <width>16777215</width>
-                <height>28</height>
+                <height>30</height>
                </size>
               </property>
               <property name="cursor">
@@ -1621,7 +1628,7 @@ p, li { white-space: pre-wrap; }
                   <property name="minimumSize">
                    <size>
                     <width>30</width>
-                    <height>20</height>
+                    <height>30</height>
                    </size>
                   </property>
                   <property name="maximumSize">
@@ -1879,13 +1886,13 @@ p, li { white-space: pre-wrap; }
                     <property name="minimumSize">
                      <size>
                       <width>100</width>
-                      <height>24</height>
+                      <height>26</height>
                      </size>
                     </property>
                     <property name="maximumSize">
                      <size>
                       <width>16777215</width>
-                      <height>24</height>
+                      <height>30</height>
                      </size>
                     </property>
                     <property name="contextMenuPolicy">
@@ -1916,13 +1923,13 @@ p, li { white-space: pre-wrap; }
                     <property name="minimumSize">
                      <size>
                       <width>24</width>
-                      <height>24</height>
+                      <height>26</height>
                      </size>
                     </property>
                     <property name="maximumSize">
                      <size>
                       <width>24</width>
-                      <height>24</height>
+                      <height>30</height>
                      </size>
                     </property>
                     <property name="styleSheet">
@@ -2032,7 +2039,7 @@ p, li { white-space: pre-wrap; }
                     <property name="maximumSize">
                      <size>
                       <width>70</width>
-                      <height>26</height>
+                      <height>30</height>
                      </size>
                     </property>
                     <property name="cursor">
@@ -2072,7 +2079,7 @@ p, li { white-space: pre-wrap; }
                     <property name="maximumSize">
                      <size>
                       <width>16777215</width>
-                      <height>26</height>
+                      <height>30</height>
                      </size>
                     </property>
                     <property name="contextMenuPolicy">
@@ -2109,7 +2116,7 @@ p, li { white-space: pre-wrap; }
                     <property name="maximumSize">
                      <size>
                       <width>70</width>
-                      <height>26</height>
+                      <height>30</height>
                      </size>
                     </property>
                     <property name="cursor">
@@ -2161,13 +2168,13 @@ p, li { white-space: pre-wrap; }
                   <property name="minimumSize">
                    <size>
                     <width>0</width>
-                    <height>24</height>
+                    <height>26</height>
                    </size>
                   </property>
                   <property name="maximumSize">
                    <size>
                     <width>16777215</width>
-                    <height>24</height>
+                    <height>30</height>
                    </size>
                   </property>
                   <property name="font">
@@ -2283,7 +2290,7 @@ p, li { white-space: pre-wrap; }
                     <property name="maximumSize">
                      <size>
                       <width>16777215</width>
-                      <height>26</height>
+                      <height>30</height>
                      </size>
                     </property>
                     <property name="contextMenuPolicy">
@@ -2323,7 +2330,7 @@ p, li { white-space: pre-wrap; }
                     <property name="maximumSize">
                      <size>
                       <width>70</width>
-                      <height>26</height>
+                      <height>30</height>
                      </size>
                     </property>
                     <property name="contextMenuPolicy">
