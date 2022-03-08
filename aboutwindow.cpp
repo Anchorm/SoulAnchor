@@ -16,7 +16,7 @@ AboutWindow::AboutWindow(QWidget *parent) : QWidget(parent, Qt::Window)
     lblInfo->setAlignment(Qt::AlignHCenter | Qt::AlignTop);
     lblInfo->setStyleSheet("padding:5px");
 
-    amPb->setText("Anchorman in the year of our Lord 2021");
+    amPb->setText("Anchorman in the year of our Lord 2022");
     amPb->setObjectName("pbAut");
     amPb->setCursor(Qt::PointingHandCursor);
     amPb->setToolTip("open e-mail client");
@@ -35,8 +35,7 @@ AboutWindow::AboutWindow(QWidget *parent) : QWidget(parent, Qt::Window)
             "</tr>"
             "<tr><td>dictionaries, strongs</td> <td>Public domain, various unknown contributors, "
             "thank you all</td></tr>"
-            "<tr><td>Qt 5.15</td> <td>The Qt Toolkit is Copyright (C) 2018 The Qt Company Ltd. "
-            "and other contributors. And used under the conditions of the LGPLv3.</td></tr>"
+            "<tr><td>Qt</td> <td>Qt is available under the GNU Lesser General Public License version 3.             The Qt Toolkit is Copyright (C) 2018 The Qt Company Ltd. and other contributors</td></tr>"
             "<tr><td>cross references & topical references</td>"
                 "<td>https://www.openbible.info/</td></tr>"
             "<tr><td>fatcow icons</td><td>https://www.fatcow.com/free-icons</td></tr>"

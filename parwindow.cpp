@@ -14,11 +14,11 @@ ParWindow::ParWindow(QWidget *parent) : QWidget(parent, Qt::Window)
 
     cb_select->setMaximumHeight(maxH);
     cb_select->setMinimumWidth(minW);
-    cb_select->setMaximumSize(150, maxH);
+    cb_select->setMaximumSize(130, maxH);
 
     leInput->setPlaceholderText("bk ch:vs");
     leInput->setMinimumWidth(minW);
-    leInput->setMaximumSize(150, maxH);
+    leInput->setMaximumSize(170, maxH);
     leInput->setTextMargins(2, 0, 0, 0);
 
     btn_ok->setText(tr("Go"));
@@ -33,13 +33,13 @@ ParWindow::ParWindow(QWidget *parent) : QWidget(parent, Qt::Window)
     btn_prev->setMaximumSize(100, maxH);
     btn_prev->setMinimumWidth(minW);
 
-    hbox_1->setSpacing(5);
-    hbox_1->setAlignment(Qt::AlignLeft);
-    hbox_1->setContentsMargins(6,0,0,0);
+    flowLayout->setContentsMargins(3,0,0,0);
 
     hbox_2->setSpacing(5);
     hbox_2->setAlignment(Qt::AlignLeft);
-    hbox_2->setContentsMargins(6,0,0,0);
+    hbox_2->setContentsMargins(3,0,0,0);
+
+    vbox->setContentsMargins(3,3,3,3);
 
     cb_select->addItem("none");
 
@@ -60,7 +60,7 @@ ParWindow::ParWindow(QWidget *parent) : QWidget(parent, Qt::Window)
     hbox_2->addWidget(btn_prev);
     hbox_2->addWidget(btn_next);
 
-    vbox->setContentsMargins(3, 3, 3, 3);
+
 
     //create checkboxes for translations
     QString sqlCb = "SELECT abbreviation, language, version "
@@ -81,7 +81,6 @@ ParWindow::ParWindow(QWidget *parent) : QWidget(parent, Qt::Window)
         chkBoxes.append(chkB);
     }
 
-    FlowLayout *flowLayout = new FlowLayout;
     for (QCheckBox *chkB: qAsConst(chkBoxes)) {
         flowLayout->addWidget(chkB);
     }
@@ -146,7 +145,7 @@ void ParWindow::setTlandJob(const QString &tlAbbr, const QHash<QString, int> &jo
     te->clear();
     history.clear();
     history.enqueue(job);
-//    centerWindow();
+    centerWindow();
 }
 
 void ParWindow::toggleFullscreen(){
@@ -287,19 +286,19 @@ void ParWindow::ccMenuParW(){
 
 }
 
-//void ParWindow::centerWindow(){
-//    if (parentWidget())
-//    {
-//        QScreen* activeScreen = parentWidget()->screen();
-//        if (activeScreen != nullptr)
-//        {
-//            auto winGeo = frameGeometry();
-//            auto parentGeoCenter = parentWidget()->geometry().center();
-//            winGeo.moveCenter(parentGeoCenter);
-//            move(winGeo.topLeft());
-//        }
-//    }
-//}
+void ParWindow::centerWindow(){
+    if (parentWidget())
+    {
+        QScreen* activeScreen = parentWidget()->screen();
+        if (activeScreen != nullptr)
+        {
+            auto winGeo = frameGeometry();
+            auto parentGeoCenter = parentWidget()->geometry().center();
+            winGeo.moveCenter(parentGeoCenter);
+            move(winGeo.topLeft());
+        }
+    }
+}
 
 void ParWindow::checkTls() {
     // set QCheckBoxes checked state
@@ -335,16 +334,7 @@ void ParWindow::printRequest() {
         return;
     }
 
-    QString pattern =
-            "\\s*(?<prt>[1-3]?)"
-            "\\s*(?<bk>[a-zA-Zëüï]+)"
-            "\\s*(?<ch1>\\d?\\d?\\d?)"
-            "-?(?<ch2>\\d?\\d?\\d?)"
-            ":?(?<vs1>\\d?\\d?\\d?)"
-            "-?(?<vs2>\\d?\\d?\\d?)";
-
-    QRegularExpression re(pattern);
-    QRegularExpressionMatchIterator gmatch = re.globalMatch(request);
+    QRegularExpressionMatchIterator gmatch = re->globalMatch(request.trimmed());
     if (gmatch.hasNext()) {
         this->te->clear();
     }
@@ -477,10 +467,10 @@ void ParWindow::printScriptures(){
     // i don't know if there is a SQLITE query that can do the right kind of join, so code it is
 
     /*------------------------------------------------------
-    1. make a QVector of queries based on active translations
+    1. make a QList of queries based on active translations
     ------------------------------------------------------*/
     bool haveTl = false; // do we have a translation selected?
-    QVector< QVector<QString> > queries;
+    QList< QList<QString> > queries;
 
     for (QCheckBox* cb: qAsConst(chkBoxes)) {
         if (cb->isChecked()) {
@@ -503,7 +493,7 @@ void ParWindow::printScriptures(){
 
             sql.append(verseSql);
 
-            QVector<QString> query;
+            QList<QString> query;
             query.append(tl);
             query.append(sql);
             queries.append(query);
@@ -519,9 +509,9 @@ void ParWindow::printScriptures(){
     2. do a query for each tl and add a QString to a QMap <--  items are always sorted by key
     ------------------------------------------------------*/
     // need int for key to sort ascending
-    QVector< QMap<int, QString> > rootC; // root container
+    QList< QMap<int, QString> > rootC; // root container
 
-    for (QVector<QString> qV: queries) {
+    for (QList<QString> qV: queries) {
         // sub container
         QMap<int, QString> subC;
 
@@ -547,7 +537,7 @@ void ParWindow::printScriptures(){
     for the case that a translation has less verses
     to keep displaying the verses in parallel
     ------------------------------------------------------*/
-    QVector<int> containerSizes;
+    QList<int> containerSizes;
     for (const auto &subC: rootC) {
         containerSizes.append(subC.size());
     }

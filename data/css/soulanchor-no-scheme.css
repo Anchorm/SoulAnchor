@@ -1,72 +1,44 @@
 /********************* WINDOWS *********************/
 
 #ParallelWindow {
-    color: txtClr;
-    background-color: bg2Clr;
 }
 #ParallelWindow QTextEdit {
-    selection-background-color:clashClr;
     border: 1px solid black;
 }
 #ParallelWindow QScrollBar::handle {
-    background-color:bg2Clr;
 }
 
 #RosterWindow {
-    color: txtClr;
-    background-color: bg2Clr;
 }
 #RosterWindow QTextEdit {
-    color: txtClr;
-    background-color: bgClr;
-    selection-background-color:clashClr;
 }
 #RosterWindow QLabel {
-    color: txtClr;
-    background-color: bg2Clr;
 }
 
 #SettingsWindow {
-    color: txtClr;
-    background-color: bg2Clr;
 }
 #SettingsWindow QLabel {
-    color: txtClr;
-    background-color: bg2Clr;
 }
 
 #AboutWindow *{
-    color: txtClr;
-    background-color: bg2Clr;
-    selection-color: nrClr;
-    selection-background-color:clashClr;
 }
 #lblAnchor {
-    background-color: bgClr;
 }
 #pbAut {
-    color: txtClr;
     border:0px solid black;
-    background-color: bg2Clr;
     font-size:8pt;
     text-align:right;
 }
 #pbAut:hover {
-    color: nrClr;
 }
 #AboutWindow QScrollBar::handle {
-    background-color:bgClr;
 }
 
 /********************* GLOBALS *********************/
 
 QDialog {
-    color: txtClr;
-    background-color: bg2Clr;
 }
 QDialog *{
-    color: txtClr;
-    selection-background-color:clashClr;
 }
 
 QToolButton {
@@ -74,13 +46,9 @@ QToolButton {
 }
 
 QSpinBox {
-    color: txtClr;
-    background-color: bgClr;
 }
 
 QPushButton {
-    color: txtClr;
-    background-color: bgClr;
     border:1px solid black;
     border-radius: 5px;
     padding: 3px;
@@ -90,22 +58,12 @@ QPushButton:hover {
 }
 
 QCheckBox {
-    color: txtClr;
-     background-color: bg2Clr;
 }
 
 QComboBox QAbstractItemView {
-    color:txtClr;
-    background-color:bgClr;
-    selection-color:txtClr;
-    selection-background-color:bg2Clr;
 }
 
 QComboBox {
-    color:txtClr;
-    selection-color: nrClr;
-    selection-background-color:bg2Clr;
-    background-color: bgClr;
     margin:0;
     padding-left:6px;padding-top:0px;padding-right:0px;padding-bottom:0px;
     border-top:1px solid black;
@@ -122,9 +80,7 @@ QComboBox::down-arrow {
 }
 
 QLineEdit {
-    color:txtClr;
     padding-left:6px;padding-top:0px;padding-right:0px;padding-bottom:0px;
-    background-color: bgClr;
     border:1px solid black;
 }
 
@@ -135,29 +91,21 @@ QSplitter::handle {
 /********************* MENUS *********************/
 
 QMenu {
-    color: txtClr;
-    background-color: bgClr;
     border:1px solid black;
     padding: 3px;
     border-radius: 4px;
 }
 QMenu::item:selected {
-    background-color: bg2Clr;
 }
 
 QMenuBar {
-    color: txtClr;
-    background-color: bgClr;
     border-bottom: 1px solid black;
     spacing: 5px;
 }
 QMenuBar::item:selected {
-    color: txtClr;
-    background-color: bg2Clr;
     border-bottom:1px solid black;
 }
 QMenuBar QMenu {
-    color: txtClr;
     border-top-left-radius: 0px;
     border-top-right-radius: 0px;
     border-bottom-left-radius: 4px;
@@ -174,7 +122,6 @@ QMenuBar QMenu {
 /********************* SCROLLBARS *********************/
 
 QScrollBar:vertical {
-    background-color:transparent;
     width:14px;
     margin:0;
 }
@@ -193,7 +140,6 @@ QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
 }
 
 QScrollBar:horizontal {
-    background-color: transparent;
     height: 14px;
     margin:0;
 }
@@ -216,29 +162,27 @@ QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal {
 
 /********************* TAB WIDGET *********************/
 
-#tab_contents {color:txtClr;background-color:bg2Clr;}
-#tab_search {color:txtClr;background-color:bg2Clr;}
-#tab_today {color:txtClr;background-color:bg2Clr;}
+#tab_contents {
+}
+#tab_search {
+}
+#tab_today {
+}
 
 #lw_books {
     show-decoration-selected:0;
-    selection-background-color: bgClr;
-    selection-color: nrClr;
-    color: titleClr;
-    background-color: bg2Clr;
     font-weight: bold;
     padding-left:3px;padding-top:0px;padding-right:0px;padding-bottom:0px;
     margin:0;
 }
-#lw_books::item:hover {color: nrClr;}
+#lw_books::item:hover {
+}
 
 #search_chkb_whole, #search_chkb_case {
     padding-left: 6px;
 }
 
 QTabWidget {
-    color: titleClr;
-    background-color: bg2Clr;
     border:0;
 }
 
@@ -247,55 +191,42 @@ QTabWidget::tab-bar {
 }
 
 QTabBar::tab {
-    color:txtClr;
-    background-color:bgClr;
     padding: 4px;
     border-top: 0px solid #C4C4C3;
     border-bottom: 0px solid #C4C4C3;
     border-left: 0px solid #C4C4C3;
     border-right:0px solid #C4C4C3;
+    color:black;
+    background-color:none;
 }
 QTabBar::tab:selected {
-    color:txtClr;
-    background-color:bg2Clr;
+    color:black;
+    background-color:white;
 }
 QTabBar::tab:hover {
-    color:nrClr;
 }
 
 #search_lbl_tl {
-    color: txtClr;
     margin: 7px;
 }
 
 #search_btn_find:hover {
     border:0;
-    background-color: bgClr;
 }
 
 #search_tb {
-    color: txtClr;
-    background-color: bg2Clr;
     padding:0;
     margin:0;
     border:1px top darkgray;
     font-weight: Normal;
-    selection-background-color:clashClr;
 }
 
 #frame_today_cal QAbstractItemView {
-    color: txtClr;
-    background-color: bg2Clr;
-    selection-background-color:clashClr;
 }
 #frame_today_cal QWidget {
-    color: txtClr;
-    background-color: bg2Clr;
-    selection-background-color:clashClr;
 }
 
 #frame_today_cal QPushButton {
-    background-color: bgClr;
 }
 #frame_today_cal QPushButton:hover {
     background-color: rgba(0,0,0,10);
@@ -307,104 +238,83 @@ QTabBar::tab:hover {
 }
 
 #btn_next_session:hover, #btn_prev_session:hover {
-    background-color: bgClr;
 }
 
 #pb_enc_txt {
-    border: 1 solid titleClr;
+    border: 1 solid black;
     padding:2px;
 }
 #pb_enc_img {
     background-color: transparent;
-    border: 1 solid titleClr;
+    border: 1 solid black;
     padding:2px;
 }
 
 #tabwidget QScrollBar::handle {
-    background-color: bgClr;
 }
 
 /********************* BIBLE FRAME *********************/
 
 #background_frame {
-    background-color: bgClr;
     border: 0;
     margin: 0;
 }
 
 #bible_frame {
-    background-color: none;
     border: 0;
     margin: 0;
 }
 
 #booktitle_frame {
-    background-color:bg2Clr;
+    background-color:white;
 }
 
 #btn_book_title {
-    color:titleClr;
-    border:0;
+    border:0 ;
 }
 
 #lw_chapters {
-    color: titleClr;
-    background-color: bg2Clr;
-    selection-color: nrClr;
-    selection-background-color: bgClr;
     show-decoration-selected:0;
-    border-bottom:1px solid black;
+    border-left: 0 solid grey;
+    border-top: 0 solid grey;
+    border-bottom:1 solid grey;
+    border-right: 0 solid grey;
 }
 #lw_chapters::item:hover {
-    color: nrClr;
 }
 #lw_chapters QScrollBar::handle {
-    background-color:bgClr;
 }
 
 #tb_scriptures {
-    background-color: bgClr;
     padding:0px;
     margin:0px;
-    selection-background-color:clashClr;
 }
 #tb_scriptures QScrollBar::handle {
-    background-color:bg2Clr;
 }
 
 /********************* FIND FRAME *********************/
 
 #frame_find {
-    color: txtClr;
-    background-color: bg2Clr;
     border-left: 0 solid grey;
     border-top: 1 solid black;
     border-bottom:0 solid grey;
     border-right: 0 solid grey;
 }
 #frame_find QLabel {
-    color: txtClr;
     background-color: transparent;
 }
 
 /********************* INFO FRAME *********************/
 
 #info_frame {
-    background-color:bg2Clr;
 }
 
 #info_tb, #strongs_tb {
-    color: txtClr;
-    background-color: bg2Clr;
-    selection-background-color:clashClr;
 }
 
 #info_frame QLabel, #info_frame QToolButton {
-    color:titleClr;
-    background-color:bgClr;
     border:0;
 }
 
 #info_tb QScrollBar::handle, #strongs_tb QScrollBar::handle {
-    background-color: bgClr;
 }

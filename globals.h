@@ -8,8 +8,8 @@
 
 extern QTextStream sout;
 
-extern QVector<QString> g_bookNames;
-extern QVector<QString> g_booksAbbr;
+extern QList<QString> g_bookNames;
+extern QList<QString> g_booksAbbr;
 
 extern QDir dataDir;
 extern QDir userDataDir;

@@ -44,7 +44,7 @@ TEMPLATE = app
 
 TRANSLATIONS = \
         data/lang/soulanchor_english.ts \
-        data/lang/soulanchor_nederlands.ts
+        data/lang/soulanchor_dutch.ts
 
 # super easy syntax
 DEFINES += APP_DATADIR_PREFIX='\\"$$PREFIX\\"'

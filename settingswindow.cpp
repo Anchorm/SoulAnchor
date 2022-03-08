@@ -40,8 +40,7 @@ void SettingsWindow::setCbGuiLang() {
 void SettingsWindow::setCbFontSize() {
     // populate the fontsize combobox
     ui->font_size_cb->clear();
-    QFontDatabase fontdb;
-    QList<int> fontSizes = fontdb.standardSizes();
+    QList<int> fontSizes = QFontDatabase::standardSizes();
 
     for (const int &psize: fontSizes) {
         ui->font_size_cb->addItem(QString().number(psize));

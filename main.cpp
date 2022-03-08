@@ -1,6 +1,5 @@
  /******************************************************
     SoulAnchor - X11 Bible tool
-    for daily reading of the Word and some light study
 
     this hope we have as an anchor of the soul
     a hope both sure and steadfast
@@ -18,7 +17,7 @@
 
 int main(int argc, char *argv[]) {
     QApplication app(argc, argv);
-    QApplication::setApplicationVersion("0.9.5");
+    QApplication::setApplicationVersion("1.0");
 
     QCommandLineParser parser;
     parser.setApplicationDescription("SoulAnchor - X11 Bible tool");
@@ -36,10 +35,6 @@ int main(int argc, char *argv[]) {
 
     MainWindow mainW;
     mainW.show();
-
-    QSettings settings(settingsFile.fileName(), QSettings::IniFormat);
-    if (settings.value("showIntro", "true").toString() == "true")
-        mainW.showIntro(); 
 
     return app.exec();
 }

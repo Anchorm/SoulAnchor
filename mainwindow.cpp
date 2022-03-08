@@ -7,7 +7,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
 
     QSettings settings(settingsFile.fileName(), QSettings::IniFormat);
 
-    activeScheme = settings.value("activeScheme", "classic").toString();
+    activeScheme = settings.value("activeScheme", "none").toString();
     applyScheme(activeScheme);
 
     // restore window state
@@ -190,9 +190,10 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
     changeEncPic();
 
     makeMusicMenu();
+    mplayer->setAudioOutput(audioOutput);
     connect(ui->action_stop_media, &QAction::triggered,
             this, [this] () { mplayer->stop(); });
-    connect(mplayer, &QMediaPlayer::stateChanged, this, &MainWindow::stopPlayer);
+    connect(mplayer, &QMediaPlayer::playbackStateChanged, this, &MainWindow::stopPlayer);
     connect(ui->action_play_random, &QAction::triggered, this, &MainWindow::playRandom);
 
     makeTextMenuItems();
@@ -268,39 +269,6 @@ void MainWindow::popupMsg(const QString message) {
     msgBox.exec();
 }
 
-void MainWindow::showIntro() {
-    QString intro = (
-        "Hi, welcome to SoulAnchor.\t\n\n"
-
-        "This project is still a work in progress."
-        "Please report any bugs. \n\n"
-        "Note that some options will not work "
-        "until you add your own resources (e.g. audio bible). "
-        "See the MOD file for details. \n\n"
-    );
-
-    QWidget *appWidget = nullptr;
-    const QWidgetList topWidgets = QApplication::topLevelWidgets();
-         for (QWidget *widget: topWidgets) {
-             if (widget->objectName() == "MainWindow") {
-                appWidget = widget;
-                break;
-             }
-         }
-
-    QMessageBox msgBox(QMessageBox::Information, "welcome", intro, QMessageBox::Ok);
-    if (appWidget != nullptr){
-        auto myrect = msgBox.frameGeometry(); // create a rectangle
-        auto appGeoCenter = appWidget->geometry().center(); // get app center
-        myrect.moveCenter(appGeoCenter); // move the rect
-        msgBox.move(myrect.topLeft()); // move the msgbox
-    }
-    msgBox.exec();
-
-    QSettings settings(settingsFile.fileName(), QSettings::IniFormat);
-    settings.setValue("showIntro", "false");
-}
-
 void MainWindow::strongify()
 {
     // make it strong
@@ -365,13 +333,7 @@ void MainWindow::strongify()
     // use regex to change strong tags into anchors
     // *************************************************************
 
-    QString strongPattern =
-            "(?<strongStartTag><S>)"
-            "\\s*(?<strongNr>\\d+)"
-            "\\s*(?<strongEndTag></S>)";
-
-    QRegularExpression re(strongPattern);
-    QRegularExpressionMatchIterator gmatch = re.globalMatch(strongified);
+    QRegularExpressionMatchIterator gmatch = strongRegex->globalMatch(strongified);
 
     QString startAnchor;
 
@@ -404,13 +366,7 @@ void MainWindow::getTWOT(QString twot) {
         return;
     }
 
-    QString pattern =
-            "\\s*"
-            "\\d{1,4}"
-            "\\s*";
-
-    QRegularExpression re(pattern);
-    QRegularExpressionMatch match = re.match(twot);
+    QRegularExpressionMatch match = twotRegex->match(twot);
 
     // twot topic number
     QString twotNr;
@@ -472,14 +428,7 @@ void MainWindow::getStrongs(QString strongs){
     QString numberRequest, numberResult;
     QString desc, sql_strong, sql_bdbt;
 
-    QString pattern =
-            "\\s*"
-            "[gGhH]"
-            "\\d{1,4}"
-            "\\s*";
-
-    QRegularExpression re(pattern);
-    QRegularExpressionMatch match = re.match(strongs);
+    QRegularExpressionMatch match = getStrongRegex->match(strongs);
 
     // strongs number
     if (match.hasMatch()) {
@@ -1114,7 +1063,6 @@ void MainWindow::on_action_reset_roster_triggered(){
         return;
 
     QString rosterName;
-    QStringList rosters;
     QList rosAcList = rosterGroup->actions();
 
     for (QAction *ac : rosAcList) {
@@ -1250,35 +1198,39 @@ void MainWindow::applyScheme(const QString &aScheme) {
     // set active scheme and color values
     QSettings settings(settingsFile.fileName(), QSettings::IniFormat);
 
+    activeScheme = aScheme;
     QString currentScheme = "Schemes/" + aScheme;
-    QStringList schemeValues = settings.value(currentScheme, "").toStringList();
-    scheme["nrClr"] = schemeValues.value(0, "#");
-    scheme["txtClr"] = schemeValues.value(1, "#");
-    scheme["titleClr"] = schemeValues.value(2, "#");
-    scheme["bgClr"] = schemeValues.value(3, "#");
-    scheme["bg2Clr"] = schemeValues.value(4, "#");
-    scheme["clashClr"] = schemeValues.value(5, "#");
+    QStringList schemeValues = settings.value(currentScheme, "none").toStringList();
+
+    scheme["nrClr"] = schemeValues.value(0, "none");
+    scheme["txtClr"] = schemeValues.value(1, "none");
+    scheme["titleClr"] = schemeValues.value(2, "none");
+    scheme["bgClr"] = schemeValues.value(3, "none");
+    scheme["bg2Clr"] = schemeValues.value(4, "none");
+    scheme["clashClr"] = schemeValues.value(5, "none");
 
     emit setParwStyle(scheme);
-    matchFormat.setBackground(QColor(scheme["bg2Clr"]));
-
-    QTextCharFormat calFormat;
-    if (scheme["nrClr"] != "#" || scheme["bgClr"] != "#") {
-        calFormat.setForeground(QBrush( QColor(scheme["nrClr"] )));
-        calFormat.setBackground(QBrush( QColor(scheme["bgClr"] )));
-    } else {
-        calFormat.setForeground(QBrush( QColor("black") ));
-        calFormat.setBackground(QBrush( QColor("white") ));
-    }
-    ui->calendar->setHeaderTextFormat(calFormat);
 
     setBookTitle();
     setStyleSheets();
 
-    QString css = QString("color:%1;background-color:%2;"
-                "font-family:sans;font-size:12pt;padding:3px;margin:1px;")
-            .arg(scheme["txtClr"],scheme["bgClr"]);
+    QTextCharFormat calFormat;
+    QString css;
+    if (activeScheme == "none") {
+        matchFormat.clearBackground();
+        css = QString("font-family:sans;font-size:12pt;padding:3px;margin:1px;");
+        calFormat.setForeground(QBrush( QColor("black") ));
+        calFormat.setBackground(QBrush( QColor("white") ));
+    } else {
+        matchFormat.setBackground(QColor(scheme["bg2Clr"]));
+        css = QString("color:%1;background-color:%2;"
+                    "font-family:sans;font-size:12pt;padding:3px;margin:1px;")
+                .arg(scheme["txtClr"],scheme["bgClr"]);
+        calFormat.setForeground(QBrush( QColor(scheme["nrClr"] )));
+        calFormat.setBackground(QBrush( QColor(scheme["bgClr"] )));
+    }
     encTxtLbl->setStyleSheet(css);
+    ui->calendar->setHeaderTextFormat(calFormat);
 }
 
 void MainWindow::applyFont(const QString &font, const QString &fontS, const QString &margin){
@@ -1337,16 +1289,15 @@ void MainWindow::spokenWord() {
     QStringList files = QDir(::userDataDir.path()+ "/audio-bible").entryList();
 
     QString pattern = QString("^%1.*%2.mp3").arg(sBk,sCh);
-
-    QRegularExpression re(pattern);
+    audioBibleRegex->setPattern(pattern);
 
     QFileInfo audioBibleBook;
     bool hasMatch = false;
 
     for (const QString &file : files) {
-        QRegularExpressionMatch match = re.match(file);
+        QRegularExpressionMatch match = audioBibleRegex->match(file);
         if (match.hasMatch()){
-            audioBibleBook = QString(::userDataDir.path()+ "/audio-bible/" + file);
+            audioBibleBook.setFile(::userDataDir.path()+ "/audio-bible/" + file);
             hasMatch = true;
             break;
         }
@@ -1379,10 +1330,10 @@ void MainWindow::stopPlayer() {
 
 bool MainWindow::compareFunctionR(QAction *a, QAction *b) {
     // to sort the psalms by nr for easy display in the music menu
+    QString aNr; QString bNr;
     QString pattern =
             "\\s*(?<ps>[Pp]salm)"
             "\\s*(?<ch>\\d?\\d?\\d?)";
-    QString aNr; QString bNr;
     QRegularExpression re(pattern);
     QRegularExpressionMatch matchA = re.match(a->text());
     QRegularExpressionMatch matchB = re.match(b->text());
@@ -1416,9 +1367,9 @@ void MainWindow::showText(const QString &filepath, const QString &filename) {
 void MainWindow::makeMusicMenu(){    
     QDirIterator it(::userDataDir.path()+ "/music", QStringList() << "*.mp3", QDir::NoFilter, QDirIterator::Subdirectories);
 
-    QVector<QAction*> psalmActions;
-    QVector<QAction*> hymnActions;
-    QVector<QAction*> divActions;
+    QList<QAction*> psalmActions;
+    QList<QAction*> hymnActions;
+    QList<QAction*> divActions;
 
     while (it.hasNext()) {
         QFileInfo f(it.next());
@@ -1435,11 +1386,11 @@ void MainWindow::makeMusicMenu(){
             divActions.append(musAction);
         }
 
-        QVector<QString> info = {f.absoluteFilePath(), f.baseName()};
+        QList<QString> info = {f.absoluteFilePath(), f.baseName()};
         musicList.append(info);
     }
 
-    std::sort(psalmActions.begin(), psalmActions.end(), compareFunctionR);
+    std::sort(psalmActions.begin(), psalmActions.end(), compareFunctionR );
     std::sort(hymnActions.begin(), hymnActions.end(), compareFunctionS );
     std::sort(divActions.begin(), divActions.end(), compareFunctionS);
 
@@ -1456,7 +1407,7 @@ void MainWindow::makeMusicMenu(){
 
 void MainWindow::makeTextMenuItems() {
     // add text about filters and populate notes menu
-    QVector<QAction*> txtActions;
+    QList<QAction*> txtActions;
 
     QAction *immAction = new QAction(docIcon, tr("about Immersion"), this);
     QAction *judAction = new QAction(docIcon, tr("about Judeans"), this);
@@ -1492,37 +1443,16 @@ void MainWindow::makeTextMenuItems() {
 }
 
 void MainWindow::playMusic(QString filepath, QString filename){
-    mplayer->stop(); mplayer->setVolume(20);
-
-    QUrl mp3Url = QUrl().fromLocalFile(filepath);
-    QMediaContent mp3File = QMediaContent(mp3Url);
-    mplayer->setMedia(mp3File);
+    mplayer->stop(); audioOutput->setVolume(20);
+    mplayer->setSource(QUrl::fromLocalFile(filepath));
     mplayer->play();
 
     ui->action_stop_media->setEnabled(true);
     ui->action_stop_media->setText(QString("Stop playing: %1").arg(filename) );
 
-    QString psalmPattern =
-            "\\s*(?<ps>[pP][sS][aA][lL][mM])"
-            "\\s*(?<ch>\\d{1,3})";
-
-    QString hymnPattern =
-            "(?<Hymn>hymns)";
-
-    QString scripPattern =
-            "(?<prt>^[1-3]?)"
-            "\\s*(?<bk>[a-zA-Zëüï]+)"
-            "\\s*(?<ch1>\\d{1,3})"
-            "-?(?<ch2>\\d{0,3})"
-            ":?(?<vs1>\\d{0,3})"
-            "-?(?<vs2>\\d{0,3})";
-
-    QRegularExpression rePsalm(psalmPattern);
-    QRegularExpression reHymn(hymnPattern);
-    QRegularExpression reScrip(scripPattern);
-    QRegularExpressionMatch psalmMatch = rePsalm.match(filename);
-    QRegularExpressionMatch hymnMatch = reHymn.match(filepath);
-    QRegularExpressionMatch scripMatch = reScrip.match(filename);
+    QRegularExpressionMatch psalmMatch = psalmRegex->match(filename);
+    QRegularExpressionMatch hymnMatch = hymnRegex->match(filepath);
+    QRegularExpressionMatch scripMatch = scripRegex->match(filename);
 
     if(psalmMatch.hasMatch()){
         int ch;
@@ -1723,7 +1653,6 @@ void MainWindow::setEncPic(){
 
         QVBoxLayout *encPicLay = new QVBoxLayout();
         encPicLay->setContentsMargins(1,1,1,1);
-        encPicLay->setMargin(3);
         encPicLay->setSizeConstraint(QLayout::SetMinAndMaxSize);
 
         encPicLay->addWidget(encPicLbl);
@@ -1750,7 +1679,7 @@ void MainWindow::printEncTxt(int bk, int ch, const QString &verse){
 
 void MainWindow::changeEncTxt(){
     std::shuffle(encS.begin(), encS.end(), std::default_random_engine(std::random_device()()));
-    QVector<int> enc = encS[0];
+    QList<int> enc = encS[0];
     int bk = enc[0], ch = enc[1], vs = enc[2];
     tlAbbr = ui->cb_select_translation->currentData().toString();
     QString sql = QString("SELECT t from t_%1 where b = %2 and c = %3 and v = %4 ")
@@ -1772,9 +1701,15 @@ void MainWindow::changeEncTxt(){
 }
 
 void MainWindow::setEncTxt(){
-    QString css = QString("color:%1;background-color:%2;"
-                "font-family:sans;font-size:12pt;padding:3px;margin:1px;")
-            .arg(scheme["txtClr"],scheme["bgClr"]);
+    QString css;
+    if (activeScheme == "none") {
+        css = "font-family:sans;font-size:12pt;padding:3px;margin:1px;";
+    } else {
+        css = QString("color:%1;background-color:%2;"
+                    "font-family:sans;font-size:12pt;padding:3px;margin:1px;"
+                      ).arg(scheme["txtClr"],scheme["bgClr"]);
+    }
+
     encTxtLbl->setWordWrap(true);
     encTxtLbl->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Maximum);
     encTxtLbl->setFixedWidth(220);
@@ -1832,7 +1767,7 @@ void MainWindow::todaysPsalm(){
     }
 
     int ch;
-    QVector<int> psalms;
+    QList<int> psalms;
 
     if ( today == 31 ) {
         ch  = 119;
@@ -2051,13 +1986,15 @@ void MainWindow::versesWithStrongNumber(const QString &strongs, const QString &w
                                "and b %3").arg(strongTl, strongs.mid(1), where);
     QSqlQuery query(sql_findStrongNr, dbH.bibleDb);
 
+    int bk;
+    QString bkS;
     while (query.next()) {
-        int bk = query.value(0).toInt();
-        QString bkS = query.value(0).toString();
+        bk = query.value(0).toInt();
+        bkS = query.value(0).toString();
 
-        if (bk > 39 and (strongs[0] != "G")) {
+        if (bk > 39 and (strongs[0] != QString("G")) ) {
             break;
-        } else if (bk < 40 and (strongs[0] != "H")) {
+        } else if (bk < 40 and (strongs[0] != QString("H"))) {
             break;
         }
 
@@ -2110,14 +2047,7 @@ void MainWindow::searchScriptures() {
         where = "in (select book_nr from number_name where genre_nr = " + where + ")" ;
     }
 
-    const QString strongPattern =
-            "\\s*"
-            "[gGhH]"
-            "\\d{1,4}"
-            "\\s*";
-
-    const QRegularExpression re(strongPattern);
-    QRegularExpressionMatch match = re.match(what);
+    QRegularExpressionMatch match = getStrongRegex->match(what);
     QString strongs;
     if (match.hasMatch()) {
         strongs = match.captured().toUpper();
@@ -2303,16 +2233,8 @@ void MainWindow::searchScriptures() {
 void MainWindow::printRequestSingle(const QString &request) {
     //called by playMusic() Do english lookup only. For one chapter.
 
-    QString pattern =
-            "\\s*(?<prt>[1-3]?)"
-            "\\s*(?<bk>[a-zA-Zëüï]+)"
-            "\\s*(?<ch1>\\d?\\d?\\d?)"           
-            ":?(?<vs1>\\d?\\d?\\d?)"
-            "-?(?<vs2>\\d?\\d?\\d?)";
-
     int bkNr = 0, chNr1 = 0 , vsNr1 = 0, vsNr2 = 0;
-    QRegularExpression re(pattern);
-    QRegularExpressionMatch match = re.match(request);
+    QRegularExpressionMatch match = scripRegex->match(request);
 
     if (match.hasMatch()) {
         ui->tb_scriptures->clear();
@@ -2396,21 +2318,12 @@ void MainWindow::printRequestSingle(const QString &request) {
 
 void MainWindow::printRequest(const QString &request) {
     // scan a string and see if scriptures can be found and printed
-    if (request.length() < 2)
+    if (request.trimmed().length() < 2)
         return;
 
-    QString pattern =
-            "\\s*(?<prt>[1-3]?)"
-            "\\s*(?<bk>[a-zA-Zëüï]+)"
-            "\\s*(?<ch1>\\d?\\d?\\d?)"
-            "-?(?<ch2>\\d?\\d?\\d?)"
-            ":?(?<vs1>\\d?\\d?\\d?)"
-            "-?(?<vs2>\\d?\\d?\\d?)";
-
-    QRegularExpression re(pattern);
-    QRegularExpressionMatchIterator gmatch = re.globalMatch(request);
+    QRegularExpressionMatchIterator gmatch = scripRegex->globalMatch(request.trimmed());
     QRegularExpressionMatch match;
-    QString testBook; //, testBook2;
+    QString testBook;
     int bkNr = 0, chNr1 = 0 , chNr2 = 0, vsNr1 = 0, vsNr2 = 0;
 
     while (gmatch.hasNext()) {
@@ -2503,6 +2416,7 @@ void MainWindow::printRequest(const QString &request) {
     setBookTitle();
     updateChapterWidget();
     ui->lw_chapters->setCurrentRow(chNr1 - 1);
+
     processPrintQueue();
 }
 
@@ -2625,7 +2539,7 @@ void MainWindow::ccMenuStrongs(){
 
     for (QString histItem : qAsConst(strongsHistory)) {
         QAction *histAction = new QAction(histItem);
-        if (histItem[0] == "T") {
+        if (histItem[0] == QString("T")) {
             connect(histAction, &QAction::triggered, this, [this, histItem] () {
                 getTWOT(histItem) ;});
         } else {
@@ -2662,8 +2576,8 @@ void MainWindow::ccMenuBibleFrame(){
     QAction *crossrefAction = ccMenu.addAction(tr("show cross references"));
     ccMenu.addSeparator();
 
-    ccMenu.addMenu(otMenu);
-    ccMenu.addMenu(ntMenu);
+    QAction *otPopupAction = ccMenu.addAction("OT");
+    QAction *ntPopupAction = ccMenu.addAction("NT");
     QAction *chapAction = ccMenu.addAction(tr("chapters"));
 
     QAction *nextAction = ccMenu.addAction(nextIcon, tr("next"));
@@ -2695,7 +2609,17 @@ void MainWindow::ccMenuBibleFrame(){
     QAction *action = ccMenu.exec(QCursor().pos());
     if (action == parAction) {
         openParW();
-    } else if (action == chapAction){
+    } else if (action == strongAction) {
+        strongify();
+    } else if (action == crossrefAction) {
+        makeCrossRefs();
+    } else if (action == otPopupAction) {
+        otMenu->exec(QCursor().pos());
+    } else if (action == ntPopupAction) {
+        ntMenu->exec(QCursor().pos());
+    }
+
+    else if (action == chapAction){
         popupChapters();
     } else if (action == nextAction){
         nextChapter();
@@ -2723,10 +2647,6 @@ void MainWindow::ccMenuBibleFrame(){
     } else if (action == viewAction){
         scripDisplay == "table" ? scripDisplay = "book" : scripDisplay = "table";
         ui->tb_scriptures->clear();
-    } else if (action == strongAction) {
-        strongify();
-    } else if (action == crossrefAction) {
-        makeCrossRefs();
     }
 }
 
@@ -2776,24 +2696,9 @@ void MainWindow::getTopic(const QString &topic) {
         res = topicQuery.value(0).toString();
 
         //  change the bible reference format to a format soulanchor uses
-        res.replace(QRegularExpression(
-                        "(^\\d{0,1}"
-                        "[A-Z]{1}[a-z]+)"
-                        ".{1}"
-                        "(\\d+)"
-                        ".{1}"
-                        "(\\d+)")
-                    , "\\1 \\2:\\3");
-
+        res.replace(bkRegex, "\\1 \\2:\\3");
         // a chapter range, keep chapter nr
-        res.replace(QRegularExpression(
-                        "-(\\d{0,1}"
-                        "[A-Z]{1}[a-z]+)"
-                        ".{1}"
-                        "(\\d+)"
-                        ".{1}"
-                        "(\\d+)$")
-                    , "-\\3");
+        res.replace(chRegex, "-\\3");
 
         if (firstClr) {
             clr = scheme["nrClr"];
@@ -2881,14 +2786,7 @@ void MainWindow::makeCrossRefs() {
         res = results.takeFirst();
         if (res.startsWith("header")) {
             res.remove(0,6);
-            res.replace(QRegularExpression(
-                            "(^\\d{0,1}"
-                            "[A-Z]{1}[a-z]+)"
-                            ".{1}"
-                            "(\\d+)"
-                            ".{1}"
-                            "(\\d+)")
-                        , "\\1 \\2:\\3");
+            res.replace(bkRegex, "\\1 \\2:\\3");
             ui->info_tb->insertHtml(
                         QString("<br><h4><a style='color:%1;text-decoration:none' "
                             "href='bible:%2'>%2</a> </h4>").arg(scheme["titleClr"], res));
@@ -2896,23 +2794,10 @@ void MainWindow::makeCrossRefs() {
             firstClr = true;
         } else {
             // change the bible reference format to a format soulanchor uses
-            res.replace(QRegularExpression(
-                            "(^\\d{0,1}"
-                            "[A-Z]{1}[a-z]+)"
-                            ".{1}"
-                            "(\\d+)"
-                            ".{1}"
-                            "(\\d+)")
-                        , "\\1 \\2:\\3");
+            res.replace(bkRegex, "\\1 \\2:\\3");
 
             // a chapter range, keep chapter nr
-            res.replace(QRegularExpression(
-                            "-(\\d{0,1}"
-                            "[A-Z]{1}[a-z]+)"
-                            ".{1}"
-                            "(\\d+)"
-                            ".{1}"
-                            "(\\d+)$")
+            res.replace(chRegex
                         , "-\\3");
 
             if (firstClr) {
@@ -2937,28 +2822,17 @@ void MainWindow::showAboutBook() {
         return;
     }
 
-    int bkNr = ui->lw_books->currentItem()->data(0x0100).toInt();
     QString bkNrS = ui->lw_books->currentItem()->data(0x0100).toString();
-    QString title = ::g_bookNames[bkNr];
+    QString title;
 
-    QString pat =
-            "\\s*"
-            "\\d+"
-            "\\s*";
-
-    QRegularExpression re(pat);
-    title.remove(re);
-
-    getDictSug(title);
-
-    if (ui->info_tb->document()->toPlainText().endsWith(" not found in dictionaries")) {
-            QSqlQuery query("SELECT book_nr, name_english FROM number_name "
-                            "WHERE book_nr = " + bkNrS, dbH.bibleDb);
-            while (query.next()) {
-                title  = query.value(1).toString();
-            }
-            getDictSug(title);
+    QSqlQuery query("SELECT book_nr, name_english FROM number_name "
+                    "WHERE book_nr = " + bkNrS, dbH.bibleDb);
+    while (query.next()) {
+        title  = query.value(1).toString();
     }
+
+    title.remove(nrRegex);
+    getDictSug(title);
 }
 
 void MainWindow::showAboutTl() {
@@ -3291,7 +3165,7 @@ void MainWindow::printScriptures() {
     QString sChapterBasic;
     QString headerTable, headerBasic, verseTable, verseBasic, sCh, sNr, txt;
 
-    QVector<QString> endChar = {".", "!", "?"};
+    QList<QString> endChar = {".", "!", "?"};
     int iNr;
     int prevNr = 0;
     int textL = 0;
@@ -3370,8 +3244,8 @@ void MainWindow::filterImmersion() {
     imFlag.setFlag(QTextDocument::FindWholeWords);
     QTextCharFormat charF;
     charF.setFontItalic(true);
-    QRegExp regE;
-    regE.setCaseSensitivity(Qt::CaseInsensitive);
+    QRegularExpression regE;
+    regE.setPatternOptions(QRegularExpression::CaseInsensitiveOption);
     QString replacement;
 
     // |de doper
@@ -3423,8 +3297,8 @@ void MainWindow::filterJudeans(){
     jFlag.setFlag(QTextDocument::FindWholeWords);
     QTextCharFormat charF;
     charF.setFontItalic(true);
-    QRegExp regE;
-    regE.setCaseSensitivity(Qt::CaseInsensitive);
+    QRegularExpression regE;
+    regE.setPatternOptions(QRegularExpression::CaseInsensitiveOption);
     QString replacement;
 
     const QString regP = "Joden|Jood|Joods|Joodse|Jodin|het Jodendom|"
@@ -3534,17 +3408,19 @@ void MainWindow::setBookTitle(QString title) {
         }
     }
 
-    QString style = QString(
-        "font-size:30px;font-family:serif;font-style:normal;"
-        "font-weight:bold;margin:3px;padding:0px;"
-        "color:%1;background-color:%2;")
-        .arg(scheme["titleClr"],scheme["bg2Clr"]);
-
-    QGraphicsDropShadowEffect shadow;
-    shadow.setBlurRadius(3);
-    shadow.setColor(QColor(0, 0, 0));
-    shadow.setOffset(2,2);
-    ui->btn_book_title->setGraphicsEffect(&shadow);
+    QString style;
+    if (activeScheme == "none") {
+        style = QString(
+            "font-size:30px;font-family:serif;font-style:normal;"
+            "font-weight:400;margin:3px;padding:0px;"
+            "color:black;background-color:white;");
+    } else {
+        style = QString(
+            "font-size:30px;font-family:serif;font-style:normal;"
+            "font-weight:400;margin:3px;padding:0px;"
+            "color:%1;background-color:%2;")
+            .arg(scheme["titleClr"],scheme["bg2Clr"]);
+    }
     ui->btn_book_title->setStyleSheet(style);
     ui->btn_book_title->setText(title);
 }
@@ -3648,19 +3524,31 @@ void MainWindow::toggleInfo(){
 }
 
 void MainWindow::setStyleSheets(){
-    QFile saFile(":/data/css/soulanchor.css");
+    QFile saFile;
+
+    if (activeScheme == "none") {
+        saFile.setFileName(":/data/css/soulanchor-no-scheme.css");
+    } else {
+        saFile.setFileName(":/data/css/soulanchor.css");
+    }
     saFile.open(QIODevice::ReadOnly | QIODevice::Text);
     saStyle = saFile.readAll();
     saFile.close();
 
-    saStyle.replace("txtClr", scheme["txtClr"]);
-    saStyle.replace("bgClr", scheme["bgClr"]);
-    saStyle.replace("bg2Clr", scheme["bg2Clr"]);
-    saStyle.replace("nrClr", scheme["nrClr"]);
-    saStyle.replace("titleClr", scheme["titleClr"]);
-    saStyle.replace("clashClr", scheme["clashClr"]);
+    if (activeScheme != "none") {
+        saStyle.replace("txtClr", scheme["txtClr"]);
+        saStyle.replace("bgClr", scheme["bgClr"]);
+        saStyle.replace("bg2Clr", scheme["bg2Clr"]);
+        saStyle.replace("nrClr", scheme["nrClr"]);
+        saStyle.replace("titleClr", scheme["titleClr"]);
+        saStyle.replace("clashClr", scheme["clashClr"]);
+        qApp->setStyleSheet(saStyle);
+    } else {
+        qApp->setStyleSheet("");
+        qApp->setStyleSheet(saStyle);
+    }
 
-    qApp->setStyleSheet(saStyle);
+    this->repaint();
 }
 
 void MainWindow::on_btn_select_today_clicked()

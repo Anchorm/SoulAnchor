@@ -10,16 +10,12 @@
 #include <QSizePolicy>
 #include <QTextEdit>
 #include <QCheckBox>
-#include <QVector>
 #include <QList>
 #include <QQueue>
 #include <QMenu>
 #include <QGuiApplication>
 #include <QScreen>
 #include <QSqlQuery>
-#include <QVector>
-#include <QList>
-#include <QCheckBox>
 #include <QString>
 #include <QShortcut>
 
@@ -45,13 +41,13 @@ class ParWindow : public QWidget
     QPushButton *btn_prev = new QPushButton(this);
     QPushButton *btn_next = new QPushButton(this);
 
-    QHBoxLayout *hbox_1 = new QHBoxLayout;
-    QHBoxLayout *hbox_2 = new QHBoxLayout;
+    FlowLayout *flowLayout = new FlowLayout(-1,7,-1);
+    QHBoxLayout *hbox_2 = new QHBoxLayout();
 
     QVBoxLayout *vbox = new QVBoxLayout;
     QTextEdit *te = new QTextEdit(this);
 
-    QVector<QCheckBox*> chkBoxes; // checkboxes to select the translations to use
+    QList<QCheckBox*> chkBoxes; // checkboxes to select the translations to use
 
     QString bookName;
     int lastBookNumber = 0;
@@ -64,6 +60,17 @@ class ParWindow : public QWidget
 
     QHash<QString, QString> scheme;
 
+    QString pattern =
+            "\\s*(?<prt>[1-3]?)"
+            "\\s*(?<bk>[a-zA-Zëüï]+)"
+            "\\s*(?<ch1>\\d?\\d?\\d?)"
+            "-?(?<ch2>\\d?\\d?\\d?)"
+            ":?(?<vs1>\\d?\\d?\\d?)"
+            "-?(?<vs2>\\d?\\d?\\d?)";
+
+    QRegularExpression *re = new QRegularExpression(pattern);
+
+
 private slots:
     void nextChapter();
     void prevChapter();
@@ -75,7 +82,7 @@ private slots:
     void printRequest();
     void toggleFullscreen();
     void escapeKey();
-//    void centerWindow();
+    void centerWindow();
 
 public slots:
     void setStyle(const QHash<QString, QString> &clrScheme);

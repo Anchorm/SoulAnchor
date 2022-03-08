@@ -27,7 +27,7 @@
    <string notr="true">SoulAnchor</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="../build-soulanchor-Desktop-Debug/soulanchor.qrc">
+   <iconset resource="soulanchor.qrc">
     <normaloff>:/data/img/anchor.png</normaloff>:/data/img/anchor.png</iconset>
   </property>
   <property name="styleSheet">
@@ -132,7 +132,7 @@
         <enum>QTabWidget::Rounded</enum>
        </property>
        <property name="currentIndex">
-        <number>0</number>
+        <number>2</number>
        </property>
        <property name="elideMode">
         <enum>Qt::ElideRight</enum>
@@ -589,7 +589,7 @@
               <string>Go</string>
              </property>
              <property name="icon">
-              <iconset resource="../build-soulanchor-Desktop-Debug/soulanchor.qrc">
+              <iconset resource="soulanchor.qrc">
                <normaloff>:/data/img/edit-find.png</normaloff>:/data/img/edit-find.png</iconset>
              </property>
              <property name="iconSize">
@@ -706,7 +706,7 @@
            </property>
            <property name="html">
             <string notr="true">&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;meta charset=&quot;utf-8&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Cantarell'; font-size:12pt; font-weight:400; font-style:normal;&quot;&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'Sans'; font-size:10pt;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -1174,7 +1174,7 @@ p, li { white-space: pre-wrap; }
                   <string>next</string>
                  </property>
                  <property name="icon">
-                  <iconset resource="../build-soulanchor-Desktop-Debug/soulanchor.qrc">
+                  <iconset resource="soulanchor.qrc">
                    <normaloff>:/data/img/bullet_arrow_right.png</normaloff>:/data/img/bullet_arrow_right.png</iconset>
                  </property>
                  <property name="autoRaise">
@@ -1212,7 +1212,7 @@ p, li { white-space: pre-wrap; }
                   <string>previous</string>
                  </property>
                  <property name="icon">
-                  <iconset resource="../build-soulanchor-Desktop-Debug/soulanchor.qrc">
+                  <iconset resource="soulanchor.qrc">
                    <normaloff>:/data/img/bullet_arrow_left.png</normaloff>:/data/img/bullet_arrow_left.png</iconset>
                  </property>
                  <property name="autoRaise">
@@ -1406,6 +1406,9 @@ p, li { white-space: pre-wrap; }
        <property name="contextMenuPolicy">
         <enum>Qt::CustomContextMenu</enum>
        </property>
+       <property name="autoFillBackground">
+        <bool>false</bool>
+       </property>
        <property name="frameShape">
         <enum>QFrame::NoFrame</enum>
        </property>
@@ -1533,6 +1536,12 @@ p, li { white-space: pre-wrap; }
             </property>
             <item>
              <widget class="QSplitter" name="splitter_bibleframe">
+              <property name="frameShape">
+               <enum>QFrame::NoFrame</enum>
+              </property>
+              <property name="lineWidth">
+               <number>0</number>
+              </property>
               <property name="orientation">
                <enum>Qt::Vertical</enum>
               </property>
@@ -1548,6 +1557,9 @@ p, li { white-space: pre-wrap; }
                  <width>16777215</width>
                  <height>110</height>
                 </size>
+               </property>
+               <property name="autoFillBackground">
+                <bool>false</bool>
                </property>
                <property name="frameShape">
                 <enum>QFrame::NoFrame</enum>
@@ -1585,7 +1597,7 @@ p, li { white-space: pre-wrap; }
                   <property name="minimumSize">
                    <size>
                     <width>100</width>
-                    <height>50</height>
+                    <height>48</height>
                    </size>
                   </property>
                   <property name="maximumSize">
@@ -1602,9 +1614,6 @@ p, li { white-space: pre-wrap; }
                   </property>
                   <property name="contextMenuPolicy">
                    <enum>Qt::PreventContextMenu</enum>
-                  </property>
-                  <property name="autoFillBackground">
-                   <bool>false</bool>
                   </property>
                   <property name="text">
                    <string notr="true"/>
@@ -1639,7 +1648,6 @@ p, li { white-space: pre-wrap; }
                   </property>
                   <property name="font">
                    <font>
-                    <weight>50</weight>
                     <italic>false</italic>
                     <bold>false</bold>
                     <underline>false</underline>
@@ -1651,7 +1659,7 @@ p, li { white-space: pre-wrap; }
                    <enum>Qt::PreventContextMenu</enum>
                   </property>
                   <property name="autoFillBackground">
-                   <bool>true</bool>
+                   <bool>false</bool>
                   </property>
                   <property name="frameShape">
                    <enum>QFrame::NoFrame</enum>
@@ -1785,7 +1793,7 @@ p, li { white-space: pre-wrap; }
                </property>
                <property name="html">
                 <string notr="true">&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;meta charset=&quot;utf-8&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Bitstream Vera Sans'; font-size:12pt; font-weight:400; font-style:normal;&quot;&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:11pt;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -1824,7 +1832,7 @@ p, li { white-space: pre-wrap; }
             <enum>Qt::PreventContextMenu</enum>
            </property>
            <property name="autoFillBackground">
-            <bool>false</bool>
+            <bool>true</bool>
            </property>
            <property name="styleSheet">
             <string notr="true"/>
@@ -1939,7 +1947,7 @@ p, li { white-space: pre-wrap; }
                      <string>...</string>
                     </property>
                     <property name="icon">
-                     <iconset resource="../build-soulanchor-Desktop-Debug/soulanchor.qrc">
+                     <iconset resource="soulanchor.qrc">
                       <normaloff>:/data/img/window-close.png</normaloff>:/data/img/window-close.png</iconset>
                     </property>
                     <property name="autoRaise">
@@ -1959,18 +1967,6 @@ p, li { white-space: pre-wrap; }
                     <horstretch>0</horstretch>
                     <verstretch>0</verstretch>
                    </sizepolicy>
-                  </property>
-                  <property name="minimumSize">
-                   <size>
-                    <width>0</width>
-                    <height>50</height>
-                   </size>
-                  </property>
-                  <property name="maximumSize">
-                   <size>
-                    <width>16777215</width>
-                    <height>16777215</height>
-                   </size>
                   </property>
                   <property name="contextMenuPolicy">
                    <enum>Qt::CustomContextMenu</enum>
@@ -1995,7 +1991,7 @@ p, li { white-space: pre-wrap; }
                   </property>
                   <property name="html">
                    <string notr="true">&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;meta charset=&quot;utf-8&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Cantarell'; font-size:12pt; font-weight:400; font-style:normal;&quot;&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'Bitstream Vera Sans'; font-size:11pt;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -2052,9 +2048,6 @@ p, li { white-space: pre-wrap; }
                      <string>Index</string>
                     </property>
                     <property name="autoDefault">
-                     <bool>false</bool>
-                    </property>
-                    <property name="default">
                      <bool>false</bool>
                     </property>
                     <property name="flat">
@@ -2223,20 +2216,11 @@ p, li { white-space: pre-wrap; }
                     <height>50</height>
                    </size>
                   </property>
-                  <property name="font">
-                   <font>
-                    <family>Bitstream Vera Sans</family>
-                    <pointsize>11</pointsize>
-                   </font>
-                  </property>
                   <property name="contextMenuPolicy">
                    <enum>Qt::CustomContextMenu</enum>
                   </property>
                   <property name="acceptDrops">
                    <bool>false</bool>
-                  </property>
-                  <property name="styleSheet">
-                   <string notr="true"/>
                   </property>
                   <property name="frameShape">
                    <enum>QFrame::NoFrame</enum>
@@ -2244,12 +2228,18 @@ p, li { white-space: pre-wrap; }
                   <property name="lineWidth">
                    <number>0</number>
                   </property>
+                  <property name="markdown">
+                   <string notr="true"/>
+                  </property>
                   <property name="html">
-                   <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+                   <string notr="true">&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;meta charset=&quot;utf-8&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Bitstream Vera Sans'; font-size:11pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Cantarell'; font-size:12pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                  </property>
+                  <property name="placeholderText">
+                   <string notr="true"/>
                   </property>
                   <property name="openLinks">
                    <bool>false</bool>
@@ -2432,7 +2422,7 @@ p, li { white-space: pre-wrap; }
               <string notr="true"/>
              </property>
              <property name="icon">
-              <iconset resource="../build-soulanchor-Desktop-Debug/soulanchor.qrc">
+              <iconset resource="soulanchor.qrc">
                <normaloff>:/data/img/window-close.png</normaloff>:/data/img/window-close.png</iconset>
              </property>
              <property name="autoRaise">
@@ -2543,7 +2533,7 @@ p, li { white-space: pre-wrap; }
               <string notr="true"/>
              </property>
              <property name="icon">
-              <iconset resource="../build-soulanchor-Desktop-Debug/soulanchor.qrc">
+              <iconset resource="soulanchor.qrc">
                <normaloff>:/data/img/go-down.png</normaloff>:/data/img/go-down.png</iconset>
              </property>
              <property name="shortcut">
@@ -2581,7 +2571,7 @@ p, li { white-space: pre-wrap; }
               <string notr="true"/>
              </property>
              <property name="icon">
-              <iconset resource="../build-soulanchor-Desktop-Debug/soulanchor.qrc">
+              <iconset resource="soulanchor.qrc">
                <normaloff>:/data/img/go-up.png</normaloff>:/data/img/go-up.png</iconset>
              </property>
              <property name="shortcut">
@@ -2877,7 +2867,7 @@ p, li { white-space: pre-wrap; }
   </action>
   <action name="action_daily_proverb">
    <property name="icon">
-    <iconset resource="../build-soulanchor-Desktop-Debug/soulanchor.qrc">
+    <iconset resource="soulanchor.qrc">
      <normaloff>:/data/img/book_open.png</normaloff>:/data/img/book_open.png</iconset>
    </property>
    <property name="text">
@@ -2889,7 +2879,7 @@ p, li { white-space: pre-wrap; }
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset resource="../build-soulanchor-Desktop-Debug/soulanchor.qrc">
+    <iconset resource="soulanchor.qrc">
      <normaloff>:/data/img/book_open.png</normaloff>:/data/img/book_open.png</iconset>
    </property>
    <property name="text">
@@ -2898,7 +2888,7 @@ p, li { white-space: pre-wrap; }
   </action>
   <action name="action_quit">
    <property name="icon">
-    <iconset resource="../build-soulanchor-Desktop-Debug/soulanchor.qrc">
+    <iconset resource="soulanchor.qrc">
      <normaloff>:/data/img/door_out.png</normaloff>:/data/img/door_out.png</iconset>
    </property>
    <property name="text">
@@ -2915,7 +2905,7 @@ p, li { white-space: pre-wrap; }
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset resource="../build-soulanchor-Desktop-Debug/soulanchor.qrc">
+    <iconset resource="soulanchor.qrc">
      <normaloff>:/data/img/wrench.png</normaloff>:/data/img/wrench.png</iconset>
    </property>
    <property name="text">
@@ -2932,7 +2922,7 @@ p, li { white-space: pre-wrap; }
   </action>
   <action name="action_show_roster">
    <property name="icon">
-    <iconset resource="../build-soulanchor-Desktop-Debug/soulanchor.qrc">
+    <iconset resource="soulanchor.qrc">
      <normaloff>:/data/img/grid.png</normaloff>:/data/img/grid.png</iconset>
    </property>
    <property name="text">
@@ -2949,7 +2939,7 @@ p, li { white-space: pre-wrap; }
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset resource="../build-soulanchor-Desktop-Debug/soulanchor.qrc">
+    <iconset resource="soulanchor.qrc">
      <normaloff>:/data/img/control_stop_blue.png</normaloff>:/data/img/control_stop_blue.png</iconset>
    </property>
    <property name="text">
@@ -2958,7 +2948,7 @@ p, li { white-space: pre-wrap; }
   </action>
   <action name="action_letter">
    <property name="icon">
-    <iconset resource="../build-soulanchor-Desktop-Debug/soulanchor.qrc">
+    <iconset resource="soulanchor.qrc">
      <normaloff>:/data/img/book_open.png</normaloff>:/data/img/book_open.png</iconset>
    </property>
    <property name="text">
@@ -3000,7 +2990,7 @@ p, li { white-space: pre-wrap; }
     <bool>false</bool>
    </property>
    <property name="icon">
-    <iconset resource="../build-soulanchor-Desktop-Debug/soulanchor.qrc">
+    <iconset resource="soulanchor.qrc">
      <normaloff>:/data/img/control_stop_blue.png</normaloff>:/data/img/control_stop_blue.png</iconset>
    </property>
    <property name="text">
@@ -3014,7 +3004,7 @@ p, li { white-space: pre-wrap; }
   </action>
   <action name="action_lord_prayer">
    <property name="icon">
-    <iconset resource="../build-soulanchor-Desktop-Debug/soulanchor.qrc">
+    <iconset resource="soulanchor.qrc">
      <normaloff>:/data/img/book_open.png</normaloff>:/data/img/book_open.png</iconset>
    </property>
    <property name="text">
@@ -3023,7 +3013,7 @@ p, li { white-space: pre-wrap; }
   </action>
   <action name="action_add_bookmark">
    <property name="icon">
-    <iconset resource="../build-soulanchor-Desktop-Debug/soulanchor.qrc">
+    <iconset resource="soulanchor.qrc">
      <normaloff>:/data/img/book_add.png</normaloff>:/data/img/book_add.png</iconset>
    </property>
    <property name="text">
@@ -3032,7 +3022,7 @@ p, li { white-space: pre-wrap; }
   </action>
   <action name="action_delete_bookmark">
    <property name="icon">
-    <iconset resource="../build-soulanchor-Desktop-Debug/soulanchor.qrc">
+    <iconset resource="soulanchor.qrc">
      <normaloff>:/data/img/book_remove.png</normaloff>:/data/img/book_remove.png</iconset>
    </property>
    <property name="text">
@@ -3041,7 +3031,7 @@ p, li { white-space: pre-wrap; }
   </action>
   <action name="action_about_filters">
    <property name="icon">
-    <iconset resource="../build-soulanchor-Desktop-Debug/soulanchor.qrc">
+    <iconset resource="soulanchor.qrc">
      <normaloff>:/data/img/help.png</normaloff>:/data/img/help.png</iconset>
    </property>
    <property name="text">
@@ -3050,7 +3040,7 @@ p, li { white-space: pre-wrap; }
   </action>
   <action name="action_salvation">
    <property name="icon">
-    <iconset resource="../build-soulanchor-Desktop-Debug/soulanchor.qrc">
+    <iconset resource="soulanchor.qrc">
      <normaloff>:/data/img/information.png</normaloff>:/data/img/information.png</iconset>
    </property>
    <property name="text">
@@ -3069,7 +3059,7 @@ p, li { white-space: pre-wrap; }
   </action>
   <action name="action_open_parallel">
    <property name="icon">
-    <iconset resource="../build-soulanchor-Desktop-Debug/soulanchor.qrc">
+    <iconset resource="soulanchor.qrc">
      <normaloff>:/data/img/book_open.png</normaloff>:/data/img/book_open.png</iconset>
    </property>
    <property name="text">
@@ -3088,7 +3078,7 @@ p, li { white-space: pre-wrap; }
   </action>
   <action name="action_breaking_bread">
    <property name="icon">
-    <iconset resource="../build-soulanchor-Desktop-Debug/soulanchor.qrc">
+    <iconset resource="soulanchor.qrc">
      <normaloff>:/data/img/book_open.png</normaloff>:/data/img/book_open.png</iconset>
    </property>
    <property name="text">
@@ -3097,7 +3087,7 @@ p, li { white-space: pre-wrap; }
   </action>
   <action name="action_immersion">
    <property name="icon">
-    <iconset resource="../build-soulanchor-Desktop-Debug/soulanchor.qrc">
+    <iconset resource="soulanchor.qrc">
      <normaloff>:/data/img/book_open.png</normaloff>:/data/img/book_open.png</iconset>
    </property>
    <property name="text">
@@ -3106,7 +3096,7 @@ p, li { white-space: pre-wrap; }
   </action>
   <action name="action_worries">
    <property name="icon">
-    <iconset resource="../build-soulanchor-Desktop-Debug/soulanchor.qrc">
+    <iconset resource="soulanchor.qrc">
      <normaloff>:/data/img/book_open.png</normaloff>:/data/img/book_open.png</iconset>
    </property>
    <property name="text">
@@ -3120,7 +3110,7 @@ p, li { white-space: pre-wrap; }
   </action>
   <action name="action_emergency">
    <property name="icon">
-    <iconset resource="../build-soulanchor-Desktop-Debug/soulanchor.qrc">
+    <iconset resource="soulanchor.qrc">
      <normaloff>:/data/img/exclamation.png</normaloff>:/data/img/exclamation.png</iconset>
    </property>
    <property name="text">
@@ -3200,7 +3190,7 @@ p, li { white-space: pre-wrap; }
   <tabstop>chkBox_find_whole</tabstop>
  </tabstops>
  <resources>
-  <include location="../build-soulanchor-Desktop-Debug/soulanchor.qrc"/>
+  <include location="soulanchor.qrc"/>
  </resources>
  <connections>
   <connection>

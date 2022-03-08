@@ -14,16 +14,15 @@
 #include <QSettings>
 #include <QQueue>
 #include <QList>
-#include <QVector>
 #include <QLabel>
 #include <QMediaPlayer>
+#include <QAudioOutput>
 #include <QTranslator>
 #include <QString>
 #include <QFile>
 #include <QTextStream>
 #include <QShortcut>
 #include <QGraphicsDropShadowEffect>
-#include <QVector>
 #include <QCursor>
 #include <QIcon>
 #include <QScreen>
@@ -33,16 +32,17 @@
 #include <QTextDocument>
 #include <QTextCursor>
 #include <QFont>
-#include <QList>
 #include <QInputDialog>
 #include <QMessageBox>
 #include <QDir>
-#include <QFile>
 #include <QDirIterator>
 #include <QDesktopServices>
+#include <QActionGroup>
 
 #include <random>
-#include <cassert>
+//#include <cassert>
+#include <QStyleFactory>
+
 
 //QtDocs: The following lines declare the  class(es) in the Ui namespace, which is the standard namespace for the UI classes generated from .ui files by the uic tool:
 namespace Ui {
@@ -117,7 +117,7 @@ class MainWindow : public QMainWindow
     void popupMsg(const QString message);
     void printMsg(const QString message);
 
-    QVector< QVector<int> > encS = {
+    QList< QList<int> > encS = {
     {19,4,6},
     {19,119,10},{19,119,12},{19,119,27},{19,119,29},{19,119,30},{19,119,32},{19,119,33},{19,119,34},
     {19,119,35},{19,119,104},{19,119,105},{19,119,106},{19,119,133},{19,119,135},{19,119,143},{19,119,144},
@@ -141,14 +141,14 @@ class MainWindow : public QMainWindow
     QFlags<QTextDocument::FindFlag> findInPageflags;
 
     QMediaPlayer *mplayer = new QMediaPlayer(this);
-    QVector< QVector<QString> > musicList;
+    QAudioOutput *audioOutput = new QAudioOutput(this);
+    QList< QList<QString> > musicList;
 
     QFont *scripFont = new QFont();
     QActionGroup *rosterGroup = new QActionGroup(this);
 
     bool iFilter; // immersion filter
     bool jFilter; // judeans filter
-    // Filters, todo: db?
     // {"de doper", "de dompelaar"}, {"baptist", "immerser"}
     const QHash<QString, QString> immersionDict =
     {
@@ -212,19 +212,78 @@ class MainWindow : public QMainWindow
     // active color theme
     QString activeScheme;
     QHash<QString, QString> scheme = {
-        {"nrClr", "#"},
-        {"txtClr", "#"},
-        {"titleClr", "#"},
-        {"bgClr", "#"},
-        {"bg2Clr", "#"},
-        {"clashClr", "#"}
+        {"nrClr", "none"},
+        {"txtClr", "none"},
+        {"titleClr", "none"},
+        {"bgClr", "none"},
+        {"bg2Clr", "none"},
+        {"clashClr", "none"}
         };
+
+    // regular expressions
+    const QString strongPattern =
+            "(?<strongStartTag><S>)"
+            "\\s*(?<strongNr>\\d+)"
+            "\\s*(?<strongEndTag></S>)";
+    QRegularExpression *strongRegex = new QRegularExpression(strongPattern);
+
+    const QString strongPattern2 =
+            "\\s*"
+            "[gGhH]"
+            "\\d{1,4}"
+            "\\s*";
+    QRegularExpression *getStrongRegex = new QRegularExpression(strongPattern2);
+
+    QRegularExpression *audioBibleRegex = new QRegularExpression();
+
+    const QString twotPattern =
+            "\\s*"
+            "\\d{1,4}"
+            "\\s*";
+    QRegularExpression *twotRegex = new QRegularExpression(twotPattern);
+
+    const QString psalmPattern =
+            "\\s*(?<ps>[pP][sS][aA][lL][mM])"
+            "\\s*(?<ch>\\d{1,3})";
+
+    const QString hymnPattern =
+            "(?<Hymn>hymns)";
+
+    const QString scripPattern =
+            "\\s*(?<prt>[1-3]?)"
+            "\\s*(?<bk>[a-zA-Zëüï]{2,30})"
+            "\\s*(?<ch1>\\d{0,3})"
+            "-?(?<ch2>\\d{0,3})"
+            ":?(?<vs1>\\d{0,3})"
+            "-?(?<vs2>\\d{0,3})";
+
+    QRegularExpression *psalmRegex = new QRegularExpression(psalmPattern);
+    QRegularExpression *hymnRegex = new QRegularExpression(hymnPattern);
+    QRegularExpression *scripRegex = new QRegularExpression(scripPattern);
+
+    const QString bkPattern = "(^\\d{0,1}"
+                        "[A-Z]{1}[a-z]+)"
+                        ".{1}"
+                        "(\\d+)"
+                        ".{1}"
+                        "(\\d+)";
+    const QRegularExpression bkRegex = QRegularExpression(bkPattern);
+
+    const QString chPattern = "-(\\d{0,1}"
+                        "[A-Z]{1}[a-z]+)"
+                        ".{1}"
+                        "(\\d+)"
+                        ".{1}"
+                        "(\\d+)$";
+    const QRegularExpression chRegex = QRegularExpression(chPattern);
+
+    const QString nrPattern ="\\s*\\d+\\s*";
+    const QRegularExpression nrRegex = QRegularExpression(nrPattern);
 
     //QtDocs: The following line declares a member variable which is a pointer to the MainWindow UI class. A member variable is associated with a specific class, and accessible for all its methods.
     Ui::MainWindow *ui;
 
 public:
-    void showIntro();
     QString tlAbbr; //active translation
     //QtDocs:The following line declares a constructor that has a default argument called parent.
     //The value 0 indicates that the widget has no parent (it is a top-level widget).

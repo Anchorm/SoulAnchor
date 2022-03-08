@@ -6,8 +6,6 @@
 #include <QSqlDatabase>
 #include <QSqlQuery>
 
-// TODO: getters/setters OR don't bother since all we need are globals
-
 class DatabaseHandler {
 public:
     QSqlDatabase bibleDb;

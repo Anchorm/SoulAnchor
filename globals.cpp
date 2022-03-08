@@ -4,8 +4,8 @@ QTranslator translator;
 
 QTextStream sout(stdout);
 
-QVector<QString> g_bookNames;
-QVector<QString> g_booksAbbr;
+QList<QString> g_bookNames;
+QList<QString> g_booksAbbr;
 
 QDir dataDir;
 QDir userDataDir;

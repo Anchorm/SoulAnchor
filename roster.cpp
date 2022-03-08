@@ -32,7 +32,7 @@ void Roster::on_pb_make_clicked()
     QString what = ui->cb_what->currentData(0x0100).toString();
     QString genreName = ui->cb_what->currentText();
     QString rosterName = genreName + " - " + sTempo + " C/S";
-    QVector<int> books;
+    QList<int> books;
     int chaptersTotal = 0;
 
     ui->te_preview->clear();
@@ -72,8 +72,8 @@ void Roster::on_pb_make_clicked()
         }
     }
 
-    //determine the amount of chapters and add QVector pairs of bookNr and chapNr to a QVector
-    QVector< QVector<int> > bkCh;
+    //determine the amount of chapters and add QList pairs of bookNr and chapNr to a QList
+    QList< QList<int> > bkCh;
 
     for (int bkNr : books) {
         QString sqlC = QString("SELECT c FROM %1 WHERE b = %2 "
@@ -126,7 +126,7 @@ void Roster::on_pb_make_clicked()
             for (int c = 1; c <= iTempo; c++) {
 
                 if (!bkCh.isEmpty()){
-                    QVector<int> bC = bkCh.takeFirst();
+                    QList<int> bC = bkCh.takeFirst();
                     QString sqlInsert = QString("INSERT INTO '%1' (SESSION, BOOK, CHAPTER) "
                                                 "VALUES (%2, %3, %4);"
                                                 ).arg(rosterName).arg(s).arg(bC[0]).arg(bC[1]);
@@ -162,7 +162,7 @@ void Roster::on_pb_preview_clicked()
     QSettings settings(settingsFile.fileName(), QSettings::IniFormat);
     QString what = ui->cb_what->currentData(0x0100).toString();
     int tempo = ui->cb_amount->currentText().toInt();
-    QVector<int> books;
+    QList<int> books;
     int chaptersTotal = 0;
     QString tl = "t_" + settings.value("translation").toString();
 

@@ -32,7 +32,7 @@
    <string>settings - SoulAnchor</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="../build-soulanchor-Desktop-Debug/soulanchor.qrc">
+   <iconset resource="soulanchor.qrc">
     <normaloff>:/data/img/anchor.png</normaloff>:/data/img/anchor.png</iconset>
   </property>
   <property name="styleSheet">
@@ -777,7 +777,7 @@
   <tabstop>font_cb</tabstop>
  </tabstops>
  <resources>
-  <include location="../build-soulanchor-Desktop-Debug/soulanchor.qrc"/>
+  <include location="soulanchor.qrc"/>
  </resources>
  <connections/>
 </ui>
