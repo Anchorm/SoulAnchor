@@ -109,8 +109,9 @@ void SettingsWindow::cancelSettings() {
     scrCheck =  settings.value("Font/scrCheck", "false").toBool();
     bkchCheck =  settings.value("Font/bkchCheck", "false").toBool();
 
-    margin = settings.value("margin", "14").toString();
+    margin = settings.value("margin", "14").toInt();
     display = settings.value("display", "table").toString();
+    width = settings.value("width", "10").toInt();
 
     activeScheme = settings.value("activeScheme", "none").toString();
 
@@ -133,14 +134,15 @@ void SettingsWindow::cancelSettings() {
         ui->font_bkch_chkb->setCheckState(Qt::Unchecked);
     }
 
-    ui->margin_le->setText(margin);
+    ui->margin_slider->setValue(margin);
+    ui->width_slider->setValue(width);
     ui->display_cb->setCurrentText(display);
     ui->scheme_cb->setCurrentText(activeScheme);
     hide();
 
     emit booknameLangChanged(bknLanguage);
     emit schemeChanged(activeScheme);
-    emit fontChanged(font, fontS, margin);
+    emit fontChanged(font, fontS, margin, width);
 }
 
 void SettingsWindow::writeSettings() {
@@ -156,8 +158,9 @@ void SettingsWindow::writeSettings() {
     scrCheck =  ui->font_script_chkb->isChecked();
     bkchCheck = ui->font_bkch_chkb->isChecked();
 
-    margin = ui->margin_le->text();
+    margin = ui->margin_slider->value();
     display = ui->display_cb->currentText();
+    width = ui->width_slider->value();
     activeScheme = ui->scheme_cb->currentText();
 
     settings.setValue("guiLanguage", guiLanguage);
@@ -173,6 +176,7 @@ void SettingsWindow::writeSettings() {
 
     settings.setValue("margin", margin);
     settings.setValue("display", display);
+    settings.setValue("width", width);
     settings.setValue("activeScheme", activeScheme);
 
     settings.sync();
@@ -184,10 +188,11 @@ void SettingsWindow::applySettings() {
     bknLanguage = ui->bkn_lang_cb->currentText();
     font = ui->font_cb->currentText();
     fontS = ui->font_size_cb->currentText();
-    margin = ui->margin_le->text();
     activeScheme = ui->scheme_cb->currentText();
+    margin = ui->margin_slider->value();
+    width = ui->width_slider->value();
 
     emit booknameLangChanged(bknLanguage);
     emit schemeChanged(activeScheme);
-    emit fontChanged(font, fontS, margin);
+    emit fontChanged(font, fontS, margin, width);
 }

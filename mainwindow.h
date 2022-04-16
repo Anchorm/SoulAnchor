@@ -38,10 +38,8 @@
 #include <QDirIterator>
 #include <QDesktopServices>
 #include <QActionGroup>
-
 #include <random>
-//#include <cassert>
-#include <QStyleFactory>
+#include <QResizeEvent>
 
 
 //QtDocs: The following lines declare the  class(es) in the Ui namespace, which is the standard namespace for the UI classes generated from .ui files by the uic tool:
@@ -56,12 +54,14 @@ class MainWindow : public QMainWindow
     QString tab; // active tab
     QString startup; // start with scriptures?
 
+    int docMargin; // margin around scriptures
+    int frameWidth; // max width of bible frame
+
     QString guiLanguage;
     QString bknLanguage; // booknames
 
     bool rosterRead;
     // roster has been read; checkbox should be checked; conf rosterRead should be false
-    int scripMargin;
 
     QString scripDisplay; // table format or book format
     QString strongTl; // translation used for Strongs
@@ -392,7 +392,8 @@ private slots:
     static bool compareFunctionS(QAction *a, QAction *b);
 
     void openParW();
-    void applyFont(const QString &font, const QString &fontS, const QString &margin);
+    void applyFont(const QString &font, const QString &fontS,
+                   const int &margin, const int &width);
     void applyScheme(const QString &aScheme);
 
     void addRostersToMenu();
@@ -417,8 +418,10 @@ private slots:
     void setFilters();
     void aboutFilters();
 
-    void closeEvent(QCloseEvent*) override;
+    void closeEvent(QCloseEvent*) override;    
     static void exit();
+
+    void resizeEvent(QResizeEvent*) override;
 
     void on_cb_roster_read_clicked();
     void on_dict_pb_index_clicked();

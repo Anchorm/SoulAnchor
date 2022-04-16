@@ -4,536 +4,536 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../../mainwindow.ui" line="178"/>
+        <location filename="../../mainwindow.ui" line="151"/>
         <source>Contents</source>
         <translation>Inhoud</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="253"/>
+        <location filename="../../mainwindow.ui" line="226"/>
         <source>e.g. ps 1-5 act 2:38</source>
         <translation>bijv. ps 1-5 han 2:38</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="387"/>
+        <location filename="../../mainwindow.ui" line="360"/>
         <source>Search</source>
         <translation>Zoek</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="530"/>
-        <location filename="../../mainwindow.ui" line="2646"/>
+        <location filename="../../mainwindow.ui" line="503"/>
+        <location filename="../../mainwindow.ui" line="2586"/>
         <source>whole words</source>
         <translation>hele woorden</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="580"/>
+        <location filename="../../mainwindow.ui" line="553"/>
         <source>search</source>
         <translation>zoek</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="589"/>
-        <location filename="../../mainwindow.ui" line="2122"/>
-        <location filename="../../mainwindow.ui" line="2330"/>
+        <location filename="../../mainwindow.ui" line="562"/>
+        <location filename="../../mainwindow.ui" line="2062"/>
+        <location filename="../../mainwindow.ui" line="2270"/>
         <source>Go</source>
         <translation>Ga</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="440"/>
-        <location filename="../../mainwindow.ui" line="2615"/>
+        <location filename="../../mainwindow.ui" line="413"/>
+        <location filename="../../mainwindow.ui" line="2555"/>
         <source>case sensitive</source>
         <translation>hoofdlettergevoelig</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="732"/>
+        <location filename="../../mainwindow.ui" line="705"/>
         <source>Today</source>
         <translation>Vandaag</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="822"/>
+        <location filename="../../mainwindow.ui" line="795"/>
         <source>Set calender to today</source>
         <translation>Zet kalender op vandaag</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="831"/>
+        <location filename="../../mainwindow.ui" line="804"/>
         <source>t o d a y</source>
         <translation>v a n d a a g</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="913"/>
-        <location filename="../../mainwindow.ui" line="2874"/>
+        <location filename="../../mainwindow.ui" line="886"/>
+        <location filename="../../mainwindow.ui" line="2814"/>
         <source>Proverb</source>
         <translation>Spreuk</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="947"/>
-        <location filename="../../mainwindow.ui" line="2886"/>
+        <location filename="../../mainwindow.ui" line="920"/>
+        <location filename="../../mainwindow.ui" line="2826"/>
         <source>Psalm</source>
         <translation>Psalm</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="981"/>
-        <location filename="../../mainwindow.ui" line="2955"/>
+        <location filename="../../mainwindow.ui" line="954"/>
+        <location filename="../../mainwindow.ui" line="2895"/>
         <source>Letter</source>
         <translation>Brief</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="1021"/>
-        <location filename="../../mainwindow.ui" line="2929"/>
+        <location filename="../../mainwindow.ui" line="994"/>
+        <location filename="../../mainwindow.ui" line="2869"/>
         <source>Reading Plan</source>
         <translation>Lees Plan</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="1174"/>
-        <location filename="../../mainwindow.cpp" line="2583"/>
+        <location filename="../../mainwindow.ui" line="1147"/>
+        <location filename="../../mainwindow.cpp" line="2664"/>
         <source>next</source>
         <translation>volgende</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="1212"/>
-        <location filename="../../mainwindow.cpp" line="2584"/>
+        <location filename="../../mainwindow.ui" line="1185"/>
+        <location filename="../../mainwindow.cpp" line="2665"/>
         <source>previous</source>
         <translation>vorige</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="3108"/>
+        <location filename="../../mainwindow.ui" line="3048"/>
         <source>Menu</source>
         <translation>Menu</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="2499"/>
+        <location filename="../../mainwindow.ui" line="2439"/>
         <source>enter/return to highlight all results</source>
         <translation>enter/return om all resultaten te markeren</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="2502"/>
+        <location filename="../../mainwindow.ui" line="2442"/>
         <source>search for...</source>
         <translation>zoek naar...</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="2530"/>
+        <location filename="../../mainwindow.ui" line="2470"/>
         <source>find next - F3</source>
         <translation>vind volgende - F3</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="2568"/>
+        <location filename="../../mainwindow.ui" line="2508"/>
         <source>find previous - F2</source>
         <translation>vind vorige - F2</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="2290"/>
+        <location filename="../../mainwindow.ui" line="2230"/>
         <source>e.g. G907 or βαπτίζω</source>
         <translation>bijv. G907 of βαπτίζω</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="1947"/>
+        <location filename="../../mainwindow.ui" line="1887"/>
         <source>...</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="2731"/>
+        <location filename="../../mainwindow.ui" line="2671"/>
         <source>Today&apos;s Reading</source>
         <translation>Dagelijks Lezen</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="2738"/>
+        <location filename="../../mainwindow.ui" line="2678"/>
         <source>Select</source>
         <translation>Selecteer</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="2762"/>
+        <location filename="../../mainwindow.ui" line="2702"/>
         <source>Help</source>
         <translation>Hulp</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="2773"/>
+        <location filename="../../mainwindow.ui" line="2713"/>
         <source>View</source>
         <translation>Kijk</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="2791"/>
+        <location filename="../../mainwindow.ui" line="2731"/>
         <source>Contemplation</source>
         <translation>Contemplatie</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="2795"/>
+        <location filename="../../mainwindow.ui" line="2735"/>
         <source>Music inspired by the Word:</source>
         <translation>Muziek geïnspireerd door het Woord:</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="2799"/>
+        <location filename="../../mainwindow.ui" line="2739"/>
         <source>Psalms</source>
         <translation>Psalmen</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="2804"/>
+        <location filename="../../mainwindow.ui" line="2744"/>
         <source>Hymns</source>
         <translation>Lofzangen</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="2812"/>
+        <location filename="../../mainwindow.ui" line="2752"/>
         <source>Text inspired by the Word:</source>
         <translation>Tekst door het Woord geïnspireerd:</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="2827"/>
+        <location filename="../../mainwindow.ui" line="2767"/>
         <source>Filters</source>
         <translation>Filters</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="2836"/>
-        <location filename="../../mainwindow.cpp" line="3032"/>
+        <location filename="../../mainwindow.ui" line="2776"/>
+        <location filename="../../mainwindow.cpp" line="3113"/>
         <source>History</source>
         <translation>Geschiedenis</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="2841"/>
+        <location filename="../../mainwindow.ui" line="2781"/>
         <source>Bookmarks</source>
         <translation>Bladwijzers</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="2865"/>
+        <location filename="../../mainwindow.ui" line="2805"/>
         <source>About</source>
         <translation>Over</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="2895"/>
+        <location filename="../../mainwindow.ui" line="2835"/>
         <source>Quit</source>
         <translation>Afsluiten</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="2900"/>
+        <location filename="../../mainwindow.ui" line="2840"/>
         <source>Fullscreen</source>
         <translation>Volledig Scherm</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="2912"/>
+        <location filename="../../mainwindow.ui" line="2852"/>
         <source>Settings</source>
         <translation>Instellingen</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="3138"/>
+        <location filename="../../mainwindow.ui" line="3078"/>
         <source>Tab</source>
         <translation>Tab</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="3148"/>
+        <location filename="../../mainwindow.ui" line="3088"/>
         <source>Cross References</source>
         <translation>Kruisverwijzingen</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="3143"/>
+        <location filename="../../mainwindow.ui" line="3083"/>
         <source>Topical Index</source>
         <translation>Onderwerpen Index</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="2920"/>
+        <location filename="../../mainwindow.ui" line="2860"/>
         <source>Toggle Tab-Widget</source>
         <translation>Aan/uitzetten van Tab Widget</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="2934"/>
+        <location filename="../../mainwindow.ui" line="2874"/>
         <source>Shortcuts</source>
         <translation>Sneltoetsen</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="2946"/>
+        <location filename="../../mainwindow.ui" line="2886"/>
         <source> Play random</source>
         <translation> Speel willekeurige</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="2963"/>
+        <location filename="../../mainwindow.ui" line="2903"/>
         <source>Reset</source>
         <translation>Herstart</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="2974"/>
+        <location filename="../../mainwindow.ui" line="2914"/>
         <source>Judeans filter</source>
         <translation>Judeeërs filter</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="2985"/>
+        <location filename="../../mainwindow.ui" line="2925"/>
         <source>immersion filter</source>
         <translation>Onderdompeling filter</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="2997"/>
+        <location filename="../../mainwindow.ui" line="2937"/>
         <source> Stop playing</source>
         <translation> Stop met afspelen</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="3117"/>
+        <location filename="../../mainwindow.ui" line="3057"/>
         <source>Emergency</source>
         <translation>Noodgeval</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="3122"/>
+        <location filename="../../mainwindow.ui" line="3062"/>
         <source>Morning</source>
         <translation>Ochtend</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="3125"/>
+        <location filename="../../mainwindow.ui" line="3065"/>
         <source>Morning by morning - by Spurgeon</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="3130"/>
+        <location filename="../../mainwindow.ui" line="3070"/>
         <source>Evening</source>
         <translation>Avond</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="3133"/>
+        <location filename="../../mainwindow.ui" line="3073"/>
         <source>Evening by evening - Spurgeon</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="3002"/>
+        <location filename="../../mainwindow.ui" line="2942"/>
         <source>Info</source>
         <translation>Info</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="487"/>
+        <location filename="../../mainwindow.ui" line="460"/>
         <source>search word(s) or Strong&apos;s nr</source>
         <translation>zoek woord(en) of Strong&apos;s nr</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="2455"/>
-        <location filename="../../mainwindow.ui" line="2917"/>
-        <location filename="../../mainwindow.cpp" line="2995"/>
+        <location filename="../../mainwindow.ui" line="2395"/>
+        <location filename="../../mainwindow.ui" line="2857"/>
+        <location filename="../../mainwindow.cpp" line="3076"/>
         <source>Bible</source>
         <translation>Bijbel</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="2048"/>
+        <location filename="../../mainwindow.ui" line="1988"/>
         <source>Index</source>
         <translation>Index</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="2082"/>
+        <location filename="../../mainwindow.ui" line="2022"/>
         <source>bible dictionary word</source>
         <translation>Bijbel woordenboek woord</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="2195"/>
+        <location filename="../../mainwindow.ui" line="2135"/>
         <source>SECE &amp; BDB-T</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="3011"/>
-        <location filename="../../mainwindow.cpp" line="1500"/>
+        <location filename="../../mainwindow.ui" line="2951"/>
+        <location filename="../../mainwindow.cpp" line="1544"/>
         <source>The Lord&apos;s Prayer</source>
         <translation>het Onze Vader</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="3020"/>
-        <location filename="../../mainwindow.cpp" line="804"/>
+        <location filename="../../mainwindow.ui" line="2960"/>
+        <location filename="../../mainwindow.cpp" line="816"/>
         <source>Add Bookmark</source>
         <translation>Bladwijzer toevoegen</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="3029"/>
-        <location filename="../../mainwindow.ui" line="3071"/>
-        <location filename="../../mainwindow.cpp" line="812"/>
+        <location filename="../../mainwindow.ui" line="2969"/>
+        <location filename="../../mainwindow.ui" line="3011"/>
+        <location filename="../../mainwindow.cpp" line="824"/>
         <source>Delete</source>
         <translation>Verwijder</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="3038"/>
+        <location filename="../../mainwindow.ui" line="2978"/>
         <source>About Filters</source>
         <translation>Over de filters</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="3047"/>
+        <location filename="../../mainwindow.ui" line="2987"/>
         <source>Salvation</source>
         <translation>Redding</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="3052"/>
+        <location filename="../../mainwindow.ui" line="2992"/>
         <source>Create...</source>
         <translation>Creëer...</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="3057"/>
-        <location filename="../../mainwindow.cpp" line="808"/>
+        <location filename="../../mainwindow.ui" line="2997"/>
+        <location filename="../../mainwindow.cpp" line="820"/>
         <source>Rename</source>
         <translation>Hernoem</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="3066"/>
-        <location filename="../../mainwindow.cpp" line="2488"/>
-        <location filename="../../mainwindow.cpp" line="2574"/>
+        <location filename="../../mainwindow.ui" line="3006"/>
+        <location filename="../../mainwindow.cpp" line="2569"/>
+        <location filename="../../mainwindow.cpp" line="2655"/>
         <source>Open Parallel Window</source>
         <translation>Open Parallel Venster</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="3076"/>
+        <location filename="../../mainwindow.ui" line="3016"/>
         <source>Bible Structure</source>
         <translation>Bijbel Structuur</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="3085"/>
-        <location filename="../../mainwindow.cpp" line="1514"/>
+        <location filename="../../mainwindow.ui" line="3025"/>
+        <location filename="../../mainwindow.cpp" line="1558"/>
         <source>Breaking Bread</source>
         <translation>Brood Breken</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="3094"/>
-        <location filename="../../mainwindow.cpp" line="1538"/>
+        <location filename="../../mainwindow.ui" line="3034"/>
+        <location filename="../../mainwindow.cpp" line="1582"/>
         <source>Immersion</source>
         <translation>Onderdompeling</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="3103"/>
+        <location filename="../../mainwindow.ui" line="3043"/>
         <source>Worries</source>
         <translation>Zorgen</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="751"/>
-        <location filename="../../mainwindow.cpp" line="756"/>
+        <location filename="../../mainwindow.cpp" line="763"/>
+        <location filename="../../mainwindow.cpp" line="768"/>
         <source>rename bookmark</source>
         <translation>hernoem bladwijzer</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="752"/>
+        <location filename="../../mainwindow.cpp" line="764"/>
         <source>Choose bookmark to rename:</source>
         <translation>Kies bladwijzer om te hernoemen:</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="757"/>
+        <location filename="../../mainwindow.cpp" line="769"/>
         <source>And the new name is:</source>
         <translation>de nieuwe naam wordt:</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="783"/>
+        <location filename="../../mainwindow.cpp" line="795"/>
         <source>delete bookmark</source>
         <translation>verwijder bladwijzer</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="784"/>
+        <location filename="../../mainwindow.cpp" line="796"/>
         <source>bookmark to remove:</source>
         <translation>bladwijzer om te verwijderen:</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="1039"/>
+        <location filename="../../mainwindow.cpp" line="1051"/>
         <source>remove roster</source>
         <translation>verwijder rooster</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="1040"/>
+        <location filename="../../mainwindow.cpp" line="1052"/>
         <source>Roster to remove:</source>
         <translation>Rooster om te verwijderen:</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="1077"/>
+        <location filename="../../mainwindow.cpp" line="1089"/>
         <source>Set roster %1 to the first session?</source>
         <translation>Stel rooster %1 in op de eerste sessie?</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="1078"/>
+        <location filename="../../mainwindow.cpp" line="1090"/>
         <source>reset roster</source>
         <translation>herstart rooster</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="1412"/>
+        <location filename="../../mainwindow.cpp" line="1451"/>
         <source>about Immersion</source>
         <translation>over onderdompeling</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="1413"/>
+        <location filename="../../mainwindow.cpp" line="1452"/>
         <source>about Judeans</source>
         <translation>over Judeeërs</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="1557"/>
+        <location filename="../../mainwindow.cpp" line="1601"/>
         <source>salvation</source>
         <translation>redding</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="1570"/>
+        <location filename="../../mainwindow.cpp" line="1614"/>
         <source>worries</source>
         <translation>zorgen</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="1605"/>
+        <location filename="../../mainwindow.cpp" line="1649"/>
         <source>shortcuts</source>
         <translation>sneltoetsen</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="2489"/>
+        <location filename="../../mainwindow.cpp" line="2570"/>
         <source>Show Bible Frame</source>
         <translation>Toon Bijbel Venster</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="2490"/>
+        <location filename="../../mainwindow.cpp" line="2571"/>
         <source>Show Info Frame</source>
         <translation>Toon Info Venster</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="2507"/>
-        <location filename="../../mainwindow.cpp" line="2538"/>
+        <location filename="../../mainwindow.cpp" line="2588"/>
+        <location filename="../../mainwindow.cpp" line="2619"/>
         <source>history</source>
         <translation>geschiedenis</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="2576"/>
+        <location filename="../../mainwindow.cpp" line="2657"/>
         <source>show cross references</source>
         <translation>toon kruisverwijzingen</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="2821"/>
+        <location filename="../../mainwindow.cpp" line="2902"/>
         <source>no book selected?</source>
         <translation>geen boek geselecteerd?</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="3027"/>
+        <location filename="../../mainwindow.cpp" line="3108"/>
         <source>this book</source>
         <translation>dit boek</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="3028"/>
+        <location filename="../../mainwindow.cpp" line="3109"/>
         <source>all books</source>
         <translation>alle boeken</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="3029"/>
+        <location filename="../../mainwindow.cpp" line="3110"/>
         <source>O.T.</source>
         <translation>O.T.</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="3031"/>
+        <location filename="../../mainwindow.cpp" line="3112"/>
         <source>Law</source>
         <translation>Wet</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="3033"/>
+        <location filename="../../mainwindow.cpp" line="3114"/>
         <source>Wisdom</source>
         <translation>Wijsheid</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="3034"/>
+        <location filename="../../mainwindow.cpp" line="3115"/>
         <source>Prophets</source>
         <translation>Profeten</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="3035"/>
+        <location filename="../../mainwindow.cpp" line="3116"/>
         <source>Gospels</source>
         <translation>Evangeliën</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="3036"/>
+        <location filename="../../mainwindow.cpp" line="3117"/>
         <source>Acts</source>
         <translation>Handelingen</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="3037"/>
+        <location filename="../../mainwindow.cpp" line="3118"/>
         <source>Epistles</source>
         <translation>Brieven</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="3038"/>
+        <location filename="../../mainwindow.cpp" line="3119"/>
         <source>Apocalyptic</source>
         <translation>Openbaring</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="3347"/>
+        <location filename="../../mainwindow.cpp" line="3426"/>
         <source>The filters replace two important words that have become confused, with clear biblical alternatives.
 
 The new words will be in italic. And by hovering over them a tooltip will show the old word. 
@@ -550,96 +550,96 @@ Dit zijn enkel weergave filters die de bijbel database dus niet veranderen. (rel
 De filters zijn niet actief in het parallele venster omdat dit een te grote vertraging opleverde bij het gebruik van vele vertalingen.</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="2521"/>
-        <location filename="../../mainwindow.cpp" line="2557"/>
-        <location filename="../../mainwindow.cpp" line="2607"/>
+        <location filename="../../mainwindow.cpp" line="2602"/>
+        <location filename="../../mainwindow.cpp" line="2638"/>
+        <location filename="../../mainwindow.cpp" line="2688"/>
         <source>close</source>
         <translation>sluit</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="506"/>
+        <location filename="../../mainwindow.cpp" line="518"/>
         <source>Showing results for: </source>
         <translation>Toon resultaten voor: </translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="510"/>
+        <location filename="../../mainwindow.cpp" line="522"/>
         <source>&lt;b&gt;working...&lt;/b&gt;</source>
         <translation>&lt;b&gt;bezig...&lt;/b&gt;</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="516"/>
+        <location filename="../../mainwindow.cpp" line="528"/>
         <source>&lt;b&gt;this will take a moment...&lt;/b&gt;</source>
         <translation>&lt;b&gt;dit kan even duren...&lt;/b&gt;</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="1147"/>
+        <location filename="../../mainwindow.cpp" line="1159"/>
         <source>No reading plan available. Go to menu &lt;i&gt;Today&apos;s Reading&lt;/i&gt; and create a plan.</source>
         <translation>Geen leesplan beschikbaar. Ga naar het menu &lt;i&gt;Dagelijks Lezen&lt;/i&gt; en creëer een plan.</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="2575"/>
+        <location filename="../../mainwindow.cpp" line="2656"/>
         <source>Strongify</source>
         <translation>Strongificeren</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="2581"/>
+        <location filename="../../mainwindow.cpp" line="2662"/>
         <source>chapters</source>
         <translation>hoofdstukken</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="2588"/>
+        <location filename="../../mainwindow.cpp" line="2669"/>
         <source>play this chapter</source>
         <translation>beluisteren hoofdstuk</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="2605"/>
+        <location filename="../../mainwindow.cpp" line="2686"/>
         <source>toggle table/book display</source>
         <translation>schakel tussen tabel en boek weergave</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="3030"/>
+        <location filename="../../mainwindow.cpp" line="3111"/>
         <source>N.T.</source>
         <translation>N.T.</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="3357"/>
+        <location filename="../../mainwindow.cpp" line="3436"/>
         <source>about filters</source>
         <translation>over filters</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="2589"/>
+        <location filename="../../mainwindow.cpp" line="2670"/>
         <source>stop playing</source>
         <translation>stop afspelen</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="2518"/>
-        <location filename="../../mainwindow.cpp" line="2554"/>
-        <location filename="../../mainwindow.cpp" line="2592"/>
+        <location filename="../../mainwindow.cpp" line="2599"/>
+        <location filename="../../mainwindow.cpp" line="2635"/>
+        <location filename="../../mainwindow.cpp" line="2673"/>
         <source>select all</source>
         <translation>alles selecteren</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="2519"/>
-        <location filename="../../mainwindow.cpp" line="2555"/>
-        <location filename="../../mainwindow.cpp" line="2593"/>
+        <location filename="../../mainwindow.cpp" line="2600"/>
+        <location filename="../../mainwindow.cpp" line="2636"/>
+        <location filename="../../mainwindow.cpp" line="2674"/>
         <source>copy</source>
         <translation>kopieer</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="2516"/>
-        <location filename="../../mainwindow.cpp" line="2552"/>
-        <location filename="../../mainwindow.cpp" line="2594"/>
+        <location filename="../../mainwindow.cpp" line="2597"/>
+        <location filename="../../mainwindow.cpp" line="2633"/>
+        <location filename="../../mainwindow.cpp" line="2675"/>
         <source>find</source>
         <translation>vind</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="302"/>
+        <location filename="../../mainwindow.cpp" line="314"/>
         <source>showing %1 %2 with Strong&apos;s numbers using the AKJV</source>
         <translation>weergegeven is %1 %2 met Strong&apos;s nummers van de AKJV</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="2602"/>
-        <location filename="../../mainwindow.cpp" line="2603"/>
+        <location filename="../../mainwindow.cpp" line="2683"/>
+        <location filename="../../mainwindow.cpp" line="2684"/>
         <source>about </source>
         <translation>over </translation>
     </message>
@@ -759,77 +759,77 @@ p, li { white-space: pre-wrap; }
         <translation>instellingen - SoulAnchor</translation>
     </message>
     <message>
-        <location filename="../../settingswindow.ui" line="131"/>
+        <location filename="../../settingswindow.ui" line="185"/>
+        <source>GUI language: (restart needed)</source>
+        <translation>GUI taal (herstart nodig)</translation>
+    </message>
+    <message>
+        <location filename="../../settingswindow.ui" line="239"/>
+        <source>Width of Bible frame:</source>
+        <translation>Breedte van Bijbel frame:</translation>
+    </message>
+    <message>
+        <location filename="../../settingswindow.ui" line="429"/>
         <source>Translation:</source>
         <translation>Vertaling:</translation>
     </message>
     <message>
-        <location filename="../../settingswindow.ui" line="476"/>
+        <location filename="../../settingswindow.ui" line="454"/>
         <source>Color scheme:</source>
         <translation>Kleurenschema:</translation>
     </message>
     <message>
-        <location filename="../../settingswindow.ui" line="106"/>
+        <location filename="../../settingswindow.ui" line="523"/>
         <source>Font used by:</source>
         <translation>Font wordt gebruikt door:</translation>
     </message>
     <message>
-        <location filename="../../settingswindow.ui" line="138"/>
+        <location filename="../../settingswindow.ui" line="608"/>
         <source>Scriptures</source>
         <translation>Bijbel Teksten</translation>
     </message>
     <message>
-        <location filename="../../settingswindow.ui" line="167"/>
+        <location filename="../../settingswindow.ui" line="615"/>
         <source>books and chapters</source>
         <translation>boeken en hoofdstukken</translation>
     </message>
     <message>
-        <location filename="../../settingswindow.ui" line="625"/>
-        <source>GUI language:</source>
-        <translation>GUI taal:</translation>
-    </message>
-    <message>
-        <location filename="../../settingswindow.ui" line="87"/>
+        <location filename="../../settingswindow.ui" line="119"/>
         <source>Scriptures margin:</source>
         <translation>Teksten marge:</translation>
     </message>
     <message>
-        <location filename="../../settingswindow.ui" line="451"/>
+        <location filename="../../settingswindow.ui" line="210"/>
         <source>Bookname language:</source>
         <translation>Boeknaam taal:</translation>
     </message>
     <message>
-        <location filename="../../settingswindow.ui" line="426"/>
+        <location filename="../../settingswindow.ui" line="360"/>
         <source>Display of Scriptures:</source>
         <translation>Teksten weergave:</translation>
     </message>
     <message>
-        <location filename="../../settingswindow.ui" line="192"/>
+        <location filename="../../settingswindow.ui" line="640"/>
         <source>Active tab:</source>
         <translation>Actief tabblad:</translation>
     </message>
     <message>
-        <location filename="../../settingswindow.ui" line="223"/>
+        <location filename="../../settingswindow.ui" line="548"/>
         <source>Startup with:</source>
         <translation>Starten met:</translation>
     </message>
     <message>
-        <location filename="../../settingswindow.ui" line="395"/>
-        <source>(GUI language will be changed after a restart)</source>
-        <translation>(GUI taal wordt aangepast na een herstart)</translation>
-    </message>
-    <message>
-        <location filename="../../settingswindow.ui" line="708"/>
+        <location filename="../../settingswindow.ui" line="701"/>
         <source>Cancel</source>
         <translation>Annuleren</translation>
     </message>
     <message>
-        <location filename="../../settingswindow.ui" line="733"/>
+        <location filename="../../settingswindow.ui" line="726"/>
         <source>Apply</source>
         <translation>Toepassen</translation>
     </message>
     <message>
-        <location filename="../../settingswindow.ui" line="761"/>
+        <location filename="../../settingswindow.ui" line="754"/>
         <source>OK</source>
         <translation>OK</translation>
     </message>

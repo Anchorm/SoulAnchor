@@ -7,15 +7,9 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>2252</width>
-    <height>1035</height>
+    <width>1045</width>
+    <height>912</height>
    </rect>
-  </property>
-  <property name="sizePolicy">
-   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-    <horstretch>0</horstretch>
-    <verstretch>0</verstretch>
-   </sizepolicy>
   </property>
   <property name="minimumSize">
    <size>
@@ -56,19 +50,10 @@
     <item>
      <widget class="QSplitter" name="splitter_central">
       <property name="sizePolicy">
-       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+       <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
         <horstretch>0</horstretch>
         <verstretch>0</verstretch>
        </sizepolicy>
-      </property>
-      <property name="styleSheet">
-       <string notr="true"/>
-      </property>
-      <property name="frameShape">
-       <enum>QFrame::NoFrame</enum>
-      </property>
-      <property name="lineWidth">
-       <number>0</number>
       </property>
       <property name="orientation">
        <enum>Qt::Horizontal</enum>
@@ -101,18 +86,6 @@
          <height>16777215</height>
         </size>
        </property>
-       <property name="sizeIncrement">
-        <size>
-         <width>0</width>
-         <height>0</height>
-        </size>
-       </property>
-       <property name="baseSize">
-        <size>
-         <width>0</width>
-         <height>0</height>
-        </size>
-       </property>
        <property name="focusPolicy">
         <enum>Qt::NoFocus</enum>
        </property>
@@ -132,7 +105,7 @@
         <enum>QTabWidget::Rounded</enum>
        </property>
        <property name="currentIndex">
-        <number>2</number>
+        <number>1</number>
        </property>
        <property name="elideMode">
         <enum>Qt::ElideRight</enum>
@@ -1374,9 +1347,9 @@ p, li { white-space: pre-wrap; }
         <bool>true</bool>
        </property>
        <property name="sizePolicy">
-        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
          <horstretch>1</horstretch>
-         <verstretch>1</verstretch>
+         <verstretch>0</verstretch>
         </sizepolicy>
        </property>
        <property name="minimumSize">
@@ -1418,10 +1391,7 @@ p, li { white-space: pre-wrap; }
        <property name="lineWidth">
         <number>0</number>
        </property>
-       <layout class="QVBoxLayout" name="verticalLayout_10">
-        <property name="spacing">
-         <number>0</number>
-        </property>
+       <layout class="QGridLayout" name="gridLayout">
         <property name="leftMargin">
          <number>0</number>
         </property>
@@ -1434,37 +1404,16 @@ p, li { white-space: pre-wrap; }
         <property name="bottomMargin">
          <number>0</number>
         </property>
-        <item>
+        <property name="spacing">
+         <number>0</number>
+        </property>
+        <item row="0" column="0">
          <widget class="QSplitter" name="splitter_background">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="minimumSize">
-           <size>
-            <width>100</width>
-            <height>100</height>
-           </size>
-          </property>
-          <property name="styleSheet">
-           <string notr="true"/>
-          </property>
-          <property name="frameShape">
-           <enum>QFrame::NoFrame</enum>
-          </property>
-          <property name="frameShadow">
-           <enum>QFrame::Plain</enum>
-          </property>
-          <property name="lineWidth">
-           <number>0</number>
-          </property>
           <property name="orientation">
            <enum>Qt::Horizontal</enum>
           </property>
           <property name="handleWidth">
-           <number>1</number>
+           <number>0</number>
           </property>
           <property name="childrenCollapsible">
            <bool>false</bool>
@@ -1536,11 +1485,11 @@ p, li { white-space: pre-wrap; }
             </property>
             <item>
              <widget class="QSplitter" name="splitter_bibleframe">
-              <property name="frameShape">
-               <enum>QFrame::NoFrame</enum>
-              </property>
-              <property name="lineWidth">
-               <number>0</number>
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
               </property>
               <property name="orientation">
                <enum>Qt::Vertical</enum>
@@ -1555,11 +1504,8 @@ p, li { white-space: pre-wrap; }
                <property name="maximumSize">
                 <size>
                  <width>16777215</width>
-                 <height>110</height>
+                 <height>120</height>
                 </size>
-               </property>
-               <property name="autoFillBackground">
-                <bool>false</bool>
                </property>
                <property name="frameShape">
                 <enum>QFrame::NoFrame</enum>
@@ -1643,7 +1589,7 @@ p, li { white-space: pre-wrap; }
                   <property name="maximumSize">
                    <size>
                     <width>16777215</width>
-                    <height>60</height>
+                    <height>70</height>
                    </size>
                   </property>
                   <property name="font">
@@ -1706,6 +1652,9 @@ p, li { white-space: pre-wrap; }
                   <property name="resizeMode">
                    <enum>QListView::Adjust</enum>
                   </property>
+                  <property name="spacing">
+                   <number>1</number>
+                  </property>
                   <property name="viewMode">
                    <enum>QListView::ListMode</enum>
                   </property>
@@ -1729,12 +1678,12 @@ p, li { white-space: pre-wrap; }
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                  <horstretch>0</horstretch>
-                 <verstretch>3</verstretch>
+                 <verstretch>0</verstretch>
                 </sizepolicy>
                </property>
                <property name="minimumSize">
                 <size>
-                 <width>50</width>
+                 <width>0</width>
                  <height>0</height>
                 </size>
                </property>
@@ -1764,9 +1713,6 @@ p, li { white-space: pre-wrap; }
                <property name="toolTip">
                 <string notr="true"/>
                </property>
-               <property name="styleSheet">
-                <string notr="true"/>
-               </property>
                <property name="inputMethodHints">
                 <set>Qt::ImhNone</set>
                </property>
@@ -1785,18 +1731,12 @@ p, li { white-space: pre-wrap; }
                <property name="horizontalScrollBarPolicy">
                 <enum>Qt::ScrollBarAlwaysOff</enum>
                </property>
-               <property name="sizeAdjustPolicy">
-                <enum>QAbstractScrollArea::AdjustIgnored</enum>
-               </property>
-               <property name="readOnly">
-                <bool>true</bool>
-               </property>
                <property name="html">
                 <string notr="true">&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;meta charset=&quot;utf-8&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Bitstream Vera Sans'; font-size:12pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:11pt;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'Cantarell';&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                </property>
                <property name="openLinks">
                 <bool>false</bool>
@@ -1871,7 +1811,7 @@ p, li { white-space: pre-wrap; }
                <enum>Qt::Vertical</enum>
               </property>
               <property name="handleWidth">
-               <number>1</number>
+               <number>0</number>
               </property>
               <widget class="QWidget" name="layoutWidget">
                <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -2347,7 +2287,7 @@ p, li { white-space: pre-wrap; }
           </widget>
          </widget>
         </item>
-        <item>
+        <item row="1" column="0">
          <widget class="QFrame" name="frame_find">
           <property name="enabled">
            <bool>true</bool>
@@ -2698,7 +2638,7 @@ p, li { white-space: pre-wrap; }
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>2252</width>
+     <width>1045</width>
      <height>25</height>
     </rect>
    </property>
@@ -3153,8 +3093,6 @@ p, li { white-space: pre-wrap; }
   <tabstop>cb_select_translation</tabstop>
   <tabstop>lineEdit_select</tabstop>
   <tabstop>lw_books</tabstop>
-  <tabstop>lw_chapters</tabstop>
-  <tabstop>tb_scriptures</tabstop>
   <tabstop>search_le_what</tabstop>
   <tabstop>search_cb_where</tabstop>
   <tabstop>search_cb_anyExact</tabstop>

@@ -10,26 +10,32 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
     activeScheme = settings.value("activeScheme", "none").toString();
     applyScheme(activeScheme);
 
-    // restore window state
-    int width70 = (screen()->geometry().width() / 100) * 70;
-    int height70 = (screen()->geometry().height() / 100) * 70;
+    // restore window state or set a default state of 70% of the screen
     QByteArray geo = settings.value("Window/geometry").toByteArray();
     QByteArray state = settings.value("Window/windowState").toByteArray();
     if (!geo.isEmpty() && !state.isEmpty()) {
         restoreGeometry(geo);
         restoreState(state);
     } else {
+        int width70 = (screen()->geometry().width() / 100) * 70;
+        int height70 = (screen()->geometry().height() / 100) * 70;
         resize(width70, height70);
         centerApp();
     }
+
+    // make sure the correct framesize is shown on startup
+    QSize appSize(this->geometry().width(), this->geometry().height());
+    QResizeEvent *resEvent = new QResizeEvent(appSize, appSize);
+    qApp->postEvent(this, resEvent );
 
     tab = settings.value("tab", "0").toString();
     startup = settings.value("startup", "nothing").toString();
     guiLanguage = settings.value("guiLanguage", "english").toString();
     bknLanguage = settings.value("bknLanguage", "english").toString();
-    scripMargin = settings.value("margin", "15").toInt();
     scripDisplay = settings.value("display", "table").toString();
     rosterRead = settings.value("Rosters/rosterRead", "false").toBool();
+    docMargin = settings.value("margin", "14").toInt();
+    frameWidth = settings.value("width", "10").toInt(); // range 2-10
 
     ui->info_frame->hide();
     ui->frame_find->hide();
@@ -41,6 +47,10 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
         ui->tabwidget->setCurrentIndex(1);
     else
         ui->tabwidget->setCurrentIndex(2);
+
+    // tab widget less space than background
+    ui->splitter_central->setStretchFactor(0,0);
+    ui->splitter_central->setStretchFactor(1,1);
 
     // bible frame vs info frame
     ui->splitter_background->setStretchFactor(0,2);
@@ -57,7 +67,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
     defaultFormat.setBackground(Qt::transparent);
     defaultFormat.setFontWeight(QFont::Normal);
 
-    ui->tb_scriptures->document()->setDocumentMargin(scripMargin);
+//    ui->tb_scriptures->document()->setDocumentMargin(scripMargin);
 
     connect(ui->action_quit, &QAction::triggered, this, &MainWindow::exit, Qt::QueuedConnection);
     ui->action_quit->setShortcut(QKeySequence("Ctrl+q"));
@@ -242,6 +252,9 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
     rosterRead ? ui->cb_roster_read->setChecked(true) : ui->cb_roster_read->setChecked(false);
     strongTl = "t_akjv_s";
 
+    ui->bible_frame->layout()->setAlignment(Qt::AlignHCenter);
+    applyFont("", "", docMargin, frameWidth);
+
     if (startup == "Psalm") todaysPsalm();
     else if (startup == "Proverb") todaysProverb();
     else if (startup == "Letter") todaysLetter();
@@ -249,7 +262,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
     else ui->bible_frame->hide();
 
     ui->tb_scriptures->moveCursor(QTextCursor::Start);
-    applyFont("", "", "");
 }
 
 MainWindow::~MainWindow() {
@@ -312,7 +324,7 @@ void MainWindow::strongify()
                 "</td></small>" + " <td style='" + txtStyle + "'>" + t +"</td></tr>";
     }
 
-    strongified += "</table>";
+    strongified += "</>";
 
     QString strongNr;
     QString hebrewsOrGreek;
@@ -1233,22 +1245,20 @@ void MainWindow::applyScheme(const QString &aScheme) {
     ui->calendar->setHeaderTextFormat(calFormat);
 }
 
-void MainWindow::applyFont(const QString &font, const QString &fontS, const QString &margin){
-    // apply changes from settings window
+void MainWindow::applyFont(const QString &font, const QString &fontS,
+                           const int &margin, const int &width){
+    // apply changes from settings window, font, margin, width
     QSettings settings(settingsFile.fileName(), QSettings::IniFormat);
     int ps;
 
-    if (font.isEmpty() or fontS.isEmpty() or margin.isEmpty()) {
+    if (font.isEmpty() or fontS.isEmpty()) {
         *scripFont = settings.value("Font/font", "sans").toString();
         ps = settings.value("Font/fontsize", "12").toInt();
         scripFont->setPointSize(ps);
-        scripMargin = settings.value("margin", "14").toInt();
-
     } else {
         *scripFont = font;
         ps = fontS.toInt();
         scripFont->setPointSize(ps);
-        scripMargin = margin.toInt();
     }
 
     QCheckBox *scrChkb = this->findChild<QCheckBox *>("font_script_chkb");
@@ -1269,7 +1279,33 @@ void MainWindow::applyFont(const QString &font, const QString &fontS, const QStr
         ui->lw_chapters->setFont(QApplication::font());
     }
 
-    ui->tb_scriptures->document()->setDocumentMargin(scripMargin);
+    // move to another block?
+    ui->tb_scriptures->document()->setDocumentMargin(margin);
+
+    int maxWidth = 16777215;
+    int bgfWidth = ui->background_frame->width();
+    if (width >= 10 or width <= 1) {
+        maxWidth = 16777215;
+        ui->splitter_central->setHandleWidth(0);
+    } else {
+        frameWidth = width;
+        ui->splitter_central->setHandleWidth(1);
+        maxWidth = (bgfWidth / 10) * width;
+    }
+    ui->bible_frame->setMaximumWidth(maxWidth);
+}
+
+void MainWindow::resizeEvent(QResizeEvent *event) {
+    int maxWidth = 16777215;
+    int bgfWidth = ui->background_frame->width();
+
+    if (frameWidth >= 10 or frameWidth <= 1) {
+        ui->splitter_central->setHandleWidth(0);
+    } else {
+        ui->splitter_central->setHandleWidth(1);
+        maxWidth = (bgfWidth / 10) * frameWidth;
+    }
+    ui->bible_frame->setMaximumWidth(maxWidth);
 }
 
 void MainWindow::spokenWord() {
@@ -1320,6 +1356,9 @@ void MainWindow::playRandom() {
         QString absPath = musicList[0][0];
         QString basename = musicList[0][1];
         playMusic(absPath, basename);
+    } else {
+        printMsg("no music found, "
+            "see the MOD file for more information");
     }
 }
 
@@ -1423,16 +1462,21 @@ void MainWindow::makeTextMenuItems() {
     QDirIterator it(::userDataDir.path()+ "/notes", QStringList() <<
                     "*.md" << "*.txt", QDir::NoFilter, QDirIterator::Subdirectories);
 
-    while (it.hasNext())
-    {
-        QFileInfo f(it.next());
-        QAction *txtAction = new QAction(docIcon, f.baseName());
-        connect(txtAction, &QAction::triggered, this, [this, f]()
-        {
-            showText( f.absoluteFilePath(), f.baseName() );
-        });
-
+    if (!it.hasNext()) {
+        QAction *txtAction = new QAction(docIcon, "see MOD file on how to add notes");
+        txtAction->setDisabled(true);
         txtActions.append(txtAction);
+    } else {
+        while (it.hasNext()) {
+            QFileInfo f(it.next());
+            QAction *txtAction = new QAction(docIcon, f.baseName());
+            connect(txtAction, &QAction::triggered, this, [this, f]()
+            {
+                showText( f.absoluteFilePath(), f.baseName() );
+            });
+
+            txtActions.append(txtAction);
+        }
     }
 
     std::sort(txtActions.begin(), txtActions.end(), compareFunctionS);
@@ -1867,8 +1911,7 @@ void MainWindow::todaysLetter(){
     processPrintQueue();
 }
 
-void MainWindow::on_search_tb_anchorClicked(const QUrl &url)
-{
+void MainWindow::on_search_tb_anchorClicked(const QUrl &url){
     QString url_string = url.toString(QUrl::RemoveScheme);
     QStringList url_list = url_string.split("/");
 
@@ -1896,8 +1939,7 @@ void MainWindow::on_search_tb_anchorClicked(const QUrl &url)
     ui->tb_scriptures->moveCursor(QTextCursor().NextBlock, QTextCursor().KeepAnchor);
 }
 
-void MainWindow::on_info_tb_anchorClicked(const QUrl &url)
-{
+void MainWindow::on_info_tb_anchorClicked(const QUrl &url){
     QString sUrl = url.toString(QUrl::RemoveScheme);
     QStringList wrongUrl;
     QString bookName;
@@ -1941,8 +1983,7 @@ void MainWindow::on_info_tb_anchorClicked(const QUrl &url)
     }
 }
 
-void MainWindow::on_strongs_tb_anchorClicked(const QUrl &url)
-{
+void MainWindow::on_strongs_tb_anchorClicked(const QUrl &url){
     QString sUrl = url.toString(QUrl::RemoveScheme);
 
     if (url.scheme() == "twot") {
@@ -1971,8 +2012,7 @@ void MainWindow::on_strongs_tb_anchorClicked(const QUrl &url)
     }
 }
 
-void MainWindow::on_tb_scriptures_anchorClicked(const QUrl &url)
-{
+void MainWindow::on_tb_scriptures_anchorClicked(const QUrl &url){
     QString sUrl = url.toString(QUrl::RemoveScheme);
     getStrongs(sUrl);
 }
@@ -1980,10 +2020,58 @@ void MainWindow::on_tb_scriptures_anchorClicked(const QUrl &url)
 void MainWindow::versesWithStrongNumber(const QString &strongs, const QString &where){
     ui->search_tb->clear();
     int counter = 0;
+    QString lookWhere;
+    QString StrongsPrefix = strongs.at(0);
+
+    // we only search for a number without a G/H prefix (which does not exist in db)
+    // and  we have to make sure we only allow a query if the location is valid (OT or NT)
+
+    if (where.startsWith("in")) { // genre
+        QString themeStr = where.at(where.length() - 2);
+        int themeNr = themeStr.toInt();
+
+        if (StrongsPrefix == "H" and themeNr < 5) {
+            lookWhere = where;
+        } else if (StrongsPrefix == "G" and themeNr > 4) {
+            lookWhere = where;
+        } else {
+            lookWhere = "0";
+        }
+
+    } else if (StrongsPrefix == "H" and where == "between 1 and 66") { // Hebrew word
+        lookWhere = "between 1 and 39";
+    } else if (StrongsPrefix == "H" and where == "between 40 and 66") { // not OT
+        lookWhere = "0";
+    } else if (StrongsPrefix == "H" and where != "between 1 and 39") { // one book
+        lookWhere = where;
+    } else if (StrongsPrefix == "H") {
+        QString bookNrStr = where.last(2);
+        int bookNrInt = bookNrStr.toInt();
+        if (bookNrInt > 39) {
+            lookWhere = "0";
+        } else {
+            lookWhere = where;
+        }
+    } else if (StrongsPrefix == "G" and where == "between 1 and 66") { // Greek word
+        lookWhere = "between 40 and 66";
+    } else if (StrongsPrefix == "G" and where == "between 1 and 39") { // not NT
+        lookWhere = "0";
+    } else if (StrongsPrefix == "G" and where != "between 40 and 66") { // one book
+        QString bookNrStr = where.last(2);
+        int bookNrInt = bookNrStr.toInt();
+        if (bookNrInt < 40) {
+            lookWhere = "0";
+        } else {
+            lookWhere = where;
+        }
+
+    } else {
+        lookWhere = where;
+    }
 
     QString sql_findStrongNr = QString("select b, c, v, t from %1 "
                                "where t like '%<S>%2</S>%' "
-                               "and b %3").arg(strongTl, strongs.mid(1), where);
+                               "and b %3").arg(strongTl, strongs.mid(1), lookWhere);
     QSqlQuery query(sql_findStrongNr, dbH.bibleDb);
 
     int bk;
@@ -1991,13 +2079,6 @@ void MainWindow::versesWithStrongNumber(const QString &strongs, const QString &w
     while (query.next()) {
         bk = query.value(0).toInt();
         bkS = query.value(0).toString();
-
-        if (bk > 39 and (strongs[0] != QString("G")) ) {
-            break;
-        } else if (bk < 40 and (strongs[0] != QString("H"))) {
-            break;
-        }
-
         counter += 1;
         QString bookname = ::g_bookNames[bk];
         QString c1 = query.value(1).toString();
@@ -2048,8 +2129,8 @@ void MainWindow::searchScriptures() {
     }
 
     QRegularExpressionMatch match = getStrongRegex->match(what);
-    QString strongs;
     if (match.hasMatch()) {
+        QString strongs;
         strongs = match.captured().toUpper();
         versesWithStrongNumber(strongs, where);
         return;
@@ -3107,7 +3188,6 @@ void MainWindow::addToHistory(QHash<QString, int> job){
 
 void MainWindow::processPrintQueue(){
     ui->tb_scriptures->clear();
-
     while (not printQ.isEmpty()) {
         printScriptures();
     }
@@ -3120,7 +3200,6 @@ void MainWindow::printScriptures() {
     }
 
     QHash<QString, int> job = printQ.dequeue();
-
     addToHistory(job);
 
     int bk = job["bk"];
@@ -3162,7 +3241,8 @@ void MainWindow::printScriptures() {
     bool addHeader = false;
 
     QString sChapterTable = "<table cellspacing='0' cellpadding='3'>";
-    QString sChapterBasic;
+    QString sChapterBasic = "<table><tr>";
+
     QString headerTable, headerBasic, verseTable, verseBasic, sCh, sNr, txt;
 
     QList<QString> endChar = {".", "!", "?"};
@@ -3191,9 +3271,9 @@ void MainWindow::printScriptures() {
                                     .arg(bookName, sCh, scheme.value("nrClr"));
             sChapterTable.append(headerTable);
 
-            headerBasic = QString("<br><p style='text-align:center;color:%3;"
+            headerBasic = QString("<tr><td style='text-align:center;color:%3;"
                                   "font-family:serif;font-weight:700;'>"
-                                  "%1 %2</p><br>"
+                                  "%1 %2</td></tr><br>"
                                   ).arg(bookName, sCh, scheme.value("nrClr"));
             sChapterBasic.append(headerBasic);
         }
@@ -3202,7 +3282,7 @@ void MainWindow::printScriptures() {
         verseTable = QString(
             "<tr>"
             "<td style='color:%3;font-weight:200;'><small>%1</small></td>"
-            "<td style='color:%4;font-weight:400;'> %2</td>"
+            "<td style='color:%4;font-weight:400'> %2</td>"
             "</tr>").arg(sNr, txt, scheme.value("nrClr"), scheme.value("txtClr"));
 
         verseBasic = QString("<span style='color:%1'>%2 </span>")
@@ -3225,8 +3305,7 @@ void MainWindow::printScriptures() {
     } // end query
 
     sChapterTable.append("</table><br>");
-    sChapterBasic.append("<br>");
-
+    sChapterBasic.append("</td></tr></table><br>");
 
     if (scripDisplay == "table") {
         ui->tb_scriptures->insertHtml(sChapterTable);

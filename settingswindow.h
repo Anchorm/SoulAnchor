@@ -25,9 +25,10 @@ class SettingsWindow : public QWidget
     QString fontS;
     bool scrCheck;
     bool bkchCheck;
-    QString margin;
+    int margin;
     QString display;
     QString activeScheme;
+    int width;
 
     void setCbGuiLang();
     void getBooknameLanguages();
@@ -46,7 +47,8 @@ public:
 
 signals:
     // a signal on btn click - connect to mainwindow slot applyFont
-    void fontChanged(const QString &font, const QString &fontS, const QString &margin);
+    void fontChanged(const QString &font, const QString &fontS,
+                     const int &margin, const int &width);
     void schemeChanged(const QString &aScheme); // connect to mainwindow applyScheme
     void booknameLangChanged(const QString &lang); // to mainwindow updateBooksWidget
 };

@@ -250,10 +250,7 @@ QTabBar::tab {
     color:txtClr;
     background-color:bgClr;
     padding: 4px;
-    border-top: 0px solid #C4C4C3;
-    border-bottom: 0px solid #C4C4C3;
-    border-left: 0px solid #C4C4C3;
-    border-right:0px solid #C4C4C3;
+    border: 0;
 }
 QTabBar::tab:selected {
     color:txtClr;
@@ -334,8 +331,11 @@ QTabBar::tab:hover {
 
 #bible_frame {
     background-color: none;
-    border: 0;
     margin: 0;
+    border-left: 1 solid black;
+    border-top: 0 solid black;
+    border-bottom: 0 solid black;
+    border-right: 1 solid black;
 }
 
 #booktitle_frame {
@@ -353,7 +353,7 @@ QTabBar::tab:hover {
     selection-color: nrClr;
     selection-background-color: bgClr;
     show-decoration-selected:0;
-    border-bottom:1px solid black;
+    margin-left:20px;
 }
 #lw_chapters::item:hover {
     color: nrClr;
