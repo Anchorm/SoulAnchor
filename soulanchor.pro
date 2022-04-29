@@ -4,7 +4,6 @@ TARGET = soulanchor
 DESTDIR = install/bin/
 
 # usage from cmd line: qmake PREFIX=/opt
-
 isEmpty(PREFIX) {
  PREFIX = /usr
 }
@@ -46,7 +45,6 @@ TRANSLATIONS = \
         data/lang/soulanchor_english.ts \
         data/lang/soulanchor_dutch.ts
 
-# super easy syntax
 DEFINES += APP_DATADIR_PREFIX='\\"$$PREFIX\\"'
 
 CONFIG += release c++17

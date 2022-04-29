@@ -44,6 +44,9 @@ QDialog *{
 QToolButton {
     border:0;
 }
+QToolButton:hover {
+    background-color: rgba(0,0,0,10);
+}
 
 QSpinBox {
 }
@@ -292,10 +295,10 @@ QTabBar::tab:hover {
 /********************* FIND FRAME *********************/
 
 #frame_find {
-    border-left: 0 solid grey;
-    border-top: 1 solid black;
+    border-left: 0 solid black;
+    border-top: 1 solid grey;
     border-bottom:0 solid grey;
-    border-right: 0 solid grey;
+    border-right: 0 solid black;
 }
 #frame_find QLabel {
     background-color: transparent;

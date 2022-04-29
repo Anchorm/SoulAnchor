@@ -6,8 +6,6 @@
         <file>data/img/book_open.png</file>
         <file>data/img/book_remove.png</file>
         <file>data/img/bookmark.png</file>
-        <file>data/img/bullet_arrow_left.png</file>
-        <file>data/img/bullet_arrow_right.png</file>
         <file>data/img/control_play_blue.png</file>
         <file>data/img/control_stop_blue.png</file>
         <file>data/img/document_notes.png</file>
@@ -15,8 +13,6 @@
         <file>data/img/edit-find.png</file>
         <file>data/img/edit-select-all.png</file>
         <file>data/img/exclamation.png</file>
-        <file>data/img/go-down.png</file>
-        <file>data/img/go-up.png</file>
         <file>data/img/grid.png</file>
         <file>data/img/help.png</file>
         <file>data/img/information.png</file>
@@ -33,7 +29,6 @@
         <file>data/lang/soulanchor_english.qm</file>
         <file>data/txt/immersion.md</file>
         <file>data/skel/soulanchor.conf</file>
-        <file>data/img/bullet_arrow_down.png</file>
         <file>data/lang/soulanchor_dutch.qm</file>
         <file>data/css/soulanchor-no-scheme.css</file>
     </qresource>

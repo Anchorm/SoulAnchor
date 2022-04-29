@@ -73,8 +73,6 @@ class MainWindow : public QMainWindow
 
     // for 'reset' to make sure no weird format exists after anchor click
     const QTextCharFormat emptyFormat;
-    // for removing highlight after a find in page action
-    QTextCharFormat defaultFormat;
     // for highlighting matches after a find in page action
     QTextCharFormat matchFormat;
 
@@ -100,7 +98,7 @@ class MainWindow : public QMainWindow
     const QIcon strongIcon = QIcon(":/data/img/biceps.png");
     const QIcon scrollIcon = QIcon(":/data/img/script_yellow.png");
 
-    QQueue< QHash<QString, int> > printQ; // print queue - bk c1 c2 v1 v2
+    QQueue< QHash<QString, int> > printQ; // print queue, hash keys: bk c1 c2 v1 v2
     QQueue< QHash<QString, int> > printHistory; // keep a history of print jobs
 
     QMenu *otMenu = new QMenu("OT", this);
@@ -377,6 +375,7 @@ private slots:
     void startFind();
     void countMatches();
     void highlightMatches();
+    void clearHighLights();
     void modifyFindInPageFlags();
     void setFindInPageLocation();
 
@@ -420,7 +419,6 @@ private slots:
 
     void closeEvent(QCloseEvent*) override;    
     static void exit();
-
     void resizeEvent(QResizeEvent*) override;
 
     void on_cb_roster_read_clicked();

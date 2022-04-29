@@ -17,9 +17,9 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
         restoreGeometry(geo);
         restoreState(state);
     } else {
-        int width70 = (screen()->geometry().width() / 100) * 70;
-        int height70 = (screen()->geometry().height() / 100) * 70;
-        resize(width70, height70);
+        int width80 = (screen()->geometry().width() / 100) * 80;
+        int height80 = (screen()->geometry().height() / 100) * 80;
+        resize(width80, height80);
         centerApp();
     }
 
@@ -63,11 +63,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
     // give info frame more space than strongs frame
     ui->splitter_info->setStretchFactor(0,3);
     ui->splitter_info->setStretchFactor(1,2);
-
-    defaultFormat.setBackground(Qt::transparent);
-    defaultFormat.setFontWeight(QFont::Normal);
-
-//    ui->tb_scriptures->document()->setDocumentMargin(scripMargin);
 
     connect(ui->action_quit, &QAction::triggered, this, &MainWindow::exit, Qt::QueuedConnection);
     ui->action_quit->setShortcut(QKeySequence("Ctrl+q"));
@@ -113,13 +108,15 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
     connect(ui->action_emergency, &QAction::triggered, this, [this] () {
         showEncPic(":/data/img/emergency.jpg"); } );
 
+    connect(ui->btn_next_chap, &QToolButton::clicked, this, &MainWindow::nextChapter);
+    connect(ui->btn_prev_chap, &QToolButton::clicked, this, &MainWindow::prevChapter);
     new QShortcut(QKeySequence(Qt::Key_Plus), this, SLOT(nextChapter()));
     new QShortcut(QKeySequence(Qt::Key_Right), this, SLOT(nextChapter()));
     new QShortcut(QKeySequence(Qt::Key_Minus), this, SLOT(prevChapter()));
     new QShortcut(QKeySequence(Qt::Key_Left), this, SLOT(prevChapter()));
 
     // find in page - current textdocument
-    connect(ui->cb_find_loc, &QComboBox::currentTextChanged,
+    connect(ui->cb_find_loc, &QComboBox::currentIndexChanged,
             this, &MainWindow::setFindInPageLocation);
     new QShortcut(QKeySequence("Ctrl+f"), this, SLOT(showFindFrame()));
     connect(ui->btn_find_next, &QToolButton::clicked, this, [this]() {
@@ -242,12 +239,12 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
     connect(ui->strongs_pb, &QPushButton::clicked, this, [this](){
         getStrongs(ui->strongs_le->text()); });
     connect(ui->strongs_le, &QLineEdit::textChanged, this, [this](){
-        if(ui->strongs_le->text().isEmpty()) ui->strongs_tb->clear();    });
+        if(ui->strongs_le->text().isEmpty()) ui->strongs_tb->clear(); });
 
     connect(ui->dict_le, &QLineEdit::returnPressed, this, [this](){
         getDictSug(""); });
     connect(ui->dict_le, &QLineEdit::textChanged, this, [this](){
-        if(ui->dict_le->text().isEmpty()) ui->info_tb->clear();    });
+        if(ui->dict_le->text().isEmpty()) ui->info_tb->clear(); });
 
     rosterRead ? ui->cb_roster_read->setChecked(true) : ui->cb_roster_read->setChecked(false);
     strongTl = "t_akjv_s";
@@ -1281,6 +1278,8 @@ void MainWindow::applyFont(const QString &font, const QString &fontS,
 
     // move to another block?
     ui->tb_scriptures->document()->setDocumentMargin(margin);
+    ui->info_tb->document()->setDocumentMargin(10);
+    ui->strongs_tb->document()->setDocumentMargin(10);
 
     int maxWidth = 16777215;
     int bgfWidth = ui->background_frame->width();
@@ -1293,9 +1292,15 @@ void MainWindow::applyFont(const QString &font, const QString &fontS,
         maxWidth = (bgfWidth / 10) * width;
     }
     ui->bible_frame->setMaximumWidth(maxWidth);
+
+    ui->tb_scriptures->clear();
+    if (not ui->menu_history->actions().isEmpty()) {
+        ui->menu_history->actions().last()->activate(QAction::Trigger);
+    }
 }
 
 void MainWindow::resizeEvent(QResizeEvent *event) {
+    // set the width of the bible frame on every resize of the window
     int maxWidth = 16777215;
     int bgfWidth = ui->background_frame->width();
 
@@ -1306,9 +1311,12 @@ void MainWindow::resizeEvent(QResizeEvent *event) {
         maxWidth = (bgfWidth / 10) * frameWidth;
     }
     ui->bible_frame->setMaximumWidth(maxWidth);
+
+    event->accept();
 }
 
 void MainWindow::spokenWord() {
+    // this only works if audio bible mp3's are available, see MOD file
     QString sBk = ui->lw_books->currentIndex().data(0x0100).toString();
     QString sCh = ui->lw_chapters->currentIndex().data(0x0100).toString();
 
@@ -2728,6 +2736,9 @@ void MainWindow::ccMenuBibleFrame(){
     } else if (action == viewAction){
         scripDisplay == "table" ? scripDisplay = "book" : scripDisplay = "table";
         ui->tb_scriptures->clear();
+        if (not ui->menu_history->actions().isEmpty()) {
+            ui->menu_history->actions().last()->activate(QAction::Trigger);
+        }
     }
 }
 
@@ -2979,15 +2990,20 @@ void MainWindow::popupChapters(int bkNr) {
     }
 }
 
-void MainWindow::highlightMatches(){
+void MainWindow::highlightMatches() {
     // enter/return pressed in lineedit find
     QString input = ui->lineEdit_find->text();
-    textBrowser->moveCursor(QTextCursor::Start);
+    clearHighLights();
 
-    //remove possible old highlight color
-    textBrowser->selectAll();
-    textBrowser->textCursor().mergeCharFormat(defaultFormat);
-    textBrowser->moveCursor(QTextCursor::Start);
+    if (activeScheme == "none") {
+        matchFormat.setBackground(QColor("lightgrey"));
+    } else {
+        if (textBrowser == ui->tb_scriptures) {
+            matchFormat.setBackground(QColor(scheme["bg2Clr"]));
+        } else {
+            matchFormat.setBackground(QColor(scheme["bgClr"]));
+        }
+    }
 
     int count = 0;
     while (textBrowser->find(input, findInPageflags)) {
@@ -3007,36 +3023,24 @@ void MainWindow::highlightMatches(){
     textBrowser->find(input, findInPageflags);
 }
 
-void MainWindow::setFindInPageLocation()
-{
-    if (ui->cb_find_loc->currentText() == "Bible")
-        textBrowser = ui->tb_scriptures;
-    else if (ui->cb_find_loc->currentText() == "Info")
-        textBrowser = ui->info_tb;
-    else
-        textBrowser = ui->strongs_tb;
-}
-
-void MainWindow::startFind(){
-    // executes from lineedit signal: text changed, on every keypress
-    QString input = ui->lineEdit_find->text();
-
-    if (input.isEmpty()) {
-        ui->label_find_sum->clear();
-        textBrowser->selectAll();
-        textBrowser->textCursor().mergeCharFormat(defaultFormat);
-        textBrowser->moveCursor(QTextCursor::Start);
-    } else if (input.length() == 1){
-        ui->label_find_sum->clear();
-        return;
+void MainWindow::clearHighLights() {
+    // remove old highlight background color
+    QString bgClr;
+    if (activeScheme == "none") {
+        bgClr = "white";
     } else {
-        countMatches();
-        textBrowser->moveCursor(QTextCursor::Start);
-        textBrowser->find(input, findInPageflags);
+        if (textBrowser == ui->tb_scriptures) {
+            bgClr = scheme["bgClr"];
+        } else {
+            bgClr = scheme["bg2Clr"];
+        }
     }
+    textBrowser->selectAll();
+    textBrowser->setTextBackgroundColor(bgClr);
+    textBrowser->moveCursor(QTextCursor::Start);
 }
 
-void MainWindow::countMatches(){
+void MainWindow::countMatches() {
     QString input = ui->lineEdit_find->text();
     textBrowser->moveCursor(QTextCursor::Start);
 
@@ -3051,6 +3055,31 @@ void MainWindow::countMatches(){
         ui->label_find_sum->setText(QString("%1 match").arg(count));
     } else {
         ui->label_find_sum->setText(QString("%1 matches").arg(count));
+    }
+}
+
+void MainWindow::setFindInPageLocation()
+{
+    if (ui->cb_find_loc->currentIndex() == 2)
+        textBrowser = ui->strongs_tb;
+    else if (ui->cb_find_loc->currentIndex() == 1)
+        textBrowser = ui->info_tb;
+    else
+        textBrowser = ui->tb_scriptures;
+}
+
+void MainWindow::startFind(){
+    // executes from lineedit signal: text changed, on every keypress
+    QString input = ui->lineEdit_find->text();
+    clearHighLights();
+
+    if (input.length() <= 1) {
+        ui->label_find_sum->clear();
+        return;
+    } else {
+        countMatches();
+        textBrowser->moveCursor(QTextCursor::Start);
+        textBrowser->find(input, findInPageflags);
     }
 }
 
@@ -3139,6 +3168,7 @@ void MainWindow::updateCbTranslations() {
 }
 
 void MainWindow::printFromHistory(QHash<QString, int> job){
+    // called from ui->menu_history action
     printQ.enqueue(job);
     int bk = job["bk"];
     int c1 = job["c1"];
@@ -3150,6 +3180,14 @@ void MainWindow::printFromHistory(QHash<QString, int> job){
 }
 
 void MainWindow::addToHistory(QHash<QString, int> job){
+    // keep a history of print jobs, 10 items max
+    // don't add doubles
+    if (!printHistory.isEmpty()) {
+        if (printHistory.last() == job) {
+            return;
+        }
+    }
+
     printHistory.enqueue(job);
     if (printHistory.length() > 10){
         printHistory.removeFirst();
@@ -3158,9 +3196,20 @@ void MainWindow::addToHistory(QHash<QString, int> job){
     int bk = job["bk"];
     QString bookName = ::g_bookNames[bk];
     int c1 = job["c1"];
-    int c2 = job["c2"];
-    int v1 = job["v1"];
-    int v2 = job["v2"];
+    int c2 = 0;
+    int v1 = 0;
+    int v2 = 0;
+
+    // contains instead of operator[]()to prevent silent inserts of non existing keys
+    if (job.contains("c2")) {
+        c2 = job["c2"];
+    }
+    if (job.contains("v1")) {
+        v1 = job["v1"];
+    }
+    if (job.contains("v2")) {
+        v2 = job["v2"];
+    }
 
     QString aTxt;
 
@@ -3182,7 +3231,7 @@ void MainWindow::addToHistory(QHash<QString, int> job){
     ui->menu_history->addAction(jobAction);
 
     if (ui->menu_history->actions().count() > 10){
-        ui->menu_history->removeAction(ui->menu_history->actions().at(0)); //actions().first());
+        ui->menu_history->removeAction(ui->menu_history->actions().at(0));
     }
 }
 
@@ -3285,8 +3334,9 @@ void MainWindow::printScriptures() {
             "<td style='color:%4;font-weight:400'> %2</td>"
             "</tr>").arg(sNr, txt, scheme.value("nrClr"), scheme.value("txtClr"));
 
-        verseBasic = QString("<span style='color:%1'>%2 </span>")
-                .arg(scheme.value("txtClr"), txt);
+        verseBasic = QString("<span style='color:%1;font-weight:200'><small>%2 </small></span>"
+                             "<span style='color:%3;font-weight:400'>%4 </span>"
+                             ).arg(scheme.value("nrClr"),sNr,scheme.value("txtClr"), txt);
 
         // check for end of line/verse, since we want a break if size/lenght is above 300
         if (endChar.contains(txt.right(1)) && textL > 300) {
@@ -3621,6 +3671,8 @@ void MainWindow::setStyleSheets(){
         saStyle.replace("nrClr", scheme["nrClr"]);
         saStyle.replace("titleClr", scheme["titleClr"]);
         saStyle.replace("clashClr", scheme["clashClr"]);
+        QColor darkerBg = QColor(scheme["bgClr"]).darker(200);
+        saStyle.replace("darkerBg", darkerBg.name());
         qApp->setStyleSheet(saStyle);
     } else {
         qApp->setStyleSheet("");

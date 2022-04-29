@@ -60,8 +60,6 @@ ParWindow::ParWindow(QWidget *parent) : QWidget(parent, Qt::Window)
     hbox_2->addWidget(btn_prev);
     hbox_2->addWidget(btn_next);
 
-
-
     //create checkboxes for translations
     QString sqlCb = "SELECT abbreviation, language, version "
                     "FROM bible_version_key ORDER BY abbreviation ASC";
@@ -511,7 +509,7 @@ void ParWindow::printScriptures(){
     // need int for key to sort ascending
     QList< QMap<int, QString> > rootC; // root container
 
-    for (QList<QString> qV: queries) {
+    for (QList<QString> qV: qAsConst(queries)) {
         // sub container
         QMap<int, QString> subC;
 
@@ -537,13 +535,13 @@ void ParWindow::printScriptures(){
     for the case that a translation has less verses
     to keep displaying the verses in parallel
     ------------------------------------------------------*/
-    QList<int> containerSizes;
+    QList<qint64> containerSizes;
     for (const auto &subC: rootC) {
         containerSizes.append(subC.size());
     }
 
-    int* iL;
-    iL = std::max_element(containerSizes.begin(), containerSizes.end() );
+    qint64* iL;
+    iL = &*std::max_element(containerSizes.begin(), containerSizes.end() );
 
     // choose a preferred container with the max number of verses
     QMap<int, QString> prefC;
