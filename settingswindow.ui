@@ -597,6 +597,9 @@
         <property name="toolTip">
          <string notr="true"/>
         </property>
+        <property name="editable">
+         <bool>false</bool>
+        </property>
         <property name="fontFilters">
          <set>QFontComboBox::AllFonts</set>
         </property>
