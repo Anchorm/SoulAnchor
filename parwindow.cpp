@@ -104,8 +104,6 @@ ParWindow::ParWindow(QWidget *parent) : QWidget(parent, Qt::Window)
     new QShortcut(QKeySequence(Qt::Key_F11), this, SLOT(toggleFullscreen()));
     new QShortcut(QKeySequence(Qt::Key_Escape), this, SLOT(escapeKey()));
 
-    setMinimumSize(400,200);
-
     vbox->addItem(flowLayout);
     vbox->addItem(hbox_2);
     vbox->addWidget(te);
@@ -290,6 +288,10 @@ void ParWindow::centerWindow(){
         QScreen* activeScreen = parentWidget()->screen();
         if (activeScreen != nullptr)
         {
+            int width = (parentWidget()->width() / 100) * 90;
+            int height = (parentWidget()->height() / 100) * 90;
+            setMinimumSize(width, height);
+
             auto winGeo = frameGeometry();
             auto parentGeoCenter = parentWidget()->geometry().center();
             winGeo.moveCenter(parentGeoCenter);
@@ -509,7 +511,7 @@ void ParWindow::printScriptures(){
     // need int for key to sort ascending
     QList< QMap<int, QString> > rootC; // root container
 
-    for (QList<QString> qV: qAsConst(queries)) {
+    for (auto &qV: qAsConst(queries)) {
         // sub container
         QMap<int, QString> subC;
 

@@ -69,7 +69,7 @@ class MainWindow : public QMainWindow
     QString saStyle; // css
 
     // for showing a devotion or hymn text
-    const QString devStyle = "text-align:center;margin:7px;";
+    const QString devStyle = "text-align:center;margin:10px;";
 
     // for 'reset' to make sure no weird format exists after anchor click
     const QTextCharFormat emptyFormat;
@@ -115,7 +115,7 @@ class MainWindow : public QMainWindow
     void popupMsg(const QString message);
     void printMsg(const QString message);
 
-    QList< QList<int> > encS = {
+    QList< QList<int> > encScrip = {
     {19,4,6},
     {19,119,10},{19,119,12},{19,119,27},{19,119,29},{19,119,30},{19,119,32},{19,119,33},{19,119,34},
     {19,119,35},{19,119,104},{19,119,105},{19,119,106},{19,119,133},{19,119,135},{19,119,143},{19,119,144},
@@ -223,14 +223,14 @@ class MainWindow : public QMainWindow
             "(?<strongStartTag><S>)"
             "\\s*(?<strongNr>\\d+)"
             "\\s*(?<strongEndTag></S>)";
-    QRegularExpression *strongRegex = new QRegularExpression(strongPattern);
+    const QRegularExpression *strongRegex = new QRegularExpression(strongPattern);
 
     const QString strongPattern2 =
             "\\s*"
             "[gGhH]"
             "\\d{1,4}"
             "\\s*";
-    QRegularExpression *getStrongRegex = new QRegularExpression(strongPattern2);
+    const QRegularExpression *getStrongRegex = new QRegularExpression(strongPattern2);
 
     QRegularExpression *audioBibleRegex = new QRegularExpression();
 
@@ -238,7 +238,7 @@ class MainWindow : public QMainWindow
             "\\s*"
             "\\d{1,4}"
             "\\s*";
-    QRegularExpression *twotRegex = new QRegularExpression(twotPattern);
+    const QRegularExpression *twotRegex = new QRegularExpression(twotPattern);
 
     const QString psalmPattern =
             "\\s*(?<ps>[pP][sS][aA][lL][mM])"
@@ -255,9 +255,9 @@ class MainWindow : public QMainWindow
             ":?(?<vs1>\\d{0,3})"
             "-?(?<vs2>\\d{0,3})";
 
-    QRegularExpression *psalmRegex = new QRegularExpression(psalmPattern);
-    QRegularExpression *hymnRegex = new QRegularExpression(hymnPattern);
-    QRegularExpression *scripRegex = new QRegularExpression(scripPattern);
+    const QRegularExpression *psalmRegex = new QRegularExpression(psalmPattern);
+    const QRegularExpression *hymnRegex = new QRegularExpression(hymnPattern);
+    const QRegularExpression *scripRegex = new QRegularExpression(scripPattern);
 
     const QString bkPattern = "(^\\d{0,1}"
                         "[A-Z]{1}[a-z]+)"
@@ -265,7 +265,7 @@ class MainWindow : public QMainWindow
                         "(\\d+)"
                         ".{1}"
                         "(\\d+)";
-    const QRegularExpression bkRegex = QRegularExpression(bkPattern);
+    const QRegularExpression *bkRegex = new QRegularExpression(bkPattern);
 
     const QString chPattern = "-(\\d{0,1}"
                         "[A-Z]{1}[a-z]+)"
@@ -273,16 +273,22 @@ class MainWindow : public QMainWindow
                         "(\\d+)"
                         ".{1}"
                         "(\\d+)$";
-    const QRegularExpression chRegex = QRegularExpression(chPattern);
+    const QRegularExpression *chRegex = new QRegularExpression(chPattern);
 
     const QString nrPattern ="\\s*\\d+\\s*";
-    const QRegularExpression nrRegex = QRegularExpression(nrPattern);
+    const QRegularExpression *nrRegex = new QRegularExpression(nrPattern);
+
+    // spurgeon scripture links
+    const QString spurPattern = "href='B:"
+                               "(?<scrip>\\d{0,3}\\s*\\d{0,3}:\\d{0,3})"
+                               "'";
+    const QRegularExpression *urlRegex = new QRegularExpression(spurPattern);
 
     //QtDocs: The following line declares a member variable which is a pointer to the MainWindow UI class. A member variable is associated with a specific class, and accessible for all its methods.
     Ui::MainWindow *ui;
 
 public:
-    QString tlAbbr; //active translation
+    QString activeTL; //active translation
     //QtDocs:The following line declares a constructor that has a default argument called parent.
     //The value 0 indicates that the widget has no parent (it is a top-level widget).
     explicit MainWindow(QWidget *parent = nullptr);
@@ -352,8 +358,8 @@ private slots:
     void todaysProverb();
     void todaysPsalm();
     void todaysLetter();
-    void morning();
-    void evening();
+    // show a devotion from spurgeon and print a scripture
+    void morningAndEvening(const QString &morningOrEvening);
 
     void readingPlan();
     void escapeKey();

@@ -102,7 +102,7 @@ void SettingsWindow::cancelSettings() {
     bknLanguage = settings.value("bknLanguage", "english").toString();
     startup = settings.value("startup", "nothing").toString();
     tab = settings.value("tab", "Contents").toString();
-    translation = settings.value("translation", "AKJV").toString();
+    translation = settings.value("translation", "NET").toString();
 
     font = settings.value("Font/font", "sans").toString();
     fontS =  settings.value("Font/fontsize", "12").toString();

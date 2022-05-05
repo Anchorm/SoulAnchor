@@ -36,7 +36,7 @@ An illustration of this way of thinking can be seen in Charles Buck theological 
 
 Charles Buck goes on to write many things about 'the history of the Jews'. His comments on the Israelites are very meager, a few sentences in which he again reduces Israel to the Jews and redirects the reader to the history of the Jews...
 
-The Bible story of Gods election of a people to form a special relationship with that nation is not about the history of 'the Jews' or Judeans. But it should read the history of Israel, the descendants of Abraham-Isaac-Jacob. The promise was for all the descendants of Israel. Not for one tribe only, and not for converts to Judaism/Talmudism that are not necessarily a descendant of Israel and have nothing to do with this lineage. E.g. those who converted in Babylon because they feared the Judeans <a href="bible:Esther 8:17">Esther 8:17</a>. We could say something good about converting to the true religion of the God of Israel if that is indeed the case and done out of free will. But converting to Judaism has come to mean that one agrees with and comes under the influence of the doctrines of men which are not only useless but also offending to God <a href="bible:Mar 7:1-13">Mar 7:1-13</a>. The oral traditions that were added to the original law make that law powerless as we can learn from the Lord Jesus words. The result of this deviation from the original commandments has made the later religion similar in value to all other religions that deny Jesus Christ as God and Savior. They are contrary to the exclusive nature of the revelation of Jesus Christ since there is no other way to the Father but through the Son.
+The Bible story of Gods election of a people to form a special relationship with that nation is not about the history of 'the Jews' or Judeans. But it should read the history of Israel, the descendants of Abraham-Isaac-Jacob. The promise was for all the descendants of Israel. Not for one tribe only, and not for converts to Judaism/Talmudism that are not necessarily a descendant of Israel and have nothing to do with this lineage. E.g. those who converted in Babylon because they feared the Judeans <a href="bible:Esther 8:17">Esther 8:17</a>. We could say something good about converting to the true religion of the God of Israel if that is indeed the case and done out of free will. But converting to Judaism has come to mean that one agrees with and comes under the influence of the doctrines of men which are not only useless but also offending to God <a href="bible:Mar 7:1-13">Mar 7:1-13</a>. The oral traditions that were added to the original law make that law powerless, the Lord Jesus tells us in the Scriptures. The result of this deviation from the original commandments has made the later religion similar in value to all other religions that deny Jesus Christ as God and Savior. They are contrary to the exclusive nature of the revelation of Jesus Christ since there is no other way to the Father but through the Son.
 <a href="bible:Joh 14:6-15">Joh 14:6-15</a>
 <a href="bible:Joh 5:22-27">Joh 5:22-27</a>
 
@@ -47,7 +47,7 @@ Charles Buck is certainly not the only one with this kind of faulty reasoning. I
 ### a weak theology of God destroying most of the nation of Israel
 
 As far as theology goes this "Jew only mindset" is a weak doctrine in which God has done away with most of his covenant people Israel by dissolving them in the many nations that they were sent in through captivity. It is as God through Hosea is lying when making the promise that both kingdoms will become one people again. Or at the very least this must all become true in the future... but we can understand through the Bible itself that it is not future but present.
-We can understand through Paul in Romans (E.g. <a href="bible:Rom 11">Rom 11</a>) that God has not forgotten His chosen people Israel. The Lord talks about this other sheep of a different fold in <a href="bible:John 10:16">John 10:16</a> "I have other sheep that are not of this sheep pen. I must bring them also. They too will listen to my voice, and there shall be one flock and one shepherd." Sheep is symbology for the Israelites with God as the shepherd. E.g. <a href="bible:Mi 2:12">Mi 2:12</a> <a href="bible:Jer 23:1">Jer 23:1</a> <a href="bible:Jer 50:6">Jer 50:6</a> <a href="bible:Eze 34">Eze 34</a> <a href="bible:Ps 44:12-13">Ps 44:12-13</a> <a href="bible:Ps 79:13">Ps 79:13</a> <a href="bible:Ps 95:7">Ps 95:7</a>
+We can understand through Paul in Romans (E.g. <a href="bible:Rom 11">Rom 11</a>) that God has not forgotten His chosen people Israel. The Lord talks about this other sheep of a different fold in <a href="bible:John 10:16">John 10:16</a> "I have other sheep that are not of this sheep pen. I must bring them also. They too will listen to my voice, and there shall be one flock and one shepherd." These are all symbols for the Israelites with God as the shepherd. E.g. <a href="bible:Mi 2:12">Mi 2:12</a> <a href="bible:Jer 23:1">Jer 23:1</a> <a href="bible:Jer 50:6">Jer 50:6</a> <a href="bible:Eze 34">Eze 34</a> <a href="bible:Ps 44:12-13">Ps 44:12-13</a> <a href="bible:Ps 79:13">Ps 79:13</a> <a href="bible:Ps 95:7">Ps 95:7</a> 
 
 Other animals are used for other nations, often not in a neutral or positive manner. E.g. wild animals, wild beasts that harm His sheep.
 <a href="bible:Eze 34">Eze 34</a>
@@ -55,6 +55,8 @@ Other animals are used for other nations, often not in a neutral or positive man
 Another example: a dog can describe a Canaanite. 
 <a href="bible:Mat. 15:24-26">Mat. 15</a>
 >"24 But He answered and said, "I was sent only to <u>THE LOST SHEEP OF THE HOUSE OF ISRAEL</u>. 25 But she came and began to bow down before Him, saying, "Lord, help me! 26 And He answered and said, "It is not good to take the children's bread and throw it to the dogs."
+
+In later times the sheep of God were often just thought to be the believers in Christ from non-Israel nations. But that is at best only one side of the coin and contrary to the Biblical record. The root cause of this error stems from a misunderstanding of the history of Gods chosen nation Israel, both in the old and the new covenant.
 
 ### the lost sheep, of the house of Israel
 
@@ -72,14 +74,14 @@ Now the other references to tribes of Israel in the new covenant make more sense
 <small>
 Note: the distinction between the kingdoms cannot be seen as a clean division of all the tribes. Judah had not only those of Judah but also of the other tribes as we can read. And not all of the house of Judah went back to Judea. However it is clear that both the Lord Jesus and the disciples are aware of and concerned with: those of the house of Israel in the dispersion, which represented the majority of the Israel tribes in the dispersion. These tribes are also mentioned in The Antiquities of the Jews by Flavius Josephus. <i>"but then the entire body of the people of Israel remained in that country; wherefore there are but two tribes in Asia and Europe subject to the Romans, while the ten tribes are beyond Euphrates till now, and are an immense multitude, and not to be estimated by numbers."</i></small>
 
->"1 Peter, an apostle of Jesus Christ, To those who reside as aliens, scattered throughout Pontus, Galatia, Cappadocia, Asia, and Bithynia, who are chosen" <a href="bible:1 Petr 1">1 Petr 1</a>
+>"1 Peter, an apostle of Jesus Christ, To those who reside as aliens, scattered throughout Pontus, Galatia, Cappadocia, Asia, and Bithynia, who are chosen" <a href="bible:1 Pet 1">1 Pet 1</a>
 
 <a href="bible:eph 2:12-22">eph 2:12-22</a>
 
 Israel is still very important as we can read in verse 12. Those who were alienated from the commonwealth of Israel are now part of Israel once more under the new covenant with the house of Israel and the house of Judah <a href="bible:Heb 8:8">Heb 8:8</a>.
 
 The disciples knew about Gods grace for them we can learn from their writings. Even though their culture had often become one of looking down upon 'the heathens' as they had become unworthy in their eyes. You could not even sit down to eat with them. <a href="bible:Gal 2:12">Gal 2:12</a>.
-The 'true Israelite' Judeans still had the appearance of Israel, but as we can understand from the Lord Jesus words, those religious leaders had not the Spirit of God. Quite the opposite, they had become hypocrites and power hungry. Those who followed them: the blind following the blind. <a href="bible:Mat 15:14">Mat 15:14</a>
+The 'true Israelite' Judeans still had the appearance of Israel, but as we can understand from the Lord Jesus words, those religious leaders had not the Spirit of God. They had become hypocrites and power hungry. Those who followed them: the blind following the blind. <a href="bible:Mat 15:14">Mat 15:14</a>
 
 The Israelite brothers in the dispersion were not completely forgotten at that time, but rather seen as unworthy. A sentiment probably going back as far as the original division of Israel into two kingdoms, who at times even went to war with each other. They formed their own central places of 'true worship' and of course the 'true believers' sacrificed only in those holy places. What was supposed to be true worship of God became religion that primarily served as support for the political power. To admit that God might also be worshipped in another place outside of their authority went against their interests. As we can read both in the history of the house of Israel and the house of Judah and what does Jesus Christ say in John 4? "
 
@@ -92,9 +94,9 @@ The Israelite brothers in the dispersion were not completely forgotten at that t
 24 God is a Spirit: and they that worship him must worship him in spirit and in truth.
 "
 
-The truth is that both kingdoms had become ungodly. The leaders, the organized religion, the places of worship, corrupt. What matters most to God is if there is truth and love within.
+The truth is that both kingdoms had become ungodly. The leaders, the organized religion, the places of worship, corrupt. What matters most to God is if the Spirit of truth lives in those that worship Him.
 
-What do those who don't worship the Father in spirit and truth do? The opposite, the keep insisting on central power, so called holy places in a holy land be it in Jerusalem or Rome. And whoever can control such a holy place must be appointed by God they teach, and many follow them. It seems that those with the smallest amount of godliness often display the greatest amount of external 'holiness' in their clothes and speech and rituals and worship. They need those external signs as the proof that they are chosen by God and people should follow them. <a href="bible:Mar 12:38-39">Mar 12:38-39</a>
+What do those who don't worship the Father in spirit and truth do? The opposite, they keep insisting on central power, so called holy places in a holy land be it in Jerusalem or Rome. And whoever can control such a holy place must be appointed by God they teach, and many follow them. It seems that those with the smallest amount of godliness often display the greatest amount of external 'holiness' in their clothes and speech and rituals and worship. They need those external signs as the proof that they are chosen by God and people should follow them. <a href="bible:Mar 12:38-39">Mar 12:38-39</a>
 
 ### dispersion
 
@@ -110,8 +112,8 @@ Yes there are promises also for the non Israelite alien/stranger. Those can be s
 ### what happened to the house of Judah
 
 Since the house of Judah kept sinning, like the other tribes of Israel in the other kingdom, they were also taken captive and sent to Babylon.
-After the Babylonian captivity we can see more of the this rebellion. Their religion went further downhill. Some repented and became known as Christians. Others continued to sin until God destroyed their place in Judea.
-Some are called Jews in our time. Others who are called Jews can be traced back to a certain people, the Khazars. Can such Khazars claim that they are the descendants of Judah and claim the promises of Israel? <a href="bible:Rom 9">Rom 9</a>
+After the Babylonian captivity we can see more of the this rebellion. Their religion went further downhill. Some repented and became known as Christians. Others continued to sin until God destroyed their place in Judea. Many were killed in the destruction of Jerusalem.
+Some survivors are called Jews in our time. Others who are called Jews can be traced back to a certain people, the Khazars. Can such Khazars claim that they are the descendants of Judah and claim the promises of Israel? <a href="bible:Rom 9">Rom 9</a>
 
 The Khazars converted to Judaism. Just like certain Edomites (e.g. the Herodians). Can we say that Ezau/Edom is a Judahite? Of course not, but the opposite can be clearly read in the Scriptures, Edom was an enemy of Jacob. Chosen by God to be so from the womb where the twins were already struggling with each other. A fact that remains important if we want to understand the history of Israel and her future. These stories are given for our understanding and are everything but trivial or outdated. God tells us what was and is to come and thousands of years are as mere days for Him.
 
@@ -132,3 +134,5 @@ Repentance is more important than having Abraham as a forefather.
 It is only that part of Israel that can repent through believe in Jesus Christ that is true Israel. Both in the flesh and in the Spirit.
 <a href="bible:Acts 3">Acts 3</a> 
 <a href="bible:Acts 13">Acts 13</a>
+
+There are many descendants of Israel living in our time right now that don't even know that part of their identity. But perhaps they, through their actions, do identify as followers of Christ. Which in the end is all that matters.

@@ -105,7 +105,7 @@
         <enum>QTabWidget::Rounded</enum>
        </property>
        <property name="currentIndex">
-        <number>1</number>
+        <number>0</number>
        </property>
        <property name="elideMode">
         <enum>Qt::ElideRight</enum>
@@ -753,7 +753,7 @@ hr { height: 1px; border-width: 0; }
            <property name="lineWidth">
             <number>0</number>
            </property>
-           <layout class="QVBoxLayout" name="verticalLayout_3" stretch="0,0,0,0,0,0,0">
+           <layout class="QVBoxLayout" name="verticalLayout_3" stretch="0,0,0,0,0,0,0,0,0">
             <property name="spacing">
              <number>3</number>
             </property>
@@ -845,6 +845,32 @@ hr { height: 1px; border-width: 0; }
               </property>
               <property name="gridVisible">
                <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="btn_daily_mbm">
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>26</height>
+               </size>
+              </property>
+              <property name="text">
+               <string>Morning</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="btn_daily_ebe">
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>26</height>
+               </size>
+              </property>
+              <property name="text">
+               <string>Evening</string>
               </property>
              </widget>
             </item>
@@ -1147,12 +1173,11 @@ hr { height: 1px; border-width: 0; }
                  <property name="text">
                   <string>next</string>
                  </property>
-                 <property name="icon">
-                  <iconset>
-                   <normaloff>:/data/img/bullet_arrow_right.png</normaloff>:/data/img/bullet_arrow_right.png</iconset>
-                 </property>
                  <property name="autoRaise">
                   <bool>true</bool>
+                 </property>
+                 <property name="arrowType">
+                  <enum>Qt::RightArrow</enum>
                  </property>
                 </widget>
                </item>
@@ -1185,12 +1210,11 @@ hr { height: 1px; border-width: 0; }
                  <property name="text">
                   <string>previous</string>
                  </property>
-                 <property name="icon">
-                  <iconset>
-                   <normaloff>:/data/img/bullet_arrow_left.png</normaloff>:/data/img/bullet_arrow_left.png</iconset>
-                 </property>
                  <property name="autoRaise">
                   <bool>true</bool>
+                 </property>
+                 <property name="arrowType">
+                  <enum>Qt::LeftArrow</enum>
                  </property>
                 </widget>
                </item>
@@ -2765,6 +2789,7 @@ hr { height: 1px; border-width: 0; }
     <addaction name="action_open_parallel"/>
     <addaction name="action_cross_references"/>
     <addaction name="action_topical_index"/>
+    <addaction name="action_strongify"/>
     <addaction name="separator"/>
     <addaction name="action_settings"/>
     <addaction name="separator"/>
@@ -3130,6 +3155,18 @@ hr { height: 1px; border-width: 0; }
   <action name="action_cross_references">
    <property name="text">
     <string>Cross References</string>
+   </property>
+  </action>
+  <action name="action_strongify">
+   <property name="icon">
+    <iconset resource="soulanchor.qrc">
+     <normaloff>:/data/img/biceps.png</normaloff>:/data/img/biceps.png</iconset>
+   </property>
+   <property name="text">
+    <string>Strongify</string>
+   </property>
+   <property name="toolTip">
+    <string>Strong's numbers</string>
    </property>
   </action>
  </widget>

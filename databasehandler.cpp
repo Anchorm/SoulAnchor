@@ -9,7 +9,7 @@ DatabaseHandler::DatabaseHandler()
 
 bool DatabaseHandler::openDataBases() {
     // db's must exist or we exit
-    // db's in user data dir will be a created
+    // db's in user data dir will be created
 
     extraDb = QSqlDatabase::addDatabase("QSQLITE", "extra");
     extraDb.setConnectOptions("QSQLITE_OPEN_READONLY");
@@ -84,7 +84,10 @@ int DatabaseHandler::getChapterCount(int bookNumber, QString tlAbbr )
 {
     QSettings settings(settingsFile.fileName(), QSettings::IniFormat);
     if(tlAbbr == "default"){
-        tlAbbr = settings.value("translation").toString();
+        tlAbbr = settings.value("translation", "NET").toString();
+    }
+    if (tlAbbr.isEmpty()) {
+        tlAbbr = "NET";
     }
 
     QString sql = QString("SELECT COUNT(DISTINCT c) FROM t_%1 "

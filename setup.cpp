@@ -86,7 +86,7 @@ void setUserCfgDirAndSettings() {
     }
 
     ::settingsFile.setFileName(configFile.fileName()) ;
-    // create a setting object whenever you need it
+    // create a settings object whenever you need it
 
 // Qt documentation:   Sometimes you do want to access settings stored in a specific file or registry path. On all platforms, if you want to read an INI file directly, you can use the QSettings constructor that takes a file name as first argument and pass QSettings::IniFormat as second argument. For example:
 }

@@ -364,7 +364,7 @@
       <item row="5" column="1">
        <widget class="QSlider" name="margin_slider">
         <property name="maximum">
-         <number>100</number>
+         <number>200</number>
         </property>
         <property name="singleStep">
          <number>2</number>
