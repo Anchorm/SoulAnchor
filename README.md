@@ -21,7 +21,6 @@ Manually: `qmake6` , `make`, `sudo make install`
 Note: if you keep the build directory you can later use `sudo make uninstall DEL_DIR='rmdir -p --ignore-fail-on-non-empty'`  
 Note2: the default install prefix is `/usr`. This can be changed with `qmake6 PREFIX=/dir`  
 Note3: qmake6 is using qt6 which is required  
-Note4: you can speed up make with -j ``nproc``
 
 &nbsp;
 
