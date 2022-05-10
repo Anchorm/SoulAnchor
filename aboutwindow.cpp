@@ -77,7 +77,8 @@ AboutWindow::AboutWindow(QWidget *parent) : QWidget(parent, Qt::Window)
     setLayout(mainVbox);
 }
 
-void AboutWindow::centerWindow(){
+void AboutWindow::centerWindow()
+{
     if (parentWidget())
     {
         QScreen* activeScreen = parentWidget()->screen();

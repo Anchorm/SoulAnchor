@@ -105,7 +105,7 @@
         <enum>QTabWidget::Rounded</enum>
        </property>
        <property name="currentIndex">
-        <number>0</number>
+        <number>2</number>
        </property>
        <property name="elideMode">
         <enum>Qt::ElideRight</enum>
@@ -753,26 +753,23 @@ hr { height: 1px; border-width: 0; }
            <property name="lineWidth">
             <number>0</number>
            </property>
-           <layout class="QVBoxLayout" name="verticalLayout_3" stretch="0,0,0,0,0,0,0,0,0">
+           <layout class="QVBoxLayout" name="verticalLayout_3">
             <property name="spacing">
              <number>3</number>
             </property>
-            <property name="sizeConstraint">
-             <enum>QLayout::SetDefaultConstraint</enum>
-            </property>
             <property name="leftMargin">
-             <number>1</number>
+             <number>0</number>
             </property>
             <property name="topMargin">
-             <number>1</number>
+             <number>0</number>
             </property>
             <property name="rightMargin">
-             <number>1</number>
+             <number>0</number>
             </property>
             <property name="bottomMargin">
-             <number>1</number>
+             <number>0</number>
             </property>
-            <item alignment="Qt::AlignTop">
+            <item>
              <widget class="QPushButton" name="btn_select_today">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
@@ -812,7 +809,7 @@ hr { height: 1px; border-width: 0; }
               </property>
              </widget>
             </item>
-            <item alignment="Qt::AlignTop">
+            <item>
              <widget class="QCalendarWidget" name="calendar">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
@@ -849,30 +846,50 @@ hr { height: 1px; border-width: 0; }
              </widget>
             </item>
             <item>
-             <widget class="QPushButton" name="btn_daily_mbm">
-              <property name="minimumSize">
-               <size>
-                <width>0</width>
-                <height>26</height>
-               </size>
+             <layout class="QHBoxLayout" name="horizontalLayout_6">
+              <property name="spacing">
+               <number>3</number>
               </property>
-              <property name="text">
-               <string>Morning</string>
-              </property>
-             </widget>
+              <item>
+               <widget class="QPushButton" name="btn_daily_mbm">
+                <property name="minimumSize">
+                 <size>
+                  <width>0</width>
+                  <height>26</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>Morning</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="btn_daily_ebe">
+                <property name="minimumSize">
+                 <size>
+                  <width>0</width>
+                  <height>26</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>Evening</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
             </item>
             <item>
-             <widget class="QPushButton" name="btn_daily_ebe">
-              <property name="minimumSize">
+             <spacer name="verticalSpacer_2">
+              <property name="orientation">
+               <enum>Qt::Vertical</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
                <size>
-                <width>0</width>
-                <height>26</height>
+                <width>20</width>
+                <height>6</height>
                </size>
               </property>
-              <property name="text">
-               <string>Evening</string>
-              </property>
-             </widget>
+             </spacer>
             </item>
             <item>
              <widget class="QPushButton" name="btn_daily_proverb">
@@ -1818,7 +1835,7 @@ hr { height: 1px; border-width: 0; }
 p, li { white-space: pre-wrap; }
 hr { height: 1px; border-width: 0; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Bitstream Vera Sans'; font-size:12pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'Cantarell';&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                </property>
                <property name="openLinks">
                 <bool>false</bool>
@@ -2734,9 +2751,9 @@ hr { height: 1px; border-width: 0; }
    <property name="nativeMenuBar">
     <bool>true</bool>
    </property>
-   <widget class="QMenu" name="menu_todays_reading">
+   <widget class="QMenu" name="menu_daily">
     <property name="title">
-     <string>Today's Reading</string>
+     <string>Daily</string>
     </property>
     <widget class="QMenu" name="menu_roster_select">
      <property name="enabled">
@@ -2774,6 +2791,7 @@ hr { height: 1px; border-width: 0; }
     <addaction name="action_salvation"/>
     <addaction name="action_shortcuts"/>
     <addaction name="separator"/>
+    <addaction name="action_modifications"/>
     <addaction name="action_about"/>
    </widget>
    <widget class="QMenu" name="menu_view">
@@ -2855,7 +2873,7 @@ hr { height: 1px; border-width: 0; }
     <addaction name="separator"/>
    </widget>
    <addaction name="menu_view"/>
-   <addaction name="menu_todays_reading"/>
+   <addaction name="menu_daily"/>
    <addaction name="menu_meditation"/>
    <addaction name="menu_filters"/>
    <addaction name="menu_history"/>
@@ -3167,6 +3185,11 @@ hr { height: 1px; border-width: 0; }
    </property>
    <property name="toolTip">
     <string>Strong's numbers</string>
+   </property>
+  </action>
+  <action name="action_modifications">
+   <property name="text">
+    <string>Modifications</string>
    </property>
   </action>
  </widget>

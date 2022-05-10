@@ -1,0 +1,162 @@
+<html>
+<body style="max-width: 1000px;margin-left:auto;margin-right:auto;">
+
+<div id="top" style="text-align:center;"><h2>How to modify SoulAnchor </h2></div>
+
+<p>Resources can be found in $XDG_DATA_DIRS/soulanchor</p>
+
+<ul>
+	<li>/usr/share/soulanchor</li>
+	<li>$HOME/.local/share/soulanchor</li>
+	<li>$HOME/.config/soulanchor/soulanchor.conf</li>
+</ul>
+<hr width="100%">
+
+<span style='font-size: larger;'>
+<ol>
+<li><a href="#1">database</a></li>
+<ul>
+<li><a href="#1a">a. translation</a></li>
+<li><a href="#1b">b. bookname language</a></li>
+<li><a href="#1c">c. dictionary</a></li>
+</ul>
+<li><a href="#2">audio bible</a></li>
+<li><a href="#3">music</a></li>
+<li><a href="#4">notes</a></li>
+<li><a href="#5">color schemes</a></li>
+<li><a href="#6">gui language</a></li>
+<li><a href="#7">code</a></li>
+</ol> 
+</span>
+
+<h3 id="1">1. Database</h3>
+
+<p id="1a"><b>1.a translations</b></p>
+
+<p>The bibles.db database is based upon: https://github.com/scrollmapper/bible_databases</p>
+<p>The id column is not used.</p>
+
+<p>To REMOVE a translation:</p>
+<ul>
+<li>delete the table, e.g. t_kjv</li>
+<li>remove the kjv row in the bible_version_key table</li>
+</ul>
+
+<p>To ADD a translation:</p>
+
+<p>Add a table with the name t_translation<br>
+It should have these columns for book number / chapter number / verse number and verse text:</p>
+<ul>
+	<li>INTEGER b</li>
+	<li>INTEGER c</li>
+	<li>INTEGER v</li>
+	<li>TEXT t</li>
+</ul>
+
+<p>Add a row in the bible_version_key table. Content should be self-explanatory. 
+The abbreviation and version column are used for the combo boxes.</p>
+
+<p>I can recommend the excellent DB Browser for SQLite software: https://sqlitebrowser.org</p>
+
+<p id="1b"><b>1.b booknames language</b></p>
+
+<p>If you want to add booknames in your language, add a column in the number_name table.
+Column name should start with lang_<br>(WIP)</p>
+
+<p id="1c"><b>1.c add/remove a dictionary in dictionaries.db</b></p>
+
+<p>
+<ul>
+	<li>add a table, e.g. newdict, with topic and definition text columns</li>
+	<li>add a row in the info table, with strong field = false</li>
+ </ul>
+ </p>
+
+<p>The strong = true rows are used for the bottom part of the info window</p>
+<p>I used dictionaries that are also used in the android mybible app (https://mybible.zone)</p>
+
+<h3 id="2">2. audio bible</h3>
+
+<p>If you have mp3's of bible CHAPTERS you can place them in the audio-bible directory (~/.local/share/soulanchor/audio-bible).<br>  
+The filename should begin with 2 digits, for the bookname detection. And it should end with the chapter indication, 3 digits, and .mp3.</p> 
+
+<p>E.g.
+<ul>
+<li>01 005.mp3</li>
+<li>01_005.mp3</li>
+<li>01005.mp3</li>
+<li>01 Genesis 005.mp3</li>
+</ul>
+</p>
+
+<p>Now the "play this chapter" right click context menu option can be used (only when one chapter is shown).</p>
+
+<h3 id="3">3. music</h3>
+
+<p>If you have Biblically inspired mp3's you can place them in the music folder (~/.local/share/soulanchor/music).</p> 
+<p>They will be added to the contemplations menu on startup. 
+If the filename has a scripture reference then SoulAnchor should jump to the book and chapter. 
+(except Hymns, those are checked for a lyrics file and shown in the info frame)</p>
+
+<p>Psalms: place in the music/psalms folder and start the filename with "psalm" or "Psalm", and a number.  
+E.g. Psalm 1 blessed is the man.mp3  </p>
+
+<p>Hymns: place in the music/hymns folder and if there is a .txt file with the same name, it should be displayed in the info frame.  
+E.g. Come, Thou Long-Expected Jesus.mp3 + Come, Thou Long-Expected Jesus.txt</p>
+
+<p>Other inspired music: can be placed in the music folder. E.g. 1-cor-13-love.mp3<br>
+Valid scripture links are:</p>  
+
+<p>
+<ul>
+<li>book chapter</li>
+<li>book chapter:verse</li>
+<li>book chapter:verse-verse</li>
+</ul>
+</p>
+
+<h3 id="4">4. notes</h3>
+
+<p>Create a note file (~/.local/share/soulanchor/notes)</p>
+
+<p>In plaintext or in markdown format, or html. All .txt and .md files in the notes directory will be 
+added to the text contemplations menu.</p>
+
+<p>Links can be created like this: </p>
+
+<p>
+<code>
+<ul>
+<li>&lt;a href="bible:heb 6:19"&gt;Heb. 6:19&lt;/a&gt;</li>
+<li>&lt;a href="bible:ps 1-2"&gt;Psalm 1-2"&lt;/a&gt;</li>
+<li>&lt;a href="strongs:G1"&gt;G1&lt;/a&gt;</li>
+</ul>
+</code>
+</p>
+
+<h3 id="5">5. color schemes</h3>
+
+<p>Can be defined in soulanchor.conf in ~/.config/soulanchor<br> in html color format under: [Schemes]</p> 
+<p>For example: </p> 
+
+<table cellpadding="2" cellspacing="2" border>
+	<tr><td>amber=</td><td>#775F18,</td><td>#3E2A11,</td><td>#b29a00,</td><td>#fff7bf</td><td>#ffee80,</td><td>#5BF4DA</td></tr>
+	<tr><td>(name)</td><td>(number)</td><td>(text)</td><td>(title)</td><td>(background 1)</td><td>(background 2)</td><td>(highlight/clash)</td></tr>
+</table>
+
+<h3 id="6">6. gui language</h3>
+
+<p>The soulanchor_english.ts in the data/lang source folder can be used with the Qt Linguist application in order to produce a soulanchor_yourlanguage.qm file. The .qm file should be placed in the same data/lang directory.</p>
+
+<p>Now a line should be added to the soulanchor.qrc file. With qtCreator or manually.</p>
+<p>E.g. <file>data/lang/soulanchor_yourlanguage.qm</file></p>
+
+<p>After building the source, this file will become part of the app's resources. The 'yourlanguage' part of the filename will be used in the settings menu for the GUI language combobox. </p>
+
+<h3 id="7">7. coding</h3>
+
+<p>If you want to make changes in the code i recommend using Qt Creator.</p>
+
+<p><a style="text-decoration: none;" href="#top">^^^</a></p>
+</body>
+</html>

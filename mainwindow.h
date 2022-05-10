@@ -69,7 +69,7 @@ class MainWindow : public QMainWindow
     QString saStyle; // css
 
     // for showing a devotion or hymn text
-    const QString devStyle = "text-align:center;margin:10px;";
+    const QString devStyle = "text-align:left;margin:10px;font-size:large;";
 
     // for 'reset' to make sure no weird format exists after anchor click
     const QTextCharFormat emptyFormat;
@@ -315,6 +315,7 @@ private slots:
     void updateCbTranslations();
     void setTranslation();
     void setBookTitle(QString title = "");
+    QString getLongTitle(const int bk);
 
     void processPrintQueue();
     void printScriptures();
@@ -354,12 +355,16 @@ private slots:
     void on_info_tb_anchorClicked(const QUrl &url);
     void on_strongs_tb_anchorClicked(const QUrl &url);
 
+    QString getVerse(const int bk, const int ch, const int vs);
+
     void on_btn_select_today_clicked();
     void todaysProverb();
     void todaysPsalm();
     void todaysLetter();
     // show a devotion from spurgeon and print a scripture
     void morningAndEvening(const QString &morningOrEvening);
+
+    void modifications();
 
     void readingPlan();
     void escapeKey();

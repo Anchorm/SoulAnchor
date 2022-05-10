@@ -11,7 +11,8 @@ isEmpty(PREFIX) {
 binary.files = install/bin/soulanchor
 binary.path = $$PREFIX/bin/
 
-documentation.files = README.md MOD
+documentation.files = README.md
+documentation.files += install/share/doc/soulanchor/mod.html
 documentation.path = $$PREFIX/share/doc/soulanchor/
 
 license.files = LICENSE

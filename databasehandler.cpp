@@ -7,9 +7,10 @@ DatabaseHandler::DatabaseHandler()
     // qDebug() << "these db drivers are available: " << QSqlDatabase::drivers();
 }
 
-bool DatabaseHandler::openDataBases() {
-    // db's must exist or we exit
-    // db's in user data dir will be created
+bool DatabaseHandler::openDataBases()
+{
+    // databases in system data dir must exist and or we exit
+    // db's in user data dir will be created if needed
 
     extraDb = QSqlDatabase::addDatabase("QSQLITE", "extra");
     extraDb.setConnectOptions("QSQLITE_OPEN_READONLY");
@@ -18,7 +19,7 @@ bool DatabaseHandler::openDataBases() {
 
     if (!extraDb.isOpen()) {
         sout << "could not open database: extra.db in "
-             << ::dataDir.path() << Qt::endl;
+             << ::dataDir.path() << "/db" << Qt::endl;
         return false;
     }
 
@@ -29,7 +30,7 @@ bool DatabaseHandler::openDataBases() {
 
     if (!bibleDb.isOpen()) {
         sout << "could not open database: bibles.db in "
-             << ::dataDir.path() << Qt::endl;
+             << ::dataDir.path() << "/db" << Qt::endl;
         return false;
     }
 
@@ -40,7 +41,7 @@ bool DatabaseHandler::openDataBases() {
 
     if (!dictDb.isOpen()) {
         sout << "could not open database: dictionaries.db in "
-             << ::dataDir.path() <<  Qt::endl;
+             << ::dataDir.path() << "/db" <<  Qt::endl;
         return false;
     }
 
@@ -68,19 +69,19 @@ bool DatabaseHandler::openDataBases() {
 
     if (!rosterDb.isOpen()) {
         sout << "could not open or create database: roster.db in "
-             << ::userDataDir.path() <<  Qt::endl;
+             << ::userDataDir.path() << "/db" <<  Qt::endl;
         return false;
     }
     if (!bookmarksDb.isOpen()) {
         sout << "could not open or create database: bookmarks.db in "
-             << ::userDataDir.path() <<  Qt::endl;
+             << ::userDataDir.path() << "/db" <<  Qt::endl;
         return false;
     }
 
     return true;
 }
 
-int DatabaseHandler::getChapterCount(int bookNumber, QString tlAbbr )
+int DatabaseHandler::getChapterCount(int bookNumber, QString tlAbbr)
 {
     QSettings settings(settingsFile.fileName(), QSettings::IniFormat);
     if(tlAbbr == "default"){
@@ -102,7 +103,8 @@ int DatabaseHandler::getChapterCount(int bookNumber, QString tlAbbr )
     return finalChapter;
 }
 
-DatabaseHandler::~DatabaseHandler() {
+DatabaseHandler::~DatabaseHandler()
+{
         bibleDb.close();
         dictDb.close();
         extraDb.close();

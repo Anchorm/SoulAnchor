@@ -2,31 +2,22 @@
 
 void setDataDir()
 {
-    bool dirExists = false;
-    bool biblesExist, dictsExist, devExist = false;
-    // soulanchor.pro defines
+    // setup system data directory
+    // soulanchor.pro directive
     dataDir.setPath(QString(APP_DATADIR_PREFIX) + "/share/soulanchor");
 
-    if (dataDir.exists()) {
-        biblesExist = QFile(dataDir.path() + "/db/bibles.db").exists();
-        dictsExist = QFile(dataDir.path() + "/db/dictionaries.db").exists();
-        devExist = QFile(dataDir.path() + "/db/extra.db").exists();
-
-        if (biblesExist && dictsExist && devExist) {
-            dirExists = true;
-        }
-    }
-
-    if (!dirExists) {
-        ::sout << "App data directory not found in:" << Qt::endl;
-        ::sout << APP_DATADIR_PREFIX << Qt::endl;
+    if (!dataDir.exists()) {
+        ::sout << "System data directory not found! It should be here:" << Qt::endl;
+        ::sout << ::dataDir.path() << Qt::endl;
         exit(1);
     } else {
-        ::sout << "App data dir: " << dataDir.path() << Qt::endl;
+        ::sout << "System data directory: " << ::dataDir.path() << Qt::endl;
     }
 }
 
-void setUserDataDir() {
+void setUserDataDir()
+{
+    // setup user data directory
     ::userDataDir.setPath(QDir(QStandardPaths::writableLocation
                                (QStandardPaths::AppDataLocation)).path());
 
@@ -41,9 +32,10 @@ void setUserDataDir() {
         }
 
     } else {
-        ::sout << "User data dir: " << userDataDir.path() << Qt::endl;
+        ::sout << "User data directory: " << userDataDir.path() << Qt::endl;
     }
 
+    // silently create or ignore if they fail since these are optional, see MOD file
     ::userDataDir.mkdir("notes");
     ::userDataDir.mkdir("audio-bible");
     ::userDataDir.mkdir("music");
@@ -51,7 +43,8 @@ void setUserDataDir() {
     ::userDataDir.mkdir("music/psalms");
 }
 
-void setUserCfgDirAndSettings() {
+void setUserCfgDirAndSettings()
+{
     // Qt documentation: QStandardPaths::AppConfigLocation	18	Returns a directory location where user-specific configuration files should be written. This is an application-specific directory, and the returned path is never empty. This enum value was added in Qt 5.5.
 
     QString cfgPath = QDir(QStandardPaths::writableLocation(
@@ -68,14 +61,14 @@ void setUserCfgDirAndSettings() {
             exit(1);
         }
     } else {
-        ::sout << "Config dir:" << ::userCfgDir.path() << Qt::endl;
+        ::sout << "User config directory: " << ::userCfgDir.path() << Qt::endl;
     }
 
     QFile configFile(::userCfgDir.path() + "/soulanchor.conf");
 
     if (!configFile.exists()) {
 
-        if (QFile::copy(":/data/skel/soulanchor.conf", ::userCfgDir.path() + "/soulanchor.conf")) {
+        if (QFile::copy(":/data/skel/soulanchor.conf", ::userCfgDir.path() + "/soulanchor.conf")){
             configFile.setPermissions(QFileDevice::ReadOwner | QFileDevice::WriteOwner
                                       | QFileDevice::ReadGroup | QFileDevice::ReadOther);
             ::sout << " soulanchor.conf created in " << ::userCfgDir.path() << Qt::endl;
@@ -98,5 +91,8 @@ void installTranslator()
 
     if (::translator.load("soulanchor_" + lang, ":/data/lang") ) {
         qApp->installTranslator(&::translator);
+    } else {
+        ::sout << " could not load this gui translation file: " << "soulanchor_"
+               << lang << ".qm" << Qt::endl;
     }
 }

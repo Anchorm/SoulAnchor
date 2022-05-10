@@ -23,7 +23,8 @@ SettingsWindow::~SettingsWindow()
     delete ui;
 }
 
-void SettingsWindow::setCbGuiLang() {
+void SettingsWindow::setCbGuiLang()
+{
     // set values for the gui language QComboBox based on available qm translation files
     ui->gui_lang_cb->clear();
     QDir translationsDir(":/data/lang");
@@ -37,7 +38,8 @@ void SettingsWindow::setCbGuiLang() {
     }
 }
 
-void SettingsWindow::setCbFontSize() {
+void SettingsWindow::setCbFontSize()
+{
     // populate the fontsize combobox
     ui->font_size_cb->clear();
     QList<int> fontSizes = QFontDatabase::standardSizes();
@@ -47,7 +49,8 @@ void SettingsWindow::setCbFontSize() {
     }
 }
 
-void SettingsWindow::setCbTranslations() {
+void SettingsWindow::setCbTranslations()
+{
     ui->tl_cb->clear();
     QString sql = "SELECT abbreviation "
                   "FROM bible_version_key ORDER BY abbreviation ASC";
@@ -61,7 +64,8 @@ void SettingsWindow::setCbTranslations() {
     }
 }
 
-void SettingsWindow::getSchemes() {
+void SettingsWindow::getSchemes()
+{
     // get the color schemes and fill the combobox
     QSettings settings(settingsFile.fileName(), QSettings::IniFormat);
     settings.beginGroup("Schemes");
@@ -75,7 +79,8 @@ void SettingsWindow::getSchemes() {
     }
 }
 
-void SettingsWindow::getBooknameLanguages() {
+void SettingsWindow::getBooknameLanguages()
+{
     QString columnName;
     // get all column names
     QSqlQuery getColumns("PRAGMA table_info(number_name);", ::dbH.bibleDb);
@@ -95,7 +100,8 @@ void SettingsWindow::getBooknameLanguages() {
     }
 }
 
-void SettingsWindow::cancelSettings() {
+void SettingsWindow::cancelSettings()
+{
     // set to conf file values, after cancel btn click or on startup
     QSettings settings(settingsFile.fileName(), QSettings::IniFormat);
     guiLanguage = settings.value("guiLanguage", "english").toString();
@@ -145,7 +151,8 @@ void SettingsWindow::cancelSettings() {
     emit fontChanged(font, fontS, margin, width);
 }
 
-void SettingsWindow::writeSettings() {
+void SettingsWindow::writeSettings()
+{
     QSettings settings(settingsFile.fileName(), QSettings::IniFormat);
     guiLanguage = ui->gui_lang_cb->currentText();
     bknLanguage = ui->bkn_lang_cb->currentText();
@@ -184,7 +191,8 @@ void SettingsWindow::writeSettings() {
     applySettings();
 }
 
-void SettingsWindow::applySettings() {
+void SettingsWindow::applySettings()
+{
     bknLanguage = ui->bkn_lang_cb->currentText();
     font = ui->font_cb->currentText();
     fontS = ui->font_size_cb->currentText();

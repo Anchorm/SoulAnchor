@@ -17,7 +17,7 @@
 
 int main(int argc, char *argv[]) {
     QApplication app(argc, argv);
-    QApplication::setApplicationVersion("1.03");
+    QApplication::setApplicationVersion("1.04");
 
     QCommandLineParser parser;
     parser.setApplicationDescription("SoulAnchor - X11 Bible tool");

@@ -19,7 +19,8 @@ void Roster::on_pb_close_clicked()
     hide();
 }
 
-void Roster::hideEvent(QHideEvent *){
+void Roster::hideEvent(QHideEvent *)
+{
     ui->te_preview->clear();
 }
 
@@ -223,7 +224,7 @@ void Roster::on_cb_what_currentTextChanged()
 {
     QSettings settings(settingsFile.fileName(), QSettings::IniFormat);
     QString what = ui->cb_what->currentData(0x0100).toString();
-    QString lang = settings.value("bknLanguage").toString();
+    QString lang = settings.value("bknLanguage", "english").toString();
     if (lang.isEmpty()) lang = "english";
 
     if (what == "all books") {
@@ -253,10 +254,15 @@ void Roster::on_cb_what_currentTextChanged()
     }
 }
 
-void Roster::populateCb() {
+void Roster::populateCb()
+{
     QSettings settings(settingsFile.fileName(), QSettings::IniFormat);
     QSqlQuery query(dbH.bibleDb);
-    query.prepare("SELECT genre_nr, name_english FROM genre_desc");
+
+    QString lang = settings.value("bknLanguage", "english").toString();
+    if (lang.isEmpty()) lang = "english";
+
+    query.prepare("SELECT genre_nr, name_" + lang + " FROM genre_desc");
 
     ui->cb_what->addItem(tr("all books"), "all books");
     ui->cb_what->addItem(tr("O.T."), "O.T.");

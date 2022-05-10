@@ -112,13 +112,15 @@ ParWindow::ParWindow(QWidget *parent) : QWidget(parent, Qt::Window)
     createOtNtMenus();
 }
 
-void ParWindow::setStyle(const QHash<QString, QString> &clrScheme) {
+void ParWindow::setStyle(const QHash<QString, QString> &clrScheme)
+{
     scheme = clrScheme;
     QString css = "background-color:" + clrScheme["bgClr"];
     te->setStyleSheet(css);
 }
 
-void ParWindow::setTlandJob(const QString &tlAbbr, const QHash<QString, int> &job) {
+void ParWindow::setTlandJob(const QString &tlAbbr, const QHash<QString, int> &job)
+{
     bool tlChecked = false;
 
     for (QCheckBox *cb: qAsConst(chkBoxes)) {
@@ -144,15 +146,18 @@ void ParWindow::setTlandJob(const QString &tlAbbr, const QHash<QString, int> &jo
     centerWindow();
 }
 
-void ParWindow::toggleFullscreen(){
+void ParWindow::toggleFullscreen()
+{
     isFullScreen() ? showNormal() : showFullScreen();
 }
 
-void ParWindow::escapeKey(){
+void ParWindow::escapeKey()
+{
     if ( isFullScreen() ) showNormal();
 }
 
-void ParWindow::nextChapter(){
+void ParWindow::nextChapter()
+{
     if (lastBookNumber == 0 || lastChapNumber == 0) {
         return;
     } else {
@@ -172,7 +177,8 @@ void ParWindow::nextChapter(){
     }
 }
 
-void ParWindow::prevChapter(){
+void ParWindow::prevChapter()
+{
     if (lastBookNumber == 0 || lastChapNumber == 0) {
         return;
     } else {
@@ -191,7 +197,8 @@ void ParWindow::prevChapter(){
     }
 }
 
-void ParWindow::popupChapters(int bkNr) {
+void ParWindow::popupChapters(int bkNr)
+{
     // called from the customcontextmenu
     if (bkNr == 0){
         te->setHtml("let us select a book first");
@@ -220,7 +227,8 @@ void ParWindow::popupChapters(int bkNr) {
     }
 }
 
-void ParWindow::createOtNtMenus() {  
+void ParWindow::createOtNtMenus()
+{
     QSettings settings(settingsFile.fileName(), QSettings::IniFormat);
     QString lang = settings.value("bknLanguage", "english").toString();
 
@@ -242,7 +250,8 @@ void ParWindow::createOtNtMenus() {
     }
 }
 
-void ParWindow::ccMenuParW(){
+void ParWindow::ccMenuParW()
+{
     QMenu ccMenu(this);
     ccMenu.addMenu(otMenu);
     ccMenu.addMenu(ntMenu);
@@ -282,7 +291,8 @@ void ParWindow::ccMenuParW(){
 
 }
 
-void ParWindow::centerWindow(){
+void ParWindow::centerWindow()
+{
     if (parentWidget())
     {
         QScreen* activeScreen = parentWidget()->screen();
@@ -300,7 +310,8 @@ void ParWindow::centerWindow(){
     }
 }
 
-void ParWindow::checkTls() {
+void ParWindow::checkTls()
+{
     // set QCheckBoxes checked state
     QString selection = cb_select->currentText();
 
@@ -322,7 +333,8 @@ void ParWindow::checkTls() {
     }
 }
 
-void ParWindow::printRequest() {
+void ParWindow::printRequest()
+{
     QString request = leInput->text();
 
     if (request.isEmpty() and history.isEmpty()) {
@@ -436,7 +448,8 @@ void ParWindow::printRequest() {
     }
 }
 
-void ParWindow::printScriptures(){
+void ParWindow::printScriptures()
+{
     QHash<QString, int > job;
 
     if (not printQ.isEmpty()) {
