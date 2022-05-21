@@ -18,9 +18,12 @@ SoulAnchor is a Bible reading tool for the Linux desktop build with the Qt frame
 Arch Linux: use the PKGBUILD from the [AUR](https://aur.archlinux.org/packages/soulanchor "archlinux user depository")
 
 Manually: `qmake6` , `make`, `sudo make install`  
-Note: if you keep the build directory you can later use `sudo make uninstall DEL_DIR='rmdir -p --ignore-fail-on-non-empty'`  
-Note2: the default install prefix is `/usr`. This can be changed with `qmake6 PREFIX=/dir`  
-Note3: qmake6 is using qt6 which is required  
+ 
+Notes:  
+* if you keep the build directory you can later use `sudo make uninstall DEL_DIR='rmdir -p --ignore-fail-on-non-empty'`  
+* the default install prefix is `/usr`. This can be changed with `qmake6 PREFIX=/dir`  
+* qmake6 is using qt6 which is required  
+* you can speed up make with make -j$(nproc)  
 
 &nbsp;
 

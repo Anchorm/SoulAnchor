@@ -1,3 +1,14 @@
+/******************************************************
+   SoulAnchor - X11 Bible reading tool
+   by Anchorman - soulanchor at protonmail dot com
+
+   this hope we have as an anchor of the soul
+   a hope both sure and steadfast
+   and one which enters within the veil
+   (Hebrews 6:19)
+
+*******************************************/
+
 #include "settingswindow.h"
 
 SettingsWindow::SettingsWindow(QWidget *parent) :
@@ -15,6 +26,7 @@ SettingsWindow::SettingsWindow(QWidget *parent) :
     getSchemes();
     setCbFontSize();
     setCbTranslations();
+    setCbSubheadings();
     cancelSettings(); //set the right states from config
 }
 
@@ -53,14 +65,32 @@ void SettingsWindow::setCbTranslations()
 {
     ui->tl_cb->clear();
     QString sql = "SELECT abbreviation "
-                  "FROM bible_version_key ORDER BY abbreviation ASC";
+                  "FROM version_info ORDER BY abbreviation ASC";
     QSqlQuery query(sql, dbH.bibleDb );
     QString abbr;
 
     while (query.next())
     {
-        abbr = query.value(0).toString();
+        abbr = query.value(0).toString().toUpper();
         ui->tl_cb->addItem(abbr, abbr);
+    }
+}
+
+void SettingsWindow::setCbSubheadings()
+{
+    ui->subheadings_cb->clear();
+    QString sql = "SELECT * from pragma_table_list ";
+    QSqlQuery query(sql, dbH.extraDb );
+    QString columnName;
+    QString subheadings;
+    ui->subheadings_cb->addItem("none");
+
+    while (query.next()) {
+        columnName = query.value(1).toString();
+        if (columnName.startsWith("subheadings_")) {
+            subheadings = columnName.sliced(12).toUpper();
+            ui->subheadings_cb->addItem(subheadings);
+        }
     }
 }
 
@@ -68,7 +98,7 @@ void SettingsWindow::getSchemes()
 {
     // get the color schemes and fill the combobox
     QSettings settings(settingsFile.fileName(), QSettings::IniFormat);
-    settings.beginGroup("Schemes");
+    settings.beginGroup("schemes");
     QStringList schemes = settings.allKeys();
     settings.endGroup();
 
@@ -105,15 +135,17 @@ void SettingsWindow::cancelSettings()
     // set to conf file values, after cancel btn click or on startup
     QSettings settings(settingsFile.fileName(), QSettings::IniFormat);
     guiLanguage = settings.value("guiLanguage", "english").toString();
-    bknLanguage = settings.value("bknLanguage", "english").toString();
+    bknLanguage = settings.value("booknameLanguage", "english").toString();
     startup = settings.value("startup", "nothing").toString();
     tab = settings.value("tab", "Contents").toString();
-    translation = settings.value("translation", "NET").toString();
+    translation = settings.value("translation", "net").toString().toUpper();
+    subheadings = settings.value("subheadings", "net").toString().toUpper();
 
-    font = settings.value("Font/font", "sans").toString();
-    fontS =  settings.value("Font/fontsize", "12").toString();
-    scrCheck =  settings.value("Font/scrCheck", "false").toBool();
-    bkchCheck =  settings.value("Font/bkchCheck", "false").toBool();
+    font = settings.value("font/font", "sans").toString();
+    fontS =  settings.value("font/fontsize", "12").toString();
+    scrCheck =  settings.value("font/scripturesChecked", "false").toBool();
+    bkCheck =  settings.value("font/booksChecked", "false").toBool();
+    chCheck =  settings.value("font/chaptersChecked", "false").toBool();
 
     margin = settings.value("margin", "14").toInt();
     display = settings.value("display", "table").toString();
@@ -126,18 +158,25 @@ void SettingsWindow::cancelSettings()
     ui->start_cb->setCurrentText(startup);
     ui->tab_cb->setCurrentText(tab);
     ui->tl_cb->setCurrentText(translation);
+    ui->subheadings_cb->setCurrentText(subheadings);
 
     ui->font_cb->setCurrentText(font);
     ui->font_size_cb->setCurrentText(fontS);
+    // scriptures checked, books listwidget, chapters listwidget
     if (scrCheck) {
         ui->font_script_chkb->setCheckState(Qt::Checked);
     } else {
         ui->font_script_chkb->setCheckState(Qt::Unchecked);
     }
-    if (bkchCheck) {
-        ui->font_bkch_chkb->setCheckState(Qt::Checked);
+    if (bkCheck) {
+        ui->font_bk_chkb->setCheckState(Qt::Checked);
     } else {
-        ui->font_bkch_chkb->setCheckState(Qt::Unchecked);
+        ui->font_bk_chkb->setCheckState(Qt::Unchecked);
+    }
+    if (chCheck) {
+        ui->font_ch_chkb->setCheckState(Qt::Checked);
+    } else {
+        ui->font_ch_chkb->setCheckState(Qt::Unchecked);
     }
 
     ui->margin_slider->setValue(margin);
@@ -149,21 +188,25 @@ void SettingsWindow::cancelSettings()
     emit booknameLangChanged(bknLanguage);
     emit schemeChanged(activeScheme);
     emit fontChanged(font, fontS, margin, width);
+    emit subheadingsChanged(translation, subheadings);
 }
 
 void SettingsWindow::writeSettings()
 {
+    // OK btn
     QSettings settings(settingsFile.fileName(), QSettings::IniFormat);
     guiLanguage = ui->gui_lang_cb->currentText();
     bknLanguage = ui->bkn_lang_cb->currentText();
     startup = ui->start_cb->currentText();
     tab = ui->tab_cb->currentText();
-    translation = ui->tl_cb->currentText();
+    translation = ui->tl_cb->currentText().toLower();
+    subheadings = ui->subheadings_cb->currentText().toLower();
 
     font = ui->font_cb->currentText();
     fontS = ui->font_size_cb->currentText();
     scrCheck =  ui->font_script_chkb->isChecked();
-    bkchCheck = ui->font_bkch_chkb->isChecked();
+    bkCheck = ui->font_bk_chkb->isChecked();
+    chCheck = ui->font_ch_chkb->isChecked();
 
     margin = ui->margin_slider->value();
     display = ui->display_cb->currentText();
@@ -171,15 +214,17 @@ void SettingsWindow::writeSettings()
     activeScheme = ui->scheme_cb->currentText();
 
     settings.setValue("guiLanguage", guiLanguage);
-    settings.setValue("bknLanguage", bknLanguage);
+    settings.setValue("booknameLanguage", bknLanguage);
     settings.setValue("startup", startup);
     settings.setValue("tab", tab);
     settings.setValue("translation", translation);
+    settings.setValue("subheadings", subheadings);
 
-    settings.setValue("Font/font", font);
-    settings.setValue("Font/fontsize", fontS);
-    settings.setValue("Font/scrCheck", scrCheck);
-    settings.setValue("Font/bkchCheck",bkchCheck);
+    settings.setValue("font/font", font);
+    settings.setValue("font/fontsize", fontS);
+    settings.setValue("font/scripturesChecked", scrCheck);
+    settings.setValue("font/booksChecked", bkCheck);
+    settings.setValue("font/chaptersChecked", chCheck);
 
     settings.setValue("margin", margin);
     settings.setValue("display", display);
@@ -193,6 +238,8 @@ void SettingsWindow::writeSettings()
 
 void SettingsWindow::applySettings()
 {
+    translation = ui->tl_cb->currentText().toLower();
+    subheadings = ui->subheadings_cb->currentText().toLower();
     bknLanguage = ui->bkn_lang_cb->currentText();
     font = ui->font_cb->currentText();
     fontS = ui->font_size_cb->currentText();
@@ -203,4 +250,5 @@ void SettingsWindow::applySettings()
     emit booknameLangChanged(bknLanguage);
     emit schemeChanged(activeScheme);
     emit fontChanged(font, fontS, margin, width);
+    emit subheadingsChanged(translation, subheadings);
 }

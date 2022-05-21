@@ -879,19 +879,6 @@ hr { height: 1px; border-width: 0; }
              </layout>
             </item>
             <item>
-             <spacer name="verticalSpacer_2">
-              <property name="orientation">
-               <enum>Qt::Vertical</enum>
-              </property>
-              <property name="sizeHint" stdset="0">
-               <size>
-                <width>20</width>
-                <height>6</height>
-               </size>
-              </property>
-             </spacer>
-            </item>
-            <item>
              <widget class="QPushButton" name="btn_daily_proverb">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
@@ -1293,16 +1280,10 @@ hr { height: 1px; border-width: 0; }
              <verstretch>1</verstretch>
             </sizepolicy>
            </property>
-           <property name="minimumSize">
-            <size>
-             <width>0</width>
-             <height>200</height>
-            </size>
-           </property>
            <property name="maximumSize">
             <size>
-             <width>500</width>
-             <height>99999</height>
+             <width>230</width>
+             <height>16777215</height>
             </size>
            </property>
            <property name="font">
@@ -1320,6 +1301,9 @@ hr { height: 1px; border-width: 0; }
            <property name="styleSheet">
             <string notr="true"/>
            </property>
+           <property name="text">
+            <string/>
+           </property>
           </widget>
          </item>
          <item>
@@ -1333,7 +1317,7 @@ hr { height: 1px; border-width: 0; }
            <property name="sizeHint" stdset="0">
             <size>
              <width>20</width>
-             <height>10</height>
+             <height>20</height>
             </size>
            </property>
           </spacer>
@@ -1371,7 +1355,7 @@ hr { height: 1px; border-width: 0; }
             <enum>Qt::CustomContextMenu</enum>
            </property>
            <property name="text">
-            <string notr="true"/>
+            <string notr="true">enc img</string>
            </property>
            <property name="flat">
             <bool>true</bool>
@@ -1390,7 +1374,7 @@ hr { height: 1px; border-width: 0; }
        </property>
        <property name="sizePolicy">
         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-         <horstretch>1</horstretch>
+         <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
@@ -1421,9 +1405,6 @@ hr { height: 1px; border-width: 0; }
        <property name="contextMenuPolicy">
         <enum>Qt::CustomContextMenu</enum>
        </property>
-       <property name="autoFillBackground">
-        <bool>false</bool>
-       </property>
        <property name="frameShape">
         <enum>QFrame::NoFrame</enum>
        </property>
@@ -1434,6 +1415,9 @@ hr { height: 1px; border-width: 0; }
         <number>0</number>
        </property>
        <layout class="QGridLayout" name="gridLayout">
+        <property name="sizeConstraint">
+         <enum>QLayout::SetDefaultConstraint</enum>
+        </property>
         <property name="leftMargin">
          <number>0</number>
         </property>
@@ -1540,7 +1524,7 @@ hr { height: 1px; border-width: 0; }
                <number>0</number>
               </property>
               <property name="childrenCollapsible">
-               <bool>false</bool>
+               <bool>true</bool>
               </property>
               <widget class="QFrame" name="booktitle_frame">
                <property name="maximumSize">
@@ -1574,103 +1558,6 @@ hr { height: 1px; border-width: 0; }
                 <property name="spacing">
                  <number>0</number>
                 </property>
-                <item row="1" column="1">
-                 <widget class="QListWidget" name="lw_chapters">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                  <property name="minimumSize">
-                   <size>
-                    <width>30</width>
-                    <height>30</height>
-                   </size>
-                  </property>
-                  <property name="maximumSize">
-                   <size>
-                    <width>16777215</width>
-                    <height>70</height>
-                   </size>
-                  </property>
-                  <property name="font">
-                   <font>
-                    <italic>false</italic>
-                    <bold>false</bold>
-                    <underline>false</underline>
-                    <strikeout>false</strikeout>
-                    <kerning>true</kerning>
-                   </font>
-                  </property>
-                  <property name="contextMenuPolicy">
-                   <enum>Qt::PreventContextMenu</enum>
-                  </property>
-                  <property name="autoFillBackground">
-                   <bool>false</bool>
-                  </property>
-                  <property name="frameShape">
-                   <enum>QFrame::NoFrame</enum>
-                  </property>
-                  <property name="frameShadow">
-                   <enum>QFrame::Plain</enum>
-                  </property>
-                  <property name="lineWidth">
-                   <number>0</number>
-                  </property>
-                  <property name="verticalScrollBarPolicy">
-                   <enum>Qt::ScrollBarAsNeeded</enum>
-                  </property>
-                  <property name="horizontalScrollBarPolicy">
-                   <enum>Qt::ScrollBarAlwaysOff</enum>
-                  </property>
-                  <property name="sizeAdjustPolicy">
-                   <enum>QAbstractScrollArea::AdjustIgnored</enum>
-                  </property>
-                  <property name="editTriggers">
-                   <set>QAbstractItemView::NoEditTriggers</set>
-                  </property>
-                  <property name="showDropIndicator" stdset="0">
-                   <bool>false</bool>
-                  </property>
-                  <property name="dragEnabled">
-                   <bool>false</bool>
-                  </property>
-                  <property name="dragDropMode">
-                   <enum>QAbstractItemView::NoDragDrop</enum>
-                  </property>
-                  <property name="defaultDropAction">
-                   <enum>Qt::IgnoreAction</enum>
-                  </property>
-                  <property name="selectionMode">
-                   <enum>QAbstractItemView::ExtendedSelection</enum>
-                  </property>
-                  <property name="flow">
-                   <enum>QListView::LeftToRight</enum>
-                  </property>
-                  <property name="isWrapping" stdset="0">
-                   <bool>true</bool>
-                  </property>
-                  <property name="resizeMode">
-                   <enum>QListView::Adjust</enum>
-                  </property>
-                  <property name="spacing">
-                   <number>1</number>
-                  </property>
-                  <property name="viewMode">
-                   <enum>QListView::ListMode</enum>
-                  </property>
-                  <property name="wordWrap">
-                   <bool>true</bool>
-                  </property>
-                  <property name="selectionRectVisible">
-                   <bool>false</bool>
-                  </property>
-                  <property name="itemAlignment">
-                   <set>Qt::AlignCenter</set>
-                  </property>
-                 </widget>
-                </item>
                 <item row="0" column="0" rowspan="2">
                  <widget class="QToolButton" name="btn_prev_chap">
                   <property name="sizePolicy">
@@ -1767,6 +1654,97 @@ hr { height: 1px; border-width: 0; }
                   </property>
                  </widget>
                 </item>
+                <item row="1" column="1">
+                 <widget class="QListWidget" name="lw_chapters">
+                  <property name="minimumSize">
+                   <size>
+                    <width>30</width>
+                    <height>30</height>
+                   </size>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>16777215</width>
+                    <height>70</height>
+                   </size>
+                  </property>
+                  <property name="font">
+                   <font>
+                    <italic>false</italic>
+                    <bold>false</bold>
+                    <underline>false</underline>
+                    <strikeout>false</strikeout>
+                    <kerning>true</kerning>
+                   </font>
+                  </property>
+                  <property name="contextMenuPolicy">
+                   <enum>Qt::PreventContextMenu</enum>
+                  </property>
+                  <property name="autoFillBackground">
+                   <bool>false</bool>
+                  </property>
+                  <property name="frameShape">
+                   <enum>QFrame::NoFrame</enum>
+                  </property>
+                  <property name="frameShadow">
+                   <enum>QFrame::Plain</enum>
+                  </property>
+                  <property name="lineWidth">
+                   <number>0</number>
+                  </property>
+                  <property name="verticalScrollBarPolicy">
+                   <enum>Qt::ScrollBarAsNeeded</enum>
+                  </property>
+                  <property name="horizontalScrollBarPolicy">
+                   <enum>Qt::ScrollBarAlwaysOff</enum>
+                  </property>
+                  <property name="sizeAdjustPolicy">
+                   <enum>QAbstractScrollArea::AdjustIgnored</enum>
+                  </property>
+                  <property name="editTriggers">
+                   <set>QAbstractItemView::NoEditTriggers</set>
+                  </property>
+                  <property name="showDropIndicator" stdset="0">
+                   <bool>false</bool>
+                  </property>
+                  <property name="dragEnabled">
+                   <bool>false</bool>
+                  </property>
+                  <property name="dragDropMode">
+                   <enum>QAbstractItemView::NoDragDrop</enum>
+                  </property>
+                  <property name="defaultDropAction">
+                   <enum>Qt::IgnoreAction</enum>
+                  </property>
+                  <property name="selectionMode">
+                   <enum>QAbstractItemView::ExtendedSelection</enum>
+                  </property>
+                  <property name="flow">
+                   <enum>QListView::LeftToRight</enum>
+                  </property>
+                  <property name="isWrapping" stdset="0">
+                   <bool>true</bool>
+                  </property>
+                  <property name="resizeMode">
+                   <enum>QListView::Adjust</enum>
+                  </property>
+                  <property name="spacing">
+                   <number>1</number>
+                  </property>
+                  <property name="viewMode">
+                   <enum>QListView::ListMode</enum>
+                  </property>
+                  <property name="wordWrap">
+                   <bool>true</bool>
+                  </property>
+                  <property name="selectionRectVisible">
+                   <bool>false</bool>
+                  </property>
+                  <property name="itemAlignment">
+                   <set>Qt::AlignCenter</set>
+                  </property>
+                 </widget>
+                </item>
                </layout>
               </widget>
               <widget class="QTextBrowser" name="tb_scriptures">
@@ -1778,29 +1756,6 @@ hr { height: 1px; border-width: 0; }
                  <horstretch>0</horstretch>
                  <verstretch>0</verstretch>
                 </sizepolicy>
-               </property>
-               <property name="minimumSize">
-                <size>
-                 <width>0</width>
-                 <height>0</height>
-                </size>
-               </property>
-               <property name="maximumSize">
-                <size>
-                 <width>16777215</width>
-                 <height>16777215</height>
-                </size>
-               </property>
-               <property name="sizeIncrement">
-                <size>
-                 <width>0</width>
-                 <height>0</height>
-                </size>
-               </property>
-               <property name="font">
-                <font>
-                 <family>Bitstream Vera Sans</family>
-                </font>
                </property>
                <property name="contextMenuPolicy">
                 <enum>Qt::NoContextMenu</enum>
@@ -2789,8 +2744,8 @@ hr { height: 1px; border-width: 0; }
     <addaction name="action_overview"/>
     <addaction name="action_emergency"/>
     <addaction name="action_salvation"/>
-    <addaction name="action_shortcuts"/>
     <addaction name="separator"/>
+    <addaction name="action_shortcuts"/>
     <addaction name="action_modifications"/>
     <addaction name="action_about"/>
    </widget>
@@ -3243,12 +3198,12 @@ hr { height: 1px; border-width: 0; }
    <slot>hide()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>290</x>
-     <y>1019</y>
+     <x>257</x>
+     <y>909</y>
     </hint>
     <hint type="destinationlabel">
-     <x>1263</x>
-     <y>1019</y>
+     <x>787</x>
+     <y>911</y>
     </hint>
    </hints>
   </connection>
@@ -3259,12 +3214,12 @@ hr { height: 1px; border-width: 0; }
    <slot>hide()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>2238</x>
-     <y>35</y>
+     <x>1042</x>
+     <y>59</y>
     </hint>
     <hint type="destinationlabel">
-     <x>1931</x>
-     <y>528</y>
+     <x>1044</x>
+     <y>552</y>
     </hint>
    </hints>
   </connection>

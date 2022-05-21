@@ -1,3 +1,14 @@
+/******************************************************
+   SoulAnchor - X11 Bible reading tool
+   by Anchorman - soulanchor at protonmail dot com
+
+   this hope we have as an anchor of the soul
+   a hope both sure and steadfast
+   and one which enters within the veil
+   (Hebrews 6:19)
+
+*******************************************/
+
 #include "roster.h"
 
 Roster::Roster(QWidget *parent) :    QWidget(parent, Qt::Window),
@@ -224,7 +235,7 @@ void Roster::on_cb_what_currentTextChanged()
 {
     QSettings settings(settingsFile.fileName(), QSettings::IniFormat);
     QString what = ui->cb_what->currentData(0x0100).toString();
-    QString lang = settings.value("bknLanguage", "english").toString();
+    QString lang = settings.value("booknameLanguage", "english").toString();
     if (lang.isEmpty()) lang = "english";
 
     if (what == "all books") {
@@ -259,7 +270,7 @@ void Roster::populateCb()
     QSettings settings(settingsFile.fileName(), QSettings::IniFormat);
     QSqlQuery query(dbH.bibleDb);
 
-    QString lang = settings.value("bknLanguage", "english").toString();
+    QString lang = settings.value("booknameLanguage", "english").toString();
     if (lang.isEmpty()) lang = "english";
 
     query.prepare("SELECT genre_nr, name_" + lang + " FROM genre_desc");

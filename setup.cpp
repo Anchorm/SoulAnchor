@@ -1,3 +1,14 @@
+/******************************************************
+   SoulAnchor - X11 Bible reading tool
+   by Anchorman - soulanchor at protonmail dot com
+
+   this hope we have as an anchor of the soul
+   a hope both sure and steadfast
+   and one which enters within the veil
+   (Hebrews 6:19)
+
+*******************************************/
+
 #include "setup.h"
 
 void setDataDir()
@@ -56,8 +67,8 @@ void setUserCfgDirAndSettings()
         if (::userCfgDir.mkpath(cfgPath)) {
             ::sout << ::userCfgDir.path() << " created" << Qt::endl;
         } else {
-            ::sout << " App config path not found and could not be created." << Qt::endl;
-            ::sout << "path: " << cfgPath << Qt::endl;
+            ::sout << "User config path not found and could not be created." << Qt::endl;
+            ::sout << " check: " << cfgPath << Qt::endl;
             exit(1);
         }
     } else {
@@ -78,8 +89,30 @@ void setUserCfgDirAndSettings()
         }
     }
 
-    ::settingsFile.setFileName(configFile.fileName()) ;
+    ::settingsFile.setFileName(configFile.fileName());
     // create a settings object whenever you need it
+
+    QSettings settings(settingsFile.fileName(), QSettings::IniFormat);
+    QString version = settings.value("version").toString();
+    if (version != QGuiApplication::applicationVersion()) {
+        QString msg = "soulanchor.conf is not the correct version\n";
+        ::sout << "soulanchor.conf is not the correct version" << Qt::endl;
+
+        if (settingsFile.remove()) {
+            msg.append("soulanchor.conf removed, restart needed\n");
+            ::sout << "soulanchor.conf removed, restart needed" << Qt::endl;
+        } else {
+            msg.append("could not delete soulanchor.conf, manual deletion needed\n");
+            msg.append("check: " + ::userCfgDir.path());
+            ::sout << "could not delete soulanchor.conf, manual deletion needed" << Qt::endl;
+            ::sout << "check: " << ::userCfgDir.path();
+        }
+
+        QMessageBox msgBox;
+        msgBox.setText(msg);
+        msgBox.exec();
+        exit(1);
+    }
 
 // Qt documentation:   Sometimes you do want to access settings stored in a specific file or registry path. On all platforms, if you want to read an INI file directly, you can use the QSettings constructor that takes a file name as first argument and pass QSettings::IniFormat as second argument. For example:
 }

@@ -1,6 +1,6 @@
  /******************************************************
-    SoulAnchor - X11 Bible tool
-    by anchorman - soulanchor at protonmail dot com
+    SoulAnchor - X11 Bible reading tool
+    by Anchorman - soulanchor at protonmail dot com
 
     this hope we have as an anchor of the soul
     a hope both sure and steadfast
@@ -17,10 +17,10 @@
 
 int main(int argc, char *argv[]) {
     QApplication app(argc, argv);
-    QApplication::setApplicationVersion("1.04");
+    QApplication::setApplicationVersion("1.05");
 
     QCommandLineParser parser;
-    parser.setApplicationDescription("SoulAnchor - X11 Bible tool");
+    parser.setApplicationDescription("SoulAnchor - X11 Bible reading tool");
     parser.addVersionOption();
     parser.addHelpOption();
     parser.process(app);

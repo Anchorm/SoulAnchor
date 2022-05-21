@@ -34,7 +34,6 @@
 <p id="1a"><b>1.a translations</b></p>
 
 <p>The bibles.db database is based upon: https://github.com/scrollmapper/bible_databases</p>
-<p>The id column is not used.</p>
 
 <p>To REMOVE a translation:</p>
 <ul>
@@ -57,6 +56,8 @@ It should have these columns for book number / chapter number / verse number and
 The abbreviation and version column are used for the combo boxes.</p>
 
 <p>I can recommend the excellent DB Browser for SQLite software: https://sqlitebrowser.org</p>
+
+<p>If you like to use a database that has more resources you can also send me a message.</p>
 
 <p id="1b"><b>1.b booknames language</b></p>
 
@@ -149,7 +150,7 @@ added to the text contemplations menu.</p>
 <p>The soulanchor_english.ts in the data/lang source folder can be used with the Qt Linguist application in order to produce a soulanchor_yourlanguage.qm file. The .qm file should be placed in the same data/lang directory.</p>
 
 <p>Now a line should be added to the soulanchor.qrc file. With qtCreator or manually.</p>
-<p>E.g. <file>data/lang/soulanchor_yourlanguage.qm</file></p>
+<p>E.g. &lt;file&gt;data/lang/soulanchor_yourlanguage.qm&lt;/file&gt;</p>
 
 <p>After building the source, this file will become part of the app's resources. The 'yourlanguage' part of the filename will be used in the settings menu for the GUI language combobox. </p>
 

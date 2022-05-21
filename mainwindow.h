@@ -1,3 +1,14 @@
+/******************************************************
+   SoulAnchor - X11 Bible reading tool
+   by Anchorman - soulanchor at protonmail dot com
+
+   this hope we have as an anchor of the soul
+   a hope both sure and steadfast
+   and one which enters within the veil
+   (Hebrews 6:19)
+
+*******************************************/
+
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
@@ -219,82 +230,95 @@ class MainWindow : public QMainWindow
         };
 
     // regular expressions
-    const QString strongPattern =
+    const QString *strongPattern = new QString(
             "(?<strongStartTag><S>)"
             "\\s*(?<strongNr>\\d+)"
-            "\\s*(?<strongEndTag></S>)";
-    const QRegularExpression *strongRegex = new QRegularExpression(strongPattern);
+            "\\s*(?<strongEndTag></S>)");
+    const QRegularExpression *strongRegex = new QRegularExpression(*strongPattern);
 
-    const QString strongPattern2 =
+    const QString *strongPattern2 = new QString(
             "\\s*"
             "[gGhH]"
             "\\d{1,4}"
-            "\\s*";
-    const QRegularExpression *getStrongRegex = new QRegularExpression(strongPattern2);
+            "\\s*");
+    const QRegularExpression *getStrongRegex = new QRegularExpression(*strongPattern2);
 
     QRegularExpression *audioBibleRegex = new QRegularExpression();
 
-    const QString twotPattern =
+    const QString *twotPattern = new QString(
             "\\s*"
             "\\d{1,4}"
-            "\\s*";
-    const QRegularExpression *twotRegex = new QRegularExpression(twotPattern);
+            "\\s*");
+    const QRegularExpression *twotRegex = new QRegularExpression(*twotPattern);
 
-    const QString psalmPattern =
+    const QString *psalmPattern = new QString(
             "\\s*(?<ps>[pP][sS][aA][lL][mM])"
-            "\\s*(?<ch>\\d{1,3})";
+            "\\s*(?<ch>\\d{1,3})");
 
-    const QString hymnPattern =
-            "(?<Hymn>hymns)";
+    const QString *hymnPattern = new QString("(?<Hymn>hymns)");
 
-    const QString scripPattern =
+    const QString *scripPattern = new QString(
             "\\s*(?<prt>[1-3]?)"
             "\\s*(?<bk>[a-zA-Zëüï]{2,30})"
             "\\s*(?<ch1>\\d{0,3})"
             "-?(?<ch2>\\d{0,3})"
             ":?(?<vs1>\\d{0,3})"
-            "-?(?<vs2>\\d{0,3})";
+            "-?(?<vs2>\\d{0,3})");
 
-    const QRegularExpression *psalmRegex = new QRegularExpression(psalmPattern);
-    const QRegularExpression *hymnRegex = new QRegularExpression(hymnPattern);
-    const QRegularExpression *scripRegex = new QRegularExpression(scripPattern);
+    const QRegularExpression *psalmRegex = new QRegularExpression(*psalmPattern);
+    const QRegularExpression *hymnRegex = new QRegularExpression(*hymnPattern);
+    const QRegularExpression *scripRegex = new QRegularExpression(*scripPattern);
 
-    const QString bkPattern = "(^\\d{0,1}"
+    const QString *bkPattern = new QString("(^\\d{0,1}"
                         "[A-Z]{1}[a-z]+)"
                         ".{1}"
                         "(\\d+)"
                         ".{1}"
-                        "(\\d+)";
-    const QRegularExpression *bkRegex = new QRegularExpression(bkPattern);
+                        "(\\d+)");
+    const QRegularExpression *bkRegex = new QRegularExpression(*bkPattern);
 
-    const QString chPattern = "-(\\d{0,1}"
+    const QString *chPattern = new QString("-(\\d{0,1}"
                         "[A-Z]{1}[a-z]+)"
                         ".{1}"
                         "(\\d+)"
                         ".{1}"
-                        "(\\d+)$";
-    const QRegularExpression *chRegex = new QRegularExpression(chPattern);
+                        "(\\d+)$");
+    const QRegularExpression *chRegex = new QRegularExpression(*chPattern);
 
-    const QString nrPattern ="\\s*\\d+\\s*";
-    const QRegularExpression *nrRegex = new QRegularExpression(nrPattern);
+    const QString *nrPattern = new QString("\\s*\\d+\\s*");
+    const QRegularExpression *nrRegex = new QRegularExpression(*nrPattern);
 
     // spurgeon scripture links
-    const QString spurPattern = "href='B:"
+    const QString spurgeonUrlPattern = "href='B:"
                                "(?<scrip>\\d{0,3}\\s*\\d{0,3}:\\d{0,3})"
                                "'";
-    const QRegularExpression *urlRegex = new QRegularExpression(spurPattern);
+    const QRegularExpression *SpurgeonUrlRegex = new QRegularExpression(spurgeonUrlPattern);
+
+    // footnotes
+    const QString *notePattern = new QString("<f>\\[(\\d+)\\]</f>");
+    const QRegularExpression *noteRegex = new QRegularExpression(*notePattern);
+    const QString *breakPattern = new QString("^<pb/>");
+    const QRegularExpression *breakRegex = new QRegularExpression(*breakPattern);
+
+    const QString *tagPattern = new QString("</?\\w+>|<pb/>");
+    const QRegularExpression *tagRegex = new QRegularExpression(*tagPattern);
+
+    QString activeTl; //active translation
+    bool hasNotes = false; // translation has footnotes?
+    QString activeSubh; //active subheadings
 
     //QtDocs: The following line declares a member variable which is a pointer to the MainWindow UI class. A member variable is associated with a specific class, and accessible for all its methods.
     Ui::MainWindow *ui;
 
 public:
-    QString activeTL; //active translation
     //QtDocs:The following line declares a constructor that has a default argument called parent.
     //The value 0 indicates that the widget has no parent (it is a top-level widget).
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow() override;
 
 private slots:
+    bool checkTableExists(const QString &activeTl);
+
     void getDictWord(QString word);
     void getDictSug(QString word = "");
     void strongify();
@@ -311,8 +335,10 @@ private slots:
     void bookSelected();
     void chapterSelected();
     void updateBooksWidget(const QString &lang);
+    void updateTLandSubh(const QString &translation, const QString &subheadings);
+    void setHasNotes();
     void updateChapterWidget();
-    void updateCbTranslations();
+    void updateCbTranslations(); // populate comboboxes
     void setTranslation();
     void setBookTitle(QString title = "");
     QString getLongTitle(const int bk);
@@ -351,6 +377,7 @@ private slots:
 
     // tb: QTextBrowser
     void on_tb_scriptures_anchorClicked(const QUrl &url);
+    void breakItUp(QString &textwall);
     void on_search_tb_anchorClicked(const QUrl &url);
     void on_info_tb_anchorClicked(const QUrl &url);
     void on_strongs_tb_anchorClicked(const QUrl &url);
@@ -370,7 +397,7 @@ private slots:
     void escapeKey();
     void setEncTxt();
     void changeEncTxt();
-    void printEncTxt(int bk, int ch, const QString &verse);
+    void printEncTxt(int bk, int ch, int vs, const QString &verse);
     void setEncPic();
     void changeEncPic();
     void showEncPic(const QString &fileName);
@@ -429,7 +456,7 @@ private slots:
     void aboutFilters();
 
     void closeEvent(QCloseEvent*) override;    
-    static void exit();
+    static void exitApp();
     void resizeEvent(QResizeEvent*) override;
 
     void on_cb_roster_read_clicked();

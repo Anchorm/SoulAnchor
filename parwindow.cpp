@@ -1,3 +1,14 @@
+/******************************************************
+   SoulAnchor - X11 Bible reading tool
+   by Anchorman - soulanchor at protonmail dot com
+
+   this hope we have as an anchor of the soul
+   a hope both sure and steadfast
+   and one which enters within the veil
+   (Hebrews 6:19)
+
+*******************************************/
+
 #include "parwindow.h"
 
 ParWindow::ParWindow(QWidget *parent) : QWidget(parent, Qt::Window)
@@ -43,7 +54,7 @@ ParWindow::ParWindow(QWidget *parent) : QWidget(parent, Qt::Window)
 
     cb_select->addItem("none");
 
-    QString getDisLang = "SELECT DISTINCT language FROM BIBLE_VERSION_KEY ORDER BY language;";
+    QString getDisLang = "SELECT DISTINCT language FROM version_info ORDER BY language;";
     QSqlQuery getL(getDisLang, dbH.bibleDb);
 
     while (getL.next()) {
@@ -62,14 +73,14 @@ ParWindow::ParWindow(QWidget *parent) : QWidget(parent, Qt::Window)
 
     //create checkboxes for translations
     QString sqlCb = "SELECT abbreviation, language, version "
-                    "FROM bible_version_key ORDER BY abbreviation ASC";
+                    "FROM version_info ORDER BY abbreviation ASC";
     QSqlQuery getCb(sqlCb, dbH.bibleDb);
     QString abbr;
     QString lang;
     QString desc;
 
     while ( getCb.next() ) {
-        abbr = getCb.value(0).toString();
+        abbr = getCb.value(0).toString().toUpper();
         lang = getCb.value(1).toString();
         desc = getCb.value(2).toString();
 
@@ -230,7 +241,7 @@ void ParWindow::popupChapters(int bkNr)
 void ParWindow::createOtNtMenus()
 {
     QSettings settings(settingsFile.fileName(), QSettings::IniFormat);
-    QString lang = settings.value("bknLanguage", "english").toString();
+    QString lang = settings.value("booknameLanguage", "english").toString();
 
     QString sqlQ = "SELECT book_nr, testament, name_" + lang + " FROM number_name";
     QSqlQuery query(sqlQ, dbH.bibleDb);
@@ -298,9 +309,9 @@ void ParWindow::centerWindow()
         QScreen* activeScreen = parentWidget()->screen();
         if (activeScreen != nullptr)
         {
-            int width = (parentWidget()->width() / 100) * 90;
-            int height = (parentWidget()->height() / 100) * 90;
-            setMinimumSize(width, height);
+            int width = (parentWidget()->width() / 100) * 80;
+            int height = (parentWidget()->height() / 100) * 80;
+            resize(width, height);
 
             auto winGeo = frameGeometry();
             auto parentGeoCenter = parentWidget()->geometry().center();

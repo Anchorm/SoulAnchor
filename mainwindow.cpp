@@ -1,3 +1,14 @@
+/******************************************************
+   SoulAnchor - X11 Bible reading tool
+   by Anchorman - soulanchor at protonmail dot com
+
+   this hope we have as an anchor of the soul
+   a hope both sure and steadfast
+   and one which enters within the veil
+   (Hebrews 6:19)
+
+*******************************************/
+
 #include "mainwindow.h"
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
@@ -11,8 +22,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
     applyScheme(activeScheme);
 
     // restore window state or set a default state of 80% of the screen
-    QByteArray geo = settings.value("Window/geometry").toByteArray();
-    QByteArray state = settings.value("Window/windowState").toByteArray();
+    QByteArray geo = settings.value("window/geometry").toByteArray();
+    QByteArray state = settings.value("window/windowState").toByteArray();
     if (!geo.isEmpty() && !state.isEmpty()) {
         restoreGeometry(geo);
         restoreState(state);
@@ -28,12 +39,12 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
     QResizeEvent *resEvent = new QResizeEvent(appSize, appSize);
     qApp->postEvent(this, resEvent );
 
-    tab = settings.value("tab", "0").toString();
-    startup = settings.value("startup", "nothing").toString();
-    guiLanguage = settings.value("guiLanguage", "english").toString();
-    bknLanguage = settings.value("bknLanguage", "english").toString();
-    scripDisplay = settings.value("display", "table").toString();
-    rosterRead = settings.value("Rosters/rosterRead", "false").toBool();
+    tab = settings.value("tab", "today").toString().toLower();
+    startup = settings.value("startup", "nothing").toString().toLower();
+    guiLanguage = settings.value("guiLanguage", "english").toString().toLower();
+    bknLanguage = settings.value("booknameLanguage", "english").toString().toLower();
+    scripDisplay = settings.value("display", "table").toString().toLower();
+    rosterRead = settings.value("rosters/rosterRead", "false").toBool();
     docMargin = settings.value("margin", "14").toInt();
     frameWidth = settings.value("width", "10").toInt(); // range 2-10
 
@@ -41,14 +52,14 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
     ui->frame_find->hide();
     textBrowser = ui->tb_scriptures;
 
-    if (tab == "Contents")
+    if (tab == "contents")
         ui->tabwidget->setCurrentIndex(0);
-    else if (tab == "Search")
+    else if (tab == "search")
         ui->tabwidget->setCurrentIndex(1);
     else
         ui->tabwidget->setCurrentIndex(2);
 
-    // tab widget less space than background
+    // tab widget less space than background frame
     ui->splitter_central->setStretchFactor(0,0);
     ui->splitter_central->setStretchFactor(1,1);
 
@@ -64,7 +75,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
     ui->splitter_info->setStretchFactor(0,3);
     ui->splitter_info->setStretchFactor(1,2);
 
-    connect(ui->action_quit, &QAction::triggered, this, &MainWindow::exit, Qt::QueuedConnection);
+    connect(ui->action_quit, &QAction::triggered, this, &MainWindow::exitApp, Qt::QueuedConnection);
     ui->action_quit->setShortcut(QKeySequence("Ctrl+q"));
 
     connect(ui->action_toggle_tab, &QAction::triggered, this, &MainWindow::toggleTabW);
@@ -196,22 +207,27 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
     updateBooksWidget("");
     updateCbTranslations();
 
-    activeTL = settings.value("translation", "NET").toString();
-    if (activeTL.isEmpty()) {
-        activeTL = "NET";
+    activeTl = settings.value("translation", "net").toString().toLower();
+    if (activeTl.isEmpty()) {
+        activeTl = "net";
+    }
+    if (checkTableExists(activeTl) == false) {
+        exit(1);
     }
 
-    int tlIndex = ui->cb_select_translation->findData(activeTL);
+    int tlIndex = ui->cb_select_translation->findData(activeTl);
     if (tlIndex == -1) {
         tlIndex = 0;
     }
-
+    setHasNotes();
     ui->cb_select_translation->setCurrentIndex(tlIndex);
-    QString fullName = ui->cb_select_translation->currentText();
-    ui->search_lbl_tl->setText(fullName);
+
+    ui->search_lbl_tl->setText(ui->cb_select_translation->currentText());
 
     connect(ui->cb_select_translation, &QComboBox::currentTextChanged,
             this, &MainWindow::setTranslation);
+
+    activeSubh = settings.value("subheadings", "net").toString().toLower();
 
     getBooksAbbr();
     createOtNtMenus();
@@ -239,6 +255,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
                      this, &MainWindow::applyScheme);
     QObject::connect(settingsW, &SettingsWindow::booknameLangChanged,
                      this, &MainWindow::updateBooksWidget);
+    QObject::connect(settingsW, &SettingsWindow::subheadingsChanged,
+                     this, &MainWindow::updateTLandSubh);
 
     QObject::connect(this, &MainWindow::parOpened,
                      parW, &ParWindow::setTlandJob);
@@ -249,8 +267,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
     setActiveRoster();
     buildBookmarkMenu();
 
-    iFilter = settings.value("Filters/iFilter").toBool();
-    jFilter = settings.value("Filters/jFilter").toBool();
+    iFilter = settings.value("filters/immersionFilter").toBool();
+    jFilter = settings.value("filters/judeansFilter").toBool();
     ui->action_immersion_filter->setChecked(iFilter);
     ui->action_judeans_filter->setChecked(jFilter);
 
@@ -270,16 +288,22 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
     connect(ui->dict_le, &QLineEdit::textChanged, this, [this](){
         if(ui->dict_le->text().isEmpty()) ui->info_tb->clear(); });
 
+    connect(new QShortcut(QKeySequence("Ctrl+d"),  this),
+            &QShortcut::activated,[=]() {
+                QString dp = ui->tb_scriptures->document()->toHtml();
+                ::sout << dp << Qt::endl;
+            });
+
     rosterRead ? ui->cb_roster_read->setChecked(true) : ui->cb_roster_read->setChecked(false);
     strongTl = "t_akjv_s";
 
     ui->bible_frame->layout()->setAlignment(Qt::AlignHCenter);
     applyFont("", "", docMargin, frameWidth);
 
-    if (startup == "Psalm") todaysPsalm();
-    else if (startup == "Proverb") todaysProverb();
-    else if (startup == "Letter") todaysLetter();
-    else if (startup == "Reading Plan") readingPlan();
+    if (startup == "psalm") todaysPsalm();
+    else if (startup == "proverb") todaysProverb();
+    else if (startup == "letter") todaysLetter();
+    else if (startup == "reading plan") readingPlan();
     else ui->bible_frame->hide();
 
     ui->tb_scriptures->moveCursor(QTextCursor::Start);
@@ -288,9 +312,33 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
 MainWindow::~MainWindow()
 {
     QSettings settings(settingsFile.fileName(), QSettings::IniFormat);
-    settings.setValue("Window/geometry", saveGeometry());
-    settings.setValue("Window/windowState", saveState());
+    settings.setValue("window/geometry", saveGeometry());
+    settings.setValue("window/windowState", saveState());
     delete ui;
+}
+
+bool MainWindow::checkTableExists(const QString &activeTl)
+{
+    // check if table exists, if it does not, app will crash
+    // might happen when changing conf file or removing table
+    QString sqlCheck = QString("SELECT name FROM sqlite_master "
+               "WHERE type='table' AND name='t_%1';").arg(activeTl.toLower());
+    QSqlQuery queryCheck(sqlCheck, dbH.bibleDb);
+    QString tableTest;
+    while (queryCheck.next()) {
+        tableTest = queryCheck.value(0).toString();
+    }
+
+    if (tableTest.isEmpty()) {
+        ::sout << "Cannot find table: t_" + activeTl <<  Qt::endl;
+        ::sout << "- check config file for valid translation name" <<  Qt::endl;
+        ::sout << "- or remove soulanchor.conf, "
+                  "a default version will be used" <<  Qt::endl;
+        ::sout << "- or check bibles.db database for valid table name" <<  Qt::endl;
+        return false;
+    } else {
+        return true;
+    }
 }
 
 void MainWindow::modifications()
@@ -943,10 +991,10 @@ void MainWindow::on_cb_roster_read_clicked()
         ui->lw_chapters->clear();
         ui->btn_book_title->setText("");
         rosterRead = true;
-        settings.setValue("Rosters/rosterRead", "true");
+        settings.setValue("rosters/rosterRead", "true");
     } else {
         rosterRead = false;
-        settings.setValue("Rosters/rosterRead", "false");
+        settings.setValue("rosters/rosterRead", "false");
         loadRoster();
     }
 }
@@ -956,9 +1004,9 @@ void MainWindow::on_btn_next_session_clicked()
     QSettings settings(settingsFile.fileName(), QSettings::IniFormat);
     ui->cb_roster_read->setChecked(false);
     rosterRead = false;
-    settings.setValue("Rosters/rosterRead", "false");
+    settings.setValue("rosters/rosterRead", "false");
 
-    QString rosterName = settings.value("Rosters/activeRoster").toString();
+    QString rosterName = settings.value("rosters/activeRoster").toString();
     if ( rosterName.isEmpty() ) {
         return;
     }
@@ -993,9 +1041,9 @@ void MainWindow::on_btn_prev_session_clicked()
     QSettings settings(settingsFile.fileName(), QSettings::IniFormat);
     ui->cb_roster_read->setChecked(false);
     rosterRead = false;
-    settings.setValue("Rosters/rosterRead", "false");
+    settings.setValue("rosters/rosterRead", "false");
 
-    QString rosterName = settings.value("Rosters/activeRoster").toString();
+    QString rosterName = settings.value("rosters/activeRoster").toString();
     if ( rosterName.isEmpty() ) {
         return;
     }
@@ -1108,9 +1156,9 @@ void MainWindow::on_action_delete_roster_triggered()
 
         QSettings settings(settingsFile.fileName(), QSettings::IniFormat);
 
-        if (rosterName == settings.value("Rosters/activeRoster")) {
-            settings.setValue("Rosters/activeRoster", "");
-            settings.setValue("Rosters/rosterRead", "false");
+        if (rosterName == settings.value("rosters/activeRoster")) {
+            settings.setValue("rosters/activeRoster", "");
+            settings.setValue("rosters/rosterRead", "false");
             rosterRead = false;
             if (ui->frame_roster_btns->isVisible()) ui->frame_roster_btns->hide();
         }
@@ -1148,7 +1196,7 @@ void MainWindow::on_action_reset_roster_triggered()
         printSession(rosterName);
         rosterRead = false;
         QSettings settings(settingsFile.fileName(), QSettings::IniFormat);
-        settings.setValue("Rosters/rosterRead", "false");
+        settings.setValue("rosters/rosterRead", "false");
         ui->cb_roster_read->setCheckState(Qt::Unchecked);
     }
 }
@@ -1182,7 +1230,7 @@ void MainWindow::addRostersToMenu()
 void MainWindow::rosterActionTriggered(QString rosterName)
 {
     QSettings settings(settingsFile.fileName(), QSettings::IniFormat);
-    settings.setValue("Rosters/activeRoster", rosterName);
+    settings.setValue("rosters/activeRoster", rosterName);
     setActiveRoster();
     loadRoster();
 }
@@ -1191,7 +1239,7 @@ void MainWindow::setActiveRoster()
 {
     //set active roster in menu
     QSettings settings(settingsFile.fileName(), QSettings::IniFormat);
-    QString activeRoster = settings.value("Rosters/activeRoster").toString();
+    QString activeRoster = settings.value("rosters/activeRoster").toString();
     if ( activeRoster.isEmpty() ) {
         return;
     }
@@ -1223,7 +1271,7 @@ void MainWindow::loadRoster()
     }
 
     QSettings settings(settingsFile.fileName(), QSettings::IniFormat);
-    QString rosterName = settings.value("Rosters/activeRoster").toString();
+    QString rosterName = settings.value("rosters/activeRoster").toString();
     if ( rosterName.isEmpty() ) {
         printMsg(noPlan);
         ui->frame_roster_btns->hide();
@@ -1261,7 +1309,7 @@ void MainWindow::openParW()
         job = { {"bk", 1}, {"c1", 1} };
     }
     emit setParwStyle(scheme);
-    emit parOpened(activeTL, job);
+    emit parOpened(activeTl.toUpper(), job);
     !parW->isVisible() ? parW->show() : parW->raise();
 }
 
@@ -1271,7 +1319,7 @@ void MainWindow::applyScheme(const QString &aScheme)
     QSettings settings(settingsFile.fileName(), QSettings::IniFormat);
 
     activeScheme = aScheme;
-    QString currentScheme = "Schemes/" + aScheme;
+    QString currentScheme = "schemes/" + aScheme;
     QStringList schemeValues = settings.value(currentScheme, "none").toStringList();
 
     scheme["nrClr"] = schemeValues.value(0, "none");
@@ -1313,8 +1361,8 @@ void MainWindow::applyFont(const QString &font, const QString &fontS,
     int ps;
 
     if (font.isEmpty() or fontS.isEmpty()) {
-        *scripFont = settings.value("Font/font", "sans").toString();
-        ps = settings.value("Font/fontsize", "12").toInt();
+        *scripFont = settings.value("font/font", "sans").toString();
+        ps = settings.value("font/fontsize", "12").toInt();
         scripFont->setPointSize(ps);
     } else {
         *scripFont = font;
@@ -1322,25 +1370,29 @@ void MainWindow::applyFont(const QString &font, const QString &fontS,
         scripFont->setPointSize(ps);
     }
 
-    QCheckBox *scrChkb = this->findChild<QCheckBox *>("font_script_chkb");
-    QCheckBox *bcChkb = this->findChild<QCheckBox *>("font_bkch_chkb");
+    QCheckBox *scrCbox = this->findChild<QCheckBox *>("font_script_chkb");
+    QCheckBox *bkCbox = this->findChild<QCheckBox *>("font_bk_chkb");
+    QCheckBox *chCbox = this->findChild<QCheckBox *>("font_ch_chkb");
 
     // a custom font or the default app font which is def os font
-    if (scrChkb->isChecked()) {
+    if (scrCbox->isChecked()) {
         ui->tb_scriptures->document()->setDefaultFont(*scripFont);
     } else {
         ui->tb_scriptures->document()->setDefaultFont(QApplication::font());
     }
 
-    if (bcChkb->isChecked()) {
+    if (bkCbox->isChecked()) {
         ui->lw_books->setFont(*scripFont);
-        ui->lw_chapters->setFont(*scripFont);
     } else {
         ui->lw_books->setFont(QApplication::font());
+    }
+
+    if (chCbox->isChecked()) {
+        ui->lw_chapters->setFont(*scripFont);
+    } else {
         ui->lw_chapters->setFont(QApplication::font());
     }
 
-    // move to another block?
     ui->tb_scriptures->document()->setDocumentMargin(margin);
     ui->info_tb->document()->setDocumentMargin(10);
     ui->strongs_tb->document()->setDocumentMargin(10);
@@ -1356,11 +1408,6 @@ void MainWindow::applyFont(const QString &font, const QString &fontS,
         maxWidth = (bgfWidth / 10) * width;
     }
     ui->bible_frame->setMaximumWidth(maxWidth);
-
-    ui->tb_scriptures->clear();
-    if (not ui->menu_history->actions().isEmpty()) {
-        ui->menu_history->actions().constLast()->activate(QAction::Trigger);
-    }
 }
 
 void MainWindow::resizeEvent(QResizeEvent *event)
@@ -1733,12 +1780,13 @@ void MainWindow::showShortcuts()
                 "<tr></tr>"
                 "<tr><td>quit</td> <td>ctrl + q</td></tr>"
                 "</table>"
-                "<br>Hints:<br>"
-                "Hold ctrl to select more than 1 chapter in the chapter list<br>"
-                "Hold shift to select a range<br>"
-                "Use ctrl + mousewheel on the scriptures to grow or shrink the text<br>"
-                "The lineEdit in the content tab accepts more than one entry e.g.<br>"
-                "ps 1-5 act 2:38<br>"
+                "<br>Hints:<br><br>"
+                "Hold ctrl to select more chapters in the chapter list<br>"
+                "Hold shift to select a range<br><br>"
+                "The lineEdit in the content tab accepts more than one entry<br>"
+                "e.g. ps 1-5 act 2:38<br><br>"
+                "The following frames can be collapsed by dragging the splitter's handle:<br>"
+                "booktitle/chapter frame, info frame, strongs frame<br>"
                 );
     ui->info_tb->setHtml(info);
     ui->info_lbl_title->setText(tr("shortcuts"));
@@ -1777,6 +1825,8 @@ void MainWindow::changeEncPic()
 
 void MainWindow::setEncPic()
 {
+    ui->pb_enc_img->setText("");
+
     QDir dir(::dataDir.path() + "/img");
     if (!dir.exists()) {
         ::sout << "Cannot find the img directory in app data dir" <<  Qt::endl;
@@ -1804,7 +1854,7 @@ void MainWindow::setEncPic()
     }
 }
 
-void MainWindow::printEncTxt(int bk, int ch, const QString &verse)
+void MainWindow::printEncTxt(int bk, int ch, int vs, const QString &verse)
 {
     QHash<QString, int> job = { {"bk", bk}, {"c1", ch} };
     printQ.enqueue(job);
@@ -1817,7 +1867,9 @@ void MainWindow::printEncTxt(int bk, int ch, const QString &verse)
     processPrintQueue();
 
     ui->tb_scriptures->moveCursor(QTextCursor().Start);
-    ui->tb_scriptures->find(verse);
+    if (not ui->tb_scriptures->find(verse)) {
+        ui->tb_scriptures->find(QString::number(vs) + " ");
+    }
 }
 
 void MainWindow::changeEncTxt()
@@ -1825,20 +1877,16 @@ void MainWindow::changeEncTxt()
     std::shuffle(encScrip.begin(), encScrip.end(),
                  std::default_random_engine(std::random_device()()));
     int bk = encScrip[0][0], ch = encScrip[0][1], vs = encScrip[0][2];
-    QString sql = QString("SELECT t from t_%1 where b = %2 and c = %3 and v = %4 ")
-            .arg(activeTL).arg(bk).arg(ch).arg(vs);
-    QString verse = "none";
+    QString verse = getVerse(bk, ch, vs);
 
-    QSqlQuery query(sql, dbH.bibleDb);
-    while (query.next()) {
-        verse = query.value(0).toString();
-    }
+    // remove html tags since QLabel can't handle them
+    verse.remove(*tagRegex);
 
     encTxtLbl->setText(verse);
 
     ui->pb_enc_txt->disconnect(); // remove old signals else weird things happen!
-    connect(ui->pb_enc_txt, &QPushButton::clicked, this, [this, bk, ch, verse]() {
-        printEncTxt(bk, ch, verse);});
+    connect(ui->pb_enc_txt, &QPushButton::clicked, this, [this, bk, ch, vs, verse]() {
+        printEncTxt(bk, ch, vs, verse);});
     connect(ui->pb_enc_txt, &QPushButton::customContextMenuRequested,
             this, &MainWindow::changeEncTxt);
 }
@@ -1966,32 +2014,12 @@ void MainWindow::morningAndEvening(const QString &morningOrEvening)
     devotion.replace("<p />", "<br><br>");
     devotion.replace("<a href", QString("<a style='color:%1' href").arg(scheme["nrClr"]));
 
-
-    // check for end of linechar and lenght, since we want breaks for better readability
-    QList<QString> endChar = {".", "!", "?"};
-    int textL = 0;
-    QList<int> breaks;
-
-    for (int i = 0; i <= devotion.length(); i++) {
-        textL += 1;
-        QChar testChar = devotion.at(i);
-        if (endChar.contains(testChar) && textL > 280) {
-            breaks.append(i);
-            textL = 0;
-        }
-    }
-    // insert break after end of line character
-    // and adjust for new size caused by the insert
-    int correction = 1;
-    for(int pos : qAsConst(breaks)) {
-        devotion.insert(pos + correction, "<br><br>");
-        correction += 8;
-    }
-
     ui->info_lbl_title->setText(desc);
-    ui->info_tb->setHtml(QString("<div style='%1'>%2</div>").arg(devStyle, devotion));
+    breakItUp(devotion);
+    ui->info_tb->setHtml(QString("<div style='%1'>%2</div>")
+                         .arg(devStyle, devotion));
 
-    QRegularExpressionMatch urlMatch = urlRegex->match(devotion);
+    QRegularExpressionMatch urlMatch = SpurgeonUrlRegex->match(devotion);
     if (urlMatch.hasMatch()) {
         QString match = urlMatch.captured("scrip");
         QUrl mbmUrl("b:" + match);
@@ -2050,15 +2078,16 @@ void MainWindow::on_search_tb_anchorClicked(const QUrl &url)
 
     QFlags<QTextDocument::FindFlag> flags = QTextDocument().FindWholeWords;
     ui->tb_scriptures->moveCursor(QTextCursor().Start);
-    ui->tb_scriptures->find(getVerse(bk, ch, vs), flags);
-//    ui->tb_scriptures->moveCursor(QTextCursor().NextBlock, QTextCursor().KeepAnchor);
+    if (not ui->tb_scriptures->find(getVerse(bk, ch, vs), flags)) {
+        ui->tb_scriptures->find(QString::number(vs) + " ");
+    }
 }
 
 QString MainWindow::getVerse(const int bk, const int ch, const int vs)
 {
     QString verse;
     QString sql = QString("SELECT t from t_%1 where b = %2 and c = %3 and v = %4 ")
-            .arg(activeTL).arg(bk).arg(ch).arg(vs);
+            .arg(activeTl).arg(bk).arg(ch).arg(vs);
 
     QSqlQuery query(sql, dbH.bibleDb);
     while (query.next()) {
@@ -2145,8 +2174,111 @@ void MainWindow::on_strongs_tb_anchorClicked(const QUrl &url)
 
 void MainWindow::on_tb_scriptures_anchorClicked(const QUrl &url)
 {
+    // show a footnote or process a strongs nr
     QString sUrl = url.toString(QUrl::RemoveScheme);
-    getStrongs(sUrl);
+    if (url.scheme() == "note") {
+        QList urlList = sUrl.split(" ");
+        QString bk = urlList[0];
+        QString ch = urlList[1];
+        QString vs = urlList[2];
+        QString marker = "[" + urlList[3] + "]";
+        QString note = "";
+        QString limited =
+                "<br>This free version has the full NET Bible text and limited notes "
+                "(the first chapter of every book (66 chapters) and the remaining "
+                "chapters display notes in the first three verses).<br>";
+
+        // table name always starts with notes_
+        QString sql = QString("select book, chapter, "
+                            "verse, marker, note "
+                            "from notes_%1 where book is %2 and "
+                            "chapter is %3 and "
+                            "verse is %4 and "
+                            "marker is '%5'").arg(activeTl.toLower(),
+                                                  bk, ch, vs, marker);
+        QSqlQuery query(sql, dbH.extraDb);
+        if (query.next()) {
+            note = query.value(4).toString();
+            ui->strongs_tb->clear();
+            if (note.startsWith("tn")) {
+                ui->strongs_lbl->setText(marker);
+                note.append("<br><br><small>Translator’s Note - explains the "
+                            "rationale "
+                             "for the translation and gives alternative "
+                             "translations, interpretive options, and other "
+                             "technical information.</small><br><br>");
+            } else if (note.startsWith("sn")) {
+                ui->strongs_lbl->setText(marker);
+                note.append("<br><br><small>Study Note - includes comments about "
+                            "historical "
+                             "or cultural background, explanation of obscure "
+                             "phrases or brief discussions of context, discussions "
+                             "of the theological point made by the biblical author, "
+                             "cross references and references to Old Testament "
+                             "quotations or allusions in the New Testament, "
+                             "or other miscellaneous information helpful to the "
+                             "modern reader.</small><br><br>");
+            } else if (note.startsWith("tc")) {
+                ui->strongs_lbl->setText(marker);
+                note.append("<br><br><small>Text Critical Note - "
+                            "discusses alternate (variant) "
+                             "readings found in the various manuscripts and "
+                             "groups of manuscripts of the Hebrew Old Testament "
+                             "and Greek New Testament.</small><br><br>");
+            } else if (note.startsWith("map")) {
+                ui->strongs_lbl->setText(marker);
+                note.append("<br><br><small>Map Note - gives map coordinates for "
+                            "site within "
+                             "the two map sections, “The Journeys of Paul” and "
+                             "“The Holy Land from the Heavens.”</small><br><br>");
+            } else {
+                ui->strongs_lbl->setText("");
+            }
+
+            note.prepend("<br>");
+            note.replace("<a href=",
+                         QString("<a style='text-decoration:none;color:%1;' href=")
+                         .arg(scheme["nrClr"]));
+
+            breakItUp(note);
+            ui->strongs_tb->setHtml(note);
+            ui->info_frame->show();
+        } else {
+            ui->strongs_lbl->setText("limited footnotes");
+            ui->strongs_tb->setHtml(limited);
+            ui->info_frame->show();
+        }
+    } else {
+        getStrongs(sUrl);
+    }
+}
+
+void MainWindow::breakItUp(QString &textwall)
+{
+    // check for end of linechar and lenght, since we want
+    // linebreaks for better readability
+    QList<QString> endChar = {".", "!", "?"};
+    QList<int> breaks;
+    int textL {0};
+    QChar testChar {};
+
+    for (int i = 0; i <= textwall.length(); i++) {
+        textL += 1;
+        testChar = textwall.at(i);
+        if (endChar.contains(testChar) && textL > 280) {
+            if (textwall.at(i+1).isSpace()){
+                breaks.append(i);
+                textL = 0;
+            }
+        }
+    }
+    // insert break after end of line character + space
+    // and adjust for new size caused by the insert
+    int correction = 2;
+    for(int pos : qAsConst(breaks)) {
+        textwall.insert(pos + correction, "<br><br>");
+        correction += 8;
+    }
 }
 
 void MainWindow::versesWithStrongNumber(const QString &strongs, const QString &where)
@@ -2679,7 +2811,7 @@ void MainWindow::prevChapter()
 void MainWindow::createOtNtMenus()
 {
     QSettings settings(settingsFile.fileName(), QSettings::IniFormat);
-    QString lang = settings.value("bknLanguage", "english").toString();
+    QString lang = settings.value("booknameLanguage", "english").toString();
 
     QString sqlQ = "SELECT book_nr, testament, name_" + lang + " FROM number_name";
     QSqlQuery query(sqlQ, dbH.bibleDb );
@@ -2792,17 +2924,16 @@ void MainWindow::ccMenuBibleFrame()
 {
     QMenu ccMenu(this);
 
+    QAction *nextAction = ccMenu.addAction(nextIcon, tr("next"));
+    QAction *prevAction = ccMenu.addAction(prevIcon, tr("previous"));
+    QAction *chapAction = ccMenu.addAction(tr("chapters"));
+    QAction *otPopupAction = ccMenu.addAction("OT");
+    QAction *ntPopupAction = ccMenu.addAction("NT");
+    ccMenu.addSeparator();
+
     QAction *parAction = ccMenu.addAction(bookOpenIcon, tr("Open Parallel Window"));
     QAction *strongAction = ccMenu.addAction(strongIcon, tr("Strongify"));
     QAction *crossrefAction = ccMenu.addAction(tr("show cross references"));
-    ccMenu.addSeparator();
-
-    QAction *otPopupAction = ccMenu.addAction("OT");
-    QAction *ntPopupAction = ccMenu.addAction("NT");
-    QAction *chapAction = ccMenu.addAction(tr("chapters"));
-
-    QAction *nextAction = ccMenu.addAction(nextIcon, tr("next"));
-    QAction *prevAction = ccMenu.addAction(prevIcon, tr("previous"));
 
     ccMenu.addSeparator();
 
@@ -2821,13 +2952,14 @@ void MainWindow::ccMenuBibleFrame()
         thisBook = ::g_bookNames[bkNr];
     }
     QAction *aboutBookAction = ccMenu.addAction(docIcon,tr("about ") + thisBook);
-    QAction *aboutTlAction = ccMenu.addAction(docIcon, tr("about ") + activeTL);
+    QAction *aboutTlAction = ccMenu.addAction(docIcon, tr("about ") + activeTl);
     ccMenu.addSeparator();
     QAction *viewAction = ccMenu.addAction(tr("toggle table/book display"));
     ccMenu.addSeparator();
     QAction *hideAction = ccMenu.addAction(closeIcon, tr("close"));
 
     QAction *action = ccMenu.exec(QCursor().pos());
+
     if (action == parAction) {
         openParW();
     } else if (action == strongAction) {
@@ -2973,7 +3105,7 @@ void MainWindow::makeCrossRefs()
     int numberOfVerses = 0;
 
     QString getN = QString("SELECT count(v) FROM t_%1 WHERE b = %2 and c = %3 ")
-            .arg(activeTL, bkStr, cStr);
+            .arg(activeTl, bkStr, cStr);
     QSqlQuery getNumberQ(getN, dbH.bibleDb);
 
     while (getNumberQ.next()) {
@@ -3068,8 +3200,8 @@ void MainWindow::showAboutTl(){
     ui->info_tb->clear(); ui->info_lbl_title->clear(); ui->info_frame->show();
     ui->info_tb->setCurrentCharFormat(emptyFormat);
 
-    QString sql = QString("SELECT info FROM bible_version_key "
-                          "WHERE abbreviation IS '%1'").arg(activeTL);
+    QString sql = QString("SELECT info FROM version_info "
+                          "WHERE abbreviation IS '%1'").arg(activeTl);
     QSqlQuery query(sql, dbH.bibleDb );
     QString info;
 
@@ -3077,7 +3209,7 @@ void MainWindow::showAboutTl(){
         info = query.value(0).toString() ;
     }
 
-    ui->info_lbl_title->setText(activeTL);
+    ui->info_lbl_title->setText(activeTl);
     if (info.isEmpty()) {
         ui->info_tb->setText("no information available");
     } else {
@@ -3272,11 +3404,14 @@ void MainWindow::modifyFindInPageFlags()
 
 void MainWindow::setTranslation()
 {
-    // runs every time when user switches translation from the combobox
+    /* runs every time when user switches translation from the content tab combobox
+        and when cb index is changed from code */
     ui->tb_scriptures->clear();
-    activeTL = ui->cb_select_translation->currentData().toString();
+    activeTl = ui->cb_select_translation->currentData().toString();
     QString full = ui->cb_select_translation->currentText();
     ui->search_lbl_tl->setText(full);
+    setHasNotes();
+
     if (not ui->menu_history->actions().isEmpty()) {
         ui->menu_history->actions().constLast()->activate(QAction::Trigger);
     }
@@ -3304,8 +3439,8 @@ void MainWindow::populateSearchCbs()
 void MainWindow::updateCbTranslations()
 {
     ui->cb_select_translation->clear();
-    QString sql = "SELECT abbreviation, version, language "
-                  "FROM bible_version_key ORDER BY abbreviation ASC";
+    QString sql = "SELECT abbreviation, version "
+                  "FROM version_info ORDER BY abbreviation ASC";
     QSqlQuery query(sql, dbH.bibleDb );
     QString abbr;
     QString desc;
@@ -3394,13 +3529,16 @@ void MainWindow::processPrintQueue()
     while (not printQ.isEmpty()) {
         printScriptures();
     }
+
+    if(iFilter && (guiLanguage == "english" || guiLanguage == "dutch")) filterImmersion();
+    if(jFilter && (guiLanguage == "english" || guiLanguage == "dutch")) filterJudeans();
 }
 
 void MainWindow::printScriptures()
 {
     /* call this method for every job in the print queue with processPrintQueue
      does single chapters and ranges of chapters or verses */
-    if(!ui->bible_frame->isVisible()){
+    if(!ui->bible_frame->isVisible()) {
         ui->bible_frame->show();
     }
 
@@ -3408,7 +3546,7 @@ void MainWindow::printScriptures()
     addToHistory(job);
 
     int bk = job["bk"];
-    QString bkStr = QString::number(job["bk"]);
+    QString sBk = QString::number(job["bk"]);
     QString bookName = ::g_bookNames[bk];
 
     QString c1Str = QString::number(job["c1"]);
@@ -3431,7 +3569,7 @@ void MainWindow::printScriptures()
     }
 
     QString sql = QString("SELECT c, v, t from t_%1 where b = %2 and c %3 ")
-            .arg(activeTL, bkStr, chapterSql);
+            .arg(activeTl, sBk, chapterSql);
 
     if (v1 > 0 and v2 > 0 and c2 == 0){
         verseSQL = QString("AND v BETWEEN %1 AND %2").arg(v1Str, v2Str);
@@ -3447,12 +3585,13 @@ void MainWindow::printScriptures()
     QString tableMode = "<table cellspacing='0' cellpadding='3'>";
     QString bookMode = "";
 
-    QString headerTable, verseTable; // table format
-    QString headerBook, verseBook; // book format
+    QString headerTableMode, verseTableMode; // header and verse for table mode
+    QString headerBookMode, verseBookMode; // header and verse for book mode
     QString headerChapNr;
     QString subheading;
     QString lang;
     QString sCh, sNr, txt;
+    QString breakOrNot {};
 
     // todo: dynamic
     if (bknLanguage == "dutch") {
@@ -3461,11 +3600,10 @@ void MainWindow::printScriptures()
         lang = "EN";
     }
 
-    QList<QString> endChar = {".", "!", "?"};
-    int textL = 0;
-    int iNr = 0;
-    int prevNr = 0;
-    bool addHeading = true;
+    QList<QString> endChar { ".", "!", "?" };
+    int textL {};
+    int iNr {};
+    int prevNr {};
 
     while (query.next()) {
         sCh = query.value(0).toString();
@@ -3476,96 +3614,141 @@ void MainWindow::printScriptures()
 
         /*------------------------------------------------------
             add headings if it's the first verse
-            or when there's a sequence break
+            or when there's a verse sequence break
+            chapter number + long bookname
         ------------------------------------------------------*/
         if ( iNr == 1 || (iNr != (prevNr + 1) ) ) {
             textL = 0;
 
-            /*-----> add heading <-----*/
-            if (addHeading) {
-                /* if multiple chapters are selected in the QListWidget,
-                 * multiple jobs are generated and so a header for each job...
-                 * todo: reduce to 1 header?  */
-
-                if (scripDisplay != "table") {
-                    addHeading = false;
-                    headerBook =
-                            QString("<br><div style='font-size:large;text-align:center;"
-                                    "color:%1;font-family:serif;font-weight:400;'>"
-                                    "%2</div>")
-                                    .arg(scheme.value("txtClr"), getLongTitle(bk));
-                    bookMode.append(headerBook);
-                }
-            }
-
-            /*------------------------------------------------------
-                heading for table mode = book + chapter
-                or just chapter nr for book mode
-            ------------------------------------------------------*/
             if (scripDisplay == "table") {
-                headerTable = QString("<tr><td></td><td style='color:%1;font-weight:700;'>"
+                headerTableMode = QString("<tr><td></td><td style='color:%1;"
+                                    "font-weight:700;'>"
                                     "<small>%2 %3</small></td></tr>")
                                     .arg(scheme.value("nrClr"), bookName, sCh);
-                tableMode.append(headerTable);
+                tableMode.append(headerTableMode);
             } else {
-                headerChapNr = QString("<br><div style='font-size:large;text-align:left;"
-                                         "color:%1;font-family:serif;font-weight:400'>"
-                                         "%2   </div>"
-                                        ).arg(scheme.value("clashClr"), sCh);
-                bookMode.append(headerChapNr);
+                headerChapNr = QString("<td width='20%' align='left' "
+                                "style='font-size:medium; color:%1;"
+                                "font-family:serif;font-weight:400'>"
+                                "%2 </td>"
+                                ).arg(scheme.value("titleClr"), "Chapter " + sCh);
+                headerBookMode = QString("<td width='60%' align='center' "
+                                "style='font-size:medium; color:%1;"
+                                "font-family:serif;font-weight:400;'>"
+                                "%2</td>")
+                                .arg(scheme.value("titleClr"), getLongTitle(bk));
+
+
+                bookMode.append("<br><p dir='ltr'><table width='100%'><tr>" +
+                                headerChapNr + headerBookMode +
+                                "<td width=20%></td>" + "</tr></table></p>");
             }
         }
 
         /*-----> subheading check <-----*/
-        if (scripDisplay != "table") {
-            QString sqlCheckSH = QString("SELECT subheading from subheadings%1"
+        if (activeSubh != "none") {
+            QString sqlCheckSH = QString("SELECT subheading from subheadings_%1"
                                         " where book is %2 and chapter is %3 "
                                         "and verse is %4")
-                                        .arg(lang, bkStr, sCh, sNr);
+                                        .arg(activeSubh, sBk, sCh, sNr);
             QSqlQuery queryCSH(sqlCheckSH, dbH.extraDb);
 
             while (queryCSH.next()) {
                 textL = 0;
                 subheading = queryCSH.value(0).toString();
-                bookMode.append(
-                    QString("<br><div style='font-size:small;text-align:left;"
-                            "color:%1;font-family:serif;font-weight:700;'>"
-                            "%2</div><hr>"
-                        ).arg(scheme.value("nrClr"), subheading)
-                    );
+
+                bookMode.append(QString(
+                                "<br><br><span style='font-size:small;text-align:left;"
+                                "color:%1;font-family:serif;font-weight:600;'>"
+                                "%2</span><br>"
+                                ).arg(scheme.value("titleClr"), subheading));
+                tableMode.append(QString(
+                                     "<br><tr><td></td>"
+                                     "<td style='font-size:small;"
+                                     "text-align:left;color:%1;"
+                                     "font-family:serif;font-weight:600;'>"
+                                     "%2</td></tr>"
+                                    ).arg(scheme.value("titleClr"), subheading));
             }
         }
 
-        /*-----> add verse <-----*/
+        /*-----> add verse, number + text <-----*/
         if (scripDisplay == "table") {
-            verseTable = QString(
+            verseTableMode = QString(
                 "<tr>"
-                "<td style='color:%3;font-weight:200;'><small>%1</small></td>"
+                "<td style='color:%3;font-weight:400;font-size:small'>%1</td>"
                 "<td style='color:%4;font-weight:400'> %2</td>"
                 "</tr>").arg(sNr, txt, scheme.value("nrClr"), scheme.value("txtClr"));
         } else {
-            verseBook = QString(
-                        "<span style='color:%1;font-weight:200'><small>%2 </small></span>"
-                        "<span style='color:%3;font-weight:400'>%4 </span>"
-                        ).arg(scheme.value("nrClr"), sNr, scheme.value("txtClr"), txt);
-
-            /* check for end of linechar
-             * since we want a break after a verse for better readability
-             * if lenght is above certain length
-             * and perhaps another break for an empty line
-            */
-            if (endChar.contains(txt.right(1)) && textL > 280) {
-                verseBook.append("<br>");
-                if (textL > 350)
-                    verseBook.append("<br>");
-                textL = 0;
+            // check for linebreaktag at start of line
+            // in order to keep nr and text on the same line
+            QRegularExpressionMatch breakMatch = breakRegex->match(txt);
+            if (breakMatch.hasMatch()) {
+                txt.remove(*breakRegex);
+                breakOrNot = "<br>";
+            } else {
+                breakOrNot = "";
             }
+
+            verseBookMode = QString(
+                        "%5<span style='color:%1;font-weight:400;font-size:small;"
+                        "text-align:left'>%2 </span>"
+                        "<span style='color:%3;font-weight:400;"
+                        "text-align:left'>%4 </span>"
+                        ).arg(scheme.value("nrClr"), sNr,
+                              scheme.value("txtClr"), txt,
+                              breakOrNot);
+
+            /* check for end of linechar since we want a break after a verse
+             * for better readability if lenght is above certain length */
+
+            // assuming a tl with footnotes will have markup with linebreaks as well
+            if (not hasNotes) {
+                if (endChar.contains(txt.right(1)) && textL > 280) {
+                    verseBookMode.append("<br>");
+                    if (textL > 350)
+                        verseBookMode.append("<br>");
+                    textL = 0;
+                }
+            }
+        }
+        // formatted text, replace database tags to something Qt recognizes
+        if (hasNotes) {
+            if (scripDisplay == "table") {
+                verseTableMode.replace(*noteRegex,
+                                  QString("<sup><a href='note:%1 %2 %3 \\1'"
+                                    "style='text-decoration:none;color:%4;'>"
+                                    "[\\1]</a></sup>")
+                                    .arg(sBk, sCh, sNr, scheme.value("txtClr")) );
+
+                verseTableMode.remove("<pb/>");
+                verseTableMode.replace("<J>", QString("<span style='color:%1;"
+                                                "font-weight:400;'>")
+                                                .arg(scheme.value("titleClr")));
+                verseTableMode.replace("</J>", "</span>");
+                verseTableMode.replace("<e>", "<i>");
+                verseTableMode.replace("</e>", "</i>");
+            } else {
+                verseBookMode.replace(*noteRegex,
+                                  QString("<sup><a href='note:%1 %2 %3 \\1'"
+                                    "style='text-decoration:none;color:%4;'>"
+                                    "[\\1]</a></sup>")
+                                    .arg(sBk, sCh, sNr, scheme.value("txtClr")) );
+
+                verseBookMode.replace("<pb/>", "<br>");
+                verseBookMode.replace("<J>", QString("<span style='color:%1;"
+                                                "font-weight:400;'>")
+                                                .arg(scheme.value("titleClr")));
+                verseBookMode.replace("</J>", "</span>");
+                verseBookMode.replace("<e>", "<i>");
+                verseBookMode.replace("</e>", "</i>");
+                }
         }
 
         if (scripDisplay == "table") {
-            tableMode.append(verseTable);
+            tableMode.append(verseTableMode);
         } else {
-            bookMode.append(verseBook);
+            bookMode.append(verseBookMode);
         }
 
         prevNr = iNr;
@@ -3576,12 +3759,9 @@ void MainWindow::printScriptures()
         tableMode.append("</table><br>");
         ui->tb_scriptures->insertHtml(tableMode);
     } else {
-        bookMode.append("<br><br>");
+//        bookMode.append("<br>");
         ui->tb_scriptures->insertHtml(bookMode);
     }
-
-    if(iFilter && (guiLanguage == "english" || guiLanguage == "dutch")) filterImmersion();
-    if(jFilter && (guiLanguage == "english" || guiLanguage == "dutch")) filterJudeans();
 }
 
 void MainWindow::filterImmersion()
@@ -3687,8 +3867,8 @@ void MainWindow::setFilters()
     }
 
     QSettings settings(settingsFile.fileName(), QSettings::IniFormat);
-    settings.setValue("Filters/iFilter", iFilter);
-    settings.setValue("Filters/jFilter", jFilter);
+    settings.setValue("filters/immersionFilter", iFilter);
+    settings.setValue("filters/judeansFilter", jFilter);
 }
 
 void MainWindow::aboutFilters()
@@ -3754,7 +3934,6 @@ QString MainWindow::getLongTitle(const int bk)
 {
     QString title;
     QString bookNumber = QString::number(bk);
-//    QString bookNumber = ui->lw_books->currentItem()->data(0x0100).toString();
     QString sqlGetBookTitle = QString("SELECT title_%1 from number_name "
                                    "where book_nr = %2 ").arg(bknLanguage, bookNumber);
     QSqlQuery queryGetTitle(sqlGetBookTitle, dbH.bibleDb);
@@ -3778,12 +3957,12 @@ void MainWindow::setBookTitle(QString title)
     QString style;
     if (activeScheme == "none") {
         style = QString(
-            "font-size:30px;font-family:serif;font-style:normal;"
+            "font-size:24px;font-family:serif;font-style:normal;"
             "font-weight:400;margin:3px;padding:0px;"
             "color:black;background-color:white;");
     } else {
         style = QString(
-            "font-size:30px;font-family:serif;font-style:normal;"
+            "font-size:24px;font-family:serif;font-style:normal;"
             "font-weight:400;margin:3px;padding:0px;"
             "color:%1;background-color:%2;")
             .arg(scheme["titleClr"],scheme["bg2Clr"]);
@@ -3850,6 +4029,37 @@ void MainWindow::updateBooksWidget(const QString &lang)
         }
 
         ::g_bookNames.append(bookName);
+    }
+}
+
+void MainWindow::updateTLandSubh(const QString &translation, const QString &subheadings)
+{
+    // signal from settings window
+    activeSubh = subheadings;
+    activeTl = translation;
+    int currentIndex = ui->cb_select_translation->currentIndex();
+    int newIndex = ui->cb_select_translation->findData(activeTl);
+
+    if (currentIndex == newIndex) {
+        ui->tb_scriptures->clear();
+        if (not ui->menu_history->actions().isEmpty()) {
+            ui->menu_history->actions().constLast()->activate(QAction::Trigger);
+        }
+    } else {
+        if (newIndex == -1) {
+            newIndex = 0;
+        }
+        ui->cb_select_translation->setCurrentIndex(newIndex);
+    }
+}
+
+void MainWindow::setHasNotes()
+{
+    QString sql = QString("SELECT abbreviation, notes "
+                  "FROM version_info where abbreviation is '%1'").arg(activeTl);
+    QSqlQuery query(sql, dbH.bibleDb );
+    while (query.next()) {
+        hasNotes = query.value(1).toBool();
     }
 }
 
@@ -3940,7 +4150,7 @@ void MainWindow::closeEvent(QCloseEvent*)
     QApplication::closeAllWindows();
 }
 
-void MainWindow::exit()
+void MainWindow::exitApp()
 {
     QApplication::quit();
 }
