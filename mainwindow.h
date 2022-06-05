@@ -18,6 +18,7 @@
 #include "parwindow.h"
 #include "aboutwindow.h"
 #include "settingswindow.h"
+#include "imagewindow.h"
 #include "roster.h"
 #include "globals.h"
 
@@ -53,14 +54,14 @@
 #include <QResizeEvent>
 
 
-//QtDocs: The following lines declare the  class(es) in the Ui namespace, which is the standard namespace for the UI classes generated from .ui files by the uic tool:
+//QtDocs: The following lines declare the class(es) in the Ui namespace, which is the standard namespace for the UI classes generated from .ui files by the uic tool:
 namespace Ui {
 class MainWindow;
 }
 
 class MainWindow : public QMainWindow
 {
-    Q_OBJECT // macro for moc, meta object compiler, generate code for signals and stuff...
+    Q_OBJECT // macro for moc, meta object compiler
 
     QString tab; // active tab
     QString startup; // start with scriptures?
@@ -70,6 +71,8 @@ class MainWindow : public QMainWindow
 
     QString guiLanguage;
     QString bknLanguage; // booknames
+    QString chapterHeader; // the word "chapter" in the correct language
+    bool showMaps; // show bible map links at top of page
 
     bool rosterRead;
     // roster has been read; checkbox should be checked; conf rosterRead should be false
@@ -101,13 +104,13 @@ class MainWindow : public QMainWindow
     const QIcon selectIcon = QIcon(":/data/img/edit-select-all");
     const QIcon copyIcon = QIcon(":/data/img/edit-copy");
     const QIcon findIcon = QIcon(":/data/img/edit-find");
-    const QIcon closeIcon = QIcon(":/data/img/window-close.png");
     const QIcon musIcon = QIcon(":/data/img/music.png");
     const QIcon docIcon = QIcon(":/data/img/document_notes.png");
     const QIcon playIcon = QIcon(":/data/img/control_play_blue.png");
     const QIcon stopIcon = QIcon(":/data/img/control_stop_blue.png");
     const QIcon strongIcon = QIcon(":/data/img/biceps.png");
     const QIcon scrollIcon = QIcon(":/data/img/script_yellow.png");
+    const QIcon closeIcon = QIcon(":/data/img/closedock-16.png");
 
     QQueue< QHash<QString, int> > printQ; // print queue, hash keys: bk c1 c2 v1 v2
     QQueue< QHash<QString, int> > printHistory; // keep a history of print jobs
@@ -122,6 +125,7 @@ class MainWindow : public QMainWindow
     AboutWindow *aboutW = new AboutWindow(this);
     SettingsWindow *settingsW = new SettingsWindow(this);
     Roster *rosterW = new Roster(this);
+    ImageWindow *imgW = new ImageWindow(this);
 
     void popupMsg(const QString message);
     void printMsg(const QString message);
@@ -311,8 +315,6 @@ class MainWindow : public QMainWindow
     Ui::MainWindow *ui;
 
 public:
-    //QtDocs:The following line declares a constructor that has a default argument called parent.
-    //The value 0 indicates that the widget has no parent (it is a top-level widget).
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow() override;
 
@@ -327,7 +329,6 @@ private slots:
     void setStyleSheets();
 
     void toggleBible();
-    void toggleFullscreen();
     void toggleTabW();
     void toggleMenu();
     void toggleInfo();
@@ -402,6 +403,7 @@ private slots:
     void changeEncPic();
     void showEncPic(const QString &fileName);
     void showShortcuts();
+    void showEmpireMaps();
 
     void theLordsPrayer();
     void breakingBread();
@@ -428,9 +430,12 @@ private slots:
     static bool compareFunctionR(QAction *a, QAction *b);
     static bool compareFunctionS(QAction *a, QAction *b);
 
-    void openParW();
+    void openParW(); // open parallel window
+    void openImgW(const QString &imgName); // image/map window
+
     void applyFont(const QString &font, const QString &fontS,
-                   const int &margin, const int &width);
+                   const int &margin, const int &width,
+                   const bool scrCheck, const bool bkCheck, const bool chCheck);
     void applyScheme(const QString &aScheme);
 
     void addRostersToMenu();
@@ -471,6 +476,7 @@ private slots:
 signals:
     void parOpened(QString tlAbbr, QHash<QString, int> job);
     void setParwStyle(QHash<QString, QString> clrScheme);
+    void setImgWindowPixmap(const QPixmap &pixmap, const QString &imgName);
 };
 
 #endif // MAINWINDOW_H

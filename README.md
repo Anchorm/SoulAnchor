@@ -4,12 +4,12 @@
 
 &nbsp;
 
-SoulAnchor is a Bible reading tool for the Linux desktop build with the Qt framework. A parallel window is available to compare translations. There's an option to display Strong's numbers and definitions. Also included are a few Bible dictionaries, cross references and topical links. 
+SoulAnchor is a Bible reading tool for the Linux desktop build with the Qt framework. A parallel window is available to compare translations. There's an option to display Strong's numbers and definitions. Also included are Bible dictionaries, cross references, topical links, limited footnotes(net bible) and maps. 
 
 * Basic Bible reading tool, focus on daily reading
 * Reader first, light study tool second
 * Open formats, open to modify, add/remove translations
-* Multiple ways to contemplate the Word, text, audio, image
+* Multiple ways to contemplate the Word, text, image, audio
 
 &nbsp;
 

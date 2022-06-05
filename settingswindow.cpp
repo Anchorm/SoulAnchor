@@ -17,9 +17,9 @@ SettingsWindow::SettingsWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    connect(ui->ok_btn, &QPushButton::clicked, this, &SettingsWindow::writeSettings);
-    connect(ui->can_btn, &QPushButton::clicked, this, &SettingsWindow::cancelSettings);
-    connect(ui->apply_btn, &QPushButton::clicked, this, &SettingsWindow::applySettings);
+    connect(ui->ok_btn, &QToolButton::clicked, this, &SettingsWindow::writeSettings);
+    connect(ui->can_btn, &QToolButton::clicked, this, &SettingsWindow::cancelSettings);
+    connect(ui->apply_btn, &QToolButton::clicked, this, &SettingsWindow::applySettings);
 
     getBooknameLanguages();
     setCbGuiLang();
@@ -132,7 +132,7 @@ void SettingsWindow::getBooknameLanguages()
 
 void SettingsWindow::cancelSettings()
 {
-    // set to conf file values, after cancel btn click or on startup
+    // set to conf file values, after cancel btn, and on startup
     QSettings settings(settingsFile.fileName(), QSettings::IniFormat);
     guiLanguage = settings.value("guiLanguage", "english").toString();
     bknLanguage = settings.value("booknameLanguage", "english").toString();
@@ -140,6 +140,7 @@ void SettingsWindow::cancelSettings()
     tab = settings.value("tab", "Contents").toString();
     translation = settings.value("translation", "net").toString().toUpper();
     subheadings = settings.value("subheadings", "net").toString().toUpper();
+    showMaps = settings.value("showMaps", "true").toBool();
 
     font = settings.value("font/font", "sans").toString();
     fontS =  settings.value("font/fontsize", "12").toString();
@@ -151,7 +152,7 @@ void SettingsWindow::cancelSettings()
     display = settings.value("display", "table").toString();
     width = settings.value("width", "10").toInt();
 
-    activeScheme = settings.value("activeScheme", "none").toString();
+    activeScheme = settings.value("activeScheme", "day").toString();
 
     ui->gui_lang_cb->setCurrentText(guiLanguage);
     ui->bkn_lang_cb->setCurrentText(bknLanguage);
@@ -160,24 +161,21 @@ void SettingsWindow::cancelSettings()
     ui->tl_cb->setCurrentText(translation);
     ui->subheadings_cb->setCurrentText(subheadings);
 
+    if (showMaps)
+        ui->showmaps_cb->setCurrentIndex(0);
+    else
+        ui->showmaps_cb->setCurrentIndex(1);
+
     ui->font_cb->setCurrentText(font);
     ui->font_size_cb->setCurrentText(fontS);
+
     // scriptures checked, books listwidget, chapters listwidget
-    if (scrCheck) {
-        ui->font_script_chkb->setCheckState(Qt::Checked);
-    } else {
-        ui->font_script_chkb->setCheckState(Qt::Unchecked);
-    }
-    if (bkCheck) {
-        ui->font_bk_chkb->setCheckState(Qt::Checked);
-    } else {
-        ui->font_bk_chkb->setCheckState(Qt::Unchecked);
-    }
-    if (chCheck) {
-        ui->font_ch_chkb->setCheckState(Qt::Checked);
-    } else {
-        ui->font_ch_chkb->setCheckState(Qt::Unchecked);
-    }
+    scrCheck ? ui->font_script_chkb->setCheckState(Qt::Checked) :
+               ui->font_script_chkb->setCheckState(Qt::Unchecked);
+    bkCheck ? ui->font_bk_chkb->setCheckState(Qt::Checked) :
+              ui->font_bk_chkb->setCheckState(Qt::Unchecked);
+    chCheck ? ui->font_ch_chkb->setCheckState(Qt::Checked) :
+              ui->font_ch_chkb->setCheckState(Qt::Unchecked);
 
     ui->margin_slider->setValue(margin);
     ui->width_slider->setValue(width);
@@ -185,10 +183,7 @@ void SettingsWindow::cancelSettings()
     ui->scheme_cb->setCurrentText(activeScheme);
     hide();
 
-    emit booknameLangChanged(bknLanguage);
-    emit schemeChanged(activeScheme);
-    emit fontChanged(font, fontS, margin, width);
-    emit subheadingsChanged(translation, subheadings);
+    emitSignals();
 }
 
 void SettingsWindow::writeSettings()
@@ -201,6 +196,12 @@ void SettingsWindow::writeSettings()
     tab = ui->tab_cb->currentText();
     translation = ui->tl_cb->currentText().toLower();
     subheadings = ui->subheadings_cb->currentText().toLower();
+
+    if (ui->showmaps_cb->currentIndex() == 0)
+        showMaps = true;
+    else {
+        showMaps = false;
+    }
 
     font = ui->font_cb->currentText();
     fontS = ui->font_size_cb->currentText();
@@ -219,6 +220,7 @@ void SettingsWindow::writeSettings()
     settings.setValue("tab", tab);
     settings.setValue("translation", translation);
     settings.setValue("subheadings", subheadings);
+    settings.setValue("showMaps", showMaps);
 
     settings.setValue("font/font", font);
     settings.setValue("font/fontsize", fontS);
@@ -241,14 +243,28 @@ void SettingsWindow::applySettings()
     translation = ui->tl_cb->currentText().toLower();
     subheadings = ui->subheadings_cb->currentText().toLower();
     bknLanguage = ui->bkn_lang_cb->currentText();
+    if (ui->showmaps_cb->currentIndex() == 0)
+        showMaps = true;
+    else {
+        showMaps = false;
+    }
     font = ui->font_cb->currentText();
     fontS = ui->font_size_cb->currentText();
     activeScheme = ui->scheme_cb->currentText();
     margin = ui->margin_slider->value();
     width = ui->width_slider->value();
+    scrCheck =  ui->font_script_chkb->isChecked();
+    bkCheck = ui->font_bk_chkb->isChecked();
+    chCheck = ui->font_ch_chkb->isChecked();
 
-    emit booknameLangChanged(bknLanguage);
+    emitSignals();
+}
+
+void SettingsWindow::emitSignals()
+{
     emit schemeChanged(activeScheme);
-    emit fontChanged(font, fontS, margin, width);
+    emit booknameLangChanged(bknLanguage);
+    emit showmapsChanged(showMaps);
     emit subheadingsChanged(translation, subheadings);
+    emit fontChanged(font, fontS, margin, width, scrCheck, bkCheck, chCheck);
 }

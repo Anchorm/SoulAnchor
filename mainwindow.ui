@@ -93,7 +93,7 @@
         <enum>Qt::LeftToRight</enum>
        </property>
        <property name="autoFillBackground">
-        <bool>true</bool>
+        <bool>false</bool>
        </property>
        <property name="styleSheet">
         <string notr="true"/>
@@ -105,7 +105,7 @@
         <enum>QTabWidget::Rounded</enum>
        </property>
        <property name="currentIndex">
-        <number>2</number>
+        <number>1</number>
        </property>
        <property name="elideMode">
         <enum>Qt::ElideRight</enum>
@@ -144,6 +144,9 @@
           <height>16777215</height>
          </size>
         </property>
+        <property name="autoFillBackground">
+         <bool>false</bool>
+        </property>
         <property name="styleSheet">
          <string notr="true"/>
         </property>
@@ -171,7 +174,16 @@
            <property name="spacing">
             <number>3</number>
            </property>
+           <property name="leftMargin">
+            <number>2</number>
+           </property>
+           <property name="topMargin">
+            <number>6</number>
+           </property>
            <property name="rightMargin">
+            <number>6</number>
+           </property>
+           <property name="bottomMargin">
             <number>3</number>
            </property>
            <item>
@@ -185,14 +197,11 @@
              <property name="minimumSize">
               <size>
                <width>100</width>
-               <height>30</height>
+               <height>32</height>
               </size>
              </property>
-             <property name="maximumSize">
-              <size>
-               <width>16777215</width>
-               <height>30</height>
-              </size>
+             <property name="autoFillBackground">
+              <bool>false</bool>
              </property>
              <property name="maxVisibleItems">
               <number>20</number>
@@ -272,6 +281,9 @@
            </property>
            <property name="layoutDirection">
             <enum>Qt::LeftToRight</enum>
+           </property>
+           <property name="autoFillBackground">
+            <bool>true</bool>
            </property>
            <property name="styleSheet">
             <string notr="true"/>
@@ -353,6 +365,9 @@
           <height>16777215</height>
          </size>
         </property>
+        <property name="autoFillBackground">
+         <bool>false</bool>
+        </property>
         <property name="styleSheet">
          <string notr="true"/>
         </property>
@@ -381,10 +396,10 @@
             <enum>QLayout::SetDefaultConstraint</enum>
            </property>
            <property name="leftMargin">
-            <number>3</number>
+            <number>6</number>
            </property>
            <property name="rightMargin">
-            <number>3</number>
+            <number>6</number>
            </property>
            <property name="verticalSpacing">
             <number>4</number>
@@ -425,13 +440,7 @@
              <property name="minimumSize">
               <size>
                <width>110</width>
-               <height>30</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>16777215</width>
-               <height>30</height>
+               <height>32</height>
               </size>
              </property>
             </widget>
@@ -447,13 +456,13 @@
              <property name="minimumSize">
               <size>
                <width>30</width>
-               <height>30</height>
+               <height>32</height>
               </size>
              </property>
              <property name="maximumSize">
               <size>
                <width>16777215</width>
-               <height>30</height>
+               <height>32</height>
               </size>
              </property>
              <property name="toolTip">
@@ -518,13 +527,7 @@
              <property name="minimumSize">
               <size>
                <width>80</width>
-               <height>30</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>16777215</width>
-               <height>30</height>
+               <height>32</height>
               </size>
              </property>
             </widget>
@@ -585,7 +588,7 @@
            <item row="0" column="0" colspan="3">
             <widget class="QLabel" name="search_lbl_tl">
              <property name="sizePolicy">
-              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+              <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
                <horstretch>0</horstretch>
                <verstretch>0</verstretch>
               </sizepolicy>
@@ -593,13 +596,7 @@
              <property name="minimumSize">
               <size>
                <width>0</width>
-               <height>30</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>16777215</width>
-               <height>30</height>
+               <height>32</height>
               </size>
              </property>
              <property name="toolTip">
@@ -699,6 +696,9 @@ hr { height: 1px; border-width: 0; }
           <verstretch>0</verstretch>
          </sizepolicy>
         </property>
+        <property name="autoFillBackground">
+         <bool>false</bool>
+        </property>
         <property name="styleSheet">
          <string notr="true"/>
         </property>
@@ -761,7 +761,7 @@ hr { height: 1px; border-width: 0; }
              <number>0</number>
             </property>
             <property name="topMargin">
-             <number>0</number>
+             <number>3</number>
             </property>
             <property name="rightMargin">
              <number>0</number>
@@ -1478,9 +1478,6 @@ hr { height: 1px; border-width: 0; }
            <property name="contextMenuPolicy">
             <enum>Qt::CustomContextMenu</enum>
            </property>
-           <property name="autoFillBackground">
-            <bool>false</bool>
-           </property>
            <property name="frameShape">
             <enum>QFrame::NoFrame</enum>
            </property>
@@ -1533,6 +1530,9 @@ hr { height: 1px; border-width: 0; }
                  <height>120</height>
                 </size>
                </property>
+               <property name="autoFillBackground">
+                <bool>false</bool>
+               </property>
                <property name="frameShape">
                 <enum>QFrame::NoFrame</enum>
                </property>
@@ -1558,6 +1558,49 @@ hr { height: 1px; border-width: 0; }
                 <property name="spacing">
                  <number>0</number>
                 </property>
+                <item row="0" column="1">
+                 <widget class="QPushButton" name="btn_book_title">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="minimumSize">
+                   <size>
+                    <width>100</width>
+                    <height>48</height>
+                   </size>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>16777215</width>
+                    <height>50</height>
+                   </size>
+                  </property>
+                  <property name="cursor">
+                   <cursorShape>PointingHandCursor</cursorShape>
+                  </property>
+                  <property name="focusPolicy">
+                   <enum>Qt::NoFocus</enum>
+                  </property>
+                  <property name="contextMenuPolicy">
+                   <enum>Qt::PreventContextMenu</enum>
+                  </property>
+                  <property name="autoFillBackground">
+                   <bool>false</bool>
+                  </property>
+                  <property name="text">
+                   <string notr="true"/>
+                  </property>
+                  <property name="default">
+                   <bool>false</bool>
+                  </property>
+                  <property name="flat">
+                   <bool>true</bool>
+                  </property>
+                 </widget>
+                </item>
                 <item row="0" column="0" rowspan="2">
                  <widget class="QToolButton" name="btn_prev_chap">
                   <property name="sizePolicy">
@@ -1589,68 +1632,6 @@ hr { height: 1px; border-width: 0; }
                   </property>
                   <property name="arrowType">
                    <enum>Qt::LeftArrow</enum>
-                  </property>
-                 </widget>
-                </item>
-                <item row="0" column="1">
-                 <widget class="QPushButton" name="btn_book_title">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                  <property name="minimumSize">
-                   <size>
-                    <width>100</width>
-                    <height>48</height>
-                   </size>
-                  </property>
-                  <property name="maximumSize">
-                   <size>
-                    <width>16777215</width>
-                    <height>50</height>
-                   </size>
-                  </property>
-                  <property name="cursor">
-                   <cursorShape>PointingHandCursor</cursorShape>
-                  </property>
-                  <property name="focusPolicy">
-                   <enum>Qt::NoFocus</enum>
-                  </property>
-                  <property name="contextMenuPolicy">
-                   <enum>Qt::PreventContextMenu</enum>
-                  </property>
-                  <property name="text">
-                   <string notr="true"/>
-                  </property>
-                  <property name="default">
-                   <bool>false</bool>
-                  </property>
-                  <property name="flat">
-                   <bool>true</bool>
-                  </property>
-                 </widget>
-                </item>
-                <item row="0" column="2" rowspan="2">
-                 <widget class="QToolButton" name="btn_next_chap">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                  <property name="minimumSize">
-                   <size>
-                    <width>40</width>
-                    <height>30</height>
-                   </size>
-                  </property>
-                  <property name="text">
-                   <string>...</string>
-                  </property>
-                  <property name="arrowType">
-                   <enum>Qt::RightArrow</enum>
                   </property>
                  </widget>
                 </item>
@@ -1745,6 +1726,31 @@ hr { height: 1px; border-width: 0; }
                   </property>
                  </widget>
                 </item>
+                <item row="0" column="2" rowspan="2">
+                 <widget class="QToolButton" name="btn_next_chap">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="minimumSize">
+                   <size>
+                    <width>40</width>
+                    <height>30</height>
+                   </size>
+                  </property>
+                  <property name="autoFillBackground">
+                   <bool>false</bool>
+                  </property>
+                  <property name="text">
+                   <string>...</string>
+                  </property>
+                  <property name="arrowType">
+                   <enum>Qt::RightArrow</enum>
+                  </property>
+                 </widget>
+                </item>
                </layout>
               </widget>
               <widget class="QTextBrowser" name="tb_scriptures">
@@ -1765,6 +1771,9 @@ hr { height: 1px; border-width: 0; }
                </property>
                <property name="toolTip">
                 <string notr="true"/>
+               </property>
+               <property name="autoFillBackground">
+                <bool>false</bool>
                </property>
                <property name="inputMethodHints">
                 <set>Qt::ImhNone</set>
@@ -1844,22 +1853,16 @@ hr { height: 1px; border-width: 0; }
                 <number>2</number>
                </property>
                <property name="topMargin">
-                <number>3</number>
+                <number>2</number>
                </property>
                <property name="rightMargin">
                 <number>3</number>
                </property>
                <property name="bottomMargin">
-                <number>1</number>
+                <number>3</number>
                </property>
                <item>
                 <widget class="QToolButton" name="btn_find_close">
-                 <property name="sizePolicy">
-                  <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                   <horstretch>0</horstretch>
-                   <verstretch>0</verstretch>
-                  </sizepolicy>
-                 </property>
                  <property name="minimumSize">
                   <size>
                    <width>30</width>
@@ -1872,12 +1875,15 @@ hr { height: 1px; border-width: 0; }
                    <height>30</height>
                   </size>
                  </property>
+                 <property name="autoFillBackground">
+                  <bool>true</bool>
+                 </property>
                  <property name="text">
                   <string notr="true"/>
                  </property>
                  <property name="icon">
                   <iconset resource="soulanchor.qrc">
-                   <normaloff>:/data/img/window-close.png</normaloff>:/data/img/window-close.png</iconset>
+                   <normaloff>:/data/img/closedock-16.png</normaloff>:/data/img/closedock-16.png</iconset>
                  </property>
                  <property name="autoRaise">
                   <bool>false</bool>
@@ -1924,7 +1930,7 @@ hr { height: 1px; border-width: 0; }
                <item>
                 <widget class="QLineEdit" name="lineEdit_find">
                  <property name="sizePolicy">
-                  <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+                  <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
                    <horstretch>0</horstretch>
                    <verstretch>0</verstretch>
                   </sizepolicy>
@@ -2188,6 +2194,9 @@ hr { height: 1px; border-width: 0; }
             </property>
             <item>
              <widget class="QSplitter" name="splitter_info">
+              <property name="autoFillBackground">
+               <bool>false</bool>
+              </property>
               <property name="lineWidth">
                <number>0</number>
               </property>
@@ -2230,6 +2239,9 @@ hr { height: 1px; border-width: 0; }
                     <property name="contextMenuPolicy">
                      <enum>Qt::NoContextMenu</enum>
                     </property>
+                    <property name="autoFillBackground">
+                     <bool>true</bool>
+                    </property>
                     <property name="styleSheet">
                      <string notr="true"/>
                     </property>
@@ -2254,7 +2266,7 @@ hr { height: 1px; border-width: 0; }
                    <widget class="QToolButton" name="btn_info_close">
                     <property name="minimumSize">
                      <size>
-                      <width>24</width>
+                      <width>30</width>
                       <height>34</height>
                      </size>
                     </property>
@@ -2264,15 +2276,15 @@ hr { height: 1px; border-width: 0; }
                       <height>34</height>
                      </size>
                     </property>
-                    <property name="styleSheet">
-                     <string notr="true"/>
+                    <property name="autoFillBackground">
+                     <bool>true</bool>
                     </property>
                     <property name="text">
-                     <string>...</string>
+                     <string notr="true">...</string>
                     </property>
                     <property name="icon">
                      <iconset resource="soulanchor.qrc">
-                      <normaloff>:/data/img/window-close.png</normaloff>:/data/img/window-close.png</iconset>
+                      <normaloff>:/data/img/closedock-16.png</normaloff>:/data/img/closedock-16.png</iconset>
                     </property>
                     <property name="autoRaise">
                      <bool>true</bool>
@@ -2743,6 +2755,7 @@ hr { height: 1px; border-width: 0; }
     </property>
     <addaction name="action_overview"/>
     <addaction name="action_emergency"/>
+    <addaction name="action_empire"/>
     <addaction name="action_salvation"/>
     <addaction name="separator"/>
     <addaction name="action_shortcuts"/>
@@ -2761,6 +2774,7 @@ hr { height: 1px; border-width: 0; }
     <addaction name="separator"/>
     <addaction name="action_open_parallel"/>
     <addaction name="action_cross_references"/>
+    <addaction name="action_open_maps"/>
     <addaction name="action_topical_index"/>
     <addaction name="action_strongify"/>
     <addaction name="separator"/>
@@ -2838,10 +2852,6 @@ hr { height: 1px; border-width: 0; }
   <action name="action_about">
    <property name="enabled">
     <bool>true</bool>
-   </property>
-   <property name="icon">
-    <iconset>
-     <normaloff>:/data/img/anchor2.png</normaloff>:/data/img/anchor2.png</iconset>
    </property>
    <property name="text">
     <string>About</string>
@@ -3014,7 +3024,7 @@ hr { height: 1px; border-width: 0; }
   <action name="action_about_filters">
    <property name="icon">
     <iconset resource="soulanchor.qrc">
-     <normaloff>:/data/img/help.png</normaloff>:/data/img/help.png</iconset>
+     <normaloff>:/data/img/information.png</normaloff>:/data/img/information.png</iconset>
    </property>
    <property name="text">
     <string>About Filters</string>
@@ -3093,7 +3103,7 @@ hr { height: 1px; border-width: 0; }
   <action name="action_emergency">
    <property name="icon">
     <iconset resource="soulanchor.qrc">
-     <normaloff>:/data/img/exclamation.png</normaloff>:/data/img/exclamation.png</iconset>
+     <normaloff>:/data/img/standardbutton-help-16.png</normaloff>:/data/img/standardbutton-help-16.png</iconset>
    </property>
    <property name="text">
     <string>Emergency</string>
@@ -3145,6 +3155,20 @@ hr { height: 1px; border-width: 0; }
   <action name="action_modifications">
    <property name="text">
     <string>Modifications</string>
+   </property>
+  </action>
+  <action name="action_open_maps">
+   <property name="icon">
+    <iconset resource="soulanchor.qrc">
+     <normaloff>:/data/img/map.png</normaloff>:/data/img/map.png</iconset>
+   </property>
+   <property name="text">
+    <string>Open Maps Window</string>
+   </property>
+  </action>
+  <action name="action_empire">
+   <property name="text">
+    <string>Empire Maps</string>
    </property>
   </action>
  </widget>

@@ -35,6 +35,7 @@ ParWindow::ParWindow(QWidget *parent) : QWidget(parent, Qt::Window)
     btn_ok->setText(tr("Go"));
     btn_ok->setMaximumSize(70, maxH);
     btn_ok->setMinimumWidth(30);
+    btn_ok->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
 
     btn_next->setText(tr("next"));
     btn_next->setMaximumSize(100, maxH);
@@ -104,16 +105,19 @@ ParWindow::ParWindow(QWidget *parent) : QWidget(parent, Qt::Window)
         printRequest();
     });
 
-    new QShortcut(QKeySequence(Qt::EnterKeyReturn), this, SLOT(printScriptures()));
-    connect(btn_next, &QPushButton::clicked, this, &ParWindow::nextChapter);
-    new QShortcut(QKeySequence(Qt::Key_Plus), this, SLOT(nextChapter()));
-    new QShortcut(QKeySequence(Qt::Key_Right), this, SLOT(nextChapter()));
-    connect(btn_prev, &QPushButton::clicked, this, &ParWindow::prevChapter);
-    new QShortcut(QKeySequence(Qt::Key_Minus), this, SLOT(prevChapter()));
-    new QShortcut(QKeySequence(Qt::Key_Left), this, SLOT(prevChapter()));
+    new QShortcut(Qt::EnterKeyReturn, this, SLOT(printScriptures()));
 
-    new QShortcut(QKeySequence(Qt::Key_F11), this, SLOT(toggleFullscreen()));
-    new QShortcut(QKeySequence(Qt::Key_Escape), this, SLOT(escapeKey()));
+    connect(btn_next, &QPushButton::clicked, this, &ParWindow::nextChapter);   
+    new QShortcut(Qt::Key_Plus, this, SLOT(nextChapter()));
+    new QShortcut(Qt::Key_Right, this, SLOT(nextChapter()));
+    connect(btn_prev, &QPushButton::clicked, this, &ParWindow::prevChapter);
+    new QShortcut(Qt::Key_Minus, this, SLOT(prevChapter()));
+    new QShortcut(Qt::Key_Left, this, SLOT(prevChapter()));
+
+    new QShortcut(Qt::Key_F11, this, [this] () {
+        isFullScreen() ? showNormal() : showFullScreen(); });
+    new QShortcut(Qt::Key_Escape, this, [this](){
+        if ( isFullScreen() ) showNormal(); });
 
     vbox->addItem(flowLayout);
     vbox->addItem(hbox_2);
@@ -155,16 +159,6 @@ void ParWindow::setTlandJob(const QString &tlAbbr, const QHash<QString, int> &jo
     history.clear();
     history.enqueue(job);
     centerWindow();
-}
-
-void ParWindow::toggleFullscreen()
-{
-    isFullScreen() ? showNormal() : showFullScreen();
-}
-
-void ParWindow::escapeKey()
-{
-    if ( isFullScreen() ) showNormal();
 }
 
 void ParWindow::nextChapter()

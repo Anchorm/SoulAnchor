@@ -14,7 +14,7 @@
 AboutWindow::AboutWindow(QWidget *parent) : QWidget(parent, Qt::Window)
 {
     setWindowTitle("About Window - SoulAnchor");
-    this->setObjectName("AboutWindow");
+    setObjectName("AboutWindow");
     setWindowIcon(anchorIcon);
     setFixedSize(500, 500);
 
@@ -22,8 +22,8 @@ AboutWindow::AboutWindow(QWidget *parent) : QWidget(parent, Qt::Window)
     lblAnchor->setStyleSheet("border-image: url(:/data/img/anchor_about.png)");
     lblAnchor->setFixedHeight(230);
     lblInfo->setText("<h1>SoulAnchor</h1>"
-                "X11 Bible tool - version " + QGuiApplication::applicationVersion() + "<br>"
-    );
+                "X11 Bible tool - version " +
+                     QGuiApplication::applicationVersion() + "<br>");
     lblInfo->setAlignment(Qt::AlignHCenter | Qt::AlignTop);
     lblInfo->setStyleSheet("padding:5px");
 
@@ -42,16 +42,22 @@ AboutWindow::AboutWindow(QWidget *parent) : QWidget(parent, Qt::Window)
             "https://github.com/scrollmapper/bible_databases</td></tr>"
             "<tr><td>the NET Bible</td> <td>Scripture quoted by permission. "
             "Quotations designated (NET) are from the NET Bible® copyright ©1996, "
-            "2019 by Biblical Studies Press, L.L.C. http://netbible.com All rights reserved</td>"
+            "2019 by Biblical Studies Press, L.L.C. "
+                   "http://netbible.com All rights reserved</td>"
             "</tr>"
-            "<tr><td>dictionaries, strongs</td> <td>Public domain, various unknown contributors, "
-            "thank you all</td></tr>"
-            "<tr><td>Qt</td> <td>Qt is available under the GNU Lesser General Public License version 3.             The Qt Toolkit is Copyright (C) 2018 The Qt Company Ltd. and other contributors</td></tr>"
+            "<tr><td>dictionaries, strongs</td> <td>Public domain, "
+                   "various unknown contributors, thank you all</td></tr>"
+            "<tr><td>Qt</td> "
+                   "<td>Qt is available under the GNU Lesser General Public License "
+                   "version 3. The Qt Toolkit is Copyright (C) 2018 The Qt Company Ltd. "
+                   "and other contributors</td></tr>"
             "<tr><td>cross references & topical references</td>"
                 "<td>https://www.openbible.info/</td></tr>"
             "<tr><td>fatcow icons</td><td>https://www.fatcow.com/free-icons</td></tr>"
             "<tr><td>famfamfam icons</td><td>http://www.famfamfam.com/</td></tr>"
-            "<tr><td>Images</td> <td>as found on the net and/or modified or created</td></tr>"
+            "<tr><td>Images</td> <td>as found on the net and/or modified or created</td>"
+            "<tr><td>Maps</td> <td>The maps that have no watermark "
+                            "are from biblemapper.com</td></tr>"
             "<tr></tr>"
             "</table>";
 

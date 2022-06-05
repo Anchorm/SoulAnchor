@@ -16,6 +16,7 @@
 #include <QTextStream>
 #include <QDir>
 #include <QTranslator>
+#include <QIcon>
 
 extern QTextStream sout;
 
@@ -27,7 +28,6 @@ extern QDir userDataDir;
 extern QDir userCfgDir;
 
 extern QTranslator translator;
-
 extern QFile settingsFile;
 
 #endif // GLOBALS_H

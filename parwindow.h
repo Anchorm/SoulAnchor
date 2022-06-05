@@ -32,7 +32,6 @@
 #include <QString>
 #include <QShortcut>
 
-
 class ParWindow : public QWidget
 {
     Q_OBJECT
@@ -43,7 +42,7 @@ class ParWindow : public QWidget
     const QIcon prevIcon = QIcon(":/data/img/bullet_arrow_left.png");
     const QIcon selectIcon = QIcon(":/data/img/edit-select-all");
     const QIcon copyIcon = QIcon(":/data/img/edit-copy");
-    const QIcon closeIcon = QIcon(":/data/img/window-close.png");
+    const QIcon closeIcon = QIcon(":/data/img/closedock-16.png");
     const QIcon scrollIcon = QIcon(":/data/img/script_yellow.png");
 
     QComboBox *cb_select = new QComboBox(this);
@@ -92,8 +91,6 @@ private slots:
     void checkTls();
     void printScriptures();
     void printRequest();
-    void toggleFullscreen();
-    void escapeKey();
     void centerWindow();
 
 public slots:

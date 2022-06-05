@@ -12,13 +12,11 @@
         <file>data/img/edit-copy.png</file>
         <file>data/img/edit-find.png</file>
         <file>data/img/edit-select-all.png</file>
-        <file>data/img/exclamation.png</file>
         <file>data/img/grid.png</file>
         <file>data/img/help.png</file>
         <file>data/img/information.png</file>
         <file>data/img/music.png</file>
         <file>data/img/overview.jpg</file>
-        <file>data/img/window-close.png</file>
         <file>data/img/wrench.png</file>
         <file>data/img/emergency.jpg</file>
         <file>data/img/biceps.png</file>
@@ -30,6 +28,17 @@
         <file>data/txt/immersion.md</file>
         <file>data/skel/soulanchor.conf</file>
         <file>data/lang/soulanchor_dutch.qm</file>
-        <file>data/css/soulanchor-no-scheme.css</file>
+        <file>data/img/zoom_actual.png</file>
+        <file>data/img/zoom_fit.png</file>
+        <file>data/img/zoom_in.png</file>
+        <file>data/img/zoom_out.png</file>
+        <file>data/img/map.png</file>
+        <file>data/img/view-fullscreen.png</file>
+        <file>data/img/qt_unshade.svg</file>
+        <file>data/img/closedock-16.png</file>
+        <file>data/img/standardbutton-cancel-16.png</file>
+        <file>data/img/standardbutton-apply-16.png</file>
+        <file>data/img/standardbutton-save-16.png</file>
+        <file>data/img/standardbutton-help-16.png</file>
     </qresource>
 </RCC>

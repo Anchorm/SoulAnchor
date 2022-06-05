@@ -18,9 +18,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
 
     QSettings settings(settingsFile.fileName(), QSettings::IniFormat);
 
-    activeScheme = settings.value("activeScheme", "none").toString();
-    applyScheme(activeScheme);
-
     // restore window state or set a default state of 80% of the screen
     QByteArray geo = settings.value("window/geometry").toByteArray();
     QByteArray state = settings.value("window/windowState").toByteArray();
@@ -47,6 +44,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
     rosterRead = settings.value("rosters/rosterRead", "false").toBool();
     docMargin = settings.value("margin", "14").toInt();
     frameWidth = settings.value("width", "10").toInt(); // range 2-10
+    showMaps = settings.value("showMaps").toBool();
 
     ui->info_frame->hide();
     ui->frame_find->hide();
@@ -75,30 +73,40 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
     ui->splitter_info->setStretchFactor(0,3);
     ui->splitter_info->setStretchFactor(1,2);
 
-    connect(ui->action_quit, &QAction::triggered, this, &MainWindow::exitApp, Qt::QueuedConnection);
+    connect(ui->action_quit, &QAction::triggered,
+            this, &MainWindow::exitApp, Qt::QueuedConnection);
     ui->action_quit->setShortcut(QKeySequence("Ctrl+q"));
 
-    connect(ui->action_toggle_tab, &QAction::triggered, this, &MainWindow::toggleTabW);
+    connect(ui->action_toggle_tab, &QAction::triggered,
+            this, &MainWindow::toggleTabW);
     ui->action_toggle_tab->setShortcut(Qt::Key_F8);
 
-    connect(ui->action_toggle_bible, &QAction::triggered, this, &MainWindow::toggleBible);
+    connect(ui->action_toggle_bible, &QAction::triggered,
+            this, &MainWindow::toggleBible);
     ui->action_toggle_bible->setShortcut(Qt::Key_F9);
 
-    connect(ui->action_toggle_info, &QAction::triggered, this, &MainWindow::toggleInfo);
+    connect(ui->action_toggle_info, &QAction::triggered,
+            this, &MainWindow::toggleInfo);
     ui->action_toggle_info->setShortcut(Qt::Key_F10);
 
-    connect(ui->action_fullscreen, &QAction::triggered, this, &MainWindow::toggleFullscreen);
+    connect(ui->action_fullscreen, &QAction::triggered, this, [this] () {
+        isFullScreen() ? showNormal() : showFullScreen(); });
     ui->action_fullscreen->setShortcut(Qt::Key_F11);
 
-    new QShortcut(QKeySequence(Qt::Key_F12), this, SLOT(toggleMenu()));
+    new QShortcut(Qt::Key_F12, this, SLOT(toggleMenu()));
 
     connect(ui->action_make_roster, &QAction::triggered, this, [this] () {
         !rosterW->isVisible() ? rosterW->show() : rosterW->raise(); } );
 
-    connect(ui->action_open_parallel, &QAction::triggered, this, &MainWindow::openParW);
+    connect(ui->action_open_parallel, &QAction::triggered,
+            this, &MainWindow::openParW);
     ui->action_open_parallel->setShortcut(QKeySequence("Ctrl+p"));
 
-    connect(ui->action_modifications, &QAction::triggered, this, &MainWindow::modifications);
+    connect(ui->action_open_maps, &QAction::triggered, this, [this] () {
+        imgW->changeMap(); } );
+
+    connect(ui->action_modifications, &QAction::triggered,
+            this, &MainWindow::modifications);
 
     connect(ui->action_about, &QAction::triggered, this, [this] () {
         aboutW->centerWindow();
@@ -107,13 +115,16 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
     connect(ui->action_settings, &QAction::triggered, this, [this] () {
         !settingsW->isVisible() ? settingsW->show()  : settingsW->raise(); });
 
-    connect(ui->action_lord_prayer, &QAction::triggered, this, &MainWindow::theLordsPrayer);
-    connect(ui->action_breaking_bread, &QAction::triggered, this, &MainWindow::breakingBread);
+    connect(ui->action_lord_prayer, &QAction::triggered, this,
+            &MainWindow::theLordsPrayer);
+    connect(ui->action_breaking_bread, &QAction::triggered,
+            this, &MainWindow::breakingBread);
     connect(ui->action_immersion, &QAction::triggered, this, &MainWindow::immersion);
     connect(ui->action_salvation, &QAction::triggered, this, &MainWindow::salvation);
     connect(ui->action_worries, &QAction::triggered, this, &MainWindow::worries);
     connect(ui->action_topical_index, &QAction::triggered, this, &MainWindow::showTopics);
-    connect(ui->action_cross_references, &QAction::triggered, this, &MainWindow::makeCrossRefs);
+    connect(ui->action_cross_references, &QAction::triggered,
+            this, &MainWindow::makeCrossRefs);
     connect(ui->action_strongify, &QAction::triggered, this, &MainWindow::strongify);
 
     connect(ui->action_overview, &QAction::triggered, this, [this] () {
@@ -121,13 +132,14 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
     connect(ui->action_shortcuts, &QAction::triggered, this, &MainWindow::showShortcuts);
     connect(ui->action_emergency, &QAction::triggered, this, [this] () {
         showEncPic(":/data/img/emergency.jpg"); } );
+    connect(ui->action_empire, &QAction::triggered, this, &MainWindow::showEmpireMaps);
 
     connect(ui->btn_next_chap, &QToolButton::clicked, this, &MainWindow::nextChapter);
     connect(ui->btn_prev_chap, &QToolButton::clicked, this, &MainWindow::prevChapter);
-    new QShortcut(QKeySequence(Qt::Key_Plus), this, SLOT(nextChapter()));
-    new QShortcut(QKeySequence(Qt::Key_Right), this, SLOT(nextChapter()));
-    new QShortcut(QKeySequence(Qt::Key_Minus), this, SLOT(prevChapter()));
-    new QShortcut(QKeySequence(Qt::Key_Left), this, SLOT(prevChapter()));
+    new QShortcut(Qt::Key_Plus, this, SLOT(nextChapter()));
+    new QShortcut(Qt::Key_Right, this, SLOT(nextChapter()));
+    new QShortcut(Qt::Key_Minus, this, SLOT(prevChapter()));
+    new QShortcut(Qt::Key_Left, this, SLOT(prevChapter()));
 
     // find in page - current textdocument
     connect(ui->cb_find_loc, &QComboBox::currentIndexChanged,
@@ -138,7 +150,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
     connect(ui->btn_find_prev, &QToolButton::clicked, this, [this]() {
         findInPage("prev"); });
     connect(ui->lineEdit_find, &QLineEdit::textEdited, this, &MainWindow::startFind);
-    connect(ui->lineEdit_find, &QLineEdit::returnPressed, this, &MainWindow::highlightMatches);
+    connect(ui->lineEdit_find, &QLineEdit::returnPressed,
+            this, &MainWindow::highlightMatches);
     ui->btn_find_prev->setShortcut(Qt::Key_F2);
     ui->btn_find_next->setShortcut(Qt::Key_F3);
     connect(ui->chkBox_find_case, &QCheckBox::stateChanged,
@@ -146,7 +159,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
     connect(ui->chkBox_find_whole, &QCheckBox::stateChanged,
             this, &MainWindow::modifyFindInPageFlags);
 
-    new QShortcut(QKeySequence(Qt::Key_Escape), this, SLOT(escapeKey()));
+    new QShortcut(Qt::Key_Escape, this, SLOT(escapeKey()));
 
     connect(new QShortcut(QKeySequence("Alt+1"),  this), &QShortcut::activated,
             ui->tabwidget, [=]() {ui->tabwidget->setCurrentIndex(0); });
@@ -164,11 +177,15 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
     connect(ui->strongs_tb, &QFrame::customContextMenuRequested,
             this, &MainWindow::ccMenuStrongs);
 
-    connect(ui->btn_book_title , &QPushButton::clicked, this, &MainWindow::showAboutBook);
+    connect(ui->btn_book_title , &QPushButton::clicked,
+            this, &MainWindow::showAboutBook);
 
-    connect(ui->lw_books, &QListWidget::itemClicked, this, &MainWindow::bookSelected);
-    connect(ui->lw_books, &QListWidget::itemActivated, this, &MainWindow::bookSelected);
-    connect(ui->lw_chapters, &QListWidget::itemClicked, this, &MainWindow::chapterSelected);
+    connect(ui->lw_books, &QListWidget::itemClicked,
+            this, &MainWindow::bookSelected);
+    connect(ui->lw_books, &QListWidget::itemActivated,
+            this, &MainWindow::bookSelected);
+    connect(ui->lw_chapters, &QListWidget::itemClicked,
+            this, &MainWindow::chapterSelected);
     connect(ui->lw_chapters, &QListWidget::itemActivated,
             this, &MainWindow::chapterSelected);
     connect(ui->lineEdit_select, &QLineEdit::returnPressed, this, [this] () {
@@ -186,10 +203,14 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
             this, &MainWindow::todaysProverb);
     connect(ui->btn_daily_proverb, &QPushButton::clicked,
             this, &MainWindow::todaysProverb);
-    connect(ui->btn_daily_psalm, &QPushButton::clicked, this, &MainWindow::todaysPsalm);
-    connect(ui->action_daily_psalm, &QAction::triggered, this, &MainWindow::todaysPsalm);
-    connect(ui->btn_daily_letter, &QPushButton::clicked, this, &MainWindow::todaysLetter);
-    connect(ui->action_letter, &QAction::triggered, this, &MainWindow::todaysLetter);
+    connect(ui->btn_daily_psalm, &QPushButton::clicked,
+            this, &MainWindow::todaysPsalm);
+    connect(ui->action_daily_psalm, &QAction::triggered,
+            this, &MainWindow::todaysPsalm);
+    connect(ui->btn_daily_letter, &QPushButton::clicked,
+            this, &MainWindow::todaysLetter);
+    connect(ui->action_letter, &QAction::triggered,
+            this, &MainWindow::todaysLetter);
 
     connect(ui->btn_daily_mbm, &QPushButton::clicked, this, [this](){
         MainWindow::morningAndEvening("mbm"); });
@@ -200,25 +221,22 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
     connect(ui->action_evening, &QAction::triggered, this, [this](){
         MainWindow::morningAndEvening("ebe"); });
 
-    connect(ui->btn_roster, &QPushButton::clicked, this, &MainWindow::readingPlan);
-    connect(ui->action_show_roster, &QAction::triggered, this, &MainWindow::loadRoster);
+    connect(ui->btn_roster, &QPushButton::clicked,
+            this, &MainWindow::readingPlan);
+    connect(ui->action_show_roster, &QAction::triggered,
+            this, &MainWindow::loadRoster);
     ui->frame_roster_btns->hide();
 
-    updateBooksWidget("");
+//    updateBooksWidget("");
     updateCbTranslations();
 
     activeTl = settings.value("translation", "net").toString().toLower();
-    if (activeTl.isEmpty()) {
-        activeTl = "net";
-    }
-    if (checkTableExists(activeTl) == false) {
-        exit(1);
-    }
+    if (activeTl.isEmpty()) activeTl = "net";
+    if (checkTableExists(activeTl) == false) exit(1);
 
     int tlIndex = ui->cb_select_translation->findData(activeTl);
-    if (tlIndex == -1) {
-        tlIndex = 0;
-    }
+    if (tlIndex == -1) tlIndex = 0;
+
     setHasNotes();
     ui->cb_select_translation->setCurrentIndex(tlIndex);
 
@@ -240,8 +258,10 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
     mplayer->setAudioOutput(audioOutput);
     connect(ui->action_stop_media, &QAction::triggered,
             this, [this] () { mplayer->stop(); });
-    connect(mplayer, &QMediaPlayer::playbackStateChanged, this, &MainWindow::stopPlayer);
-    connect(ui->action_play_random, &QAction::triggered, this, &MainWindow::playRandom);
+    connect(mplayer, &QMediaPlayer::playbackStateChanged,
+            this, &MainWindow::stopPlayer);
+    connect(ui->action_play_random, &QAction::triggered,
+            this, &MainWindow::playRandom);
 
     makeTextMenuItems();
 
@@ -257,11 +277,17 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
                      this, &MainWindow::updateBooksWidget);
     QObject::connect(settingsW, &SettingsWindow::subheadingsChanged,
                      this, &MainWindow::updateTLandSubh);
+    QObject::connect(settingsW, &SettingsWindow::showmapsChanged, [this]
+                    (bool showM)
+                    {showM ? showMaps = true : showMaps = false;});
 
     QObject::connect(this, &MainWindow::parOpened,
                      parW, &ParWindow::setTlandJob);
     QObject::connect(this, &MainWindow::setParwStyle,
                      parW, &ParWindow::setStyle);
+
+    QObject::connect(this, &MainWindow::setImgWindowPixmap,
+                     imgW, &ImageWindow::setPixmap);
 
     addRostersToMenu();
     setActiveRoster();
@@ -288,17 +314,18 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
     connect(ui->dict_le, &QLineEdit::textChanged, this, [this](){
         if(ui->dict_le->text().isEmpty()) ui->info_tb->clear(); });
 
-    connect(new QShortcut(QKeySequence("Ctrl+d"),  this),
+    // tmp 'debug print'
+    connect(new QShortcut(QKeySequence("Ctrl+d"), this),
             &QShortcut::activated,[=]() {
-                QString dp = ui->tb_scriptures->document()->toHtml();
-                ::sout << dp << Qt::endl;
+            QString dp = ui->tb_scriptures->document()->toHtml();
+            ::sout << dp << Qt::endl;
             });
 
-    rosterRead ? ui->cb_roster_read->setChecked(true) : ui->cb_roster_read->setChecked(false);
+    rosterRead ? ui->cb_roster_read->setChecked(true)
+               : ui->cb_roster_read->setChecked(false);
     strongTl = "t_akjv_s";
 
     ui->bible_frame->layout()->setAlignment(Qt::AlignHCenter);
-    applyFont("", "", docMargin, frameWidth);
 
     if (startup == "psalm") todaysPsalm();
     else if (startup == "proverb") todaysProverb();
@@ -307,6 +334,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
     else ui->bible_frame->hide();
 
     ui->tb_scriptures->moveCursor(QTextCursor::Start);
+
+    settingsW->cancelSettings();
 }
 
 MainWindow::~MainWindow()
@@ -1313,6 +1342,19 @@ void MainWindow::openParW()
     !parW->isVisible() ? parW->show() : parW->raise();
 }
 
+void MainWindow::openImgW(const QString &imgName)
+{
+    QPixmap mapPix {};
+    QString sqlGetImg {QString("select name, content from img_data where "
+                               "name is '%1'").arg(imgName)};
+    QSqlQuery queryImg(sqlGetImg, dbH.extraDb);
+
+    if (queryImg.next()) {
+        mapPix.loadFromData(queryImg.value(1).toByteArray());
+    }
+    emit setImgWindowPixmap(mapPix, imgName);
+}
+
 void MainWindow::applyScheme(const QString &aScheme)
 {
     // set active scheme and color values
@@ -1336,25 +1378,21 @@ void MainWindow::applyScheme(const QString &aScheme)
 
     QTextCharFormat calFormat;
     QString css;
-    if (activeScheme == "none") {
-        matchFormat.clearBackground();
-        css = QString("font-family:sans;font-size:12pt;padding:3px;margin:1px;");
-        calFormat.setForeground(QBrush( QColor("black") ));
-        calFormat.setBackground(QBrush( QColor("white") ));
-    } else {
-        matchFormat.setBackground(QColor(scheme["bg2Clr"]));
-        css = QString("color:%1;background-color:%2;"
-                    "font-family:sans;font-size:12pt;padding:3px;margin:1px;")
-                .arg(scheme["txtClr"],scheme["bgClr"]);
-        calFormat.setForeground(QBrush( QColor(scheme["nrClr"] )));
-        calFormat.setBackground(QBrush( QColor(scheme["bgClr"] )));
-    }
+
+    matchFormat.setBackground(QColor(scheme["bg2Clr"]));
+    css = QString("color:%1;background-color:%2;"
+                "font-family:sans;font-size:12pt;padding:3px;margin:1px;")
+            .arg(scheme["txtClr"],scheme["bgClr"]);
+    calFormat.setForeground(QBrush( QColor(scheme["nrClr"] )));
+    calFormat.setBackground(QBrush( QColor(scheme["bgClr"] )));
+
     encTxtLbl->setStyleSheet(css);
     ui->calendar->setHeaderTextFormat(calFormat);
 }
 
 void MainWindow::applyFont(const QString &font, const QString &fontS,
-                           const int &margin, const int &width)
+                           const int &margin, const int &width,
+                           const bool scrCheck, const bool bkCheck, const bool chCheck)
 {
     // apply changes from settings window, font, margin, width
     QSettings settings(settingsFile.fileName(), QSettings::IniFormat);
@@ -1370,28 +1408,13 @@ void MainWindow::applyFont(const QString &font, const QString &fontS,
         scripFont->setPointSize(ps);
     }
 
-    QCheckBox *scrCbox = this->findChild<QCheckBox *>("font_script_chkb");
-    QCheckBox *bkCbox = this->findChild<QCheckBox *>("font_bk_chkb");
-    QCheckBox *chCbox = this->findChild<QCheckBox *>("font_ch_chkb");
-
     // a custom font or the default app font which is def os font
-    if (scrCbox->isChecked()) {
-        ui->tb_scriptures->document()->setDefaultFont(*scripFont);
-    } else {
-        ui->tb_scriptures->document()->setDefaultFont(QApplication::font());
-    }
-
-    if (bkCbox->isChecked()) {
-        ui->lw_books->setFont(*scripFont);
-    } else {
-        ui->lw_books->setFont(QApplication::font());
-    }
-
-    if (chCbox->isChecked()) {
-        ui->lw_chapters->setFont(*scripFont);
-    } else {
-        ui->lw_chapters->setFont(QApplication::font());
-    }
+    scrCheck ? ui->tb_scriptures->document()->setDefaultFont(*scripFont) :
+               ui->tb_scriptures->document()->setDefaultFont(QApplication::font());
+    bkCheck ? ui->lw_books->setFont(*scripFont) :
+              ui->lw_books->setFont(QApplication::font());
+    chCheck ? ui->lw_chapters->setFont(*scripFont) :
+              ui->lw_chapters->setFont(QApplication::font());
 
     ui->tb_scriptures->document()->setDocumentMargin(margin);
     ui->info_tb->document()->setDocumentMargin(10);
@@ -1752,6 +1775,32 @@ void MainWindow::worries()
     processPrintQueue();
 }
 
+void MainWindow::showEmpireMaps()
+{
+    ui->tb_scriptures->clear();
+    ui->lw_books->clearSelection();
+    ui->lw_chapters->clear();
+    ui->btn_book_title->setText("");
+
+    QString sqlGetMaps {"select name from img_data where name like '%empire%' "
+                        "or name like '%nations%' or name like '%world%'"};
+    QSqlQuery querygetMaps(sqlGetMaps, dbH.extraDb);
+    QString mapName {};
+
+    while (querygetMaps.next()) {
+        mapName = querygetMaps.value(0).toString();
+        ui->tb_scriptures->insertHtml(QString(
+                            "<a href='img:%1' style='text-decoration:none;"
+                            "color:%2;font-size:large;'>"
+                            "<img width='28' height='28' "
+                            "src=':/data/img/map.png'><i>%1</i>&nbsp;&nbsp;"
+                            "</a><br>"
+                            ).arg(mapName, scheme.value("titleClr")));
+    }
+
+    ui->bible_frame->show();
+}
+
 void MainWindow::showShortcuts()
 {
     ui->info_tb->clear(); ui->info_lbl_title->clear(); ui->info_frame->show();
@@ -1894,13 +1943,9 @@ void MainWindow::changeEncTxt()
 void MainWindow::setEncTxt()
 {
     QString css;
-    if (activeScheme == "none") {
-        css = "font-family:sans;font-size:12pt;padding:3px;margin:1px;";
-    } else {
-        css = QString("color:%1;background-color:%2;"
-                    "font-family:sans;font-size:12pt;padding:3px;margin:1px;"
-                      ).arg(scheme["txtClr"],scheme["bgClr"]);
-    }
+    css = QString("color:%1;background-color:%2;"
+                "font-family:sans;font-size:12pt;padding:3px;margin:1px;"
+                  ).arg(scheme["txtClr"],scheme["bgClr"]);
 
     encTxtLbl->setWordWrap(true);
     encTxtLbl->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Maximum);
@@ -2176,6 +2221,7 @@ void MainWindow::on_tb_scriptures_anchorClicked(const QUrl &url)
 {
     // show a footnote or process a strongs nr
     QString sUrl = url.toString(QUrl::RemoveScheme);
+
     if (url.scheme() == "note") {
         QList urlList = sUrl.split(" ");
         QString bk = urlList[0];
@@ -2248,6 +2294,8 @@ void MainWindow::on_tb_scriptures_anchorClicked(const QUrl &url)
             ui->strongs_tb->setHtml(limited);
             ui->info_frame->show();
         }
+    } else if (url.scheme() == "img") {
+        openImgW(sUrl);
     } else {
         getStrongs(sUrl);
     }
@@ -2403,7 +2451,7 @@ void MainWindow::searchScriptures()
     }
 
     QString anyExact = ui->search_cb_anyExact->currentText();
-    QString tl = "t_" + ui->cb_select_translation->currentData().toString();
+    QString tl = "t_" + activeTl;
 
     QString globOrLike; // sql glob or like
     QString astOrPer; // asterisk or percentage
@@ -3265,14 +3313,10 @@ void MainWindow::highlightMatches()
     QString input = ui->lineEdit_find->text();
     clearHighLights();
 
-    if (activeScheme == "none") {
-        matchFormat.setBackground(QColor("lightgrey"));
+    if (textBrowser == ui->tb_scriptures) {
+        matchFormat.setBackground(QColor(scheme["bg2Clr"]));
     } else {
-        if (textBrowser == ui->tb_scriptures) {
-            matchFormat.setBackground(QColor(scheme["bg2Clr"]));
-        } else {
-            matchFormat.setBackground(QColor(scheme["bgClr"]));
-        }
+        matchFormat.setBackground(QColor(scheme["bgClr"]));
     }
 
     int count = 0;
@@ -3297,15 +3341,12 @@ void MainWindow::clearHighLights()
 {
     // remove old highlight background color
     QString bgClr;
-    if (activeScheme == "none") {
-        bgClr = "white";
+    if (textBrowser == ui->tb_scriptures) {
+        bgClr = scheme["bgClr"];
     } else {
-        if (textBrowser == ui->tb_scriptures) {
-            bgClr = scheme["bgClr"];
-        } else {
-            bgClr = scheme["bg2Clr"];
-        }
+        bgClr = scheme["bg2Clr"];
     }
+
     textBrowser->selectAll();
     textBrowser->setTextBackgroundColor(bgClr);
     textBrowser->moveCursor(QTextCursor::Start);
@@ -3447,7 +3488,7 @@ void MainWindow::updateCbTranslations()
 
     while (query.next())
     {
-        abbr = query.value(0).toString();
+        abbr = query.value(0).toString().toLower();
         desc = query.value(1).toString();
         ui->cb_select_translation->addItem(desc, abbr);
     }
@@ -3549,33 +3590,52 @@ void MainWindow::printScriptures()
     QString sBk = QString::number(job["bk"]);
     QString bookName = ::g_bookNames[bk];
 
-    QString c1Str = QString::number(job["c1"]);
+    QString sC1 = QString::number(job["c1"]);
     int c2 = job["c2"];
-    QString c2Str = QString::number(job["c2"]);
+    QString sC2 = QString::number(job["c2"]);
     int v1 = job["v1"];
-    QString v1Str = QString::number(job["v1"]);
+    QString sV1 = QString::number(job["v1"]);
     int v2 = job["v2"];
-    QString v2Str = QString::number(job["v2"]);
+    QString sV2 = QString::number(job["v2"]);
 
     if(bk == 0) return;
+
+    if (showMaps) {
+        // check for maps
+        QString sqlGetImg {QString("select book, chapter, name from img_references where "
+                                   "book is %1 and chapter is %2").arg(sBk, sC1)};
+        QSqlQuery queryImg(sqlGetImg, dbH.extraDb);
+        QString mapName {};
+
+        while (queryImg.next()) {
+            mapName = queryImg.value(2).toString();
+            ui->tb_scriptures->insertHtml(QString(
+                                "<a href='img:%1' style='text-decoration:none;"
+                                "color:%2;font-size:small;'>"
+                                "<img width='28' height='28' "
+                                "src=':/data/img/map.png'><i>%1</i>&nbsp;&nbsp;"
+                                "</a>"
+                                ).arg(mapName, scheme.value("titleClr")));
+        }
+    }
 
     QString chapterSql;
     QString verseSQL;
 
     if (c2 > 0 ) {
-        chapterSql = QString("BETWEEN %1 AND %2").arg(c1Str, c2Str);
+        chapterSql = QString("BETWEEN %1 AND %2").arg(sC1, sC2);
     } else {
-        chapterSql = "= " + c1Str;
+        chapterSql = "= " + sC1;
     }
 
     QString sql = QString("SELECT c, v, t from t_%1 where b = %2 and c %3 ")
             .arg(activeTl, sBk, chapterSql);
 
     if (v1 > 0 and v2 > 0 and c2 == 0){
-        verseSQL = QString("AND v BETWEEN %1 AND %2").arg(v1Str, v2Str);
+        verseSQL = QString("AND v BETWEEN %1 AND %2").arg(sV1, sV2);
         sql.append(verseSQL);
     } else if (v1 > 0 and c2 == 0){
-        verseSQL = "AND v = " + v1Str;
+        verseSQL = "AND v = " + sV1;
         sql.append(verseSQL);
     }
 
@@ -3589,16 +3649,8 @@ void MainWindow::printScriptures()
     QString headerBookMode, verseBookMode; // header and verse for book mode
     QString headerChapNr;
     QString subheading;
-    QString lang;
     QString sCh, sNr, txt;
     QString breakOrNot {};
-
-    // todo: dynamic
-    if (bknLanguage == "dutch") {
-        lang = "NL";
-    } else {
-        lang = "EN";
-    }
 
     QList<QString> endChar { ".", "!", "?" };
     int textL {};
@@ -3631,7 +3683,7 @@ void MainWindow::printScriptures()
                                 "style='font-size:medium; color:%1;"
                                 "font-family:serif;font-weight:400'>"
                                 "%2 </td>"
-                                ).arg(scheme.value("titleClr"), "Chapter " + sCh);
+                                ).arg(scheme.value("titleClr"), chapterHeader + sCh);
                 headerBookMode = QString("<td width='60%' align='center' "
                                 "style='font-size:medium; color:%1;"
                                 "font-family:serif;font-weight:400;'>"
@@ -3954,20 +4006,6 @@ void MainWindow::setBookTitle(QString title)
         }
     }
 
-    QString style;
-    if (activeScheme == "none") {
-        style = QString(
-            "font-size:24px;font-family:serif;font-style:normal;"
-            "font-weight:400;margin:3px;padding:0px;"
-            "color:black;background-color:white;");
-    } else {
-        style = QString(
-            "font-size:24px;font-family:serif;font-style:normal;"
-            "font-weight:400;margin:3px;padding:0px;"
-            "color:%1;background-color:%2;")
-            .arg(scheme["titleClr"],scheme["bg2Clr"]);
-    }
-    ui->btn_book_title->setStyleSheet(style);
     ui->btn_book_title->setText(title);
 }
 
@@ -4005,6 +4043,12 @@ void MainWindow::updateBooksWidget(const QString &lang)
         bknLanguage = lang;
         sql = "SELECT book_nr, name_" + lang + " from number_name";
     }
+    // todo: dynamic, db
+    if (bknLanguage == "dutch") {
+        chapterHeader = "Hoofdstuk ";
+    } else {
+        chapterHeader = "Chapter ";
+    }
 
     QSqlQuery query(sql, dbH.bibleDb);
     QString bookName;
@@ -4038,7 +4082,7 @@ void MainWindow::updateTLandSubh(const QString &translation, const QString &subh
     activeSubh = subheadings;
     activeTl = translation;
     int currentIndex = ui->cb_select_translation->currentIndex();
-    int newIndex = ui->cb_select_translation->findData(activeTl);
+    int newIndex = ui->cb_select_translation->findData(activeTl.toLower());
 
     if (currentIndex == newIndex) {
         ui->tb_scriptures->clear();
@@ -4055,6 +4099,7 @@ void MainWindow::updateTLandSubh(const QString &translation, const QString &subh
 
 void MainWindow::setHasNotes()
 {
+    // tl has footnotes? formatted text implied
     QString sql = QString("SELECT abbreviation, notes "
                   "FROM version_info where abbreviation is '%1'").arg(activeTl);
     QSqlQuery query(sql, dbH.bibleDb );
@@ -4077,15 +4122,6 @@ void MainWindow::getBooksAbbr()
             abbr = query.value(1).toString();
         }
         ::g_booksAbbr.append(abbr);
-    }
-}
-
-void MainWindow::toggleFullscreen()
-{
-    if (isFullScreen()){
-        showNormal();
-    } else {
-        showFullScreen();
     }
 }
 
@@ -4112,32 +4148,21 @@ void MainWindow::toggleInfo()
 void MainWindow::setStyleSheets()
 {
     QFile saFile;
-
-    if (activeScheme == "none") {
-        saFile.setFileName(":/data/css/soulanchor-no-scheme.css");
-    } else {
-        saFile.setFileName(":/data/css/soulanchor.css");
-    }
+    saFile.setFileName(":/data/css/soulanchor.css");
     saFile.open(QIODevice::ReadOnly | QIODevice::Text);
     saStyle = saFile.readAll();
     saFile.close();
 
-    if (activeScheme != "none") {
-        saStyle.replace("txtClr", scheme["txtClr"]);
-        saStyle.replace("bgClr", scheme["bgClr"]);
-        saStyle.replace("bg2Clr", scheme["bg2Clr"]);
-        saStyle.replace("nrClr", scheme["nrClr"]);
-        saStyle.replace("titleClr", scheme["titleClr"]);
-        saStyle.replace("clashClr", scheme["clashClr"]);
-        QColor darkerBg = QColor(scheme["bgClr"]).darker(200);
-        saStyle.replace("darkerBg", darkerBg.name());
-        qApp->setStyleSheet(saStyle);
-    } else {
-        qApp->setStyleSheet("");
-        qApp->setStyleSheet(saStyle);
-    }
+    saStyle.replace("txtClr", scheme["txtClr"]);
+    saStyle.replace("bgClr", scheme["bgClr"]);
+    saStyle.replace("bg2Clr", scheme["bg2Clr"]);
+    saStyle.replace("nrClr", scheme["nrClr"]);
+    saStyle.replace("titleClr", scheme["titleClr"]);
+    saStyle.replace("clashClr", scheme["clashClr"]);
+    QColor darkerBg = QColor(scheme["bgClr"]).darker(200);
+    saStyle.replace("darkerBg", darkerBg.name());
 
-    this->repaint();
+    qApp->setStyleSheet(saStyle);   
 }
 
 void MainWindow::on_btn_select_today_clicked()

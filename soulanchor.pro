@@ -57,6 +57,7 @@ SOURCES += \
         databasehandler.cpp \
         flowlayout.cpp \
         globals.cpp \
+        imagewindow.cpp \
         main.cpp \
         mainwindow.cpp \
         parwindow.cpp \
@@ -69,6 +70,7 @@ HEADERS += \
         databasehandler.h \
         flowlayout.h \
         globals.h \
+        imagewindow.h \
         mainwindow.h \
         parwindow.h \
         roster.h \
