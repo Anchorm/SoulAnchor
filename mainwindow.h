@@ -43,6 +43,7 @@
 #include <QFlags>
 #include <QTextDocument>
 #include <QTextCursor>
+#include <QTextBlock>
 #include <QFont>
 #include <QInputDialog>
 #include <QMessageBox>
@@ -52,6 +53,7 @@
 #include <QActionGroup>
 #include <random>
 #include <QResizeEvent>
+#include <QTextFrameFormat>
 
 
 //QtDocs: The following lines declare the class(es) in the Ui namespace, which is the standard namespace for the UI classes generated from .ui files by the uic tool:
@@ -94,7 +96,6 @@ class MainWindow : public QMainWindow
     QStringList strongsHistory; // for context menu history
     QStringList dictwordHistory; // same
 
-    const QIcon bookIcon = QIcon(":/data/img/book.png");
     const QIcon bookAddIcon = QIcon(":/data/img/book_add.png");
     const QIcon bookRemoveIcon = QIcon(":/data/img/book_remove.png");
     const QIcon bookmarkIcon = QIcon(":/data/img/bookmark.png");
@@ -111,6 +112,8 @@ class MainWindow : public QMainWindow
     const QIcon strongIcon = QIcon(":/data/img/biceps.png");
     const QIcon scrollIcon = QIcon(":/data/img/script_yellow.png");
     const QIcon closeIcon = QIcon(":/data/img/closedock-16.png");
+//    const QIcon contentsIcon = QIcon(":/data/img/index.png");
+
 
     QQueue< QHash<QString, int> > printQ; // print queue, hash keys: bk c1 c2 v1 v2
     QQueue< QHash<QString, int> > printHistory; // keep a history of print jobs

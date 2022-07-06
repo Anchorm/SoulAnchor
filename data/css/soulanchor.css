@@ -115,7 +115,7 @@ QToolButton {
     border:0;
 }
 QToolButton:hover {
-    background-color: rgba(0,0,0,10);
+    background-color: rgba(255,255,255,30);
 }
 
 QSpinBox {
@@ -199,7 +199,7 @@ QMenuBar::item:hover {
 QMenuBar {
     color: txtClr;
     background-color: bgClr;
-    border-bottom: 1px solid bg2Clr;
+    border-bottom: 1px solid bgClr;
     spacing: 5px;
 }
 QMenuBar::item:selected {
@@ -209,10 +209,6 @@ QMenuBar::item:selected {
 }
 QMenuBar QMenu {
     color: txtClr;
-    border-top-left-radius: 0px;
-    border-top-right-radius: 0px;
-    border-bottom-left-radius: 4px;
-    border-bottom-right-radius: 4px;
 }
 
 
@@ -230,7 +226,7 @@ QScrollBar:vertical {
     width:16px;
 }
 QScrollBar::handle:vertical {
-    min-height:50px;
+    min-height:0px;
 }
 QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {
     height: 0;width: 0;
@@ -247,7 +243,7 @@ QScrollBar:horizontal {
     height: 16px;
 }
 QScrollBar::handle:horizontal {
-    min-width:50px;
+    min-width:0px;
 }
 QScrollBar::add-line:horizontal, QScrollBar::sub-line:horizontal {
     height: 0px;
@@ -278,12 +274,12 @@ background-color:bg2Clr;
 }
 
 #lw_books {
-    show-decoration-selected:0;
-    selection-background-color: bgClr;
-    selection-color: titleClr;
     color: titleClr;
     background-color: bg2Clr;
-    padding-left:3px;padding-top:0px;padding-right:0px;padding-bottom:0px;
+    selection-color: titleClr;
+    selection-background-color: bgClr;
+    show-decoration-selected:0;
+    padding-left:3px;padding-top:3px;padding-right:0px;padding-bottom:0px;
     margin:0;
 }
 #lw_books::item:hover {
@@ -393,49 +389,46 @@ QTabBar::tab:hover {
     border-right: 1 solid bg2Clr;
 }
 
-#booktitle_frame {
-    background-color:qlineargradient(
-    spread:pad, x1:0.488, y1:0, x2:0.459, y2:1, stop:0.00938967 bg2Clr, stop:1 bgClr)
-}
-
-#btn_book_title {
-    font-size:24px;
-    font-family:serif;
-    font-style:normal;
+#lbl_book_title {
+    font-size:22px;
     font-weight:400;
-    margin:3px;
-    padding:0px;
     color:titleClr;
-    background-color: transparent;
     border:0;
+    background-color: bg2Clr;
+    margin:0px;padding:0px;
 }
 
 #lw_chapters {
+    margin:0;
+    padding-left:15px;
     color: titleClr;
-    background-color: transparent;
+    background-color: bg2Clr;
     selection-color: titleClr;
     selection-background-color: bgClr;
-    show-decoration-selected:0;
-    margin-left:20px;
+    show-decoration-selected:1;
 }
 #lw_chapters::item:hover {
     background-color: bgClr;
 }
-
+#lw_chapters QScrollBar:vertical {
+    background-color: transparent;
+}
 #lw_chapters QScrollBar::handle {
-    margin-right:1px;
     background-color:bgClr;
 }
 
 #tb_scriptures {
     background-color: bgClr;
-    padding:0px;
     margin:0px;
     selection-background-color:clashClr;
 }
 #tb_scriptures QScrollBar::handle {
     background-color:bg2Clr;
     margin-right:1px;
+}
+
+#splitter_bibleframe::handle {
+    background-color:bg2Clr
 }
 
 /********************* FIND FRAME *********************/
@@ -466,7 +459,7 @@ QTabBar::tab:hover {
     background-color: bg2Clr;
     selection-background-color:clashClr;
 }
-#info_frame QLabel, #info_frame QToolButton {
+#info_frame QLabel {
     color:titleClr;
     background-color:bgClr;
     border:0;
@@ -474,4 +467,14 @@ QTabBar::tab:hover {
 #info_tb QScrollBar::handle, #strongs_tb QScrollBar::handle {
     background-color: bgClr;
     margin-right:1px;
+}
+#btn_info_close {
+    background-color:bgClr;
+    border-left: 0 solid bgClr;
+    border-top: 0 solid bgClr;
+    border-bottom: 5 solid bgClr;
+    border-right: 5 solid bgClr;
+}
+#btn_info_close:hover {
+    background-color: rgba(255,255,255,30);
 }
