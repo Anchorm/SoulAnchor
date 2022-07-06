@@ -12,564 +12,558 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../../mainwindow.ui" line="154"/>
+        <location filename="../../mainwindow.ui" line="159"/>
         <source>Contents</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="235"/>
+        <location filename="../../mainwindow.ui" line="240"/>
         <source>e.g. ps 1-5 act 2:38</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="375"/>
+        <location filename="../../mainwindow.ui" line="380"/>
         <source>Search</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="512"/>
-        <location filename="../../mainwindow.ui" line="2094"/>
+        <location filename="../../mainwindow.ui" line="564"/>
+        <location filename="../../mainwindow.ui" line="1992"/>
         <source>whole words</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="556"/>
+        <location filename="../../mainwindow.ui" line="592"/>
         <source>search</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="565"/>
-        <location filename="../../mainwindow.ui" line="2459"/>
-        <location filename="../../mainwindow.ui" line="2662"/>
+        <location filename="../../mainwindow.ui" line="601"/>
+        <location filename="../../mainwindow.ui" line="2354"/>
+        <location filename="../../mainwindow.ui" line="2557"/>
         <source>Go</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="428"/>
-        <location filename="../../mainwindow.ui" line="2064"/>
+        <location filename="../../mainwindow.ui" line="480"/>
+        <location filename="../../mainwindow.ui" line="1962"/>
         <source>case sensitive</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="706"/>
+        <location filename="../../mainwindow.ui" line="705"/>
         <source>Today</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="793"/>
+        <location filename="../../mainwindow.ui" line="792"/>
         <source>Set calender to today</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="802"/>
+        <location filename="../../mainwindow.ui" line="801"/>
         <source>t o d a y</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="917"/>
-        <location filename="../../mainwindow.ui" line="2866"/>
+        <location filename="../../mainwindow.ui" line="922"/>
+        <location filename="../../mainwindow.ui" line="2761"/>
         <source>Proverb</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="951"/>
-        <location filename="../../mainwindow.ui" line="2878"/>
+        <location filename="../../mainwindow.ui" line="956"/>
+        <location filename="../../mainwindow.ui" line="2773"/>
         <source>Psalm</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="985"/>
-        <location filename="../../mainwindow.ui" line="2947"/>
+        <location filename="../../mainwindow.ui" line="990"/>
+        <location filename="../../mainwindow.ui" line="2842"/>
         <source>Letter</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="1025"/>
-        <location filename="../../mainwindow.ui" line="2921"/>
+        <location filename="../../mainwindow.ui" line="1030"/>
+        <location filename="../../mainwindow.ui" line="2816"/>
         <source>Reading Plan</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="1178"/>
-        <location filename="../../mainwindow.cpp" line="2976"/>
+        <location filename="../../mainwindow.ui" line="1184"/>
+        <location filename="../../mainwindow.cpp" line="2975"/>
         <source>next</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="1215"/>
-        <location filename="../../mainwindow.cpp" line="2977"/>
+        <location filename="../../mainwindow.ui" line="1222"/>
+        <location filename="../../mainwindow.cpp" line="2976"/>
         <source>previous</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="3100"/>
+        <location filename="../../mainwindow.ui" line="2995"/>
         <source>Menu</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="1954"/>
+        <location filename="../../mainwindow.ui" line="1850"/>
         <source>enter/return to highlight all results</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="1957"/>
+        <location filename="../../mainwindow.ui" line="1853"/>
         <source>search for...</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="1985"/>
+        <location filename="../../mainwindow.ui" line="1881"/>
         <source>find next - F3</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="2022"/>
+        <location filename="../../mainwindow.ui" line="1919"/>
         <source>find previous - F2</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="2622"/>
+        <location filename="../../mainwindow.ui" line="2517"/>
         <source>e.g. G907 or βαπτίζω</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="1622"/>
-        <location filename="../../mainwindow.ui" line="1747"/>
-        <source>...</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="../../mainwindow.ui" line="2730"/>
+        <location filename="../../mainwindow.ui" line="2625"/>
         <source>Select</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="2754"/>
+        <location filename="../../mainwindow.ui" line="2649"/>
         <source>Help</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="2767"/>
+        <location filename="../../mainwindow.ui" line="2662"/>
         <source>View</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="2787"/>
+        <location filename="../../mainwindow.ui" line="2682"/>
         <source>Contemplation</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="2791"/>
+        <location filename="../../mainwindow.ui" line="2686"/>
         <source>Music inspired by the Word:</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="2795"/>
+        <location filename="../../mainwindow.ui" line="2690"/>
         <source>Psalms</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="2800"/>
+        <location filename="../../mainwindow.ui" line="2695"/>
         <source>Hymns</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="2808"/>
+        <location filename="../../mainwindow.ui" line="2703"/>
         <source>Text inspired by the Word:</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="2823"/>
+        <location filename="../../mainwindow.ui" line="2718"/>
         <source>Filters</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="2832"/>
-        <location filename="../../mainwindow.cpp" line="3469"/>
+        <location filename="../../mainwindow.ui" line="2727"/>
+        <location filename="../../mainwindow.cpp" line="3470"/>
         <source>History</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="2837"/>
+        <location filename="../../mainwindow.ui" line="2732"/>
         <source>Bookmarks</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="2857"/>
+        <location filename="../../mainwindow.ui" line="2752"/>
         <source>About</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="2887"/>
+        <location filename="../../mainwindow.ui" line="2782"/>
         <source>Quit</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="2892"/>
+        <location filename="../../mainwindow.ui" line="2787"/>
         <source>Fullscreen</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="2904"/>
+        <location filename="../../mainwindow.ui" line="2799"/>
         <source>Settings</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="3130"/>
+        <location filename="../../mainwindow.ui" line="3025"/>
         <source>Tab</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="3140"/>
+        <location filename="../../mainwindow.ui" line="3035"/>
         <source>Cross References</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="3152"/>
+        <location filename="../../mainwindow.ui" line="3047"/>
         <source>Strong&apos;s numbers</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="3135"/>
+        <location filename="../../mainwindow.ui" line="3030"/>
         <source>Topical Index</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="2912"/>
+        <location filename="../../mainwindow.ui" line="2807"/>
         <source>Toggle Tab-Widget</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="2926"/>
+        <location filename="../../mainwindow.ui" line="2821"/>
         <source>Shortcuts</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="2938"/>
+        <location filename="../../mainwindow.ui" line="2833"/>
         <source> Play random</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="2955"/>
+        <location filename="../../mainwindow.ui" line="2850"/>
         <source>Reset</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="2966"/>
+        <location filename="../../mainwindow.ui" line="2861"/>
         <source>Judeans filter</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="2977"/>
+        <location filename="../../mainwindow.ui" line="2872"/>
         <source>immersion filter</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="2989"/>
+        <location filename="../../mainwindow.ui" line="2884"/>
         <source> Stop playing</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="3109"/>
+        <location filename="../../mainwindow.ui" line="3004"/>
         <source>Emergency</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="862"/>
-        <location filename="../../mainwindow.ui" line="3114"/>
+        <location filename="../../mainwindow.ui" line="861"/>
+        <location filename="../../mainwindow.ui" line="3009"/>
         <source>Morning</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="3117"/>
+        <location filename="../../mainwindow.ui" line="3012"/>
         <source>Morning by morning - by Spurgeon</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="875"/>
-        <location filename="../../mainwindow.ui" line="3122"/>
+        <location filename="../../mainwindow.ui" line="880"/>
+        <location filename="../../mainwindow.ui" line="3017"/>
         <source>Evening</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="3125"/>
+        <location filename="../../mainwindow.ui" line="3020"/>
         <source>Evening by evening - Spurgeon</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="2994"/>
+        <location filename="../../mainwindow.ui" line="2889"/>
         <source>Info</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="469"/>
+        <location filename="../../mainwindow.ui" line="521"/>
         <source>search word(s) or Strong&apos;s nr</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="1915"/>
-        <location filename="../../mainwindow.ui" line="2909"/>
-        <location filename="../../mainwindow.cpp" line="3422"/>
+        <location filename="../../mainwindow.ui" line="1811"/>
+        <location filename="../../mainwindow.ui" line="2804"/>
+        <location filename="../../mainwindow.cpp" line="3423"/>
         <source>Bible</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="2385"/>
+        <location filename="../../mainwindow.ui" line="2280"/>
         <source>Index</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="2419"/>
+        <location filename="../../mainwindow.ui" line="2314"/>
         <source>bible dictionary word</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="2526"/>
+        <location filename="../../mainwindow.ui" line="2421"/>
         <source>SECE &amp; BDB-T</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="2723"/>
+        <location filename="../../mainwindow.ui" line="2618"/>
         <source>Daily</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="3003"/>
-        <location filename="../../mainwindow.cpp" line="1699"/>
+        <location filename="../../mainwindow.ui" line="2898"/>
+        <location filename="../../mainwindow.cpp" line="1698"/>
         <source>The Lord&apos;s Prayer</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="3012"/>
-        <location filename="../../mainwindow.cpp" line="941"/>
+        <location filename="../../mainwindow.ui" line="2907"/>
+        <location filename="../../mainwindow.cpp" line="939"/>
         <source>Add Bookmark</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="3021"/>
-        <location filename="../../mainwindow.ui" line="3063"/>
-        <location filename="../../mainwindow.cpp" line="949"/>
+        <location filename="../../mainwindow.ui" line="2916"/>
+        <location filename="../../mainwindow.ui" line="2958"/>
+        <location filename="../../mainwindow.cpp" line="947"/>
         <source>Delete</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="3030"/>
+        <location filename="../../mainwindow.ui" line="2925"/>
         <source>About Filters</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="3039"/>
+        <location filename="../../mainwindow.ui" line="2934"/>
         <source>Salvation</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="3044"/>
+        <location filename="../../mainwindow.ui" line="2939"/>
         <source>Create...</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="3049"/>
-        <location filename="../../mainwindow.cpp" line="945"/>
+        <location filename="../../mainwindow.ui" line="2944"/>
+        <location filename="../../mainwindow.cpp" line="943"/>
         <source>Rename</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="3058"/>
-        <location filename="../../mainwindow.cpp" line="2887"/>
-        <location filename="../../mainwindow.cpp" line="2983"/>
+        <location filename="../../mainwindow.ui" line="2953"/>
+        <location filename="../../mainwindow.cpp" line="2886"/>
+        <location filename="../../mainwindow.cpp" line="2982"/>
         <source>Open Parallel Window</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="3068"/>
+        <location filename="../../mainwindow.ui" line="2963"/>
         <source>Bible Structure</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="3077"/>
-        <location filename="../../mainwindow.cpp" line="1714"/>
+        <location filename="../../mainwindow.ui" line="2972"/>
+        <location filename="../../mainwindow.cpp" line="1713"/>
         <source>Breaking Bread</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="3086"/>
-        <location filename="../../mainwindow.cpp" line="1739"/>
+        <location filename="../../mainwindow.ui" line="2981"/>
+        <location filename="../../mainwindow.cpp" line="1738"/>
         <source>Immersion</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="3095"/>
+        <location filename="../../mainwindow.ui" line="2990"/>
         <source>Worries</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="3157"/>
+        <location filename="../../mainwindow.ui" line="3052"/>
         <source>Modifications</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="3166"/>
+        <location filename="../../mainwindow.ui" line="3061"/>
         <source>Open Maps Window</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="3171"/>
+        <location filename="../../mainwindow.ui" line="3066"/>
         <source>Empire Maps</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="887"/>
-        <location filename="../../mainwindow.cpp" line="892"/>
+        <location filename="../../mainwindow.cpp" line="885"/>
+        <location filename="../../mainwindow.cpp" line="890"/>
         <source>rename bookmark</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="888"/>
+        <location filename="../../mainwindow.cpp" line="886"/>
         <source>Choose bookmark to rename:</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="893"/>
+        <location filename="../../mainwindow.cpp" line="891"/>
         <source>And the new name is:</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="920"/>
+        <location filename="../../mainwindow.cpp" line="918"/>
         <source>delete bookmark</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="921"/>
+        <location filename="../../mainwindow.cpp" line="919"/>
         <source>bookmark to remove:</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="1180"/>
+        <location filename="../../mainwindow.cpp" line="1178"/>
         <source>remove roster</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="1181"/>
+        <location filename="../../mainwindow.cpp" line="1179"/>
         <source>Roster to remove:</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="1219"/>
+        <location filename="../../mainwindow.cpp" line="1217"/>
         <source>Set roster %1 to the first session?</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="1220"/>
+        <location filename="../../mainwindow.cpp" line="1218"/>
         <source>reset roster</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="1293"/>
+        <location filename="../../mainwindow.cpp" line="1291"/>
         <source>No reading plan available.&lt;br&gt; Go to menu &lt;i&gt;Daily&lt;/i&gt; and create a plan.&lt;br&gt; And select it in the same menu. </source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="1603"/>
+        <location filename="../../mainwindow.cpp" line="1602"/>
         <source>about Immersion</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="1604"/>
+        <location filename="../../mainwindow.cpp" line="1603"/>
         <source>about Judeans</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="1759"/>
+        <location filename="../../mainwindow.cpp" line="1758"/>
         <source>salvation</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="1773"/>
+        <location filename="../../mainwindow.cpp" line="1772"/>
         <source>worries</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="1842"/>
+        <location filename="../../mainwindow.cpp" line="1841"/>
         <source>shortcuts</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="2888"/>
+        <location filename="../../mainwindow.cpp" line="2887"/>
         <source>Show Bible Frame</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="2889"/>
+        <location filename="../../mainwindow.cpp" line="2888"/>
         <source>Show Info Frame</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="2907"/>
-        <location filename="../../mainwindow.cpp" line="2939"/>
+        <location filename="../../mainwindow.cpp" line="2906"/>
+        <location filename="../../mainwindow.cpp" line="2938"/>
         <source>history</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="2985"/>
+        <location filename="../../mainwindow.cpp" line="2984"/>
         <source>show cross references</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="3230"/>
+        <location filename="../../mainwindow.cpp" line="3231"/>
         <source>no book selected?</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="3464"/>
+        <location filename="../../mainwindow.cpp" line="3465"/>
         <source>this book</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="3465"/>
+        <location filename="../../mainwindow.cpp" line="3466"/>
         <source>all books</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="3466"/>
+        <location filename="../../mainwindow.cpp" line="3467"/>
         <source>O.T.</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="3468"/>
+        <location filename="../../mainwindow.cpp" line="3469"/>
         <source>Law</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="3470"/>
+        <location filename="../../mainwindow.cpp" line="3471"/>
         <source>Wisdom</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="3471"/>
+        <location filename="../../mainwindow.cpp" line="3472"/>
         <source>Prophets</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="3472"/>
+        <location filename="../../mainwindow.cpp" line="3473"/>
         <source>Gospels</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="3473"/>
+        <location filename="../../mainwindow.cpp" line="3474"/>
         <source>Acts</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="3474"/>
+        <location filename="../../mainwindow.cpp" line="3475"/>
         <source>Epistles</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="3475"/>
+        <location filename="../../mainwindow.cpp" line="3476"/>
         <source>Apocalyptic</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="3929"/>
+        <location filename="../../mainwindow.cpp" line="3930"/>
         <source>The filters replace two important words that have become confused, with clear biblical alternatives.
 
 The new words will be in italic. And by hovering over them a tooltip will show the old word. 
@@ -580,92 +574,93 @@ The filters are not active in the parallel window since the performance hit was 
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="2921"/>
-        <location filename="../../mainwindow.cpp" line="2958"/>
-        <location filename="../../mainwindow.cpp" line="3008"/>
+        <location filename="../../mainwindow.cpp" line="2920"/>
+        <location filename="../../mainwindow.cpp" line="2957"/>
+        <location filename="../../mainwindow.cpp" line="3007"/>
         <source>close</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="637"/>
+        <location filename="../../mainwindow.cpp" line="635"/>
         <source>Showing results for: </source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="641"/>
+        <location filename="../../mainwindow.cpp" line="639"/>
         <source>&lt;b&gt;working...&lt;/b&gt;</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="647"/>
+        <location filename="../../mainwindow.cpp" line="645"/>
         <source>&lt;b&gt;this will take a moment...&lt;/b&gt;</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="3149"/>
-        <location filename="../../mainwindow.cpp" line="2984"/>
+        <location filename="../../mainwindow.ui" line="3044"/>
+        <location filename="../../mainwindow.cpp" line="2983"/>
         <source>Strongify</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="2978"/>
+        <location filename="../../mainwindow.ui" line="1636"/>
+        <location filename="../../mainwindow.cpp" line="2977"/>
         <source>chapters</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="2989"/>
+        <location filename="../../mainwindow.cpp" line="2988"/>
         <source>play this chapter</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="3006"/>
+        <location filename="../../mainwindow.cpp" line="3005"/>
         <source>toggle table/book display</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="3467"/>
+        <location filename="../../mainwindow.cpp" line="3468"/>
         <source>N.T.</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="3939"/>
+        <location filename="../../mainwindow.cpp" line="3940"/>
         <source>about filters</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="2990"/>
+        <location filename="../../mainwindow.cpp" line="2989"/>
         <source>stop playing</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../../mainwindow.cpp" line="2917"/>
+        <location filename="../../mainwindow.cpp" line="2954"/>
+        <location filename="../../mainwindow.cpp" line="2992"/>
+        <source>select all</source>
         <translation></translation>
     </message>
     <message>
         <location filename="../../mainwindow.cpp" line="2918"/>
         <location filename="../../mainwindow.cpp" line="2955"/>
         <location filename="../../mainwindow.cpp" line="2993"/>
-        <source>select all</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="../../mainwindow.cpp" line="2919"/>
-        <location filename="../../mainwindow.cpp" line="2956"/>
-        <location filename="../../mainwindow.cpp" line="2994"/>
         <source>copy</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="2916"/>
-        <location filename="../../mainwindow.cpp" line="2953"/>
-        <location filename="../../mainwindow.cpp" line="2995"/>
+        <location filename="../../mainwindow.cpp" line="2915"/>
+        <location filename="../../mainwindow.cpp" line="2952"/>
+        <location filename="../../mainwindow.cpp" line="2994"/>
         <source>find</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="431"/>
+        <location filename="../../mainwindow.cpp" line="429"/>
         <source>showing %1 %2 with Strong&apos;s numbers using the AKJV</source>
         <translation></translation>
     </message>
     <message>
+        <location filename="../../mainwindow.cpp" line="3002"/>
         <location filename="../../mainwindow.cpp" line="3003"/>
-        <location filename="../../mainwindow.cpp" line="3004"/>
         <source>about </source>
         <translation></translation>
     </message>

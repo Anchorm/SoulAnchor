@@ -56,8 +56,8 @@ AboutWindow::AboutWindow(QWidget *parent) : QWidget(parent, Qt::Window)
             "<tr><td>fatcow icons</td><td>https://www.fatcow.com/free-icons</td></tr>"
             "<tr><td>famfamfam icons</td><td>http://www.famfamfam.com/</td></tr>"
             "<tr><td>Images</td> <td>as found on the net and/or modified or created</td>"
-            "<tr><td>Maps</td> <td>The maps that have no watermark "
-                            "are from biblemapper.com</td></tr>"
+            "<tr><td>Maps</td> <td>The maps that have no copyright watermark "
+                    "are from biblemapper.com, others are in the public domain</td></tr>"
             "<tr></tr>"
             "</table>";
 
