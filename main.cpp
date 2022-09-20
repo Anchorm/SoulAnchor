@@ -12,12 +12,11 @@
 #include <QApplication>
 #include "setup.h"
 #include "mainwindow.h"
-#include "globals.h"
 #include "databasehandler.h"
 
 int main(int argc, char *argv[]) {
     QApplication app(argc, argv);
-    QApplication::setApplicationVersion("1.07");
+    QApplication::setApplicationVersion("1.08");
 
     QCommandLineParser parser;
     parser.setApplicationDescription("SoulAnchor - X11 Bible reading tool");

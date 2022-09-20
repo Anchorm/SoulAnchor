@@ -13,6 +13,8 @@
 #define COMMON_H
 
 #include "globals.h"
+#include "databasehandler.h"
+
 #include <QStandardPaths>
 #include <QApplication>
 #include <QMessageBox>

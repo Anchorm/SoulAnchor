@@ -12,8 +12,9 @@
 #ifndef ROSTER_H
 #define ROSTER_H
 
-#include "databasehandler.h"
 #include "ui_roster.h"
+#include "globals.h"
+#include "databasehandler.h"
 #include <QWidget>
 #include <cmath>
 

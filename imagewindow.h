@@ -12,6 +12,7 @@
 #ifndef IMAGEWINDOW_H
 #define IMAGEWINDOW_H
 
+#include "globals.h"
 #include "databasehandler.h"
 
 #include <QWidget>

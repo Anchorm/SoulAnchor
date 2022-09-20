@@ -13,6 +13,7 @@
 #define DATABASEHANDLER_H
 
 #include "globals.h"
+
 #include <QtSql>
 #include <QSqlDatabase>
 #include <QSqlQuery>

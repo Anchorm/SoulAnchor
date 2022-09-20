@@ -13,8 +13,9 @@
 #define PARWINDOW_H
 
 #include "flowlayout.h"
-
+#include "globals.h"
 #include "databasehandler.h"
+
 #include <QWidget>
 #include <QLineEdit>
 #include <QPushButton>

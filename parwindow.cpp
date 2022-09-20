@@ -19,7 +19,6 @@ ParWindow::ParWindow(QWidget *parent) : QWidget(parent, Qt::Window)
     setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
 
     bookName = "";
-
     int maxH = 28;
     int minW = 50;
 
@@ -585,10 +584,11 @@ void ParWindow::printScriptures()
     bigString.append("<tr>");
     for (auto subC: rootC) {
         QString tlName = subC[0];
-        QString header = QString("<td> "
-                        "<center><span style='font-weight:bold;color:%1'>%2</span></center><br>"
-                        "<span style='font-weight:bold;color:%3'><small>%4 %5</small></span>"
-                        "</td>")
+        QString header =
+                QString("<td> "
+                "<center><span style='font-weight:bold;color:%1'>%2</span></center><br>"
+                "<span style='font-weight:bold;color:%3'><small>%4 %5</small></span>"
+                "</td>")
                 .arg(scheme["titleClr"], tlName, scheme["titleClr"], bookName, cStr);
         bigString.append(header);
     }

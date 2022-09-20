@@ -10,7 +10,6 @@
 *******************************************/
 
 #include "mainwindow.h"
-#include "qtextobject.h"
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -313,12 +312,12 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
     connect(ui->dict_le, &QLineEdit::textChanged, this, [this](){
         if(ui->dict_le->text().isEmpty()) ui->info_tb->clear(); });
 
-    // 'debug print'
-    connect(new QShortcut(QKeySequence("Ctrl+d"), this),
-            &QShortcut::activated,[=]() {
-            QString dp = ui->tb_scriptures->document()->toHtml();
-            ::sout << dp << Qt::endl;
-            });
+//    // 'debug print'
+//    connect(new QShortcut(QKeySequence("Ctrl+d"), this),
+//            &QShortcut::activated,[=]() {
+//            QString dp = ui->tb_scriptures->document()->toHtml();
+//            ::sout << dp << Qt::endl;
+//            });
 
     rosterRead ? ui->cb_roster_read->setChecked(true)
                : ui->cb_roster_read->setChecked(false);
@@ -3882,8 +3881,9 @@ void MainWindow::filterJudeans(){
     regE.setPatternOptions(QRegularExpression::CaseInsensitiveOption);
     QString replacement;
 
-    const QString regP = "Joden|Jood|Joods|Joodse|Jodin|het Jodendom|"
-                    "Jews|Jew|Jewish|Jewess";
+    const QString regP = "Joodse|Joods|Jodin|Joden|Jood|het Jodendom|"
+                    "Jewish|Jewess|Jews|Jew";
+    // the longest similar word must come before the shorter word
     regE.setPattern(regP);
 
     QTextDocument *doc = ui->tb_scriptures->document();

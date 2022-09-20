@@ -2096,7 +2096,7 @@ hr { height: 1px; border-width: 0; }
               <property name="handleWidth">
                <number>0</number>
               </property>
-              <widget class="QWidget" name="layoutWidget">
+              <widget class="QWidget" name="layoutWidget2">
                <layout class="QVBoxLayout" name="verticalLayout_2">
                 <property name="spacing">
                  <number>0</number>

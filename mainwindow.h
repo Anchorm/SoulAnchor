@@ -14,13 +14,11 @@
 
 #include "ui_mainwindow.h"
 
-#include "databasehandler.h"
 #include "parwindow.h"
 #include "aboutwindow.h"
 #include "settingswindow.h"
 #include "imagewindow.h"
 #include "roster.h"
-#include "globals.h"
 
 #include <QMainWindow>
 #include <QSettings>
