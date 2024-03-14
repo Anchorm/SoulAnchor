@@ -17,20 +17,34 @@
 #include <QtSql>
 #include <QSqlDatabase>
 #include <QSqlQuery>
+#include <QSqlError>
+#include <QHash>
 
+// singleton, eager
 class DatabaseHandler {
 public:
-    QSqlDatabase bibleDb;
-    QSqlDatabase rosterDb;
-    QSqlDatabase bookmarksDb;
-    QSqlDatabase dictDb;
-    QSqlDatabase extraDb;
-    bool openDataBases();
-    int getChapterCount(int bookNumber, QString tlAbbr = "default");
-    DatabaseHandler();
-    ~DatabaseHandler();
-};
+    static DatabaseHandler& getInstance();
 
-extern DatabaseHandler dbH;
+    QSqlDatabase& getDatabase(const QString& dbName);
+
+    void copyDatabase(const QString& databaseName); // bibles.db from system data to user data
+    // add databases to QHash databases
+    void addRosterDb();
+    void addBookmarksDb();
+    void addBibleDb(); // translations
+    void addDictDb(); // dictionaries
+    void addVariousDb(); // maps, notes, images, subheadings, crossreferences, contemplations, topical
+    void addBooksDb(); // bookname and abbreviations in multiple languages
+
+private:
+    QHash<QString, QSqlDatabase> databases;
+
+    DatabaseHandler(); // Private constructor to prevent external instantiation
+    ~DatabaseHandler(); // Destructor to handle cleanup
+
+    // Disable copy constructor and assignment operator
+    DatabaseHandler(const DatabaseHandler&) = delete;
+    DatabaseHandler& operator=(const DatabaseHandler&) = delete;
+};
 
 #endif // DATABASEHANDLER_H

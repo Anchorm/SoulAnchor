@@ -8,14 +8,12 @@
    (Hebrews 6:19)
 
 *******************************************/
-
 #include "mainwindow.h"
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
     ui(new Ui::MainWindow)
 {    
     ui->setupUi(this);
-
     QSettings settings(settingsFile.fileName(), QSettings::IniFormat);
 
     // restore window state or set a default state of 80% of the screen
@@ -38,16 +36,17 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
 
     tab = settings.value("tab", "today").toString().toLower();
     startup = settings.value("startup", "nothing").toString().toLower();
-    guiLanguage = settings.value("guiLanguage", "english").toString().toLower();
-    bknLanguage = settings.value("booknameLanguage", "english").toString().toLower();
-    scripDisplay = settings.value("display", "table").toString().toLower();
+    guiLanguage = settings.value("guiLanguage", "en").toString().toLower();
+    bknLanguage = settings.value("booknameLanguage", "en").toString().toLower();
+    scripLayout = settings.value("layout", "table").toString().toLower();
     rosterRead = settings.value("rosters/rosterRead", "false").toBool();
     docMargin = settings.value("margin", "14").toInt();
     frameWidth = settings.value("width", "10").toInt(); // range 2-10
     showMaps = settings.value("showMaps").toBool();
+    filtersMenuVisible = settings.value("filters/menuVisible", "false").toBool();
 
     ui->info_frame->hide();
-    ui->frame_find->hide();
+    ui->find_frame->hide();
     textBrowser = ui->tb_scriptures;
 
     if (tab == "contents")
@@ -95,6 +94,10 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
 
     new QShortcut(Qt::Key_F12, this, SLOT(toggleMenu()));
 
+    connect(ui->action_import, &QAction::triggered, this, [this] () {
+        !impW->isVisible() ? impW->show() : impW->raise(); } );
+    impW->centerWindow();
+
     connect(ui->action_make_roster, &QAction::triggered, this, [this] () {
         !rosterW->isVisible() ? rosterW->show() : rosterW->raise(); } );
 
@@ -113,7 +116,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
         !aboutW->isVisible() ? aboutW->show() : aboutW->raise(); });
 
     connect(ui->action_settings, &QAction::triggered, this, [this] () {
-        !settingsW->isVisible() ? settingsW->show()  : settingsW->raise(); });
+        settingsW->centerWindow();
+        !settingsW->isVisible() ? settingsW->show() : settingsW->raise(); });
 
     connect(ui->action_lord_prayer, &QAction::triggered, this,
             &MainWindow::theLordsPrayer);
@@ -190,6 +194,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
         printRequest(ui->lineEdit_select->text()); });
 
     populateSearchCbs();
+
     connect(ui->search_le_what, &QLineEdit::returnPressed,
             this, &MainWindow::searchScriptures);
     connect(ui->search_btn_find, &QToolButton::clicked,
@@ -225,11 +230,9 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
             this, &MainWindow::loadRoster);
     ui->frame_roster_btns->hide();
 
-//    updateBooksWidget("");
     updateCbTranslations();
 
     activeTl = settings.value("translation", "net").toString().toLower();
-    if (activeTl.isEmpty()) activeTl = "net";
     if (checkTableExists(activeTl) == false) exit(1);
 
     int tlIndex = ui->cb_select_translation->findData(activeTl);
@@ -246,11 +249,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
     activeSubh = settings.value("subheadings", "net").toString().toLower();
 
     getBooksAbbr();
-    createOtNtMenus();
-    setEncTxt();
-    changeEncTxt();
-    setEncPic();
-    changeEncPic();
 
     makeMusicMenu();
     mplayer->setAudioOutput(audioOutput);
@@ -271,13 +269,23 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
                      this, &MainWindow::applyFont);
     QObject::connect(settingsW, &SettingsWindow::schemeChanged,
                      this, &MainWindow::applyScheme);
+
     QObject::connect(settingsW, &SettingsWindow::booknameLangChanged,
                      this, &MainWindow::updateBooksWidget);
+    QObject::connect(settingsW, &SettingsWindow::booknameLangChanged,
+                     this, &MainWindow::createOtNtMenus);
+
     QObject::connect(settingsW, &SettingsWindow::subheadingsChanged,
                      this, &MainWindow::updateTLandSubh);
-    QObject::connect(settingsW, &SettingsWindow::showmapsChanged, [this]
+    QObject::connect(settingsW, &SettingsWindow::showMapsChanged, this, [this]
                     (bool showM)
-                    {showM ? showMaps = true : showMaps = false;});
+                    {showM ? showMaps = true : showMaps = false;
+    });
+
+    QObject::connect(settingsW, &SettingsWindow::showFiltersChanged, this, [this]
+                     (bool showF)
+                     {showF ? ui->menu_bar->addAction(ui->menu_filters->menuAction()) :
+                        ui->menu_bar->removeAction(ui->menu_filters->menuAction());});
 
     QObject::connect(this, &MainWindow::parOpened,
                      parW, &ParWindow::setTlandJob);
@@ -300,11 +308,11 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
     connect(ui->action_judeans_filter, &QAction::triggered, this, &MainWindow::setFilters );
     connect(ui->action_about_filters, &QAction::triggered, this, &MainWindow::aboutFilters );
 
-    connect(ui->strongs_le, &QLineEdit::returnPressed, this, [this](){
+    connect(ui->strongs_le, &QLineEdit::returnPressed, this, [this]() {
         getStrongs(ui->strongs_le->text()); });
-    connect(ui->strongs_pb, &QPushButton::clicked, this, [this](){
+    connect(ui->strongs_pb, &QPushButton::clicked, this, [this]() {
         getStrongs(ui->strongs_le->text()); });
-    connect(ui->strongs_le, &QLineEdit::textChanged, this, [this](){
+    connect(ui->strongs_le, &QLineEdit::textChanged, this, [this]() {
         if(ui->strongs_le->text().isEmpty()) ui->strongs_tb->clear(); });
 
     connect(ui->dict_le, &QLineEdit::returnPressed, this, [this](){
@@ -312,20 +320,22 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
     connect(ui->dict_le, &QLineEdit::textChanged, this, [this](){
         if(ui->dict_le->text().isEmpty()) ui->info_tb->clear(); });
 
-//    // 'debug print'
-//    connect(new QShortcut(QKeySequence("Ctrl+d"), this),
-//            &QShortcut::activated,[=]() {
-//            QString dp = ui->tb_scriptures->document()->toHtml();
-//            ::sout << dp << Qt::endl;
-//            });
+    connect(ui->action_add_bookmark, &QAction::triggered, this, &MainWindow::addBookmark);
+    connect(ui->action_rename_bookmark, &QAction::triggered, this, &MainWindow::renameBookmark);
+    connect(ui->action_delete_bookmark, &QAction::triggered, this, &MainWindow::deleteBookmark);
 
     rosterRead ? ui->cb_roster_read->setChecked(true)
                : ui->cb_roster_read->setChecked(false);
-    strongTl = "t_akjv_s";
+    strongTl = "strongs_akjv";
 
     ui->bible_frame->layout()->setAlignment(Qt::AlignHCenter);
 
     settingsW->cancelSettings();
+
+    setEncPic();
+    changeEncPic();
+    setEncTxt();
+    changeEncTxt();
 
     if (startup == "psalm") todaysPsalm();
     else if (startup == "proverb") todaysProverb();
@@ -344,23 +354,37 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+void MainWindow::changeEvent(QEvent *event)
+{
+    if (event->type() == QEvent::LanguageChange)
+        ui->retranslateUi(this);
+
+    if (event->type() == QEvent::PaletteChange) {
+        if (activeScheme == "system")
+            applyScheme("system");
+    }
+    event->ignore();
+}
+
 bool MainWindow::checkTableExists(const QString &activeTl)
 {
     // check if table exists, if it does not, app will crash
     // might happen when changing conf file or removing table
     QString sqlCheck = QString("SELECT name FROM sqlite_master "
-               "WHERE type='table' AND name='t_%1';").arg(activeTl.toLower());
-    QSqlQuery queryCheck(sqlCheck, dbH.bibleDb);
-    QString tableTest;
-    while (queryCheck.next()) {
-        tableTest = queryCheck.value(0).toString();
+               "WHERE type='table' AND name='t_%1';").arg(activeTl);
+    QSqlQuery query(sqlCheck, bibleDb);
+    QString tableTest = "";
+
+    if (Utilities::handleQuery(query)) {
+        if (query.next())
+            tableTest = query.value(0).toString();
     }
 
     if (tableTest.isEmpty()) {
         ::sout << "Cannot find table: t_" + activeTl <<  Qt::endl;
         ::sout << "- check config file for valid translation name" <<  Qt::endl;
         ::sout << "- or remove soulanchor.conf, "
-                  "a default version will be used" <<  Qt::endl;
+                  "a default version will then be used" <<  Qt::endl;
         ::sout << "- or check bibles.db database for valid table name" <<  Qt::endl;
         return false;
     } else {
@@ -377,8 +401,8 @@ void MainWindow::modifications()
     if (modFile->open(QIODevice::ReadOnly | QIODevice::Text)) {
         ui->info_tb->setHtml(modFile->readAll());
     } else {
-        ui->info_tb->setHtml(QString(APP_DATADIR_PREFIX) +
-                                    "/share/doc/soulanchor/mod.html not found");
+        ui->info_tb->setHtml(QString(APP_DATADIR_PREFIX)
+                             + "/share/doc/soulanchor/mod.html not found");
     }
     ui->info_frame->show();
 }
@@ -398,19 +422,16 @@ void MainWindow::popupMsg(const QString message)
 void MainWindow::strongify()
 {
     // make it strong
-    QString nrStyle = "font-weight:normal;padding:1px;color:" + scheme["nrClr"];
-    QString txtStyle = "font-weight:normal;padding:1px;color:" + scheme["txtClr"];
-    QString christStyle = "font-weight:normal;color:" + scheme["titleClr"];
-    QString strongStyle = "text-decoration:none;font-weight:bold;"
-                            "color:" + scheme["nrClr"];
-
+    QString nrStyle = "color:" + scheme["nrClr"];
+    QString txtStyle = "padding: 5px; color:" + scheme["txtClr"];
+    QString christStyle = "color:" + scheme["titleClr"];
+    QString strongStyle = "font-weight: normal; text-decoration: none; color:" + scheme["nrClr"];
 
     QHash<QString, int> job;
-    if (!printHistory.isEmpty()){
+    if (!printHistory.isEmpty())
         job = printHistory.last();
-    } else {
+    else
         return;
-    }
 
     int bk = job["bk"];
     int c1 = job["c1"];
@@ -420,10 +441,9 @@ void MainWindow::strongify()
 
     QString sql = QString("SELECT b, c, v, t from %1 where b = %2 and c = %3 ")
             .arg(strongTl, bkStr, cStr);
-    QSqlQuery query(sql, dbH.bibleDb);
+    QSqlQuery query(sql, bibleDb);
 
-    QString v;
-    QString t;
+    QString v, t;
     QString bookName = ::g_bookNames[bk];
     QString header = QString(tr("showing %1 %2 with Strong's numbers using the AKJV"))
             .arg(bookName, cStr);
@@ -434,8 +454,10 @@ void MainWindow::strongify()
     while (query.next()) {
         v = query.value(2).toString();
         t = query.value(3).toString();
-        strongified += "<tr><td style='" + nrStyle + "'><small>" + v +
-                "</td></small>" + " <td style='" + txtStyle + "'>" + t +"</td></tr>";
+        strongified +=  "<tr>"
+                        "<td style='" + nrStyle + "'>" + "<sub>" + v + "</sub>" +"</td>"
+                        + " <td style='" + txtStyle + "'>" + t +"</td>"
+                        "</tr>";
     }
 
     strongified += "</>";
@@ -448,17 +470,11 @@ void MainWindow::strongify()
     else
         hebrewsOrGreek = "G";
 
-    // *************************************************************
     // look for the words of the Lord tags and replace and change style
-    // *************************************************************
-
     strongified.replace("<J>","<span style='" + christStyle + "'>");
     strongified.replace("</J>","</span>");
 
-    // *************************************************************
     // use regex to change strong tags into anchors
-    // *************************************************************
-
     QRegularExpressionMatchIterator gmatch = strongRegex->globalMatch(strongified);
 
     QString startAnchor;
@@ -473,7 +489,7 @@ void MainWindow::strongify()
         startAnchor = "<a style='" + strongStyle + "' href='strongs:";
         startAnchor += strongNr + "'>";
 
-        strongified.replace(match.captured(), startAnchor + " <small>" + strongNr + "</small></a>");
+        strongified.replace(match.captured(), startAnchor + " <sup>" + strongNr + "</sup></a>");
     }
 
     ui->tb_scriptures->setHtml(strongified);
@@ -485,7 +501,7 @@ void MainWindow::getTWOT(QString twot)
     // who own the TWOT, they can add a table: name: twot: columns: topic, definition
 
     QSqlQuery chkTWOT("SELECT name FROM sqlite_master WHERE type = 'table' "
-                           "and name = 'twot' ", dbH.dictDb);
+                           "and name = 'twot' ", dictDb);
 
     if (not chkTWOT.next()) {
         ui->strongs_tb->moveCursor(QTextCursor().Start);
@@ -504,18 +520,17 @@ void MainWindow::getTWOT(QString twot)
         return;
     }
 
-    if (twotNr.length() == 1) {
+    if (twotNr.length() == 1)
         twotNr.prepend("000");
-    } else if (twotNr.length() == 2) {
+    else if (twotNr.length() == 2)
         twotNr.prepend("00");
-    } else if (twotNr.length() == 3) {
+    else if (twotNr.length() == 3)
         twotNr.prepend("0");
-    }
 
     QString sql_twot = QString("SELECT topic, definition "
                           "FROM twot WHERE topic LIKE '%1%' ").arg(twotNr);
 
-    QSqlQuery query_twot(sql_twot, dbH.dictDb);
+    QSqlQuery query_twot(sql_twot, dictDb);
     QString result;
 
     while (query_twot.next()) {
@@ -573,7 +588,7 @@ void MainWindow::getStrongs(QString strongs)
                               "FROM bdbt WHERE lexeme = '%1' ").arg(strongs);
     }
 
-    QSqlQuery query_strong(sql_strong, dbH.dictDb);
+    QSqlQuery query_strong(sql_strong, dictDb);
     QString result;
 
     while (query_strong.next()) {
@@ -600,7 +615,7 @@ void MainWindow::getStrongs(QString strongs)
     result += desc;
 
     result += "<br><br>BDB-T:<br><br>";
-    QSqlQuery query_bdbt(sql_bdbt, dbH.dictDb);
+    QSqlQuery query_bdbt(sql_bdbt, dictDb);
     while (query_bdbt.next()) {
         result += query_bdbt.value(1).toString();
     }
@@ -630,7 +645,7 @@ void MainWindow::on_dict_pb_go_clicked()
 void MainWindow::on_dict_pb_index_clicked()
 {
     // show all topics columns from all 'non-strong' dictionaries
-    ui->info_lbl_title->setText("dictionaries index");
+    ui->info_lbl_title->setText(tr("dictionaries index"));
     QString dictsLinks = tr("Showing results for: ");
 
     // only the first time it's empty
@@ -646,23 +661,21 @@ void MainWindow::on_dict_pb_index_clicked()
 
     QStringList dictTables;
     QSqlQuery query_get_tables("SELECT name FROM info WHERE strong = 'false' "
-                               "ORDER BY name ASC", dbH.dictDb);
+                               "ORDER BY name ASC", dictDb);
 
-    while (query_get_tables.next()) {
+    while (query_get_tables.next())
         dictTables.append(query_get_tables.value(0).toString());
-    }
 
     QString aStyle = "text-decoration:none;font-weight:normal;color:" + scheme["txtClr"];
     QString topicHref;
     QString topicTitle;
     QString sql_get_topics;
-    QSqlQuery query_get_topics(dbH.dictDb);
+    QSqlQuery query_get_topics(dictDb);
 
     for (const QString &table : dictTables) {
         dictsLinks += QString("<a style='text-decoration:none;color:%1' "
                         "href='dict:%2'>%2</a> ")
                         .arg(scheme["nrClr"], table);
-
         dictIndex.append("<br><h3 id='" + table + "'>" + table + ":</h3><br>");
         sql_get_topics = QString("SELECT topic FROM '%1'").arg(table.toLower());
         query_get_topics.exec(sql_get_topics);
@@ -687,17 +700,16 @@ void MainWindow::getDictWord(QString word)
     ui->info_lbl_title->setText(word);
     QString result;
     QString desc;
-    QString activeDicts = "Showing results for: ";
+    QString activeDicts = tr("Showing results for: ");
 
     QStringList dictTables;
     QSqlQuery query_get_tables("SELECT name FROM info WHERE strong = 'false' "
-                               "ORDER BY name ASC", dbH.dictDb);
-    while (query_get_tables.next()) {
+                               "ORDER BY name ASC", dictDb);
+    while (query_get_tables.next())
         dictTables.append(query_get_tables.value(0).toString());
-    }
 
     QString sql_dict;
-    QSqlQuery dict_query(dbH.dictDb);
+    QSqlQuery dict_query(dictDb);
 
     word.replace("'", "_");
 
@@ -707,9 +719,8 @@ void MainWindow::getDictWord(QString word)
                            "FROM %1 WHERE topic LIKE '%2' ").arg(table.toLower(), word);
 
         dict_query.exec(sql_dict);
-        while (dict_query.next()) {
+        while (dict_query.next())
             desc = dict_query.value(1).toString();
-        }
 
         if (not desc.isEmpty()) {
             activeDicts += QString("<a style='text-decoration:none;color:%2' "
@@ -731,9 +742,8 @@ void MainWindow::getDictWord(QString word)
                                 .arg(table.toLower(), word);
 
             dict_query.exec(sql_dict);
-            while (dict_query.next()) {
+            while (dict_query.next())
                 desc = dict_query.value(1).toString();
-            }
 
             if (not desc.isEmpty()) {
                 activeDicts += QString("<a style='text-decoration:none;color:%2' "
@@ -742,7 +752,6 @@ void MainWindow::getDictWord(QString word)
                     "font-family:serif;'>%1:</h2><br>").arg(table, scheme["titleClr"]));
                 result += desc + "<br><br>";
             }
-
         }
     }
 
@@ -760,13 +769,14 @@ void MainWindow::getDictWord(QString word)
         ui->info_tb->setHtml(result);
 
         if (!dictwordHistory.isEmpty()) {
-            if (word != dictwordHistory[0]) {
+            if (word != dictwordHistory[0])
                 dictwordHistory.prepend(word);
-            }
         } else {
             dictwordHistory.prepend(word);
         }
-        if (dictwordHistory.size() > 10) dictwordHistory.removeLast();
+        if (dictwordHistory.size() > 10)
+            dictwordHistory.removeLast();
+
     } else {
         ui->info_tb->setHtml( word + " not found in dictionaries");
     }
@@ -775,9 +785,9 @@ void MainWindow::getDictWord(QString word)
 void MainWindow::getDictSug(QString word)
 {
     // find word suggestions in dictionaries
-    if (word.isEmpty()) {
+    if (word.isEmpty())
         word = ui->dict_le->text();
-    }
+
     if (word.isEmpty() || word.length() < 1) {
         ui->info_lbl_title->clear();
         ui->info_tb->clear();
@@ -792,13 +802,12 @@ void MainWindow::getDictSug(QString word)
 
     QStringList dictTables;
     QSqlQuery query_get_tables("SELECT name FROM info WHERE strong = 'false' "
-                               "ORDER BY name ASC", dbH.dictDb);
-    while (query_get_tables.next()) {
+                               "ORDER BY name ASC", dictDb);
+    while (query_get_tables.next())
         dictTables.append(query_get_tables.value(0).toString());
-    }
 
     QString sql_dict;
-    QSqlQuery dict_query(dbH.dictDb);
+    QSqlQuery dict_query(dictDb);
     for (const QString &table : dictTables) {
         sql_dict = QString("SELECT topic, definition "
                           "FROM '%1' WHERE topic like '%2%'").arg(table.toLower(), word);
@@ -818,21 +827,19 @@ void MainWindow::getDictSug(QString word)
         }
     }
 
-    if (!result.isEmpty()) {
+    if (!result.isEmpty())
         ui->info_tb->setHtml(result);
-    } else {
+    else
         ui->info_tb->setHtml( word + " not found in dictionaries");
-    }
 }
 
 void MainWindow::addBookmark()
 {
     QHash<QString, int> job;
-    if (!printHistory.isEmpty()){
+    if (!printHistory.isEmpty())
         job = printHistory.last();
-    } else {
+    else
         return;
-    }
 
     int bk = job["bk"];
     int c1 = job["c1"];
@@ -844,16 +851,11 @@ void MainWindow::addBookmark()
     QString bookmarkName = QString("%1 %2").arg(bookName).arg(c1);
 
     if (c2 > c1)
-    {
         bookmarkName += QString("-%1").arg(c2);
-    }
-    else if (v1 > 0)
-    {
+    else if (v1 > 0) {
         bookmarkName += QString(":%1").arg(v1);
         if (v2 > v1)
-        {
             bookmarkName += QString("-%1").arg(v2);
-        }
     }
 
     QString sqlAdd =
@@ -861,7 +863,7 @@ void MainWindow::addBookmark()
             "(name, book, chapter1, chapter2, verse1, verse2) "
             "VALUES ('%1', %2, %3, %4, %5, %6)")
             .arg(bookmarkName).arg(bk).arg(c1).arg(c2).arg(v1).arg(v2);
-    QSqlQuery queryAdd(sqlAdd, dbH.bookmarksDb);
+    QSqlQuery queryAdd(sqlAdd, bookmarksDb);
     queryAdd.exec();
 
     buildBookmarkMenu();
@@ -869,95 +871,98 @@ void MainWindow::addBookmark()
 
 void MainWindow::renameBookmark()
 {
-    if (ui->menu_bookmarks->actions().size() < 4)
-        return;
-
     QStringList bookmarks;
-    QString sqlGet = QString("SELECT name FROM 'bookmarks' ");
-    QSqlQuery queryGet(sqlGet, dbH.bookmarksDb);
-    while (queryGet.next()) {
-        QString bkmName = queryGet.value(0).toString();
-        bookmarks.append(bkmName);
+    QSqlQuery getNames("SELECT name FROM 'bookmarks'", bookmarksDb);
+
+    while (getNames.next()) {
+        QString bookmarkName = getNames.value(0).toString();
+        bookmarks.append(bookmarkName);
     }
 
     bool ok = false;
     QString oldName = QInputDialog::getItem(this, tr("rename bookmark"),
-                                       tr("Choose bookmark to rename:"), bookmarks, 0, false, &ok);
+                        tr("Choose bookmark to rename:"), bookmarks, 0, false, &ok);
 
-    if (ok && !oldName.isEmpty() ){
+    if (ok && !oldName.isEmpty()) {
         ok = false;
         QString newName = QInputDialog::getText(this, tr("rename bookmark"),
-                                       tr("And the new name is:"), QLineEdit::Normal,"", &ok);
+                            tr("And the new name is:"), QLineEdit::Normal,"", &ok);
 
         if (ok && !newName.isEmpty()) {
             QString sqlUpdate = QString("UPDATE 'bookmarks' SET name = '%1' "
-                                     "WHERE name = '%2' ").arg(newName, oldName);
-            QSqlQuery updateQuery(sqlUpdate, dbH.bookmarksDb);
-            updateQuery.exec();
+                                        "WHERE name = '%2' ").arg(newName, oldName);
+            QSqlQuery updateQuery(sqlUpdate, bookmarksDb);
 
-            buildBookmarkMenu();
+            if (updateQuery.exec()) {
+                QList bkmAcs = ui->menu_bookmarks->actions();
+                for (QAction *ac : bkmAcs)
+                    if (ac->text() == oldName)
+                        ac->deleteLater();
+
+                buildBookmarkMenu();
+            }
         }
     }
 }
 
 void MainWindow::deleteBookmark()
 {
-    if (ui->menu_bookmarks->actions().size() < 4)
-        return;
-
     QStringList bookmarks;
-    QString sqlGet = QString("SELECT name FROM 'bookmarks' ");
-    QSqlQuery queryGet(sqlGet, dbH.bookmarksDb);
-    while (queryGet.next()) {
-        QString bkmName = queryGet.value(0).toString();
-        bookmarks.append(bkmName);
+    QSqlQuery getNames("SELECT name FROM 'bookmarks'", bookmarksDb);
+    while (getNames.next()) {
+        QString bookmarkName = getNames.value(0).toString();
+        bookmarks.append(bookmarkName);
     }
 
     bool ok = false;
     QString bookmarkName = QInputDialog::getItem(this, tr("delete bookmark"),
-                                       tr("bookmark to remove:"), bookmarks, 0, false, &ok);
+                            tr("bookmark to remove:"), bookmarks, 0, false, &ok);
 
     if (ok && !bookmarkName.isEmpty() ) {
         QString sqlDelete = QString("DELETE FROM 'bookmarks' "
-                                 "WHERE name = '%1' ").arg(bookmarkName);
-        QSqlQuery deleteQuery(sqlDelete, dbH.bookmarksDb);
+                                    "WHERE name = '%1' ").arg(bookmarkName);
+        QSqlQuery deleteQuery(sqlDelete, bookmarksDb);
         deleteQuery.exec();
 
+        QList bkmAcs = ui->menu_bookmarks->actions();
+        for (QAction *ac : bkmAcs)
+            if (ac->text() == bookmarkName)
+                ac->deleteLater();
+
         buildBookmarkMenu();
-        popupMsg(bookmarkName + " has been removed.");
     }
 }
 
 void MainWindow::buildBookmarkMenu()
 {
-    QList bkmAcs = ui->menu_bookmarks->actions();
-    for (QAction *ac : bkmAcs ){
-        delete ac;
-    }
+    QString sqlCreateTable = QString("CREATE TABLE IF NOT EXISTS 'bookmarks' "
+                                     "(name TEXT NOT NULL UNIQUE, "
+                                     "book INTEGER NOT NULL, "
+                                     "chapter1 INTEGER NOT NULL, "
+                                     "chapter2 INTEGER NOT NULL, "
+                                     "verse1 INTEGER NOT NULL, "
+                                     "verse2 INTEGER NOT NULL) "
+                                     );
+    QSqlQuery queryCreateTable(sqlCreateTable, bookmarksDb);
+    queryCreateTable.exec();
 
-    QAction *addBbmAction = new QAction(bookAddIcon, tr("Add Bookmark"), this);
-    connect(addBbmAction, &QAction::triggered, this, &MainWindow::addBookmark );
-    ui->menu_bookmarks->addAction(addBbmAction);
+    QSqlQuery getBookmarks("SELECT name FROM 'bookmarks'", bookmarksDb);
+    QList bookmarkActions = ui->menu_bookmarks->actions();
+    QStringList bookmarkNames;
 
-    QAction *renameBbmAction = new QAction(tr("Rename"), this);
-    connect(renameBbmAction, &QAction::triggered, this, &MainWindow::renameBookmark );
-    ui->menu_bookmarks->addAction(renameBbmAction);
+    for (QAction *action : bookmarkActions )
+        bookmarkNames.append(action->text());
 
-    QAction *deleteBbmAction = new QAction(bookRemoveIcon, tr("Delete"), this);
-    connect(deleteBbmAction, &QAction::triggered, this, &MainWindow::deleteBookmark );
-    ui->menu_bookmarks->addAction(deleteBbmAction);
+    while (getBookmarks.next()) {
+        QString bookmarkName = getBookmarks.value(0).toString();
 
-    ui->menu_bookmarks->addSeparator();
-
-    QString sqlGet = QString("SELECT name FROM 'bookmarks' ");
-    QSqlQuery queryGet(sqlGet, dbH.bookmarksDb);
-    while (queryGet.next()) {
-        QString bkmName = queryGet.value(0).toString();
-        QAction *bookmarkAction = new QAction(bkmName, this);
-        bookmarkAction->setIcon(bookmarkIcon);
-        connect(bookmarkAction, &QAction::triggered, this, [this, bkmName](){
-            printBookmark(bkmName); });
-        ui->menu_bookmarks->addAction(bookmarkAction);
+        if (!bookmarkNames.contains(bookmarkName)) {
+            QAction *bookmarkAction = new QAction(bookmarkName, this);
+            bookmarkAction->setIcon(bookmarkIcon);
+            connect(bookmarkAction, &QAction::triggered, this, [this, bookmarkName] () {
+                    printBookmark(bookmarkName); } );
+            ui->menu_bookmarks->addAction(bookmarkAction);
+        }
     }
 }
 
@@ -967,7 +972,7 @@ void MainWindow::printBookmark(const QString &bookmarkName)
 
     QString sqlGet = QString("SELECT * FROM 'bookmarks' "
                              "WHERE name = '%1' ").arg(bookmarkName);
-    QSqlQuery queryGet(sqlGet, dbH.bookmarksDb);
+    QSqlQuery queryGet(sqlGet, bookmarksDb);
 
     while (queryGet.next() ){
         bk = queryGet.value(1).toInt();
@@ -977,9 +982,7 @@ void MainWindow::printBookmark(const QString &bookmarkName)
         v2 = queryGet.value(5).toInt();
     }
 
-    if (bk == 0 || c1 == 0) {
-        return;
-    }
+    if (bk == 0 || c1 == 0) return;
 
     QHash<QString, int> job;
     job["bk"] = bk;
@@ -993,6 +996,7 @@ void MainWindow::printBookmark(const QString &bookmarkName)
     } else {
         if (v1 > 0) {
             job["v1"] = v1;
+
             if (v2 > 0) {
                 job["v2"] = v2;
             }
@@ -1040,7 +1044,7 @@ void MainWindow::on_btn_next_session_clicked()
 
     int finalSession = 0;
     QString sqlGetFinal = QString("SELECT COUNT(DISTINCT SESSION) FROM '%1' ").arg(rosterName);
-    QSqlQuery getFin(sqlGetFinal, dbH.rosterDb);
+    QSqlQuery getFin(sqlGetFinal, rosterDb);
     while (getFin.next() ) {
         finalSession = getFin.value(0).toInt();
     }
@@ -1048,7 +1052,7 @@ void MainWindow::on_btn_next_session_clicked()
     int currentSession = 0;
     QString sqlGetCur = QString("SELECT SESSION FROM '%1' WHERE CURRENT = 'true'"
                                 "ORDER BY SESSION DESC LIMIT 1 ").arg(rosterName);
-    QSqlQuery getCur(sqlGetCur, dbH.rosterDb);
+    QSqlQuery getCur(sqlGetCur, rosterDb);
     while (getCur.next() ) {
         currentSession = getCur.value(0).toInt();
     }
@@ -1078,7 +1082,7 @@ void MainWindow::on_btn_prev_session_clicked()
     int currentSession = 0;
     QString sqlGetCur = QString("SELECT SESSION FROM '%1' WHERE CURRENT = 'true'"
                                 "ORDER BY SESSION DESC LIMIT 1 ").arg(rosterName);
-    QSqlQuery getCur(sqlGetCur, dbH.rosterDb);
+    QSqlQuery getCur(sqlGetCur, rosterDb);
     while (getCur.next() ) {
         currentSession = getCur.value(0).toInt();
     }
@@ -1097,12 +1101,12 @@ void MainWindow::updateSession(const QString &rosterName, int session)
     // update current session in roster.db
     QString sqlClear = QString("UPDATE '%1' SET CURRENT = NULL "
                              "WHERE CURRENT = 'true' ").arg(rosterName);
-    QSqlQuery clearCurrent(sqlClear, dbH.rosterDb);
+    QSqlQuery clearCurrent(sqlClear, rosterDb);
     clearCurrent.exec();
 
     QString sqlSet = QString("UPDATE '%1' SET CURRENT = 'true' "
                              "WHERE SESSION = %2;").arg(rosterName).arg(session);
-    QSqlQuery setCurrent(sqlSet, dbH.rosterDb);
+    QSqlQuery setCurrent(sqlSet, rosterDb);
     setCurrent.exec();
 }
 
@@ -1111,7 +1115,7 @@ void MainWindow::printSession(const QString &rosterName)
     // print current reading plan session
     QString sql = QString("SELECT SESSION, BOOK, CHAPTER "
                           "from '%1' where CURRENT = 'true' ").arg(rosterName);
-    QSqlQuery getSession(sql, dbH.rosterDb);
+    QSqlQuery getSession(sql, rosterDb);
     int bk = 0, ch = 0;
     QString session;
     QStringList fullRosterName = rosterName.split(" ");
@@ -1120,7 +1124,7 @@ void MainWindow::printSession(const QString &rosterName)
     QString finalSession;
     QString sqlGetFinal = QString("SELECT COUNT(DISTINCT SESSION) FROM '%1' ")
             .arg(rosterName);
-    QSqlQuery getFin(sqlGetFinal, dbH.rosterDb);
+    QSqlQuery getFin(sqlGetFinal, rosterDb);
     while (getFin.next() ) {
         finalSession = getFin.value(0).toString();
     }
@@ -1156,11 +1160,10 @@ void MainWindow::printSession(const QString &rosterName)
     ui->lw_chapters->clear();
     bk < 40 ? ui->lw_books->setCurrentRow(bk - 1) : ui->lw_books->setCurrentRow(bk);
 
-    if (rosterRead) {
+    if (rosterRead)
         printQ.clear();
-    } else {
+    else
         processPrintQueue();
-    }
 }
 
 void MainWindow::on_action_delete_roster_triggered()
@@ -1178,7 +1181,7 @@ void MainWindow::on_action_delete_roster_triggered()
                                        tr("Roster to remove:"), rosters, 0, false, &ok);
     if (ok && !rosterName.isEmpty() ){
         QString sqlDrop = QString("DROP TABLE IF EXISTS '%1' ").arg(rosterName);
-        QSqlQuery queryDrop(sqlDrop, dbH.rosterDb);
+        QSqlQuery queryDrop(sqlDrop, rosterDb);
         queryDrop.exec();
 
         QSettings settings(settingsFile.fileName(), QSettings::IniFormat);
@@ -1240,7 +1243,7 @@ void MainWindow::addRostersToMenu()
         delete ac;
     }
 
-    QSqlQuery getRosters("SELECT name FROM sqlite_master WHERE type = 'table' ", dbH.rosterDb);
+    QSqlQuery getRosters("SELECT name FROM sqlite_master WHERE type = 'table' ", rosterDb);
 
     while (getRosters.next()) {
         QString rosterName = getRosters.value(0).toString();
@@ -1283,9 +1286,7 @@ void MainWindow::setActiveRoster()
 void MainWindow::loadRoster()
 {
     // select the active roster
-    if (!ui->bible_frame->isVisible()) {
-        ui->bible_frame->show();
-    }
+    if (!ui->bible_frame->isVisible()) ui->bible_frame->show();
 
     QString noPlan = tr("No reading plan available.<br> "
             "Go to menu <i>Daily</i> and create a plan.<br> "
@@ -1330,11 +1331,11 @@ void MainWindow::readingPlan()
 void MainWindow::openParW()
 {
     QHash<QString, int> job;
-    if(!printHistory.empty()){
+    if(!printHistory.empty())
         job = printHistory.last();
-    } else {
+    else
         job = { {"bk", 1}, {"c1", 1} };
-    }
+
     emit setParwStyle(scheme);
     emit parOpened(activeTl.toUpper(), job);
     !parW->isVisible() ? parW->show() : parW->raise();
@@ -1345,47 +1346,12 @@ void MainWindow::openImgW(const QString &imgName)
     QPixmap mapPix {};
     QString sqlGetImg {QString("select name, content from img_data where "
                                "name is '%1'").arg(imgName)};
-    QSqlQuery queryImg(sqlGetImg, dbH.extraDb);
+    QSqlQuery queryImg(sqlGetImg, varDb);
 
-    if (queryImg.next()) {
+    if (queryImg.next())
         mapPix.loadFromData(queryImg.value(1).toByteArray());
-    }
+
     emit setImgWindowPixmap(mapPix, imgName);
-}
-
-void MainWindow::applyScheme(const QString &aScheme)
-{
-    // set active scheme and color values
-    QSettings settings(settingsFile.fileName(), QSettings::IniFormat);
-
-    activeScheme = aScheme;
-    QString currentScheme = "schemes/" + aScheme;
-    QStringList schemeValues = settings.value(currentScheme, "none").toStringList();
-
-    scheme["nrClr"] = schemeValues.value(0, "none");
-    scheme["txtClr"] = schemeValues.value(1, "none");
-    scheme["titleClr"] = schemeValues.value(2, "none");
-    scheme["bgClr"] = schemeValues.value(3, "none");
-    scheme["bg2Clr"] = schemeValues.value(4, "none");
-    scheme["clashClr"] = schemeValues.value(5, "none");
-
-    emit setParwStyle(scheme);
-
-    setBookTitle();
-    setStyleSheets();
-
-    QTextCharFormat calFormat;
-    QString css;
-
-    matchFormat.setBackground(QColor(scheme["bg2Clr"]));
-    css = QString("color:%1;background-color:%2;"
-            "font-family:sans;font-size:12pt;padding:3px;margin:1px;")
-            .arg(scheme["txtClr"],scheme["bgClr"]);
-    calFormat.setForeground(QBrush( QColor(scheme["nrClr"] )));
-    calFormat.setBackground(QBrush( QColor(scheme["bgClr"] )));
-
-    encTxtLbl->setStyleSheet(css);
-    ui->calendar->setHeaderTextFormat(calFormat);
 }
 
 void MainWindow::applyFont(
@@ -1455,15 +1421,13 @@ void MainWindow::spokenWord()
     QString sBk = ui->lw_books->currentIndex().data(0x0100).toString();
     QString sCh = ui->lw_chapters->currentIndex().data(0x0100).toString();
 
-    if (sBk.length() == 1) {
+    if (sBk.length() == 1)
         sBk.prepend("0");
-    }
 
-    if (sCh.length() == 1) {
+    if (sCh.length() == 1)
         sCh.prepend("00");
-    } else if (sCh.length() == 2) {
+    else if (sCh.length() == 2)
         sCh.prepend("0");
-    }
 
     QStringList files = QDir(::userDataDir.path()+ "/audio-bible").entryList();
 
@@ -1475,7 +1439,7 @@ void MainWindow::spokenWord()
 
     for (const QString &file : files) {
         QRegularExpressionMatch match = audioBibleRegex->match(file);
-        if (match.hasMatch()){
+        if (match.hasMatch()) {
             audioBibleBook.setFile(::userDataDir.path()+ "/audio-bible/" + file);
             hasMatch = true;
             break;
@@ -1508,18 +1472,18 @@ void MainWindow::playRandom()
 
 void MainWindow::stopPlayer()
 {
-    ui->action_stop_media->setText("Stop playing");
-    ui->action_stop_media->setDisabled(true);
+    if (!mplayer->isPlaying()) {
+        ui->action_stop_media->setText(tr("Stop playing"));
+        ui->action_stop_media->setEnabled(false);
+    }
 }
 
 bool MainWindow::compareFunctionR(QAction *a, QAction *b)
 {
     // to sort the psalms by nr for easy display in the music menu
-    QString aNr; QString bNr;
-    QString pattern =
-            "\\s*(?<ps>[Pp]salm)"
-            "\\s*(?<ch>\\d?\\d?\\d?)";
-    QRegularExpression re(pattern);
+    static QRegularExpression re("\\s*(?<ps>[Pp]salm)"
+                                 "\\s*(?<ch>\\d?\\d?\\d?)");
+    QString aNr, bNr;
     QRegularExpressionMatch matchA = re.match(a->text());
     QRegularExpressionMatch matchB = re.match(b->text());
     aNr = matchA.captured("ch");
@@ -1553,7 +1517,8 @@ void MainWindow::showText(const QString &filepath, const QString &filename)
 
 void MainWindow::makeMusicMenu()
 {
-    QDirIterator it(::userDataDir.path()+ "/music", QStringList() << "*.mp3", QDir::NoFilter, QDirIterator::Subdirectories);
+    QDirIterator it(::userDataDir.path()+ "/music", QStringList()
+                    << "*.mp3", QDir::NoFilter, QDirIterator::Subdirectories);
 
     QList<QAction*> psalmActions;
     QList<QAction*> hymnActions;
@@ -1561,18 +1526,17 @@ void MainWindow::makeMusicMenu()
 
     while (it.hasNext()) {
         QFileInfo f(it.next());
-        QAction *musAction = new QAction(musIcon, f.baseName());
+        QAction *musAction = new QAction(musIcon, f.baseName(), this);
         connect(musAction, &QAction::triggered, this, [this, f]() {
             playMusic( f.absoluteFilePath(), f.baseName() );
         });
 
-        if (f.path() == ::userDataDir.path()+ "/music/psalms"){
+        if (f.path() == ::userDataDir.path()+ "/music/psalms")
             psalmActions.append(musAction);
-        } else if (f.path() == ::userDataDir.path()+ "/music/hymns") {
+        else if (f.path() == ::userDataDir.path()+ "/music/hymns")
             hymnActions.append(musAction);
-        } else {
+        else
             divActions.append(musAction);
-        }
 
         QList<QString> info = {f.absoluteFilePath(), f.baseName()};
         musicList.append(info);
@@ -1582,15 +1546,12 @@ void MainWindow::makeMusicMenu()
     std::sort(hymnActions.begin(), hymnActions.end(), compareFunctionS );
     std::sort(divActions.begin(), divActions.end(), compareFunctionS);
 
-        for (QAction *ac : psalmActions) {
+        for (QAction *ac : psalmActions)
             ui->menu_psalms->addAction(ac);
-        }
-        for (QAction *ac : hymnActions) {
+        for (QAction *ac : hymnActions)
             ui->menu_hymns->addAction(ac);
-        }
-        for (QAction *ac : divActions) {
+        for (QAction *ac : divActions)
             ui->menu_music_word->addAction(ac);
-        }
 }
 
 void MainWindow::makeTextMenuItems()
@@ -1609,32 +1570,32 @@ void MainWindow::makeTextMenuItems()
     ui->menu_filters->addAction(immAction);
     ui->menu_filters->addAction(judAction);
 
+    if (!filtersMenuVisible)
+        ui->menu_bar->removeAction(ui->menu_filters->menuAction());
+
     QDirIterator it(::userDataDir.path()+ "/notes", QStringList() <<
                     "*.md" << "*.txt", QDir::NoFilter, QDirIterator::Subdirectories);
 
     if (!it.hasNext()) {
             QAction *txtAction = new QAction(docIcon, "see menu help-modifications "
-                                                      "on how to add notes");
+                                                      "on how to add notes", this);
             txtAction->setDisabled(true);
             txtActions.append(txtAction);
     } else {
         while (it.hasNext()) {
             QFileInfo f(it.next());
-            QAction *txtAction = new QAction(docIcon, f.baseName());
-            connect(txtAction, &QAction::triggered, this, [this, f]()
-            {
-                showText( f.absoluteFilePath(), f.baseName() );
+            QAction *txtAction = new QAction(docIcon, f.baseName(), this);
+            connect(txtAction, &QAction::triggered, this, [this, f]() {
+                showText(f.absoluteFilePath(), f.baseName());
             });
-
             txtActions.append(txtAction);
         }
     }
 
     std::sort(txtActions.begin(), txtActions.end(), compareFunctionS);
 
-    for (QAction *ac: txtActions) {
+    for (QAction *ac: txtActions)
         ui->menu_text_word->addAction(ac);
-    }
 }
 
 void MainWindow::playMusic(QString filepath, QString filename)
@@ -1644,13 +1605,13 @@ void MainWindow::playMusic(QString filepath, QString filename)
     mplayer->play();
 
     ui->action_stop_media->setEnabled(true);
-    ui->action_stop_media->setText(QString("Stop playing: %1").arg(filename) );
+    ui->action_stop_media->setText(tr("Stop playing: ") + filename);
 
     QRegularExpressionMatch psalmMatch = psalmRegex->match(filename);
     QRegularExpressionMatch hymnMatch = hymnRegex->match(filepath);
     QRegularExpressionMatch scripMatch = scripRegex->match(filename);
 
-    if(psalmMatch.hasMatch()){
+    if (psalmMatch.hasMatch()) {
         int ch;
         QString chS;
         chS = psalmMatch.captured("ch");
@@ -1666,25 +1627,24 @@ void MainWindow::playMusic(QString filepath, QString filename)
         job["c1"] = ch;
         printQ.enqueue(job);
         processPrintQueue();
-    } else if(hymnMatch.hasMatch()) {
+    } else if (hymnMatch.hasMatch()) {
         ui->info_tb->clear(); ui->info_frame->show();
 
-        QFile hymnFile(QString(::userDataDir.path()+ "/music/hymns/%1.txt")
-                       .arg(filename) );
+        QFile hymnFile(QString(::userDataDir.path()
+                               + "/music/hymns/%1.txt").arg(filename));
         if (!hymnFile.open(QIODevice::ReadOnly | QIODevice::Text))
             return;
 
         ui->info_lbl_title->setText(filename);
 
         QString hymnText;
-        while (!hymnFile.atEnd()) {
+        while (!hymnFile.atEnd())
             hymnText += hymnFile.readLine() + "<br>";
-        }
 
         ui->info_tb->setHtml(QString("<br><div style='%1'>%2</div>")
                              .arg(devStyle, hymnText) );
 
-    } else if(scripMatch.hasMatch() and !filepath.contains("audio-bible") ){
+    } else if (scripMatch.hasMatch() and !filepath.contains("audio-bible")) {
         printRequestSingle(filename);
     }
 }
@@ -1783,7 +1743,7 @@ void MainWindow::showEmpireMaps()
 
     QString sqlGetMaps {"select name from img_data where name like '%empire%' "
                         "or name like '%nations%' or name like '%world%'"};
-    QSqlQuery querygetMaps(sqlGetMaps, dbH.extraDb);
+    QSqlQuery querygetMaps(sqlGetMaps, varDb);
     QString mapName {};
 
     while (querygetMaps.next()) {
@@ -1834,7 +1794,7 @@ void MainWindow::showShortcuts()
                 "The lineEdit in the content tab accepts more than one entry<br>"
                 "e.g. ps 1-5 act 2:38<br><br>"
                 "The following frames can be collapsed by dragging the splitter's handle:<br>"
-                "booktitle/chapter frame, info frame, strongs frame<br>"
+                "chapter frame, info frame, strongs frame<br>"
                 );
     ui->info_tb->setHtml(info);
     ui->info_lbl_title->setText(tr("shortcuts"));
@@ -1845,7 +1805,7 @@ void MainWindow::showEncPic(const QString &fileName)
     ui->bible_frame->hide(); ui->info_frame->hide();
     ui->background_frame->setStyleSheet(
                 QString("#background_frame {background-image: url(%1); "
-                "background-repeat: no-repeat;background-position: center}").arg(fileName));
+                "background-repeat: no-repeat; background-position: center}").arg(fileName));
 }
 
 void MainWindow::changeEncPic()
@@ -1857,11 +1817,10 @@ void MainWindow::changeEncPic()
         QPixmap encPic(fileName);
         QPixmap encPicS(encPic.scaledToWidth(230));
 
-        if(encPicS.height() > 200) {
+        if(encPicS.height() > 200)
             encPicLbl->setPixmap(encPicS.scaledToHeight(200));
-        } else {
+        else
             encPicLbl->setPixmap(encPicS);
-        }
 
         ui->pb_enc_img->disconnect(); // remove old signals else weird things happen!
         connect(ui->pb_enc_img, &QPushButton::clicked, this, [this, fileName]() {
@@ -1885,11 +1844,10 @@ void MainWindow::setEncPic()
     filters << "*.png" << "*.jpg";
     dir.setNameFilters(filters);
 
-    if(!dir.isEmpty()){
+    if (!dir.isEmpty()) {
         QDirIterator it(dir, QDirIterator::NoIteratorFlags);
-        while (it.hasNext()) {
+        while (it.hasNext())
             encPics.append(it.next());
-        }
 
         QVBoxLayout *encPicLay = new QVBoxLayout();
         encPicLay->setContentsMargins(1,1,1,1);
@@ -1915,9 +1873,8 @@ void MainWindow::printEncTxt(int bk, int ch, int vs, const QString &verse)
     processPrintQueue();
 
     ui->tb_scriptures->moveCursor(QTextCursor().Start);
-    if (not ui->tb_scriptures->find(verse)) {
+    if (not ui->tb_scriptures->find(verse))
         ui->tb_scriptures->find(QString::number(vs) + " ");
-    }
 }
 
 void MainWindow::changeEncTxt()
@@ -1929,7 +1886,6 @@ void MainWindow::changeEncTxt()
 
     // remove html tags since QLabel can't handle them
     verse.remove(*tagRegex);
-
     encTxtLbl->setText(verse);
 
     ui->pb_enc_txt->disconnect(); // remove old signals else weird things happen!
@@ -1941,18 +1897,11 @@ void MainWindow::changeEncTxt()
 
 void MainWindow::setEncTxt()
 {
-    QString css;
-    css = QString("color:%1;background-color:%2;"
-                "font-family:sans;font-size:12pt;padding:3px;margin:1px;"
-                  ).arg(scheme["txtClr"],scheme["bgClr"]);
-
     encTxtLbl->setWordWrap(true);
     encTxtLbl->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Maximum);
     encTxtLbl->setFixedWidth(220);
-    encTxtLbl->setStyleSheet(css);
 
     QVBoxLayout *encTxtLay = new QVBoxLayout();
-    encTxtLay->setContentsMargins(1,1,1,1);
     encTxtLay->setSizeConstraint(QLayout::SetMinAndMaxSize);
     encTxtLay->addWidget(encTxtLbl);  
     ui->pb_enc_txt->setLayout(encTxtLay);
@@ -1960,15 +1909,14 @@ void MainWindow::setEncTxt()
 
 void MainWindow::escapeKey()
 {
-    if (this->isFullScreen()) {
+    if (this->isFullScreen())
         this->showNormal();
-    } else if (ui->menu_bar->isHidden()) {
+    else if (ui->menu_bar->isHidden())
         ui->menu_bar->show();
-    } else if (ui->tabwidget->isHidden()) {
+    else if (ui->tabwidget->isHidden())
         ui->tabwidget->show();
-    } else if (ui->frame_find->isVisible()) {
-        ui->frame_find->hide();
-    }
+    else if (ui->find_frame->isVisible())
+        ui->find_frame->hide();
 }
 
 void MainWindow::todaysProverb()
@@ -1999,11 +1947,10 @@ void MainWindow::todaysPsalm()
     int lastCh = (today * 5) + 1;
     int firstCh;
 
-    if ( today == 1 ) {
+    if ( today == 1 )
         firstCh = 1;
-    } else {
+    else
         firstCh = lastCh - 4;
-    }
 
     int ch;
     QList<int> psalms;
@@ -2011,12 +1958,9 @@ void MainWindow::todaysPsalm()
     if ( today == 31 ) {
         ch  = 119;
     } else {
-
         for ( int i = firstCh; i <= lastCh; ++i ) {
-
-            if ( i != 119 and i != 151 ) {
+            if ( i != 119 and i != 151 )
                 psalms.append(i);
-            }
         }
 
         std::shuffle(psalms.begin(), psalms.end(),
@@ -2041,19 +1985,18 @@ void MainWindow::morningAndEvening(const QString &morningOrEvening)
     int today = ui->calendar->selectedDate().dayOfYear();
     QString devotion;
     QString desc =  " by C.H. Spurgeon";
-    if (morningOrEvening == "mbm") {
+    if (morningOrEvening == "mbm")
         desc.prepend("Morning by morning");
-    } else {
+    else
         desc.prepend("Evening by evening");
-    }
 
     QString sql = QString("select day, devotion from %1 where day = %2")
             .arg(morningOrEvening).arg(today);
-    QSqlQuery query(sql, dbH.extraDb);
+    QSqlQuery query(sql, varDb);
 
-    while (query.next()) {
+    while (query.next())
         devotion.append(query.value(1).toString());
-    }
+
     devotion.replace("<p/>", "<br><br>");
     devotion.replace("<p />", "<br><br>");
     devotion.replace("<a href", QString("<a style='color:%1' href").arg(scheme["nrClr"]));
@@ -2081,11 +2024,12 @@ void MainWindow::todaysLetter()
                  std::default_random_engine(std::random_device()() ));
     int bk = letters[0];
 
-    int lastCh = dbH.getChapterCount(bk);
+    int finalChapter = Utilities::getChapterCount(bk);
+
     QList<int> chapters;
-    for (int ch = 1; ch < (lastCh + 1); ++ch) {
+    for (int ch = 1; ch <= finalChapter; ++ch)
         chapters.append(ch);
-    }
+
     std::shuffle(chapters.begin(), chapters.end(),
                  std::default_random_engine(std::random_device()() ));
     int ch = chapters[0];
@@ -2122,9 +2066,10 @@ void MainWindow::on_search_tb_anchorClicked(const QUrl &url)
 
     QFlags<QTextDocument::FindFlag> flags = QTextDocument().FindWholeWords;
     ui->tb_scriptures->moveCursor(QTextCursor().Start);
-    if (not ui->tb_scriptures->find(getVerse(bk, ch, vs), flags)) {
-        ui->tb_scriptures->find(QString::number(vs) + " ");
-    }
+    // this will not find the correct verse if there are multiple verses with the same content,
+    // eg lev 6:8 will just highlight 6:1
+    if (not ui->tb_scriptures->find(getVerse(bk, ch, vs), flags))
+        ui->tb_scriptures->find(url_list[2]);
 }
 
 QString MainWindow::getVerse(const int bk, const int ch, const int vs)
@@ -2133,27 +2078,25 @@ QString MainWindow::getVerse(const int bk, const int ch, const int vs)
     QString sql = QString("SELECT t from t_%1 where b = %2 and c = %3 and v = %4 ")
             .arg(activeTl).arg(bk).arg(ch).arg(vs);
 
-    QSqlQuery query(sql, dbH.bibleDb);
-    while (query.next()) {
+    QSqlQuery query(sql, bibleDb);
+    while (query.next())
         verse = query.value(0).toString();
-    }
-
     return verse;
 }
 
 void MainWindow::on_info_tb_anchorClicked(const QUrl &url)
 {
+    // url links: cross-refs, strongs, topics, mbm ebe, dictionary
     QString sUrl = url.toString(QUrl::RemoveScheme);
     QString bookName;
     QString goodUrl;
 
+    // cross-references, topical
     if (url.scheme() == "bible") {
-        printRequest(sUrl);
-
+        printRequest(sUrl, "en");
     // code follows database href tags which is a bit awkward perhaps
     } else if (url.scheme() == "strongs" || url.scheme() == "s" ) {
         getStrongs(sUrl);
-
         QString check = ui->strongs_tb->toPlainText();
 
         if (check == "no results\n\ntry a valid strongs number or word\n") {
@@ -2164,7 +2107,7 @@ void MainWindow::on_info_tb_anchorClicked(const QUrl &url)
             QStringList wrongUrl = sUrl.split(" ");
             QString sql = "select normal from convert where weird = " + wrongUrl[0];
 
-            QSqlQuery query(sql, dbH.dictDb);
+            QSqlQuery query(sql, dictDb);
             while (query.next()) {
                 bookName = ::g_bookNames[query.value(0).toInt()];
             }
@@ -2198,10 +2141,10 @@ void MainWindow::on_strongs_tb_anchorClicked(const QUrl &url)
         QStringList urlList = sUrl.split(" ");
         QString sql = "select normal from convert where weird = " + urlList[0];
 
-        QSqlQuery query(sql, dbH.dictDb);
-        while (query.next()) {
+        QSqlQuery query(sql, dictDb);
+        while (query.next())
             bookName = ::g_bookNames[query.value(0).toInt()];
-        }
+
         if (!bookName.isEmpty()) {
             goodUrl = bookName + " " + urlList[1];
             printRequest(goodUrl);
@@ -2236,12 +2179,12 @@ void MainWindow::on_tb_scriptures_anchorClicked(const QUrl &url)
         // table name always starts with notes_
         QString sql = QString("select book, chapter, "
                             "verse, marker, note "
-                            "from notes_%1 where book is %2 and "
+                            "from %1 where book is %2 and "
                             "chapter is %3 and "
                             "verse is %4 and "
                             "marker is '%5'").arg(activeTl.toLower(),
                                                   bk, ch, vs, marker);
-        QSqlQuery query(sql, dbH.extraDb);
+        QSqlQuery query(sql, varDb);
         if (query.next()) {
             note = query.value(4).toString();
             ui->strongs_tb->clear();
@@ -2309,7 +2252,7 @@ void MainWindow::breakItUp(QString &textwall)
     int textL {0};
     QChar testChar {};
 
-    for (int i = 0; i <= textwall.length(); i++) {
+    for (int i = 0; i < textwall.length() - 1; i++) {
         textL += 1;
         testChar = textwall.at(i);
         if (endChar.contains(testChar) && textL > 280) {
@@ -2319,10 +2262,11 @@ void MainWindow::breakItUp(QString &textwall)
             }
         }
     }
+
     // insert break after end of line character + space
     // and adjust for new size caused by the insert
     int correction = 2;
-    for(int pos : qAsConst(breaks)) {
+    for(int pos : std::as_const(breaks)) {
         textwall.insert(pos + correction, "<br><br>");
         correction += 8;
     }
@@ -2342,13 +2286,12 @@ void MainWindow::versesWithStrongNumber(const QString &strongs, const QString &w
         QString themeStr = where.at(where.length() - 2);
         int themeNr = themeStr.toInt();
 
-        if (StrongsPrefix == "H" and themeNr < 5) {
+        if (StrongsPrefix == "H" and themeNr < 5)
             lookWhere = where;
-        } else if (StrongsPrefix == "G" and themeNr > 4) {
+        else if (StrongsPrefix == "G" and themeNr > 4)
             lookWhere = where;
-        } else {
+        else
             lookWhere = "0";
-        }
 
     } else if (StrongsPrefix == "H" and where == "between 1 and 66") { // Hebrew word
         lookWhere = "between 1 and 39";
@@ -2359,11 +2302,11 @@ void MainWindow::versesWithStrongNumber(const QString &strongs, const QString &w
     } else if (StrongsPrefix == "H") {
         QString bookNrStr = where.last(2);
         int bookNrInt = bookNrStr.toInt();
-        if (bookNrInt > 39) {
+        if (bookNrInt > 39)
             lookWhere = "0";
-        } else {
+        else
             lookWhere = where;
-        }
+
     } else if (StrongsPrefix == "G" and where == "between 1 and 66") { // Greek word
         lookWhere = "between 40 and 66";
     } else if (StrongsPrefix == "G" and where == "between 1 and 39") { // not NT
@@ -2371,11 +2314,10 @@ void MainWindow::versesWithStrongNumber(const QString &strongs, const QString &w
     } else if (StrongsPrefix == "G" and where != "between 40 and 66") { // one book
         QString bookNrStr = where.last(2);
         int bookNrInt = bookNrStr.toInt();
-        if (bookNrInt < 40) {
+        if (bookNrInt < 40)
             lookWhere = "0";
-        } else {
+        else
             lookWhere = where;
-        }
 
     } else {
         lookWhere = where;
@@ -2384,7 +2326,7 @@ void MainWindow::versesWithStrongNumber(const QString &strongs, const QString &w
     QString sql_findStrongNr = QString("select b, c, v, t from %1 "
                                "where t like '%<S>%2</S>%' "
                                "and b %3").arg(strongTl, strongs.mid(1), lookWhere);
-    QSqlQuery query(sql_findStrongNr, dbH.bibleDb);
+    QSqlQuery query(sql_findStrongNr, bibleDb);
 
     int bk;
     QString bkS;
@@ -2408,16 +2350,15 @@ void MainWindow::versesWithStrongNumber(const QString &strongs, const QString &w
     }
 
     QString intro;
-    if (counter == 0){
+    if (counter == 0)
         intro = QString("<center><h3>'%1'<br>was not found</h3></center>")
                 .arg(strongs);
-    } else if (counter == 1){
+    else if (counter == 1)
         intro = QString("<center><h3>'%1'<br>was found in one verse</h3></center>")
                 .arg(strongs);
-    } else {
+    else
         intro = QString("<center><h3>'%1'<br>was found in %2 verses</h3></center>")
                 .arg(strongs, QString::number(counter));
-    }
 
     ui->search_tb->moveCursor(QTextCursor().Start);
     intro += "<br><br>";
@@ -2427,18 +2368,29 @@ void MainWindow::versesWithStrongNumber(const QString &strongs, const QString &w
 void MainWindow::searchScriptures()
 {
     QString what = ui->search_le_what->text().trimmed();
-    QString where = ui->search_cb_where->currentData(0x0100).toString();
+    QString cbWhere = ui->search_cb_where->currentData(0x0100).toString();
+    QString where;
 
-    if (where == "this") {
+    if (cbWhere == "this") {
         where = "= " + ui->lw_books->currentIndex().data(0x0100).toString();
-    } else if (where == "all") {
+    } else if (cbWhere == "all") {
         where = "between 1 and 66";
-    } else if (where == "O.T.") {
+    } else if (cbWhere == "O.T.") {
         where = "between 1 and 39";
-    } else if (where == "N.T.") {
+    } else if (cbWhere == "N.T.") {
         where = "between 40 and 66";
     } else {
-        where = "in (select book_nr from number_name where genre_nr = " + where + ")" ;
+        where = "in (";
+
+        QSqlQuery getBookNrs("select book_nr "
+                            "from books_info "
+                            "where genre_nr = "
+                            + cbWhere, booksDb);
+        while (getBookNrs.next())
+            where.append(getBookNrs.value(0).toString() + ",");
+
+        where.chop(1);
+        where.append(")");
     }
 
     QRegularExpressionMatch match = getStrongRegex->match(what);
@@ -2449,13 +2401,12 @@ void MainWindow::searchScriptures()
         return;
     }
 
-    QString anyExact = ui->search_cb_anyExact->currentText();
     QString tl = "t_" + activeTl;
 
     QString globOrLike; // sql glob or like
-    QString astOrPer; // asterisk or percentage
+    QString astOrPer; // asterisk or percentage operator
 
-    if (ui->search_chkb_case->isChecked()){
+    if (ui->search_chkb_case->isChecked()) {
         globOrLike = "GLOB";
         astOrPer = "*";
     }
@@ -2476,13 +2427,15 @@ void MainWindow::searchScriptures()
     QString first_word;
     QString whereClause;
     QStringList searchList = what.split(" ");
+    QString anyExact = ui->search_cb_anyExact->currentData(0x0100).toString();
 
     // build the where clause of the SQL query
-    if (anyExact == "any order") {
+    // LIKE = case-insensitive (for ASCII characters)
+    // can't do [,.!;:?] with LIKE
+    // GLOB = case-sensitive
+    if (anyExact == "any") {
         first_word = searchList[0];
-
-        // whole words
-        // use () to separate the words
+        // whole words, use () to separate the words
         if (ui->search_chkb_whole->isChecked()) {
             whereClause = QString("( t %1 '%2 %3 %2' AND b %4 "
                                 "OR t %1 '%3 %2' AND b %4 "
@@ -2496,7 +2449,6 @@ void MainWindow::searchScriptures()
                 .arg(globOrLike, astOrPer, first_word, where);
 
             if (searchList.length() > 1) {
-
                 for (QString &word : searchList.mid(1, -1)) {
                     whereClause += QString("AND ( t %1 '%2 %3 %2' AND b %4 "
                                         "OR t %1 '%3 %2' AND b %4 "
@@ -2540,22 +2492,22 @@ void MainWindow::searchScriptures()
                 }
             }
         }
-    // exact match query
+    // exact match, no AND clauses
     } else {
         whereClause = QString("t %1 '%2 %3 %2' AND b %4 "
-                            "OR t %1 '%3 %2' AND b %4 "
-                            "OR t %1 '%2 %3' AND b %4 "
-                            "OR t %1 '%2 %3,%2' AND b %4 "
-                            "OR t %1 '%2 %3.%2' AND b %4 "
-                            "OR t %1 '%2 %3!%2' AND b %4 "
-                            "OR t %1 '%2 %3;%2' AND b %4 "
-                            "OR t %1 '%2 %3:%2' AND b %4 "
-                            "OR t %1 '%2 %3?%2' AND b %4 ")
-            .arg(globOrLike, astOrPer, what, where);
+                              "OR t %1 '%3 %2' AND b %4 "
+                              "OR t %1 '%2 %3' AND b %4 "
+                              "OR t %1 '%2 %3,%2' AND b %4 "
+                              "OR t %1 '%2 %3.%2' AND b %4 "
+                              "OR t %1 '%2 %3!%2' AND b %4 "
+                              "OR t %1 '%2 %3;%2' AND b %4 "
+                              "OR t %1 '%2 %3:%2' AND b %4 "
+                              "OR t %1 '%2 %3?%2' AND b %4 ")
+                          .arg(globOrLike, astOrPer, what, where);
     }
 
-    QString searchQ = QString("SELECT b,c,v,t FROM %1 WHERE %2").arg(tl, whereClause);
-    QSqlQuery query(searchQ, dbH.bibleDb);
+    QString selectStr = QString("SELECT b,c,v,t FROM %1 WHERE %2").arg(tl, whereClause);
+    QSqlQuery query(selectStr, bibleDb);
     int counter = 0; // count the matches per verse
     ui->search_tb->clear();
 
@@ -2575,33 +2527,30 @@ void MainWindow::searchScriptures()
         ui->search_tb->insertHtml(match);
     }
 
-
     // lets highlight all matches and count the results
     QTextCharFormat boldF;
     boldF.setFontWeight(QFont::Bold);
     QFlags<QTextDocument::FindFlag> ourFlags;
 
-    if (ui->search_chkb_whole->isChecked()) {
+    if (ui->search_chkb_whole->isChecked())
         ourFlags = ourFlags | QTextDocument::FindWholeWords;
-    }
-    if (ui->search_chkb_case->isChecked()) {
+
+    if (ui->search_chkb_case->isChecked())
         ourFlags = ourFlags | QTextDocument::FindCaseSensitively;
-    }
+
 
     if (anyExact == "any order") {
-        for (const QString &word : qAsConst(searchList)) {
+        for (const QString &word : std::as_const(searchList)) {
             ui->search_tb->moveCursor(QTextCursor().Start);
 
-            while (ui->search_tb->find(word, ourFlags)) {
+            while (ui->search_tb->find(word, ourFlags))
                 ui->search_tb->textCursor().mergeCharFormat(boldF);
-            }
         }
     } else {
         ui->search_tb->moveCursor(QTextCursor().Start);
 
-        while (ui->search_tb->find(what, ourFlags)) {
+        while (ui->search_tb->find(what, ourFlags))
             ui->search_tb->textCursor().mergeCharFormat(boldF);
-        }
     }
 
     QString intro;
@@ -2623,7 +2572,7 @@ void MainWindow::searchScriptures()
 
 void MainWindow::printRequestSingle(const QString &request)
 {
-    //called by playMusic() Do english lookup only. For one chapter.
+    // called by playMusic() Do english lookup only. For one chapter.
 
     int bkNr = 0, chNr1 = 0 , vsNr1 = 0, vsNr2 = 0;
     QRegularExpressionMatch match = scripRegex->match(request);
@@ -2635,43 +2584,42 @@ void MainWindow::printRequestSingle(const QString &request)
 
         bkNr = 0; chNr1 = 0 ; vsNr1 = 0; vsNr2 = 0;
 
-            if (!match.captured("prt").isEmpty()){
+            if (!match.captured("prt").isEmpty()) {
                 QString part = match.captured("prt");
                 testBook.append(part + " ");
             }
-            if (!match.captured("bk").isEmpty()){
+            if (!match.captured("bk").isEmpty()) {
                 QString book = match.captured("bk");
                 testBook.append(book.toUpper());
             }
-            if (!match.captured("ch1").isEmpty()){
+            if (!match.captured("ch1").isEmpty()) {
                 QString chapter1 = match.captured("ch1");
                 chNr1 = chapter1.toInt();
             }
-
-            if (!match.captured("vs1").isEmpty()){
+            if (!match.captured("vs1").isEmpty()) {
                 QString verse1 = match.captured("vs1");
                 vsNr1 = verse1.toInt();
             }
-            if (!match.captured("vs2").isEmpty()){
+            if (!match.captured("vs2").isEmpty()) {
                 QString verse2 = match.captured("vs2");
                  vsNr2 = verse2.toInt();
             }
 
         // get the book number
-        QSqlQuery query("SELECT book_nr, name_english from number_name", dbH.bibleDb);
+        QSqlQuery query("SELECT book_nr, name FROM lang_en", booksDb);
 
         while (query.next()) {
-            if (testBook == query.value(1).toString().toUpper()){
+            if (testBook == query.value(1).toString().toUpper()) {
                 bkNr = query.value(0).toInt();
                 break;
             }
         }
 
-        if (bkNr == 0){
-            QSqlQuery query("SELECT abbr_en, book_nr FROM abbr", dbH.bibleDb);
+        if (bkNr == 0) {
+            QSqlQuery query("SELECT abbreviation, book_nr FROM lang_en", booksDb);
 
             while (query.next()) {
-                if (testBook == query.value(0).toString().toUpper()){
+                if (testBook == query.value(0).toString().toUpper()) {
                     bkNr = query.value(1).toInt();
                     break;
                 }
@@ -2680,12 +2628,12 @@ void MainWindow::printRequestSingle(const QString &request)
 
         // get chapter number(s)
         if (bkNr > 0) {
-            int fCh = dbH.getChapterCount(bkNr);
+            int finalChapter = Utilities::getChapterCount(bkNr);
             if (chNr1 <= 0) chNr1 = 1;
-            if (chNr1 > fCh) chNr1 = fCh;
+            if (chNr1 > finalChapter) chNr1 = finalChapter;
 
                 // single chapter, perhaps with verse(s)
-            if (vsNr1 > 0){
+            if (vsNr1 > 0) {
                 if (vsNr2 > 0){
                     QHash<QString, int> job = { {"bk", bkNr}, {"c1", chNr1},
                                                 {"v1", vsNr1}, {"v2", vsNr2} };
@@ -2695,10 +2643,10 @@ void MainWindow::printRequestSingle(const QString &request)
                     QHash<QString, int> job = { {"bk", bkNr}, {"c1", chNr1}, {"v1", vsNr1} };
                     printQ.enqueue(job);
                 }
-                } else {
-                    QHash<QString, int> job = { {"bk", bkNr}, {"c1", chNr1} };
-                    printQ.enqueue(job);
-                }
+            } else {
+                QHash<QString, int> job = { {"bk", bkNr}, {"c1", chNr1} };
+                printQ.enqueue(job);
+            }
         bkNr < 40 ? ui->lw_books->setCurrentRow(bkNr - 1) : ui->lw_books->setCurrentRow(bkNr);
         setBookTitle();
         updateChapterWidget();
@@ -2708,18 +2656,34 @@ void MainWindow::printRequestSingle(const QString &request)
     processPrintQueue();
 }
 
-void MainWindow::printRequest(const QString &request)
+void MainWindow::printRequest(const QString &request, const QString &language)
 {
     // scan a string and see if scriptures can be found and printed
-    if (request.trimmed().length() < 2)
+
+    // some request are english language only, eg topical and crossref
+    QString bookLang;
+    if (language == "en")
+        bookLang = "en";
+    else
+        bookLang = bknLanguage;
+
+    if (request.simplified().length() < 2 ) {
+        ui->lw_books->clearSelection();
+        ui->lw_chapters->clear();
+        ui->lbl_book_title->setText("");
+        if (!ui->bible_frame->isVisible()) ui->bible_frame->show();
+        printMsg("input too short");
         return;
-    QRegularExpressionMatchIterator gmatch = scripRegex->globalMatch(request.trimmed());
+    }
+
+    QRegularExpressionMatchIterator gmatch = scripRegex->globalMatch(request.simplified());
     QRegularExpressionMatch match;
-    QString testBook;
+    QString testBook, testBookNoSpace;
     int bkNr = 0, chNr1 = 0 , chNr2 = 0, vsNr1 = 0, vsNr2 = 0;
 
     while (gmatch.hasNext()) {
         testBook.clear();
+        testBookNoSpace.clear();
 
         match = gmatch.next();
         bkNr = 0; chNr1 = 0 ; chNr2 = 0; vsNr1 = 0; vsNr2 = 0;
@@ -2750,41 +2714,39 @@ void MainWindow::printRequest(const QString &request)
             }
         }
 
-        // get the book number from db, first try abbr, then lookup booknames
-        QSqlQuery query("SELECT abbr_en, book_nr, abbr_nl FROM abbr", dbH.bibleDb);
+        testBookNoSpace = testBook = testBook.toUpper();
+        testBookNoSpace.replace(" ", "");
+        // try to get the book number
+        QSqlQuery query("SELECT book_nr, name, abbreviation FROM lang_" + bookLang, booksDb);
 
         while (query.next()) {
-            if (testBook.toUpper() == query.value(0).toString().toUpper()) {
-                bkNr = query.value(1).toInt();
+            if (testBook == query.value(1).toString().simplified().toUpper()) {
+                // compare name
+                bkNr = query.value(0).toInt();
                 break;
-            } else if (testBook.toUpper() == query.value(2).toString().toUpper()) {
-                bkNr = query.value(1).toInt();
+            } else if (testBook == query.value(2).toString().toUpper()) {
+                // compare abbreviation
+                bkNr = query.value(0).toInt();
+                break;
+            } else if (testBookNoSpace == query.value(2).toString().toUpper()) {
+                // compare abbreviation without spaces eg 1 Jn -> 1Jn
+                bkNr = query.value(0).toInt();
+                break;
+            }
+            else if (query.value(1).toString().toUpper().startsWith(testBook)) {
+                // compare partial name
+                bkNr = query.value(0).toInt();
                 break;
             }
         }
 
-        if (bkNr == 0) {
-            QSqlQuery query2("SELECT book_nr, name_english, name_dutch "
-                            "from number_name", dbH.bibleDb);
-            QString bookNameEn, bookNameNl;
-            while (query2.next()) {
-                bookNameEn = query2.value(1).toString();
-                bookNameNl = query2.value(2).toString();
-                if (testBook.toLower() == bookNameEn.toLower()
-                        or testBook.toLower() == bookNameNl.toLower()) {
-                    bkNr = query2.value(0).toInt();
-                    break;
-                }
-            }
-        }
-
-        // get chapter and verse number(s) or return
+        // get chapter and verse number(s)
         if (bkNr > 0) {
-            int fCh = dbH.getChapterCount(bkNr);
+            int finalChapter = Utilities::getChapterCount(bkNr);
             if (chNr1 <= 0)
                 chNr1 = 1;
-            if (chNr1 > fCh)
-                chNr1 = fCh;
+            if (chNr1 > finalChapter)
+                chNr1 = finalChapter;
 
             QHash<QString, int> job = {
                 { "bk", bkNr },
@@ -2793,23 +2755,24 @@ void MainWindow::printRequest(const QString &request)
             };
 
             printQ.append(job);
-
-        } else {
-            ui->lw_books->clearSelection();
-            ui->lw_chapters->clear();
-            ui->lbl_book_title->setText("");
-            printMsg("no book found");
-            return;
         }
-    } //  endof while (gmatch.hasNext())
 
-    bkNr < 40 ? ui->lw_books->setCurrentRow(bkNr - 1) : ui->lw_books->setCurrentRow(bkNr);
+    } //  endof while gmatch.hasNext()
 
-    setBookTitle();
-    updateChapterWidget();
-    ui->lw_chapters->setCurrentRow(chNr1 - 1);
-
-    processPrintQueue();
+    // if at least one book has been found
+    if (bkNr > 0) {
+        bkNr < 40 ? ui->lw_books->setCurrentRow(bkNr - 1) : ui->lw_books->setCurrentRow(bkNr);
+        setBookTitle();
+        updateChapterWidget();
+        ui->lw_chapters->setCurrentRow(chNr1 - 1);
+        processPrintQueue();
+    } else {
+        ui->lw_books->clearSelection();
+        ui->lw_chapters->clear();
+        ui->lbl_book_title->setText("");
+        if (!ui->bible_frame->isVisible()) ui->bible_frame->show();
+        printMsg("no book found");
+    }
 }
 
 void MainWindow::centerApp()
@@ -2857,24 +2820,28 @@ void MainWindow::prevChapter()
 
 void MainWindow::createOtNtMenus()
 {
-    QSettings settings(settingsFile.fileName(), QSettings::IniFormat);
-    QString lang = settings.value("booknameLanguage", "english").toString();
+    otMenu->clear();
+    ntMenu->clear();
+    QString sql = QString(
+              "SELECT books_info.book_nr, name, testament "
+              "FROM lang_%1 "
+              "INNER JOIN books_info "
+              "ON books_info.book_nr = lang_%1.book_nr "
+              ).arg(bknLanguage);
 
-    QString sqlQ = "SELECT book_nr, testament, name_" + lang + " FROM number_name";
-    QSqlQuery query(sqlQ, dbH.bibleDb );
+    QSqlQuery query(sql, booksDb );
 
     while (query.next()) {
         int bkNr = query.value(0).toInt();
-        QString bkName = query.value(2).toString();
+        QString bkName = query.value(1).toString();
         QAction *bookAction = new QAction(scrollIcon, bkName, this);
         connect(bookAction, &QAction::triggered, this, [bkNr, this]() {
             popupChapters(bkNr); });
 
-        if (query.value(1) == "OT") {
+        if (query.value(2) == "OT")
             otMenu->addAction(bookAction);
-        } else if (query.value(1) == "NT"){
+        else if (query.value(2) == "NT")
             ntMenu->addAction(bookAction);
-        }
     }
 }
 
@@ -2887,15 +2854,12 @@ void MainWindow::ccMenuBackground()
     QAction *showInfoAction = ccMenu.addAction(docIcon, tr("Show Info Frame"));
 
     QAction *action = ccMenu.exec(QCursor().pos());
-    if (action == parAction) {
+    if (action == parAction)
         openParW();
-    }
-    else if (action == showBibleAction) {
+    else if (action == showBibleAction)
         ui->bible_frame->show();
-    }
-    else if (action == showInfoAction) {
+    else if (action == showInfoAction)
         ui->info_frame->show();
-    }
 }
 
 void MainWindow::ccMenuInfo()
@@ -2904,7 +2868,7 @@ void MainWindow::ccMenuInfo()
     QMenu ccMenu(this);
     QMenu *histMenu = ccMenu.addMenu(tr("history"));
 
-    for (const QString &histItem : qAsConst(dictwordHistory)) {
+    for (const QString &histItem : std::as_const(dictwordHistory)) {
         QAction *histAction = new QAction(histItem);
         connect(histAction, &QAction::triggered, this, [this, histItem] () {
                 getDictWord(histItem) ;});
@@ -2919,15 +2883,14 @@ void MainWindow::ccMenuInfo()
     QAction *closeAction = ccMenu.addAction(closeIcon, tr("close"));
     QAction *action = ccMenu.exec(QCursor().pos());
 
-    if (action == closeAction) {
-        ui->info_frame->hide();
-    } else if (action == findAction){
+    if (action == closeAction)
+        closeInfo();
+    else if (action == findAction)
         showFindFrame();
-    } else if (action == selectAction){
+    else if (action == selectAction)
         ui->info_tb->selectAll();
-    } else if (action == copyAction){
+    else if (action == copyAction)
         ui->info_tb->copy();
-    }
 }
 
 void MainWindow::ccMenuStrongs()
@@ -2936,7 +2899,7 @@ void MainWindow::ccMenuStrongs()
     QMenu ccMenu(this);
     QMenu *histMenu = ccMenu.addMenu(tr("history"));
 
-    for (QString histItem : qAsConst(strongsHistory)) {
+    for (QString histItem : std::as_const(strongsHistory)) {
         QAction *histAction = new QAction(histItem);
         if (histItem[0] == QString("T")) {
             connect(histAction, &QAction::triggered, this, [this, histItem] () {
@@ -2956,15 +2919,14 @@ void MainWindow::ccMenuStrongs()
     QAction *closeAction = ccMenu.addAction(closeIcon, tr("close"));
     QAction *action = ccMenu.exec(QCursor().pos());
 
-    if (action == closeAction) {
-        ui->info_frame->hide();
-    } else if (action == findAction){
+    if (action == closeAction)
+        closeInfo();
+    else if (action == findAction)
         showFindFrame();
-    } else if (action == selectAction){
+    else if (action == selectAction)
         ui->strongs_tb->selectAll();
-    } else if (action == copyAction){
+    else if (action == copyAction)
         ui->strongs_tb->copy();
-    }
 }
 
 void MainWindow::ccMenuBibleFrame()
@@ -3001,55 +2963,52 @@ void MainWindow::ccMenuBibleFrame()
     QAction *aboutBookAction = ccMenu.addAction(docIcon,tr("about ") + thisBook);
     QAction *aboutTlAction = ccMenu.addAction(docIcon, tr("about ") + activeTl);
     ccMenu.addSeparator();
-    QAction *viewAction = ccMenu.addAction(tr("toggle table/book display"));
+    QAction *viewAction = ccMenu.addAction(tr("toggle table/book layout"));
     ccMenu.addSeparator();
     QAction *hideAction = ccMenu.addAction(closeIcon, tr("close"));
 
     QAction *action = ccMenu.exec(QCursor().pos());
 
-    if (action == parAction) {
+    if (action == parAction)
         openParW();
-    } else if (action == strongAction) {
+    else if (action == strongAction)
         strongify();
-    } else if (action == crossrefAction) {
+    else if (action == crossrefAction)
         makeCrossRefs();
-    } else if (action == otPopupAction) {
+    else if (action == otPopupAction)
         otMenu->exec(QCursor().pos());
-    } else if (action == ntPopupAction) {
+    else if (action == ntPopupAction)
         ntMenu->exec(QCursor().pos());
-    }
-
-    else if (action == chapAction){
+    else if (action == chapAction)
         popupChapters();
-    } else if (action == nextAction){
+    else if (action == nextAction)
         nextChapter();
-    } else if (action == prevAction){
+    else if (action == prevAction)
         prevChapter();
 
-    } else if (action == selectAction){
+    else if (action == selectAction)
         ui->tb_scriptures->selectAll();
-    } else if (action == copyAction){
+    else if (action == copyAction)
         ui->tb_scriptures->copy();
-    } else if (action == findAction){
+    else if (action == findAction)
         showFindFrame();
-    } else if (action == aboutBookAction){
+    else if (action == aboutBookAction)
         showAboutBook();
-    } else if (action == aboutTlAction){
+    else if (action == aboutTlAction)
         showAboutTl();
 
-    } else if (action == audioAction){
+    else if (action == audioAction)
         spokenWord();
-    } else if (action == stopAudioAction){
+    else if (action == stopAudioAction)
         mplayer->stop();
 
-    } else if (action == hideAction){
+    else if (action == hideAction)
         ui->bible_frame->hide();
-    } else if (action == viewAction){
-        scripDisplay == "table" ? scripDisplay = "book" : scripDisplay = "table";
+    else if (action == viewAction) {
+        scripLayout == "table" ? scripLayout = "book" : scripLayout = "table";
         ui->tb_scriptures->clear();
-        if (not ui->menu_history->actions().isEmpty()) {
+        if (not ui->menu_history->actions().isEmpty())
             ui->menu_history->actions().constLast()->activate(QAction::Trigger);
-        }
     }
 }
 
@@ -3062,7 +3021,7 @@ void MainWindow::showTopics()
 
     if (topicalIndex.isEmpty()) {
         QString topicsSql = QString("SELECT DISTINCT Topic FROM topical;");
-        QSqlQuery topicsQuery = QSqlQuery(topicsSql, dbH.extraDb);
+        QSqlQuery topicsQuery = QSqlQuery(topicsSql, varDb);
         QString top;
 
         while (topicsQuery.next()) {
@@ -3085,7 +3044,7 @@ void MainWindow::getTopic(const QString &topic)
 
     QString topicSql = QString("SELECT Verse FROM topical WHERE Topic = '%1' "
                                 "ORDER BY Votes DESC").arg(topic);
-    QSqlQuery topicQuery = QSqlQuery(topicSql, dbH.extraDb);
+    QSqlQuery topicQuery = QSqlQuery(topicSql, varDb);
     QString results;
     QString clr = "black";
     results.append(QString(
@@ -3153,7 +3112,7 @@ void MainWindow::makeCrossRefs()
 
     QString getN = QString("SELECT count(v) FROM t_%1 WHERE b = %2 and c = %3 ")
             .arg(activeTl, bkStr, cStr);
-    QSqlQuery getNumberQ(getN, dbH.bibleDb);
+    QSqlQuery getNumberQ(getN, bibleDb);
 
     while (getNumberQ.next()) {
         numberOfVerses = getNumberQ.value(0).toInt();
@@ -3173,7 +3132,7 @@ void MainWindow::makeCrossRefs()
         verseQ = QString("SELECT FromVerse, ToVerse, Votes FROM crossrefs "
                     "WHERE FromVerse = '%1.%2.%3' ORDER BY Votes DESC")
                     .arg(bkAbbr, cStr, verse);
-        verseQuery = QSqlQuery(verseQ, dbH.extraDb);
+        verseQuery = QSqlQuery(verseQ, varDb);
 
         while (verseQuery.next()) {
             headerVerse1 = verseQuery.value(0).toString();
@@ -3223,7 +3182,18 @@ void MainWindow::makeCrossRefs()
 
 void MainWindow::showAboutBook()
 {
-    ui->info_tb->clear(); ui->info_lbl_title->clear(); ui->info_frame->show();
+    ui->info_tb->clear(); ui->info_lbl_title->clear();
+
+    if (!ui->info_frame->isVisible()) {
+        ui->info_frame->show();
+        QPropertyAnimation *animation = new QPropertyAnimation(ui->info_frame, "maximumWidth");
+        animation->setDuration(500);
+        animation->setStartValue(0);
+        animation->setEndValue(2000);
+        animation->start(QPropertyAnimation::DeleteWhenStopped);
+        ui->info_frame->setMaximumWidth(16777215);
+    }
+
     ui->info_tb->setCurrentCharFormat(emptyFormat);
 
     if (ui->lw_books->selectedItems().count() == 0) {
@@ -3231,14 +3201,15 @@ void MainWindow::showAboutBook()
         return;
     }
 
-    QString bkNrS = ui->lw_books->currentItem()->data(0x0100).toString();
+    QString bkNr = ui->lw_books->currentItem()->data(0x0100).toString();
     QString title;
 
-    QSqlQuery query("SELECT book_nr, name_english FROM number_name "
-                    "WHERE book_nr = " + bkNrS, dbH.bibleDb);
-    while (query.next()) {
+    // default is english dictionaries only
+    QString sql = QString("SELECT book_nr, name FROM lang_EN "
+                          "WHERE book_nr = %1").arg(bkNr);
+    QSqlQuery query(sql, booksDb);
+    while (query.next())
         title  = query.value(1).toString();
-    }
 
     title.remove(*nrRegex);
     getDictSug(title);
@@ -3251,26 +3222,24 @@ void MainWindow::showAboutTl(){
 
     QString sql = QString("SELECT info FROM version_info "
                           "WHERE abbreviation IS '%1'").arg(activeTl);
-    QSqlQuery query(sql, dbH.bibleDb );
+    QSqlQuery query(sql, bibleDb );
     QString info;
 
-    while (query.next()) {
-        info = query.value(0).toString() ;
-    }
+    while (query.next())
+        info = query.value(0).toString();
 
     ui->info_lbl_title->setText(activeTl);
-    if (info.isEmpty()) {
+    if (info.isEmpty())
         ui->info_tb->setText("no information available");
-    } else {
+    else
         ui->info_tb->setText(info);
-    }
 }
 
 void MainWindow::popupChapters(int bkNr)
 {
-    // show a chapters menu, called from the customcontextmenu
+    // show a chapters menu, activated from the custom-context-menu
 
-    if (bkNr == 0){
+    if (bkNr == 0) {
         if (ui->lw_books->selectedItems().count() == 0) {
             printMsg("What book?");
             return;
@@ -3287,19 +3256,18 @@ void MainWindow::popupChapters(int bkNr)
     }
 
     QString bookName = ::g_bookNames[bkNr];
-    int finalChapter = dbH.getChapterCount(bkNr);
+    int finalChapter = Utilities::getChapterCount(bkNr);
     QMenu chapMenu(bookName, this);
 
     QAction *title = chapMenu.addAction(bookName);
     title->setEnabled(false);
     chapMenu.addSeparator();
 
-    for (int i = 1; i <= finalChapter  ; ++i){
+    for (int i = 1; i <= finalChapter; ++i)
         chapMenu.addAction(QString::number(i));
-    }
 
     QAction *action = chapMenu.exec(QCursor().pos());
-    if (action != nullptr){
+    if (action != nullptr) {
         int chapNr = action->text().toInt();
         QHash<QString, int> job = { {"bk", bkNr}, {"c1", chapNr} };
         printQ.enqueue(job);
@@ -3310,15 +3278,15 @@ void MainWindow::popupChapters(int bkNr)
 
 void MainWindow::highlightMatches()
 {
-    // enter/return pressed in lineedit find
+    // enter pressed in lineEdit find
     QString input = ui->lineEdit_find->text();
     clearHighLights();
+    matchFormat.setFontWeight(700);
 
-    if (textBrowser == ui->tb_scriptures) {
-        matchFormat.setBackground(QColor(scheme["bg2Clr"]));
-    } else {
+    if (activeScheme == "system")
+        matchFormat.setBackground(QPalette().color(QPalette::AlternateBase));
+    else
         matchFormat.setBackground(QColor(scheme["bgClr"]));
-    }
 
     int count = 0;
     while (textBrowser->find(input, findInPageflags)) {
@@ -3326,13 +3294,12 @@ void MainWindow::highlightMatches()
         textBrowser->textCursor().mergeCharFormat(matchFormat);
     }
 
-    if (count == 0) {
+    if (count == 0)
         ui->label_find_sum->clear();
-    } else if (count == 1){
+    else if (count == 1)
         ui->label_find_sum->setText(QString("%1 match").arg(count));
-    } else {
+    else
         ui->label_find_sum->setText(QString("%1 matches").arg(count));
-    }
 
     textBrowser->moveCursor(QTextCursor::Start);
     textBrowser->find(input, findInPageflags);
@@ -3341,15 +3308,14 @@ void MainWindow::highlightMatches()
 void MainWindow::clearHighLights()
 {
     // remove old highlight background color
-    QString bgClr;
-    if (textBrowser == ui->tb_scriptures) {
-        bgClr = scheme["bgClr"];
-    } else {
-        bgClr = scheme["bg2Clr"];
-    }
-
     textBrowser->selectAll();
-    textBrowser->setTextBackgroundColor(bgClr);
+    textBrowser->setFontWeight(400);
+
+    if (activeScheme == "system")
+        textBrowser->setTextBackgroundColor(QPalette().color(QPalette::Base));
+    else
+        textBrowser->setTextBackgroundColor(scheme["bg2Clr"]);
+
     textBrowser->moveCursor(QTextCursor::Start);
 }
 
@@ -3359,17 +3325,15 @@ void MainWindow::countMatches()
     textBrowser->moveCursor(QTextCursor::Start);
 
     int count = 0;
-    while (textBrowser->find(input, findInPageflags)) {
+    while (textBrowser->find(input, findInPageflags))
         count += 1;
-    }
 
-    if (count == 0) {
+    if (count == 0)
         ui->label_find_sum->clear();
-    } else if (count == 1){
+    else if (count == 1)
         ui->label_find_sum->setText(QString("%1 match").arg(count));
-    } else {
+    else
         ui->label_find_sum->setText(QString("%1 matches").arg(count));
-    }
 }
 
 void MainWindow::setFindInPageLocation()
@@ -3414,34 +3378,38 @@ void MainWindow::findInPage(const QString &nextOrPrev)
 
 void MainWindow::showFindFrame()
 {
-    if (ui->strongs_tb->hasFocus()) {
+    if (ui->strongs_tb->hasFocus())
         ui->cb_find_loc->setCurrentText("Strongs");
-    } else if (ui->info_tb->hasFocus()) {
+    else if (ui->info_tb->hasFocus())
         ui->cb_find_loc->setCurrentText("Info");
-    } else {
+    else
         ui->cb_find_loc->setCurrentText(tr("Bible"));
-    }
 
-    ui->frame_find->show();
+    // ui->find_frame->show();
     ui->lineEdit_find->clear();
     ui->label_find_sum->clear();
     ui->lineEdit_find->setFocus();
     textBrowser->moveCursor(QTextCursor::Start);
+
+    ui->find_frame->show();
+    QPropertyAnimation *animation = new QPropertyAnimation(ui->find_frame, "maximumHeight");
+    animation->setDuration(200);
+    animation->setStartValue(0);
+    animation->setEndValue(43);
+    animation->start(QPropertyAnimation::DeleteWhenStopped);
 }
 
 void MainWindow::modifyFindInPageFlags()
 {
-    if (ui->chkBox_find_case->isChecked()) {
+    if (ui->chkBox_find_case->isChecked())
         findInPageflags.setFlag(QTextDocument::FindCaseSensitively, true);
-    } else {
+    else
         findInPageflags.setFlag(QTextDocument::FindCaseSensitively, false);
-    }
 
-    if (ui->chkBox_find_whole->isChecked()) {
+    if (ui->chkBox_find_whole->isChecked())
         findInPageflags.setFlag(QTextDocument::FindWholeWords, true);
-    } else {
+    else
         findInPageflags.setFlag(QTextDocument::FindWholeWords, false);
-    }
 }
 
 void MainWindow::setTranslation()
@@ -3449,14 +3417,13 @@ void MainWindow::setTranslation()
     /* runs every time when user switches translation from the content tab combobox
         and when cb index is changed from code */
     ui->tb_scriptures->clear();
-    activeTl = ui->cb_select_translation->currentData().toString();
+    activeTl = ui->cb_select_translation->currentData().toString().toLower();
     QString full = ui->cb_select_translation->currentText();
     ui->search_lbl_tl->setText(full);
     setHasNotes();
 
-    if (not ui->menu_history->actions().isEmpty()) {
+    if (not ui->menu_history->actions().isEmpty())
         ui->menu_history->actions().constLast()->activate(QAction::Trigger);
-    }
 }
 
 void MainWindow::populateSearchCbs()
@@ -3474,8 +3441,8 @@ void MainWindow::populateSearchCbs()
     ui->search_cb_where->addItem( tr("Epistles"), "7");
     ui->search_cb_where->addItem( tr("Apocalyptic"), "8");
 
-    ui->search_cb_anyExact->addItem("any order", "any");
-    ui->search_cb_anyExact->addItem("exact match", "exact");
+    ui->search_cb_anyExact->addItem(tr("any order"), "any");
+    ui->search_cb_anyExact->addItem(tr("exact match"), "exact");
 }
 
 void MainWindow::updateCbTranslations()
@@ -3483,13 +3450,12 @@ void MainWindow::updateCbTranslations()
     ui->cb_select_translation->clear();
     QString sql = "SELECT abbreviation, version "
                   "FROM version_info ORDER BY abbreviation ASC";
-    QSqlQuery query(sql, dbH.bibleDb );
+    QSqlQuery query(sql, bibleDb );
     QString abbr;
     QString desc;
 
-    while (query.next())
-    {
-        abbr = query.value(0).toString().toLower();
+    while (query.next()) {
+        abbr = query.value(0).toString().toUpper();
         desc = query.value(1).toString();
         ui->cb_select_translation->addItem(desc, abbr);
     }
@@ -3513,15 +3479,13 @@ void MainWindow::addToHistory(QHash<QString, int> job)
     // keep a history of print jobs, 10 items max
     // don't add doubles
     if (!printHistory.isEmpty()) {
-        if (printHistory.last() == job) {
+        if (printHistory.last() == job)
             return;
-        }
     }
 
     printHistory.enqueue(job);
-    if (printHistory.length() > 10){
+    if (printHistory.length() > 10)
         printHistory.removeFirst();
-    }
 
     int bk = job["bk"];
     QString bookName = ::g_bookNames[bk];
@@ -3531,27 +3495,23 @@ void MainWindow::addToHistory(QHash<QString, int> job)
     int v2 = 0;
 
     // contains instead of operator[]()to prevent silent inserts of non existing keys
-    if (job.contains("c2")) {
+    if (job.contains("c2"))
         c2 = job["c2"];
-    }
-    if (job.contains("v1")) {
+    if (job.contains("v1"))
         v1 = job["v1"];
-    }
-    if (job.contains("v2")) {
+    if (job.contains("v2"))
         v2 = job["v2"];
-    }
 
     QString aTxt;
 
-    if (v1 > 0 && v2 > 0) {
+    if (v1 > 0 && v2 > 0)
         aTxt = QString("%1 %2:%3-%4").arg(bookName).arg(c1).arg(v1).arg(v2);
-    } else if (v1 > 0) {
+    else if (v1 > 0)
         aTxt = QString("%1 %2:%3").arg(bookName).arg(c1).arg(v1);
-    } else if (c1 > 0 && c2 > c1){
+    else if (c1 > 0 && c2 > c1)
         aTxt = QString("%1 %2-%3").arg(bookName).arg(c1).arg(c2);
-    } else {
+    else
         aTxt = QString("%1 %2").arg(bookName).arg(c1);
-    }
 
     QAction *jobAction = new QAction(this);
     jobAction->setText(aTxt);
@@ -3560,21 +3520,19 @@ void MainWindow::addToHistory(QHash<QString, int> job)
     );
     ui->menu_history->addAction(jobAction);
 
-    if (ui->menu_history->actions().count() > 10){
+    if (ui->menu_history->actions().count() > 10)
         ui->menu_history->removeAction(ui->menu_history->actions().at(0));
-    }
 }
 
 void MainWindow::processPrintQueue()
 {
     ui->tb_scriptures->clear();
 
-    while (not printQ.isEmpty()) {
+    while (not printQ.isEmpty())
         printScriptures();
-    }
 
-    if(iFilter && (guiLanguage == "english" || guiLanguage == "dutch")) filterImmersion();
-    if(jFilter && (guiLanguage == "english" || guiLanguage == "dutch")) filterJudeans();
+    if(iFilter && (guiLanguage == "en" || guiLanguage == "nl")) filterImmersion();
+    if(jFilter && (guiLanguage == "en" || guiLanguage == "nl")) filterJudeans();
 
 }
 
@@ -3582,9 +3540,8 @@ void MainWindow::printScriptures()
 {
     /* call this method for every job in the print queue with processPrintQueue
      does single chapters and ranges of chapters or verses */
-    if(!ui->bible_frame->isVisible()) {
+    if(!ui->bible_frame->isVisible())
         ui->bible_frame->show();
-    }
 
     QHash<QString, int> job = printQ.dequeue();
     addToHistory(job);
@@ -3609,7 +3566,7 @@ void MainWindow::printScriptures()
         // check for maps
         QString sqlGetImg {QString("select book, chapter, name from img_references where "
                                    "book is %1 and chapter is %2").arg(sBk, sC1)};
-        QSqlQuery queryImg(sqlGetImg, dbH.extraDb);
+        QSqlQuery queryImg(sqlGetImg, varDb);
         QString mapName {};
         QString maps {};
 
@@ -3631,16 +3588,15 @@ void MainWindow::printScriptures()
     QString chapterSql;
     QString verseSQL;
 
-    if (c2 > 0 ) {
+    if (c2 > 0 )
         chapterSql = QString("BETWEEN %1 AND %2").arg(sC1, sC2);
-    } else {
+    else
         chapterSql = "= " + sC1;
-    }
 
     QString sql = QString("SELECT c, v, t from t_%1 where b = %2 and c %3 ")
             .arg(activeTl, sBk, chapterSql);
 
-    if (v1 > 0 and v2 > 0 and c2 == 0){
+    if (v1 > 0 and v2 > 0 and c2 == 0) {
         verseSQL = QString("AND v BETWEEN %1 AND %2").arg(sV1, sV2);
         sql.append(verseSQL);
     } else if (v1 > 0 and c2 == 0){
@@ -3648,9 +3604,9 @@ void MainWindow::printScriptures()
         sql.append(verseSQL);
     }
 
-    QSqlQuery query(sql, dbH.bibleDb);
+    QSqlQuery query(sql, bibleDb);
 
-    // user can choose between book or table display mode
+    // user can choose between book or table layout mode
     QString tableMode = "<table cellspacing='0' cellpadding='3'>";
     QString bookMode {};
 
@@ -3680,7 +3636,7 @@ void MainWindow::printScriptures()
         if ( iNr == 1 || (iNr != (prevNr + 1) ) ) {
             textL = 0;
 
-            if (scripDisplay == "table") {
+            if (scripLayout == "table") {
                 tableMode.append(QString("<tr><td></td><td "
                                     "style='font-size:medium; color:%1;"
                                     "font-weight:400;'>"
@@ -3702,13 +3658,13 @@ void MainWindow::printScriptures()
                                         " where book is %2 and chapter is %3 "
                                         "and verse is %4")
                                         .arg(activeSubh, sBk, sCh, sNr);
-            QSqlQuery queryCSH(sqlCheckSH, dbH.extraDb);
+            QSqlQuery queryCSH(sqlCheckSH, varDb);
 
             while (queryCSH.next()) {
                 textL = 0;
                 subheading = queryCSH.value(0).toString();
 
-                if (scripDisplay == "table") {
+                if (scripLayout == "table") {
                     tableMode.append(QString(
                                          "<tr><td></td><td style='font-size:small;"
                                          "text-align:left;color:%1;font-weight:600;'>"
@@ -3726,7 +3682,7 @@ void MainWindow::printScriptures()
         }
 
         /*-----> add verse, number + text <-----*/
-        if (scripDisplay == "table") {
+        if (scripLayout == "table") {
             verseTableMode = QString(
                 "<tr>"
                 "<td style='color:%3;font-weight:400;font-size:small'>%1</td>"
@@ -3765,9 +3721,9 @@ void MainWindow::printScriptures()
                 }
             }
         }
-        // formatted text, replace database tags to something Qt recognizes
+        // text with footnotes, replace tags to something Qt recognizes
         if (hasNotes) {
-            if (scripDisplay == "table") {
+            if (scripLayout == "table") {
                 verseTableMode.replace(*noteRegex,
                                   QString("<sup><a href='note:%1 %2 %3 \\1'"
                                     "style='text-decoration:none;color:%4;'>"
@@ -3798,17 +3754,16 @@ void MainWindow::printScriptures()
                 }
         }
 
-        if (scripDisplay == "table") {
+        if (scripLayout == "table")
             tableMode.append(verseTableMode);
-        } else {
+        else
             bookMode.append(verseBookMode);
-        }
 
         prevNr = iNr;
     } // end query
 
 
-    if (scripDisplay == "table") {
+    if (scripLayout == "table") {
         tableMode.append("</table><br>");
         ui->tb_scriptures->insertHtml(tableMode);
     } else {
@@ -3908,17 +3863,15 @@ void MainWindow::filterJudeans(){
 
 void MainWindow::setFilters()
 {
-    if(ui->action_immersion_filter->isChecked()) {
+    if(ui->action_immersion_filter->isChecked())
         iFilter = true;
-    } else {
+    else
         iFilter = false;
-    }
 
-    if(ui->action_judeans_filter->isChecked()) {
+    if(ui->action_judeans_filter->isChecked())
         jFilter = true;
-    } else {
+    else
         jFilter = false;
-    }
 
     QSettings settings(settingsFile.fileName(), QSettings::IniFormat);
     settings.setValue("filters/immersionFilter", iFilter);
@@ -3988,12 +3941,11 @@ QString MainWindow::getLongTitle(const int bk)
 {
     QString title;
     QString bookNumber = QString::number(bk);
-    QString sqlGetBookTitle = QString("SELECT title_%1 from number_name "
-                                   "where book_nr = %2 ").arg(bknLanguage, bookNumber);
-    QSqlQuery queryGetTitle(sqlGetBookTitle, dbH.bibleDb);
-    while (queryGetTitle.next()) {
-        title = queryGetTitle.value(0).toString();
-    }
+    QString sqlGetTitle = QString("SELECT title from lang_%1 "
+                                "WHERE book_nr = %2").arg(bknLanguage, bookNumber);
+    QSqlQuery getTitle(sqlGetTitle, booksDb);
+    while (getTitle.next())
+        title = getTitle.value(0).toString();
     return title;
 }
 
@@ -4014,13 +3966,13 @@ void MainWindow::setBookTitle(QString title)
 
 void MainWindow::updateChapterWidget()
 {
-    if(!ui->bible_frame->isVisible()) {
+    if(!ui->bible_frame->isVisible())
         ui->bible_frame->show();
-    }
-    ui->lw_chapters->clear();
 
+    ui->lw_chapters->clear();
     int bookNumber = ui->lw_books->currentItem()->data(0x0100).toInt();
-    int finalChapter = dbH.getChapterCount(bookNumber);
+
+    int finalChapter = Utilities::getChapterCount(bookNumber);
 
     for (int i = 1; i <= finalChapter; ++i) {
         QListWidgetItem *newChapterItem = new QListWidgetItem;
@@ -4038,29 +3990,23 @@ void MainWindow::updateBooksWidget(const QString &lang)
     ui->lbl_book_title->setText("");
     ::g_bookNames.clear();
     ::g_bookNames.append("zero");
-    QString sql;
+    QString getBooks;
 
     if (lang.isEmpty()) {
-        sql = "SELECT book_nr, name_" + bknLanguage + " from number_name";
+        getBooks = "SELECT book_nr, name, abbreviation from lang_" + bknLanguage;
     } else {
         bknLanguage = lang;
-        sql = "SELECT book_nr, name_" + lang + " from number_name";
-    }
-    // todo: dynamic, db
-    if (bknLanguage == "dutch") {
-        chapterHeader = " Hoofdstuk ";
-    } else {
-        chapterHeader = " Chapter ";
+        getBooks = "SELECT book_nr, name, abbreviation from lang_" + lang;
     }
 
-    QSqlQuery query(sql, dbH.bibleDb);
+    QSqlQuery query(getBooks, booksDb);
     QString bookName;
     QString tooltip;
     int bookNr;
 
     while (query.next()) {
         bookNr = query.value(0).toInt();
-        tooltip = "Book " + query.value(0).toString();
+        tooltip = query.value(0).toString() + " " + query.value(2).toString();
         bookName = query.value(1).toString();
 
         QListWidgetItem *newBookItem = new QListWidgetItem;
@@ -4085,30 +4031,27 @@ void MainWindow::updateTLandSubh(const QString &translation, const QString &subh
     activeSubh = subheadings;
     activeTl = translation;
     int currentIndex = ui->cb_select_translation->currentIndex();
-    int newIndex = ui->cb_select_translation->findData(activeTl.toLower());
+    int newIndex = ui->cb_select_translation->findData(activeTl.toUpper());
 
     if (currentIndex == newIndex) {
         ui->tb_scriptures->clear();
-        if (not ui->menu_history->actions().isEmpty()) {
+        if (not ui->menu_history->actions().isEmpty())
             ui->menu_history->actions().constLast()->activate(QAction::Trigger);
-        }
     } else {
-        if (newIndex == -1) {
+        if (newIndex == -1)
             newIndex = 0;
-        }
         ui->cb_select_translation->setCurrentIndex(newIndex);
     }
 }
 
 void MainWindow::setHasNotes()
 {
-    // tl has footnotes? formatted text implied
+    // tl has footnotes?
     QString sql = QString("SELECT abbreviation, notes "
-                  "FROM version_info where abbreviation is '%1'").arg(activeTl);
-    QSqlQuery query(sql, dbH.bibleDb );
-    while (query.next()) {
+                  "FROM version_info where abbreviation is '%1'").arg(activeTl.toLower());
+    QSqlQuery query(sql, bibleDb );
+    while (query.next())
         hasNotes = query.value(1).toBool();
-    }
 }
 
 void MainWindow::getBooksAbbr()
@@ -4117,15 +4060,10 @@ void MainWindow::getBooksAbbr()
     ::g_booksAbbr.append("zero");
     QString abbr;
 
-    QSqlQuery query("SELECT abbr_nl, abbr_en FROM abbr WHERE preferred = 1", dbH.bibleDb);
-    while (query.next()) {
-        if(bknLanguage == "dutch") {
-            abbr = query.value(0).toString();
-        } else {
-            abbr = query.value(1).toString();
-        }
+    QSqlQuery query("SELECT abbreviation from lang_" + bknLanguage, booksDb);
+
+    while (query.next())
         ::g_booksAbbr.append(abbr);
-    }
 }
 
 void MainWindow::toggleBible()
@@ -4148,10 +4086,74 @@ void MainWindow::toggleInfo()
     ui->info_frame->isVisible() ? ui->info_frame->hide() : ui->info_frame->show();
 }
 
+void MainWindow::applyScheme(const QString &aScheme)
+{
+    // set active scheme and color values
+    QSettings settings(settingsFile.fileName(), QSettings::IniFormat);
+
+    activeScheme = aScheme;
+    QString currentScheme = "schemes/" + aScheme;
+    QStringList schemeValues = settings.value(currentScheme, "none").toStringList();
+
+    if (activeScheme == "system") {
+        qApp->setPalette(QApplication::style()->standardPalette());
+        scheme["nrClr"] = QPalette().color(QPalette::WindowText).name();
+        scheme["txtClr"] = QPalette().color(QPalette::WindowText).name();
+        scheme["titleClr"] = QPalette().color(QPalette::WindowText).name();
+        scheme["bgClr"] = QPalette().color(QPalette::Base).name();
+        scheme["bg2Clr"] = QPalette().color(QPalette::AlternateBase).name();
+        scheme["clashClr"] = QPalette().color(QPalette::Highlight).name();
+    } else {
+        scheme["nrClr"] = schemeValues.value(0, "none");
+        scheme["txtClr"] = schemeValues.value(1, "none");
+        scheme["titleClr"] = schemeValues.value(2, "none");
+        scheme["bgClr"] = schemeValues.value(3, "none");
+        scheme["bg2Clr"] = schemeValues.value(4, "none");
+        scheme["clashClr"] = schemeValues.value(5, "none");
+    }
+
+    emit setParwStyle(scheme);
+
+    matchFormat.setBackground(QColor(scheme["bg2Clr"]));
+    setStyleSheets();
+    changeEncTxt();
+}
+
 void MainWindow::setStyleSheets()
 {
     QFile saFile;
-    saFile.setFileName(":/data/css/soulanchor.css");
+
+    if (activeScheme == "system") {
+        saFile.setFileName(":/data/css/system.css");
+    } else {
+        saFile.setFileName(":/data/css/soulanchor.css");
+        QPalette palette;
+        palette.setColor(QPalette::Window, scheme["bgClr"]);
+        palette.setColor(QPalette::WindowText, scheme["txtClr"]);
+        palette.setColor(QPalette::Base, scheme["bg2Clr"]);
+        palette.setColor(QPalette::AlternateBase, scheme["bgClr"]);
+        palette.setColor(QPalette::ToolTipBase, scheme["bg2Clr"]);
+        palette.setColor(QPalette::ToolTipText, scheme["txtClr"]);
+        palette.setColor(QPalette::Text, scheme["txtClr"]);
+        palette.setColor(QPalette::PlaceholderText, scheme["txtClr"]);
+        palette.setColor(QPalette::Button, scheme["bg2Clr"]);
+        palette.setColor(QPalette::ButtonText, scheme["txtClr"]);
+        palette.setColor(QPalette::BrightText, scheme["titleClr"]);
+        palette.setColor(QPalette::Link, scheme["titleClr"]);
+        palette.setColor(QPalette::Highlight, scheme["clashClr"]);
+        palette.setColor(QPalette::HighlightedText, scheme["txtClr"]);
+
+        QColor buttonDisabled = scheme["bg2Clr"];
+        QColor textDisabled = scheme["txtClr"];
+        buttonDisabled.setAlpha(100);
+        textDisabled.setAlpha(100);
+        palette.setColor(QPalette::Disabled, QPalette::Button, buttonDisabled);
+        palette.setColor(QPalette::Disabled, QPalette::ButtonText, textDisabled);
+        palette.setColor(QPalette::Disabled, QPalette::Text, textDisabled);
+        palette.setColor(QPalette::Disabled, QPalette::WindowText, textDisabled);
+        qApp->setPalette(palette);
+    }
+
     saFile.open(QIODevice::ReadOnly | QIODevice::Text);
     saStyle = saFile.readAll();
     saFile.close();
@@ -4165,12 +4167,40 @@ void MainWindow::setStyleSheets()
     QColor darkerBg = QColor(scheme["bgClr"]).darker(200);
     saStyle.replace("darkerBg", darkerBg.name());
 
-    qApp->setStyleSheet(saStyle);   
+    qApp->setStyleSheet(saStyle);
 }
 
 void MainWindow::on_btn_select_today_clicked()
 {
     ui->calendar->setSelectedDate(QDate::currentDate());
+}
+
+void MainWindow::on_btn_find_close_clicked()
+{
+    QPropertyAnimation *animation = new QPropertyAnimation(ui->find_frame, "maximumHeight");
+    animation->setDuration(200);
+    animation->setStartValue(43);
+    animation->setEndValue(0);
+    connect(animation, &QPropertyAnimation::finished, this, [this] () {
+        ui->find_frame->hide();
+        ui->find_frame->setMaximumHeight(43);
+    });
+    animation->start(QPropertyAnimation::DeleteWhenStopped);
+}
+
+
+void MainWindow::closeInfo()
+{
+    ui->info_tb->clear(); ui->strongs_tb->clear();
+    QPropertyAnimation *animation = new QPropertyAnimation(ui->info_frame, "maximumWidth");
+    animation->setDuration(200);
+    animation->setStartValue(ui->info_frame->width());
+    animation->setEndValue(0);
+    connect(animation, &QPropertyAnimation::finished, this, [this] () {
+        ui->info_frame->hide();
+        ui->info_frame->setMaximumWidth(16777215);
+    });
+    animation->start(QPropertyAnimation::DeleteWhenStopped);
 }
 
 void MainWindow::closeEvent(QCloseEvent*)

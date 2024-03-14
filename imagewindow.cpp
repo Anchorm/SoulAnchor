@@ -30,30 +30,30 @@ ImageWindow::ImageWindow(QWidget *parent)
 
     zoomInBtn->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
     zoomInBtn->setIcon(zoomInIcon);
-    zoomInBtn->setText("in");
+    zoomInBtn->setText(tr("in"));
 
     zoomOutBtn->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
     zoomOutBtn->setIcon(zoomOutIcon);
-    zoomOutBtn->setText("out");
+    zoomOutBtn->setText(tr("out"));
 
     normalSizeBtn->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
     normalSizeBtn->setIcon(zoomNormalIcon);
-    normalSizeBtn->setText("normal");
+    normalSizeBtn->setText(tr("normal"));
 
     fitInViewBtn->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
     fitInViewBtn->setIcon(zoomFitIcon);
-    fitInViewBtn->setText("fit");
+    fitInViewBtn->setText(tr("fit"));
 
     fullscreenBtn->setToolTip(tr("fullscreen"));
-    fullscreenBtn->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
+    fullscreenBtn->setToolButtonStyle(Qt::ToolButtonIconOnly);
     fullscreenBtn->setIcon(fullscreenIcon);
     fullscreenBtn->setShortcut(Qt::Key_F11);
 
-    closeBtn->setToolTip("close");
+    closeBtn->setToolTip(tr("close"));
+    fullscreenBtn->setToolButtonStyle(Qt::ToolButtonIconOnly);
     closeBtn->setIcon(closeIcon);
-    closeBtn->setToolButtonStyle(Qt::ToolButtonIconOnly);
 
-    new QShortcut(Qt::Key_Escape, this, [this](){
+    new QShortcut(Qt::Key_Escape, this, [this]() {
         if ( isFullScreen() ) showNormal(); });
 
     cbSelectMaps->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
@@ -87,10 +87,9 @@ ImageWindow::ImageWindow(QWidget *parent)
 void ImageWindow::updateCbMaps()
 {
     QString sqlGetMaps {"select name from img_data"};
-    QSqlQuery query(sqlGetMaps, dbH.extraDb );
+    QSqlQuery query(sqlGetMaps, varDb );
     QString title;
-    while (query.next())
-    {
+    while (query.next()) {
         title = query.value(0).toString();
         cbSelectMaps->addItem(title);
     }
@@ -102,7 +101,7 @@ void ImageWindow::changeMap()
     QPixmap pixmap {};
     QString sqlGetImg {QString("select name, content from img_data where "
                                "name is '%1'").arg(imgName)};
-    QSqlQuery queryImg(sqlGetImg, dbH.extraDb);
+    QSqlQuery queryImg(sqlGetImg, varDb);
 
     if (queryImg.next()) {
         pixmap.loadFromData(queryImg.value(1).toByteArray());
@@ -188,4 +187,14 @@ void ImageWindow::centerWindow()
             move(winGeo.topLeft());
         }
     }
+}
+
+bool ImageWindow::event(QEvent *event) {
+    if (event->type() == QEvent::LanguageChange) {
+        zoomInBtn->setText(tr("in"));
+        zoomOutBtn->setText(tr("out"));
+        normalSizeBtn->setText(tr("normal"));
+        fitInViewBtn->setText(tr("fit"));
+    }
+    return QWidget::event(event);
 }

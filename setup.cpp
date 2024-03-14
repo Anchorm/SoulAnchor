@@ -10,6 +10,7 @@
 *******************************************/
 
 #include "setup.h"
+#include "globals.h"
 
 void setDataDir()
 {
@@ -45,6 +46,8 @@ void setUserDataDir()
     } else {
         ::sout << "User data directory: " << userDataDir.path() << Qt::endl;
     }
+
+    ::userDataDir.mkdir("db");
 
     // silently create or ignore if they fail since these are optional, see MOD file
     ::userDataDir.mkdir("notes");
@@ -117,15 +120,20 @@ void setUserCfgDirAndSettings()
 // Qt documentation:   Sometimes you do want to access settings stored in a specific file or registry path. On all platforms, if you want to read an INI file directly, you can use the QSettings constructor that takes a file name as first argument and pass QSettings::IniFormat as second argument. For example:
 }
 
-void installTranslator()
-{
-    QSettings settings(settingsFile.fileName(), QSettings::IniFormat);
-    QString lang = settings.value("guiLanguage", "english").toString();
+void LanguageManager::changeLanguage(const QString& langCode) {
+    QString lang = langCode.toLower();
+    if (m_translator.load("soulanchor_" + lang, dataDir.path() + "/locales")) {
+        ::sout << " Language file loaded: " << "soulanchor_" << lang << ".qm";
+        qApp->removeTranslator(&m_translator);
 
-    if (::translator.load("soulanchor_" + lang, ":/data/lang") ) {
-        qApp->installTranslator(&::translator);
+        if (qApp->installTranslator(&m_translator))
+            ::sout << " Translator installed " << Qt::endl;
+
     } else {
         ::sout << " could not load this gui translation file: " << "soulanchor_"
-               << lang << ".qm" << Qt::endl;
+               << lang << ".qm" << " " << Qt::endl;
     }
-}
+};
+
+QTranslator LanguageManager::m_translator;
+

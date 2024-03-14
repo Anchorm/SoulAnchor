@@ -4,7 +4,7 @@
 
 &nbsp;
 
-SoulAnchor is a Bible reading tool for the Linux desktop build with the Qt framework. A parallel window is available to compare translations. There's an option to display Strong's numbers and definitions. Also included are Bible dictionaries, cross references, topical links, limited footnotes(net bible) and maps. 
+SoulAnchor is a Bible reading tool for the Linux desktop build with the Qt framework. A parallel window is available to compare translations. There's an option to display Strong's numbers and definitions. Also included are Bible dictionaries, cross references, topical links, limited footnotes(net bible) and maps. SoulAnchor currently works with Left To Right alphabets and is designed with the protestant bible books in mind.
 
 * Basic Bible reading tool, focus on daily reading
 * Reader first, light study tool second
@@ -23,7 +23,7 @@ Notes:
 * if you keep the build directory you can later use `sudo make uninstall DEL_DIR='rmdir -p --ignore-fail-on-non-empty'`  
 * the default install prefix is `/usr`. This can be changed with `qmake6 PREFIX=/dir`  
 * qmake6 is using qt6 which is required  
-* you can speed up make with make -j$(nproc)  
+* you can speed up make with make -j$(nproc)
 
 &nbsp;
 

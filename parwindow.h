@@ -13,7 +13,7 @@
 #define PARWINDOW_H
 
 #include "flowlayout.h"
-#include "globals.h"
+#include "utilities.h"
 #include "databasehandler.h"
 
 #include <QWidget>
@@ -37,7 +37,12 @@ class ParWindow : public QWidget
 {
     Q_OBJECT
 
+    DatabaseHandler& dbH = DatabaseHandler::getInstance();
+    QSqlDatabase& bibleDb = dbH.getDatabase("bibles");
+    QSqlDatabase& booksDb = dbH.getDatabase("books");
+
     const QIcon anchorIcon = QIcon(":/data/img/anchor.png");
+
     const QIcon bookIcon = QIcon(":/data/img/book.png");
     const QIcon nextIcon = QIcon(":/data/img/bullet_arrow_right.png");
     const QIcon prevIcon = QIcon(":/data/img/bullet_arrow_left.png");
@@ -82,17 +87,18 @@ class ParWindow : public QWidget
 
     QRegularExpression *re = new QRegularExpression(pattern);
 
-
-private slots:
-    void nextChapter();
-    void prevChapter();
     void popupChapters(int bkNr);
     void createOtNtMenus();
     void ccMenuParW();
     void checkTls();
-    void printScriptures();
     void printRequest();
     void centerWindow();
+    bool event(QEvent *event);
+
+private slots:
+    void nextChapter();
+    void prevChapter();
+    void printScriptures();
 
 public slots:
     void setStyle(const QHash<QString, QString> &clrScheme);

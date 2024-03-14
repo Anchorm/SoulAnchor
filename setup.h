@@ -9,19 +9,26 @@
 
 *******************************************/
 
-#ifndef COMMON_H
-#define COMMON_H
+#ifndef SETUP_H
+#define SETUP_H
 
 #include "globals.h"
-#include "databasehandler.h"
 
+#include <QTranslator>
 #include <QStandardPaths>
 #include <QApplication>
 #include <QMessageBox>
 
-void installTranslator();
 void setDataDir(); // set app data dir e.g. /usr/share/soulanchor
 void setUserDataDir(); // e.g. ~/.local/share/soulanchor/
 void setUserCfgDirAndSettings(); // e.g. ~/.config/soulanchor/ soulanchor.conf
 
-#endif // COMMON_H
+class LanguageManager {
+private:
+public:
+    static QTranslator m_translator;
+    static void changeLanguage(const QString& langCode);
+    LanguageManager(const QTranslator &translator);
+};
+
+#endif

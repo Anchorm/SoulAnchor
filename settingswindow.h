@@ -13,7 +13,7 @@
 #define SETTINGSWINDOW_H
 
 #include "ui_settingswindow.h"
-#include "globals.h"
+#include "setup.h"
 #include "databasehandler.h"
 #include <QWidget>
 #include <QSqlQuery>
@@ -26,7 +26,12 @@ class SettingsWindow : public QWidget
 {
     Q_OBJECT
 
-    QStringList bookNamesLanguages;
+    DatabaseHandler& dbH = DatabaseHandler::getInstance();
+    QSqlDatabase& bibleDb = dbH.getDatabase("bibles");
+    QSqlDatabase& varDb = dbH.getDatabase("various");
+    QSqlDatabase& booksDb = dbH.getDatabase("books");
+
+    QStringList bookNameLanguages;
     QString guiLanguage;
     QString bknLanguage;
     QString startup;
@@ -39,9 +44,10 @@ class SettingsWindow : public QWidget
     bool scrCheck;
     bool bkCheck;
     bool chCheck;
-    bool showMaps;
+    bool showMaps; // show map links
+    bool showFilters; // show filters menu
     int margin;
-    QString display;
+    QString layout;
     QString activeScheme;
     int width;
 
@@ -51,13 +57,16 @@ class SettingsWindow : public QWidget
     void setCbFontSize();
     void setCbTranslations();
     void setCbSubheadings();
-    void writeSettings();
-    void applySettings();
     void emitSignals();
 
     Ui::SettingsWindow *ui;
 
+private slots:
+    void writeSettings();
+    void applySettings();
+
 public:
+    void centerWindow();
     void cancelSettings();
     explicit SettingsWindow(QWidget *parent = nullptr);
     ~SettingsWindow() override;
@@ -71,7 +80,8 @@ signals:
     void booknameLangChanged(const QString &lang); // to mainwindow updateBooksWidget
     // mainwindow updateTLandSubh
     void subheadingsChanged(const QString &translation, const QString &subheadings);
-    void showmapsChanged(const bool &showM);
+    void showMapsChanged(const bool &showM);
+    void showFiltersChanged(const bool &showF);
 };
 
 #endif // SETTINGSWINDOW_H

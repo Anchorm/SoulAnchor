@@ -3,7 +3,7 @@ QT += core gui widgets sql multimedia
 TARGET = soulanchor
 DESTDIR = install/bin/
 
-# usage from cmd line: qmake PREFIX=/opt
+# usage from cmd line: qmake6 PREFIX=/opt
 isEmpty(PREFIX) {
  PREFIX = /usr
 }
@@ -31,6 +31,9 @@ icon.path = $$PREFIX/share/pixmaps/
 desktop.files = install/share/applications/soulanchor.desktop
 desktop.path = $$PREFIX/share/applications/
 
+locales.files = install/share/soulanchor/locales/*.qm
+locales.path = $$PREFIX/share/soulanchor/locales
+
 INSTALLS += \
         binary \
         documentation \
@@ -38,13 +41,14 @@ INSTALLS += \
         databases \
         images \
         icon \
-        desktop
+        desktop \
+        locales
 
 TEMPLATE = app
 
-TRANSLATIONS = \
-        data/lang/soulanchor_english.ts \
-        data/lang/soulanchor_dutch.ts
+TRANSLATIONS += \
+        data/locales/soulanchor_en.ts \
+        data/locales/soulanchor_nl.ts
 
 DEFINES += APP_DATADIR_PREFIX='\\"$$PREFIX\\"'
 
@@ -59,6 +63,7 @@ SOURCES += \
         flowlayout.cpp \
         globals.cpp \
         imagewindow.cpp \
+        importwindow.cpp \
         main.cpp \
         mainwindow.cpp \
         parwindow.cpp \
@@ -73,11 +78,13 @@ HEADERS += \
         flowlayout.h \
         globals.h \
         imagewindow.h \
+        importwindow.h \
         mainwindow.h \
         parwindow.h \
         roster.h \
         settingswindow.h \
-        setup.h
+        setup.h \
+        utilities.h
 
 FORMS += \
         mainwindow.ui \

@@ -15,19 +15,18 @@ AboutWindow::AboutWindow(QWidget *parent) : QWidget(parent, Qt::Window)
 {
     setWindowTitle("About Window - SoulAnchor");
     setObjectName("AboutWindow");
-    setWindowIcon(anchorIcon);
     setFixedSize(500, 500);
 
     lblAnchor->setObjectName("lblAnchor");
     lblAnchor->setStyleSheet("border-image: url(:/data/img/anchor_about.png)");
     lblAnchor->setFixedHeight(230);
     lblInfo->setText("<h1>SoulAnchor</h1>"
-                "X11 Bible tool - version " +
-                     QGuiApplication::applicationVersion() + "<br>");
+                    "X11 Bible tool - version "
+                     + QGuiApplication::applicationVersion() + "<br>");
     lblInfo->setAlignment(Qt::AlignHCenter | Qt::AlignTop);
-    lblInfo->setStyleSheet("padding:5px");
+    lblInfo->setStyleSheet("padding:5;border:0;");
 
-    amPb->setText("Anchorman in the year of our Lord 2022");
+    amPb->setText("Anchorman in the year of our Lord 2024");
     amPb->setObjectName("pbAut");
     amPb->setCursor(Qt::PointingHandCursor);
     amPb->setToolTip("open e-mail client");
@@ -38,8 +37,6 @@ AboutWindow::AboutWindow(QWidget *parent) : QWidget(parent, Qt::Window)
 
     QString cred = "<table cellpadding='5'>"
             "<tr><td>the Holy Scriptures</td> <td>God Almighty</td></tr>"
-            "<tr><td>translations</td> <td>most are Public domain, database based on: "
-            "https://github.com/scrollmapper/bible_databases</td></tr>"
             "<tr><td>the NET Bible</td> <td>Scripture quoted by permission. "
             "Quotations designated (NET) are from the NET Bible® copyright ©1996, "
             "2019 by Biblical Studies Press, L.L.C. "
@@ -56,14 +53,15 @@ AboutWindow::AboutWindow(QWidget *parent) : QWidget(parent, Qt::Window)
             "<tr><td>fatcow icons</td><td>https://www.fatcow.com/free-icons</td></tr>"
             "<tr><td>famfamfam icons</td><td>http://www.famfamfam.com/</td></tr>"
             "<tr><td>Images</td> <td>as found on the net and/or modified or created</td>"
+            "<tr><td>Country/Language Flags</td> <td>https://flagicons.lipis.dev/</td>"
             "<tr><td>Maps</td> <td>The maps that have no copyright watermark "
                     "are from biblemapper.com, others are in the public domain</td></tr>"
             "<tr></tr>"
             "</table>";
 
-    teCredit->setStyleSheet("border:0; margin:0;");
     teCredit->setReadOnly(true);
     teCredit->setText(cred);
+    teCredit->setAutoFillBackground(true);
 
     lblLic->setText("\nSoulAnchor uses the GPLv3. See the COPYING file. \n\nThis program is distributed in the hope that it will be useful, but without any warranty; without even the implied warranty of merchantability or fitness for a particular purpose.");
     lblLic->setStyleSheet("padding:10px;border:0");
@@ -96,11 +94,9 @@ AboutWindow::AboutWindow(QWidget *parent) : QWidget(parent, Qt::Window)
 
 void AboutWindow::centerWindow()
 {
-    if (parentWidget())
-    {
+    if (parentWidget()) {
         QScreen* activeScreen = parentWidget()->screen();
-        if (activeScreen != nullptr)
-        {
+        if (activeScreen != nullptr) {
             auto winGeo = frameGeometry();
             auto parentGeoCenter = parentWidget()->geometry().center();
             winGeo.moveCenter(parentGeoCenter);

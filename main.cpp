@@ -12,11 +12,13 @@
 #include <QApplication>
 #include "setup.h"
 #include "mainwindow.h"
-#include "databasehandler.h"
+#include <QStyleFactory>
 
 int main(int argc, char *argv[]) {
+    QApplication::setApplicationVersion("1.09");
+    QApplication::setStyle(QStyleFactory::create("Fusion"));
+
     QApplication app(argc, argv);
-    QApplication::setApplicationVersion("1.08");
 
     QCommandLineParser parser;
     parser.setApplicationDescription("SoulAnchor - X11 Bible reading tool");
@@ -26,11 +28,7 @@ int main(int argc, char *argv[]) {
 
     setDataDir();
     setUserDataDir();
-    if (!dbH.openDataBases()) {
-        exit(1);
-    }
     setUserCfgDirAndSettings();
-    installTranslator();
 
     MainWindow mainW;
     mainW.show();

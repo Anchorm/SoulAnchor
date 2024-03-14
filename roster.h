@@ -13,7 +13,6 @@
 #define ROSTER_H
 
 #include "ui_roster.h"
-#include "globals.h"
 #include "databasehandler.h"
 #include <QWidget>
 #include <cmath>
@@ -25,22 +24,26 @@ class Roster;
 class Roster : public QWidget
 {
     Q_OBJECT
-
-public:
-    explicit Roster(QWidget *parent = nullptr);
-    ~Roster() override;
+    DatabaseHandler& dbH = DatabaseHandler::getInstance();
+    QSqlDatabase& bibleDb = dbH.getDatabase("bibles");
+    QSqlDatabase& rosterDb = dbH.getDatabase("roster");
+    QSqlDatabase& booksDb = dbH.getDatabase("books");
+    Ui::Roster *ui;
 
 private slots:
     void on_pb_close_clicked();
     void on_pb_make_clicked();
     void on_pb_preview_clicked();
     void populateCb();
-    void hideEvent(QHideEvent *) override;
-
     void on_cb_what_currentTextChanged();
 
-private:
-    Ui::Roster *ui;
+public:
+    explicit Roster(QWidget *parent = nullptr);
+    ~Roster() override;
+
+protected:
+    void hideEvent(QHideEvent *) override;
+    void changeEvent(QEvent *event) override;
 
 signals:
     void rosterCreated(); // a new roster has been created - connect to mainwindow addRostersToMenu

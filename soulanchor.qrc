@@ -24,21 +24,39 @@
         <file>data/img/door_out.png</file>
         <file>data/css/soulanchor.css</file>
         <file>data/img/script_yellow.png</file>
-        <file>data/lang/soulanchor_english.qm</file>
         <file>data/txt/immersion.md</file>
         <file>data/skel/soulanchor.conf</file>
-        <file>data/lang/soulanchor_dutch.qm</file>
         <file>data/img/zoom_actual.png</file>
         <file>data/img/zoom_fit.png</file>
         <file>data/img/zoom_in.png</file>
         <file>data/img/zoom_out.png</file>
         <file>data/img/map.png</file>
         <file>data/img/view-fullscreen.png</file>
-        <file>data/img/qt_unshade.svg</file>
         <file>data/img/closedock-16.png</file>
         <file>data/img/standardbutton-cancel-16.png</file>
         <file>data/img/standardbutton-apply-16.png</file>
         <file>data/img/standardbutton-save-16.png</file>
         <file>data/img/standardbutton-help-16.png</file>
+        <file>data/css/system.css</file>
+        <file>data/flags/af.svg</file>
+        <file>data/flags/da.svg</file>
+        <file>data/flags/de.svg</file>
+        <file>data/flags/el.svg</file>
+        <file>data/flags/en.svg</file>
+        <file>data/flags/es.svg</file>
+        <file>data/flags/et.svg</file>
+        <file>data/flags/fi.svg</file>
+        <file>data/flags/fr.svg</file>
+        <file>data/flags/hi.svg</file>
+        <file>data/flags/hr.svg</file>
+        <file>data/flags/it.svg</file>
+        <file>data/flags/ja.svg</file>
+        <file>data/flags/nl.svg</file>
+        <file>data/flags/pl.svg</file>
+        <file>data/flags/pt.svg</file>
+        <file>data/flags/ru.svg</file>
+        <file>data/flags/tr.svg</file>
+        <file>data/flags/zh.svg</file>
+        <file>data/img/standardbutton-close-32.png</file>
     </qresource>
 </RCC>

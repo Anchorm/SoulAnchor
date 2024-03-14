@@ -33,8 +33,6 @@
 
 <p id="1a"><b>1.a translations</b></p>
 
-<p>The bibles.db database is based upon: https://github.com/scrollmapper/bible_databases</p>
-
 <p>To REMOVE a translation:</p>
 <ul>
 <li>delete the table, e.g. t_kjv</li>
@@ -42,6 +40,10 @@
 </ul>
 
 <p>To ADD a translation:</p>
+
+<p>Since version 1.09 translations can be imported from within SoulAnchor (menu view-import).</p>
+
+<p>Manually it can be done this way:</p>
 
 <p>Add a table with the name t_translation<br>
 It should have these columns for book number / chapter number / verse number and verse text:</p>
@@ -55,14 +57,11 @@ It should have these columns for book number / chapter number / verse number and
 <p>Add a row in the bible_version_key table. Content should be self-explanatory. 
 The abbreviation and version column are used for the combo boxes.</p>
 
-<p>I can recommend the excellent DB Browser for SQLite software: https://sqlitebrowser.org</p>
-
-<p>If you like to use a database that has more resources you can also send me a message.</p>
+<p>I can recommend the excellent DB Browser for SQLite: https://sqlitebrowser.org</p>
 
 <p id="1b"><b>1.b booknames language</b></p>
 
-<p>If you want to add booknames in your language, add a column in the number_name table.
-Column name should start with lang_<br>(WIP)</p>
+<p>If you want to add booknames in your language, add a table in the books-i18n.db database. Content should be self-explanatory.</p>
 
 <p id="1c"><b>1.c add/remove a dictionary in dictionaries.db</b></p>
 
@@ -147,12 +146,9 @@ added to the text contemplations menu.</p>
 
 <h3 id="6">6. gui language</h3>
 
-<p>The soulanchor_english.ts in the data/lang source folder can be used with the Qt Linguist application in order to produce a soulanchor_yourlanguage.qm file. The .qm file should be placed in the same data/lang directory.</p>
+<p>The soulanchor_en.ts in the data/locales source folder can be used with the Qt Linguist application in order to produce a soulanchor_yourlanguagecode.qm file. The .qm file should be placed in the system data dir /usr/share/soulanchor/locales/</p>
 
-<p>Now a line should be added to the soulanchor.qrc file. With qtCreator or manually.</p>
-<p>E.g. &lt;file&gt;data/lang/soulanchor_yourlanguage.qm&lt;/file&gt;</p>
-
-<p>After building the source, this file will become part of the app's resources. The 'yourlanguage' part of the filename will be used in the settings menu for the GUI language combobox. </p>
+<p>The 'yourlanguagecode' part of the filename will be used in the settings menu for the GUI language combobox.</p>
 
 <h3 id="7">7. coding</h3>
 

@@ -11,8 +11,6 @@
 
 #include "globals.h"
 
-QTranslator translator;
-
 QTextStream sout(stdout);
 
 QList<QString> g_bookNames;

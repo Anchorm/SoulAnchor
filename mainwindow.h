@@ -12,6 +12,10 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+// #include <execinfo.h>
+// #include <cstdlib>
+// #include <cxxabi.h>
+
 #include "ui_mainwindow.h"
 
 #include "parwindow.h"
@@ -19,6 +23,9 @@
 #include "settingswindow.h"
 #include "imagewindow.h"
 #include "roster.h"
+#include "importwindow.h"
+#include "databasehandler.h"
+#include "utilities.h"
 
 #include <QMainWindow>
 #include <QSettings>
@@ -52,7 +59,8 @@
 #include <random>
 #include <QResizeEvent>
 #include <QTextFrameFormat>
-
+#include <QPropertyAnimation>
+#include <QStyleFactory>
 
 //QtDocs: The following lines declare the class(es) in the Ui namespace, which is the standard namespace for the UI classes generated from .ui files by the uic tool:
 namespace Ui {
@@ -63,27 +71,37 @@ class MainWindow : public QMainWindow
 {
     Q_OBJECT // macro for moc, meta object compiler
 
+    DatabaseHandler& dbH = DatabaseHandler::getInstance();
+    QSqlDatabase& bibleDb = dbH.getDatabase("bibles");
+    QSqlDatabase& dictDb = dbH.getDatabase("dictionaries");
+    QSqlDatabase& varDb = dbH.getDatabase("various");
+    QSqlDatabase& booksDb = dbH.getDatabase("books");
+    QSqlDatabase& rosterDb = dbH.getDatabase("roster");
+    QSqlDatabase& bookmarksDb = dbH.getDatabase("bookmarks");
+
+    // bool eventFilter(QObject *object, QEvent *event) override;
+    // void printCallerFunction();
+
     QString tab; // active tab
     QString startup; // start with scriptures?
 
     int docMargin; // margin around scriptures
     int frameWidth; // max width of bible frame
 
-    QString guiLanguage;
-    QString bknLanguage; // booknames
-    QString chapterHeader; // the word "chapter" in the correct language
+    QString guiLanguage; // language for the gui, default en
+    QString bknLanguage; // language used for booknames, default en
+
     bool showMaps; // show bible map links at top of page
-
-    bool rosterRead;
     // roster has been read; checkbox should be checked; conf rosterRead should be false
+    bool rosterRead;
+    bool filtersMenuVisible;
 
-    QString scripDisplay; // table format or book format
+    QString scripLayout; // table format or book format
     QString strongTl; // translation used for Strongs
-
     QString saStyle; // css
 
     // for showing a devotion or hymn text
-    const QString devStyle = "text-align:left;margin:10px;font-size:large;";
+    const QString devStyle = "text-align:left; margin:10px; font-size:large;";
 
     // for 'reset' to make sure no weird format exists after anchor click
     const QTextCharFormat emptyFormat;
@@ -109,9 +127,7 @@ class MainWindow : public QMainWindow
     const QIcon stopIcon = QIcon(":/data/img/control_stop_blue.png");
     const QIcon strongIcon = QIcon(":/data/img/biceps.png");
     const QIcon scrollIcon = QIcon(":/data/img/script_yellow.png");
-    const QIcon closeIcon = QIcon(":/data/img/closedock-16.png");
-//    const QIcon contentsIcon = QIcon(":/data/img/index.png");
-
+    const QIcon closeIcon = QIcon(":/data/img/standardbutton-close-32.png");
 
     QQueue< QHash<QString, int> > printQ; // print queue, hash keys: bk c1 c2 v1 v2
     QQueue< QHash<QString, int> > printHistory; // keep a history of print jobs
@@ -124,9 +140,10 @@ class MainWindow : public QMainWindow
     *****************/
     ParWindow *parW = new ParWindow(this);
     AboutWindow *aboutW = new AboutWindow(this);
-    SettingsWindow *settingsW = new SettingsWindow(this);
     Roster *rosterW = new Roster(this);
     ImageWindow *imgW = new ImageWindow(this);
+    ImportWindow *impW = new ImportWindow(this);
+    SettingsWindow *settingsW = new SettingsWindow(this);
 
     void popupMsg(const QString message);
     void printMsg(const QString message);
@@ -163,7 +180,7 @@ class MainWindow : public QMainWindow
 
     bool iFilter; // immersion filter
     bool jFilter; // judeans filter
-    // {"de doper", "de dompelaar"}, {"baptist", "immerser"}
+
     const QHash<QString, QString> immersionDict =
     {
         {"dopen", "onderdompelen"},
@@ -312,14 +329,6 @@ class MainWindow : public QMainWindow
     bool hasNotes = false; // translation has footnotes?
     QString activeSubh; //active subheadings
 
-    //QtDocs: The following line declares a member variable which is a pointer to the MainWindow UI class. A member variable is associated with a specific class, and accessible for all its methods.
-    Ui::MainWindow *ui;
-
-public:
-    explicit MainWindow(QWidget *parent = nullptr);
-    ~MainWindow() override;
-
-private slots:
     bool checkTableExists(const QString &activeTl);
 
     void getDictWord(QString word);
@@ -329,13 +338,9 @@ private slots:
     void getTWOT(QString twot);
     void setStyleSheets();
 
-    void toggleBible();
-    void toggleTabW();
-    void toggleMenu();
-    void toggleInfo();
-
     void bookSelected();
     void chapterSelected();
+    // update widget and g_bookNames and bknLanguage after a settings change
     void updateBooksWidget(const QString &lang);
     void updateTLandSubh(const QString &translation, const QString &subheadings);
     void setHasNotes();
@@ -353,40 +358,31 @@ private slots:
     void filterImmersion();
     void filterJudeans();
 
-    void showFindFrame();
-
+    // custom context menus
     void ccMenuBibleFrame();
     void ccMenuBackground();
     void ccMenuInfo();
     void ccMenuStrongs();
 
-    void createOtNtMenus();
+    void createOtNtMenus(); // for rmb popup menu
     void popupChapters(int bkNr=0);
-    void nextChapter();
-    void prevChapter();
 
     void showAboutBook(); // show book information on the info frame
     void showAboutTl(); // show translation information on the info frame
     void centerApp();
 
     // use regex to check for a book and chapter to select/print
-    void printRequest(const QString &request);
+    void printRequest(const QString &request, const QString &bookLanguage = "default"); // requests from lineEdit and urls
     void printRequestSingle(const QString &request); // for a single regex lookup
 
     void searchScriptures(); // tab search
     void versesWithStrongNumber(const QString &strongs, const QString &where);
     void populateSearchCbs();
 
-    // tb: QTextBrowser
-    void on_tb_scriptures_anchorClicked(const QUrl &url);
     void breakItUp(QString &textwall);
-    void on_search_tb_anchorClicked(const QUrl &url);
-    void on_info_tb_anchorClicked(const QUrl &url);
-    void on_strongs_tb_anchorClicked(const QUrl &url);
 
     QString getVerse(const int bk, const int ch, const int vs);
 
-    void on_btn_select_today_clicked();
     void todaysProverb();
     void todaysPsalm();
     void todaysLetter();
@@ -396,7 +392,6 @@ private slots:
     void modifications();
 
     void readingPlan();
-    void escapeKey();
     void setEncTxt();
     void changeEncTxt();
     void printEncTxt(int bk, int ch, int vs, const QString &verse);
@@ -443,10 +438,6 @@ private slots:
     void rosterActionTriggered(QString rosterName);
     void loadRoster();
     void setActiveRoster();
-    void on_action_delete_roster_triggered();
-    void on_action_reset_roster_triggered();
-    void on_btn_next_session_clicked();
-    void on_btn_prev_session_clicked();
 
     void printSession(const QString &rosterName);
     void updateSession(const QString &rosterName, int session);
@@ -461,23 +452,52 @@ private slots:
     void setFilters();
     void aboutFilters();
 
-    void closeEvent(QCloseEvent*) override;    
     static void exitApp();
-    void resizeEvent(QResizeEvent*) override;
-
-    void on_cb_roster_read_clicked();
-    void on_dict_pb_index_clicked();
-
-    void on_dict_pb_go_clicked();
 
     void makeCrossRefs();
     void showTopics();
     void getTopic(const QString &topic);
 
+    Ui::MainWindow *ui;
+
+private slots:
+    void on_cb_roster_read_clicked();
+    void on_dict_pb_index_clicked();
+    void on_dict_pb_go_clicked();
+    void on_action_delete_roster_triggered();
+    void on_action_reset_roster_triggered();
+    void on_btn_next_session_clicked();
+    void on_btn_prev_session_clicked();
+    // tb: QTextBrowser
+    void on_tb_scriptures_anchorClicked(const QUrl &url);
+    void on_search_tb_anchorClicked(const QUrl &url);
+    void on_info_tb_anchorClicked(const QUrl &url);
+    void on_strongs_tb_anchorClicked(const QUrl &url);
+    void on_btn_select_today_clicked();
+    void on_btn_find_close_clicked();
+    void closeInfo();
+    void toggleBible();
+    void toggleTabW();
+    void toggleMenu();
+    void toggleInfo();
+    void showFindFrame();
+    void nextChapter();
+    void prevChapter();
+    void escapeKey();
+
+protected:
+    void closeEvent(QCloseEvent*) override;
+    void resizeEvent(QResizeEvent*) override;
+    void changeEvent(QEvent *event) override;
+
 signals:
     void parOpened(QString tlAbbr, QHash<QString, int> job);
     void setParwStyle(QHash<QString, QString> clrScheme);
     void setImgWindowPixmap(const QPixmap &pixmap, const QString &imgName);
+
+public:
+    explicit MainWindow(QWidget *parent = nullptr);
+    ~MainWindow() override;
 };
 
 #endif // MAINWINDOW_H

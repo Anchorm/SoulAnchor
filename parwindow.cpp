@@ -11,11 +11,13 @@
 
 #include "parwindow.h"
 
-ParWindow::ParWindow(QWidget *parent) : QWidget(parent, Qt::Window)
+ParWindow::ParWindow(QWidget *parent) :
+    QWidget(parent, Qt::Window)
 {
     setWindowTitle("Parallel Window - SoulAnchor");
     setObjectName("ParallelWindow");
     setWindowIcon(anchorIcon);
+    setMinimumSize(200, 200);
     setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
 
     bookName = "";
@@ -55,11 +57,10 @@ ParWindow::ParWindow(QWidget *parent) : QWidget(parent, Qt::Window)
     cb_select->addItem("none");
 
     QString getDisLang = "SELECT DISTINCT language FROM version_info ORDER BY language;";
-    QSqlQuery getL(getDisLang, dbH.bibleDb);
+    QSqlQuery getL(getDisLang, bibleDb);
 
-    while (getL.next()) {
-        cb_select->addItem(getL.value(0).toString());
-    }
+    while (getL.next())
+        cb_select->addItem(getL.value(0).toString().toLower());
 
     cb_select->addItem("all");
 
@@ -74,14 +75,14 @@ ParWindow::ParWindow(QWidget *parent) : QWidget(parent, Qt::Window)
     //create checkboxes for translations
     QString sqlCb = "SELECT abbreviation, language, version "
                     "FROM version_info ORDER BY abbreviation ASC";
-    QSqlQuery getCb(sqlCb, dbH.bibleDb);
+    QSqlQuery getCb(sqlCb, bibleDb);
     QString abbr;
     QString lang;
     QString desc;
 
     while ( getCb.next() ) {
         abbr = getCb.value(0).toString().toUpper();
-        lang = getCb.value(1).toString();
+        lang = getCb.value(1).toString().toLower();
         desc = getCb.value(2).toString();
 
         QCheckBox *chkB = new QCheckBox(abbr);
@@ -90,9 +91,8 @@ ParWindow::ParWindow(QWidget *parent) : QWidget(parent, Qt::Window)
         chkBoxes.append(chkB);
     }
 
-    for (QCheckBox *chkB: qAsConst(chkBoxes)) {
+    for (QCheckBox *chkB: std::as_const(chkBoxes))
         flowLayout->addWidget(chkB);
-    }
 
     te->setReadOnly(true);
     te->setContextMenuPolicy(Qt::CustomContextMenu);
@@ -129,15 +129,15 @@ ParWindow::ParWindow(QWidget *parent) : QWidget(parent, Qt::Window)
 void ParWindow::setStyle(const QHash<QString, QString> &clrScheme)
 {
     scheme = clrScheme;
-    QString css = "background-color:" + clrScheme["bgClr"];
-    te->setStyleSheet(css);
+    // QString css = "background-color:" + clrScheme["bgClr"];
+    // te->setStyleSheet(css);
 }
 
 void ParWindow::setTlandJob(const QString &tlAbbr, const QHash<QString, int> &job)
 {
     bool tlChecked = false;
 
-    for (QCheckBox *cb: qAsConst(chkBoxes)) {
+    for (QCheckBox *cb: std::as_const(chkBoxes)) {
         if (cb->isChecked()) {
             tlChecked = true;
             break;
@@ -145,7 +145,7 @@ void ParWindow::setTlandJob(const QString &tlAbbr, const QHash<QString, int> &jo
     }
 
     if (!tlChecked) {
-        for (QCheckBox *cb: qAsConst(chkBoxes)) {
+        for (QCheckBox *cb: std::as_const(chkBoxes)) {
             if (cb->text() == tlAbbr) {
                 cb->setCheckState(Qt::Checked);
             } else {
@@ -165,10 +165,10 @@ void ParWindow::nextChapter()
     if (lastBookNumber == 0 || lastChapNumber == 0) {
         return;
     } else {
-        int finChap = dbH.getChapterCount(lastBookNumber);
+        int finalChapter = Utilities::getChapterCount(lastBookNumber);
         int chapter = lastChapNumber + 1;
 
-        if (chapter <= finChap ) {
+        if (chapter <= finalChapter ) {
             QHash<QString, int> job;
             job["bk"] = lastBookNumber;
             job["c1"] = chapter;
@@ -210,14 +210,13 @@ void ParWindow::popupChapters(int bkNr)
     }
 
     QString bookName = ::g_bookNames[bkNr];
-    int finalChapter = dbH.getChapterCount(bkNr);
+    int finalChapter = Utilities::getChapterCount(bkNr);
     QMenu chapMenu(bookName, this);
     QAction *title = chapMenu.addAction(bookName);
     title->setEnabled(false);
 
-    for (int i = 1; i <= finalChapter  ; ++i){
+    for (int i = 1; i <= finalChapter  ; ++i)
         chapMenu.addAction(QString("%1").arg(i));
-    }
 
     QAction *action = chapMenu.exec(QCursor().pos());
     if (action != nullptr){
@@ -233,24 +232,31 @@ void ParWindow::popupChapters(int bkNr)
 
 void ParWindow::createOtNtMenus()
 {
+    otMenu->clear();
+    ntMenu->clear();
     QSettings settings(settingsFile.fileName(), QSettings::IniFormat);
-    QString lang = settings.value("booknameLanguage", "english").toString();
+    QString bknLanguage = settings.value("booknameLanguage", "EN").toString();
 
-    QString sqlQ = "SELECT book_nr, testament, name_" + lang + " FROM number_name";
-    QSqlQuery query(sqlQ, dbH.bibleDb);
+    QString sql = QString(
+                      "SELECT books_info.book_nr, name, testament "
+                      "FROM lang_%1 "
+                      "INNER JOIN books_info "
+                      "ON books_info.book_nr = lang_%1.book_nr "
+                      ).arg(bknLanguage);
+
+    QSqlQuery query(sql, booksDb );
 
     while (query.next()) {
         int bkNr = query.value(0).toInt();
-        QString bkName = query.value(2).toString();
+        QString bkName = query.value(1).toString();
         QAction *bookAction = new QAction(scrollIcon, bkName, this);
         connect(bookAction, &QAction::triggered, this, [bkNr, this]() {
-            this->popupChapters(bkNr); });
+            popupChapters(bkNr); });
 
-        if (query.value(1) == "OT") {
+        if (query.value(2) == "OT")
             otMenu->addAction(bookAction);
-        } else if (query.value(1) == "NT"){
+        else if (query.value(2) == "NT")
             ntMenu->addAction(bookAction);
-        }
     }
 }
 
@@ -279,29 +285,25 @@ void ParWindow::ccMenuParW()
     closeAction->setIcon(closeIcon);
 
     QAction *action = ccMenu.exec(QCursor().pos());
-    if (action == chapAction){
+    if (action == chapAction)
         popupChapters(lastBookNumber);
-    } else if (action == nextAction){
+    else if (action == nextAction)
         nextChapter();
-    } else if (action == prevAction){
+    else if (action == prevAction)
         prevChapter();
-    } else if (action == selectAction){
+    else if (action == selectAction)
         te->selectAll();
-    } else if (action == copyAction){
+    else if (action == copyAction)
         te->copy();
-    } else if (action == closeAction){
+    else if (action == closeAction)
         hide();
-    }
-
 }
 
 void ParWindow::centerWindow()
 {
-    if (parentWidget())
-    {
+    if (parentWidget()) {
         QScreen* activeScreen = parentWidget()->screen();
-        if (activeScreen != nullptr)
-        {
+        if (activeScreen != nullptr) {
             int width = (parentWidget()->width() / 100) * 80;
             int height = (parentWidget()->height() / 100) * 80;
             resize(width, height);
@@ -320,15 +322,13 @@ void ParWindow::checkTls()
     QString selection = cb_select->currentText();
 
     if (selection == "none") {
-        for (QCheckBox *i: qAsConst(chkBoxes)){
+        for (QCheckBox *i: std::as_const(chkBoxes))
             i->setCheckState(Qt::Unchecked);
-        }
     } else if (selection == "all") {
-        for (QCheckBox *i: qAsConst(chkBoxes)){
+        for (QCheckBox *i: std::as_const(chkBoxes))
             i->setCheckState(Qt::Checked);
-        }
     } else {
-        for (QCheckBox *i: qAsConst(chkBoxes)) {
+        for (QCheckBox *i: std::as_const(chkBoxes)) {
             if (selection == i->property("langName"))
                 i->setCheckState(Qt::Checked);
             else
@@ -351,9 +351,9 @@ void ParWindow::printRequest()
     }
 
     QRegularExpressionMatchIterator gmatch = re->globalMatch(request.trimmed());
-    if (gmatch.hasNext()) {
+    if (gmatch.hasNext())
         this->te->clear();
-    }
+
     QString testBook;
     int bkNr = 0, chNr1 = 0 , chNr2 = 0, vsNr1 = 0, vsNr2 = 0;
 
@@ -364,40 +364,40 @@ void ParWindow::printRequest()
         match = gmatch.next();
         bkNr = 0; chNr1 = 0 ; chNr2 = 0; vsNr1 = 0; vsNr2 = 0;
         if (match.hasMatch()) {
-            if (!match.captured("prt").isEmpty()){
+            if (!match.captured("prt").isEmpty()) {
                 QString part = match.captured("prt");
                 testBook.append(part + " ");
             }
-            if (!match.captured("bk").isEmpty()){
+            if (!match.captured("bk").isEmpty()) {
                 QString book = match.captured("bk");
                 testBook.append(book.toUpper());
             }
-            if (!match.captured("ch1").isEmpty()){
+            if (!match.captured("ch1").isEmpty()) {
                 QString chapter1 = match.captured("ch1");
                 chNr1 = chapter1.toInt();
             }
-            if (!match.captured("ch2").isEmpty()){
+            if (!match.captured("ch2").isEmpty()) {
                 QString chapter2 = match.captured("ch2");
                 chNr2 = chapter2.toInt();
             }
-            if (!match.captured("vs1").isEmpty()){
+            if (!match.captured("vs1").isEmpty()) {
                 QString verse1 = match.captured("vs1");
                 vsNr1 = verse1.toInt();
             }
-            if (!match.captured("vs2").isEmpty()){
+            if (!match.captured("vs2").isEmpty()) {
                 QString verse2 = match.captured("vs2");
                  vsNr2 = verse2.toInt();
             }
         }
 
         // get the book number
-        QSqlQuery query("SELECT abbr_en, book_nr, abbr_nl FROM abbr", dbH.bibleDb);
+        QSqlQuery query("SELECT abbr_en, book_nr, abbr_nl FROM abbr", bibleDb);
 
         while (query.next()) {
-            if (testBook == query.value(0).toString().toUpper()){
+            if (testBook == query.value(0).toString().toUpper()) {
                 bkNr = query.value(1).toInt();
                 break;
-            } else if (testBook == query.value(2).toString().toUpper()){
+            } else if (testBook == query.value(2).toString().toUpper()) {
                 bkNr = query.value(1).toInt();
                 break;
             }
@@ -407,20 +407,20 @@ void ParWindow::printRequest()
         QHash<QString, int> job;
         if (bkNr > 0) {
             job["bk"] = bkNr;
-            int fCh = dbH.getChapterCount(bkNr);
+            int finalChapter = Utilities::getChapterCount(bkNr);
 
             if (chNr1 <= 0) {
                 chNr1 = 1;
                 job["c1"] = chNr1;
-            } else if (chNr1 > fCh) {
-                chNr1 = fCh;
+            } else if (chNr1 > finalChapter) {
+                chNr1 = finalChapter;
                 job["c1"] = chNr1;
             } else {
                 job["c1"] = chNr1;
             }
 
             // chapter range
-            if (chNr2 > chNr1 and chNr2 <= fCh) {
+            if (chNr2 > chNr1 and chNr2 <= finalChapter) {
                 printQ.enqueue(job);
                 while (chNr1 < chNr2) {
                     chNr1 += 1;
@@ -447,22 +447,20 @@ void ParWindow::printRequest()
     }
 
     // printScriptures removes a job from the queue
-    while (not printQ.isEmpty()) {
+    while (not printQ.isEmpty())
         printScriptures();
-    }
 }
 
 void ParWindow::printScriptures()
 {
     QHash<QString, int > job;
 
-    if (not printQ.isEmpty()) {
+    if (not printQ.isEmpty())
         job = printQ.dequeue();
-    } else if (not history.isEmpty()) {
+    else if (not history.isEmpty())
         job = history.first();
-    } else {
+    else
         return;
-    }
 
     int bk = job["bk"];
     QString bookName = ::g_bookNames[bk];
@@ -471,17 +469,15 @@ void ParWindow::printScriptures()
     int v1 = job["v1"];
     int v2 = job["v2"];
 
-    if(bk == 0) {
+    if(bk == 0)
         return;
-    }
-    if(c1 == 0) {
+    if(c1 == 0)
         c1 = 1;
-    }
 
     lastBookNumber = bk;
     lastChapNumber = c1;
 
-    // i don't know if there is a SQLITE query that can do the right kind of join, so code it is
+    // i don't know if there's a SQLITE query that can do the right kind of join, so code it is
 
     /*------------------------------------------------------
     1. make a QList of queries based on active translations
@@ -489,7 +485,7 @@ void ParWindow::printScriptures()
     bool haveTl = false; // do we have a translation selected?
     QList< QList<QString> > queries;
 
-    for (QCheckBox* cb: qAsConst(chkBoxes)) {
+    for (QCheckBox* cb: std::as_const(chkBoxes)) {
         if (cb->isChecked()) {
             // selected translations
             haveTl = true;
@@ -499,11 +495,10 @@ void ParWindow::printScriptures()
             QString verseSql;
 
             chapterSql = QString("= %1").arg(c1);
-            if (v2) {
+            if (v2)
                 verseSql = QString("AND v BETWEEN %1 AND %2").arg(v1).arg(v2);
-            } else if (v1) {
+            else if (v1)
                 verseSql = QString("AND v = %1").arg(v1);
-            }
 
             QString sql = QString("SELECT v, t from t_%1 where b = %2 and c %3 ")
                     .arg(tl, QString().number(bk), chapterSql);
@@ -528,7 +523,7 @@ void ParWindow::printScriptures()
     // need int for key to sort ascending
     QList< QMap<int, QString> > rootC; // root container
 
-    for (auto &qV: qAsConst(queries)) {
+    for (auto &qV: std::as_const(queries)) {
         // sub container
         QMap<int, QString> subC;
 
@@ -538,7 +533,7 @@ void ParWindow::printScriptures()
         int nr;
         QString txt;
 
-        QSqlQuery query(qV[1], dbH.bibleDb);
+        QSqlQuery query(qV[1], bibleDb);
 
         while (query.next()) {
             nr = query.value(0).toInt();
@@ -555,9 +550,8 @@ void ParWindow::printScriptures()
     to keep displaying the verses in parallel
     ------------------------------------------------------*/
     QList<qint64> containerSizes;
-    for (const auto &subC: rootC) {
+    for (const auto &subC: rootC)
         containerSizes.append(subC.size());
-    }
 
     qint64* iL;
     iL = &*std::max_element(containerSizes.begin(), containerSizes.end() );
@@ -602,7 +596,7 @@ void ParWindow::printScriptures()
 
     QList prefCKeys = prefC.keys();
 
-    for (auto &key : qAsConst(prefCKeys)) {
+    for (auto &key : std::as_const(prefCKeys)) {
         bigString.append( QString("<tr style='background-color:%1'>").arg(bg) );
 
         for (const auto &subC: rootC) {
@@ -610,9 +604,8 @@ void ParWindow::printScriptures()
 
             txt = subC.value(key);
 
-                if ( txt.isEmpty() ) {
+                if (txt.isEmpty())
                     txt = "(verse not found)";
-                }
 
                 bigString.append("<td>");
                 bigString.append(QString("<span style='color:%1'><small>%2</small></span> ")
@@ -628,4 +621,14 @@ void ParWindow::printScriptures()
 
     bigString.append("</table>");
     te->insertHtml(bigString);
+}
+
+bool ParWindow::event(QEvent *event) {
+    if (event->type() == QEvent::LanguageChange) {
+        btn_ok->setText(tr("Go"));
+        btn_next->setText(tr("next"));
+        btn_prev->setText(tr("previous"));
+        createOtNtMenus();
+    }
+    return QWidget::event(event);
 }

@@ -12,14 +12,14 @@ class ClickableLabel : public QLabel
     Q_OBJECT
 
 public:
-    explicit ClickableLabel(QWidget* parent = Q_NULLPTR, Qt::WindowFlags f = Qt::WindowFlags());
+    explicit ClickableLabel(QWidget* parent = Q_NULLPTR, [[maybe_unused]]Qt::WindowFlags f = Qt::WindowFlags());
     ~ClickableLabel() override;
 
 signals:
     void clicked();
 
 protected:
-    void mousePressEvent(QMouseEvent* event) override;
+    void mousePressEvent([[maybe_unused]]QMouseEvent* event) override;
 
 };
 

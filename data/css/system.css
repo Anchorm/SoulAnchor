@@ -1,0 +1,155 @@
+/********************* WINDOWS *********************/
+#ImportWindow {
+}
+#ImportWindow QTextEdit {
+    padding: 3px;
+}
+#ImportWindow QLabel {
+    padding: 3px;
+}
+#ImportWindow QLineEdit {
+    padding: 3px;
+}
+
+#ImageWindow QToolBar {
+    spacing: 7px;
+    padding: 7px;
+}
+#ImageWindow QToolButton {
+    min-width: 30px;
+    max-height: 32px;
+}
+#ImageWindow QComboBox {
+    padding-left: 7px;
+    min-width: 100px;
+    max-width: 4500px;
+    margin-left: 5px;
+    height: 30px;
+}
+
+#pbAut {
+    border: 0px solid black;
+    font-size: 8pt;
+    text-align: right;
+}
+
+/********************* GLOBALS *********************/
+
+QInputDialog {
+    padding: 7px;
+}
+
+QToolButton {
+    padding: 5px;
+}
+
+QPushButton {
+    padding: 3px;
+}
+
+QLineEdit {
+    padding-left: 6px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px;
+}
+
+/********************* TAB WIDGET *********************/
+
+QTabWidget {
+    background-color: bg2Clr;
+}
+QTabWidget::tab-bar {
+    width:3000px;
+}
+
+#lw_books {
+    color: txtClr;
+    background-color: bgClr;
+    selection-color: txtClr;
+    selection-background-color: clashClr;
+    show-decoration-selected: 0;
+    padding-left: 3px; padding-top: 3px; padding-right: 0px; padding-bottom: 0px;
+    margin: 0;
+}
+#lw_books::item:hover {
+    background-color: clashClr;
+}
+
+#search_chkb_whole, #search_chkb_case {
+    padding-left: 6px;
+}
+
+#search_lbl_tl {
+    margin: 7px;
+}
+
+#search_tb {
+    padding: 0;
+    margin: 0;
+    border: 1px top darkgray;
+    font-weight: Normal;
+}
+
+#btn_next_session, #btn_prev_session {
+    border: 0;
+    background-color: transparent;
+}
+
+#pb_enc_txt {
+    border: 1 solid titleClr;
+    color: txtClr;
+    background-color: bg2Clr;
+    font-family: sans;
+    font-size: 12pt;
+    padding: 0px;
+    margin: 0px;
+}
+#pb_enc_img {
+    border: 1 solid titleClr;
+}
+
+/********************* BIBLE FRAME *********************/
+
+#background_frame {
+    background-color: darkerBg;
+    border: 0;
+    margin: 0;
+}
+
+#bible_frame {
+    background-color: bg2Clr;
+}
+
+#lbl_book_title {
+    background-color: bg2Clr;
+    font-size: 22px;
+    font-weight: 400;
+    border: 0;
+    margin: 0px;
+    padding: 0px;
+}
+
+#lw_chapters {
+    background-color: bg2Clr;
+    margin: 0;
+    padding-left: 15px;
+    show-decoration-selected: 1;
+}
+
+#tb_scriptures {
+    margin: 0px;
+}
+
+
+/********************* FIND FRAME *********************/
+
+#frame_find QLabel {
+    background-color: transparent;
+}
+
+/********************* INFO FRAME *********************/
+
+#info_frame {
+    background-color: bg2Clr;
+}
+#info_frame QLabel {
+    background-color: bg2Clr;
+}

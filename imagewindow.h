@@ -12,7 +12,6 @@
 #ifndef IMAGEWINDOW_H
 #define IMAGEWINDOW_H
 
-#include "globals.h"
 #include "databasehandler.h"
 
 #include <QWidget>
@@ -31,6 +30,9 @@ class ImageWindow : public QWidget
 {
     Q_OBJECT
 
+    DatabaseHandler& dbH = DatabaseHandler::getInstance();
+    QSqlDatabase& varDb = dbH.getDatabase("various");
+
     const QIcon anchorIcon = QIcon(":/data/img/anchor.png");
     QVBoxLayout *layVbox = new QVBoxLayout();
     qreal hsf; // horizontal scaling factor
@@ -48,7 +50,7 @@ class ImageWindow : public QWidget
 
     QComboBox *cbSelectMaps = new QComboBox(this);
 
-    const QIcon closeIcon = QIcon(":/data/img/closedock-16.png");
+    const QIcon closeIcon = QIcon(":/data/img/standardbutton-close-32.png");
     const QIcon zoomInIcon = QIcon(":/data/img/zoom_in.png");
     const QIcon zoomOutIcon = QIcon(":/data/img/zoom_out.png");
     const QIcon zoomNormalIcon = QIcon(":/data/img/zoom_actual.png");
@@ -56,12 +58,15 @@ class ImageWindow : public QWidget
     const QIcon fullscreenIcon = QIcon(":/data/img/view-fullscreen.png");
 
     void centerWindow();
+    void updateActions();
+    void updateCbMaps();
+    bool event(QEvent *event);
+
+private slots:
     void zoomIn();
     void zoomOut();
     void fitInView();
     void normalSize();
-    void updateActions();
-    void updateCbMaps();
 
 public slots:
     void changeMap();
